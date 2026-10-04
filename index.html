@@ -1,0 +1,4156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="description"
+content="KHADIMIN-E-AULIYA - Khidmat, Imdad, Ta'awun">
+
+<title>KHADIMIN-E-AULIYA</title>
+
+<style>
+
+:root{
+    --green:#075b43;
+    --dark:#04392d;
+    --dark2:#021f18;
+    --gold:#c9a64b;
+    --gold2:#f1d77c;
+    --white:#ffffff;
+    --light:#f7f8f3;
+    --text:#17352d;
+    --danger:#b3261e;
+    --shadow:0 8px 30px rgba(0,0,0,.12);
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:var(--light);
+    color:var(--text);
+    line-height:1.6;
+}
+
+/* =====================================================
+   SPLASH SCREEN
+===================================================== */
+
+#splashScreen{
+    position:fixed;
+    inset:0;
+    z-index:99999;
+    background:
+        radial-gradient(circle at center,
+        rgba(201,166,75,.20),
+        transparent 35%),
+        linear-gradient(135deg,#021f18,#075b43,#021f18);
+
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+
+    transition:
+        opacity .8s ease,
+        visibility .8s ease;
+}
+
+#splashScreen.hide{
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+}
+
+.splash-content{
+    padding:25px;
+    animation:splashZoom 1.2s ease;
+}
+
+@keyframes splashZoom{
+
+    0%{
+        opacity:0;
+        transform:scale(.75);
+    }
+
+    100%{
+        opacity:1;
+        transform:scale(1);
+    }
+
+}
+
+.splash-bismillah{
+    font-size:clamp(28px,7vw,55px);
+    color:var(--gold2);
+    margin-bottom:25px;
+    font-family:serif;
+}
+
+.splash-shareef{
+    font-size:clamp(17px,4vw,28px);
+    color:white;
+    margin:12px auto;
+}
+
+.shareef-number{
+    color:var(--gold2);
+    font-weight:bold;
+    margin-bottom:20px;
+}
+
+.splash-line{
+    width:180px;
+    height:2px;
+    background:var(--gold);
+    margin:25px auto;
+}
+
+.splash-title{
+    font-size:clamp(30px,8vw,65px);
+    font-weight:900;
+    letter-spacing:2px;
+    color:var(--gold2);
+    text-shadow:0 3px 20px #000;
+}
+
+.splash-subtitle{
+    margin-top:10px;
+    letter-spacing:4px;
+    font-size:13px;
+    color:#fff;
+}
+
+/* =====================================================
+   AUTH SCREEN
+===================================================== */
+
+#authScreen{
+    min-height:100vh;
+    background:
+        radial-gradient(circle at top,#c9a64b33,transparent 35%),
+        linear-gradient(135deg,#eaf5ee,#fffdf5);
+
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:25px;
+}
+
+.auth-box{
+    width:100%;
+    max-width:480px;
+    background:white;
+    padding:30px;
+    border-radius:24px;
+    box-shadow:var(--shadow);
+    border:1px solid #e5e5e5;
+}
+
+.auth-logo{
+    text-align:center;
+    color:var(--green);
+    font-size:28px;
+    font-weight:900;
+    margin-bottom:5px;
+}
+
+.auth-subtitle{
+    text-align:center;
+    color:#777;
+    margin-bottom:25px;
+}
+
+.auth-tabs{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:7px;
+    margin-bottom:20px;
+}
+
+.auth-tab{
+    border:none;
+    padding:11px 5px;
+    border-radius:10px;
+    cursor:pointer;
+    background:#edf2ef;
+    color:var(--dark);
+    font-weight:bold;
+}
+
+.auth-tab.active{
+    background:var(--green);
+    color:white;
+}
+
+.auth-form{
+    display:none;
+}
+
+.auth-form.active{
+    display:block;
+}
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+header{
+    background:var(--dark);
+    color:white;
+    padding:13px 5%;
+    position:sticky;
+    top:0;
+    z-index:1000;
+    box-shadow:0 3px 15px #0003;
+}
+
+.navbar{
+    max-width:1250px;
+    margin:auto;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+}
+
+.logo{
+    color:var(--gold);
+    font-size:20px;
+    font-weight:bold;
+}
+
+nav{
+    display:flex;
+    gap:5px;
+    flex-wrap:wrap;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    padding:8px 10px;
+    border-radius:8px;
+    font-size:14px;
+}
+
+nav a:hover{
+    background:#ffffff18;
+}
+
+/* =====================================================
+   COMMON
+===================================================== */
+
+.btn{
+    display:inline-block;
+    border:none;
+    padding:12px 18px;
+    border-radius:10px;
+    background:var(--green);
+    color:white;
+    cursor:pointer;
+    text-decoration:none;
+    margin:5px;
+    font-weight:bold;
+    transition:.2s;
+}
+
+.btn:hover{
+    transform:translateY(-1px);
+    opacity:.92;
+}
+
+.btn.gold{
+    background:var(--gold);
+    color:#201a08;
+}
+
+.btn.red{
+    background:var(--danger);
+}
+
+.btn.dark{
+    background:var(--dark2);
+}
+
+.btn.whatsapp{
+    background:#25D366;
+    color:white;
+}
+
+section{
+    max-width:1200px;
+    margin:auto;
+    padding:55px 20px;
+}
+
+h2{
+    text-align:center;
+    color:var(--dark);
+    margin-bottom:25px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:
+        repeat(auto-fit,minmax(230px,1fr));
+    gap:20px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:16px;
+    box-shadow:var(--shadow);
+    border:1px solid #e5e5e5;
+}
+
+.card h3{
+    color:var(--green);
+    margin-bottom:8px;
+}
+
+.icon{
+    font-size:45px;
+    text-align:center;
+    margin-bottom:10px;
+}
+
+input,
+select,
+textarea{
+    width:100%;
+    padding:12px;
+    margin:7px 0;
+    border:1px solid #ccd5d0;
+    border-radius:9px;
+    font-size:15px;
+    outline:none;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    border-color:var(--green);
+}
+
+textarea{
+    min-height:100px;
+    resize:vertical;
+}
+
+.form-box{
+    max-width:650px;
+    margin:auto;
+    background:white;
+    padding:25px;
+    border-radius:18px;
+    box-shadow:var(--shadow);
+}
+
+.hidden{
+    display:none!important;
+}
+
+.status{
+    padding:12px;
+    border-radius:10px;
+    margin-top:10px;
+    background:#edf8ef;
+    color:#126128;
+}
+
+.error{
+    background:#fff0ef;
+    color:#a51d16;
+}
+
+.warning{
+    background:#fff9df;
+    color:#715900;
+}
+
+.hero{
+    min-height:72vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:50px 20px;
+
+    background:
+        radial-gradient(circle at center,#d9c47755,transparent 35%),
+        linear-gradient(135deg,#eaf5ee,#fffdf5);
+}
+
+.hero h1{
+    color:var(--dark);
+    font-size:clamp(35px,8vw,70px);
+    margin-bottom:10px;
+}
+
+.hero p{
+    max-width:700px;
+    margin:15px auto;
+}
+
+.badge{
+    color:var(--gold);
+    font-weight:bold;
+    letter-spacing:3px;
+}
+
+/* =====================================================
+   USER DASHBOARD
+===================================================== */
+
+#userApp{
+    display:none;
+}
+
+.user-bar{
+    background:#edf8ef;
+    padding:12px 20px;
+    text-align:center;
+    color:var(--green);
+    font-weight:bold;
+}
+
+/* =====================================================
+   ADMIN DASHBOARD
+===================================================== */
+
+#adminApp{
+    display:none;
+}
+
+.admin-header{
+    background:
+        linear-gradient(135deg,
+        var(--dark),
+        var(--green));
+    color:white;
+    padding:25px 20px;
+    text-align:center;
+}
+
+.admin-header h1{
+    color:var(--gold2);
+}
+
+.admin-menu{
+    display:grid;
+    grid-template-columns:
+        repeat(auto-fit,minmax(150px,1fr));
+    gap:10px;
+    margin-bottom:25px;
+}
+
+.admin-menu button{
+    padding:14px 10px;
+    border:none;
+    border-radius:12px;
+    background:white;
+    box-shadow:var(--shadow);
+    cursor:pointer;
+    font-weight:bold;
+    color:var(--dark);
+}
+
+.admin-menu button:hover{
+    background:var(--gold);
+}
+
+.admin-section{
+    display:none;
+}
+
+.admin-section.active{
+    display:block;
+}
+
+.stat-card{
+    text-align:center;
+}
+
+.stat-number{
+    font-size:35px;
+    font-weight:bold;
+    color:var(--green);
+}
+
+/* =====================================================
+   MEDIA PREVIEW
+===================================================== */
+
+.preview-image{
+    width:100%;
+    max-height:250px;
+    object-fit:cover;
+    border-radius:12px;
+    margin-top:10px;
+}
+
+.video-preview{
+    width:100%;
+    border-radius:12px;
+    margin-top:10px;
+}
+
+/* =====================================================
+   RECEIPT
+===================================================== */
+
+.receipt{
+    background:white;
+    border:4px double var(--gold);
+    padding:30px;
+    max-width:650px;
+    margin:20px auto;
+    border-radius:10px;
+    box-shadow:var(--shadow);
+}
+
+.receipt h2{
+    color:var(--green);
+}
+
+.receipt-top{
+    text-align:center;
+    border-bottom:2px solid var(--gold);
+    padding-bottom:15px;
+    margin-bottom:15px;
+}
+
+.receipt-logo{
+    font-size:24px;
+    font-weight:bold;
+    color:var(--green);
+}
+
+.receipt-row{
+    display:flex;
+    justify-content:space-between;
+    border-bottom:1px dashed #bbb;
+    padding:9px 0;
+    gap:20px;
+}
+
+.receipt-status{
+    color:#087b37;
+    font-weight:bold;
+}
+
+#receiptCanvas{
+    display:none;
+}
+
+/* =====================================================
+   GALLERY
+===================================================== */
+
+.gallery-image{
+    width:100%;
+    height:210px;
+    object-fit:cover;
+    border-radius:12px;
+}
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+footer{
+    background:var(--dark);
+    color:white;
+    text-align:center;
+    padding:30px 20px;
+}
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:700px){
+
+    .navbar{
+        flex-direction:column;
+    }
+
+    nav{
+        justify-content:center;
+    }
+
+    nav a{
+        font-size:12px;
+        padding:7px;
+    }
+
+    .hero{
+        min-height:65vh;
+    }
+
+    .receipt-row{
+        flex-direction:column;
+        gap:2px;
+    }
+
+    .auth-box{
+        padding:22px;
+    }
+
+    .admin-menu{
+        grid-template-columns:1fr 1fr;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+
+<!-- =====================================================
+     SPLASH SCREEN
+===================================================== -->
+
+<div id="splashScreen">
+
+    <div class="splash-content">
+
+        <div class="splash-bismillah">
+            بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ
+        </div>
+
+        <div class="splash-shareef">
+            درود و سلام
+        </div>
+
+        <div class="shareef-number">
+            11 SHAREEF
+        </div>
+
+        <div class="splash-line"></div>
+
+        <div class="splash-title">
+            KHADIMIN-E-AULIYA
+        </div>
+
+        <div class="splash-subtitle">
+            KHIDMAT • IMDAD • TA'AWUN
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     AUTH SCREEN
+===================================================== -->
+
+<div id="authScreen">
+
+    <div class="auth-box">
+
+        <div class="auth-logo">
+            ☪ KHADIMIN-E-AULIYA
+        </div>
+
+        <div class="auth-subtitle">
+            Khidmat • Imdad • Ta'awun
+        </div>
+
+        <div class="auth-tabs">
+
+            <button
+                class="auth-tab active"
+                onclick="showAuth('login')">
+                Login
+            </button>
+
+            <button
+                class="auth-tab"
+                onclick="showAuth('signup')">
+                Signup
+            </button>
+
+            <button
+                class="auth-tab"
+                onclick="showAuth('admin')">
+                Admin
+            </button>
+
+        </div>
+
+
+        <!-- USER LOGIN -->
+
+        <div id="loginForm" class="auth-form active">
+
+            <input
+                id="loginEmail"
+                type="email"
+                placeholder="Email / Gmail">
+
+            <input
+                id="loginPassword"
+                type="password"
+                placeholder="Password">
+
+            <button
+                class="btn"
+                style="width:100%;"
+                onclick="userLogin()">
+                Login
+            </button>
+
+            <button
+                class="btn gold"
+                style="width:100%;"
+                onclick="forgotPassword()">
+                Forgot Password
+            </button>
+
+            <div id="loginMessage"></div>
+
+        </div>
+
+
+        <!-- SIGNUP -->
+
+        <div id="signupForm" class="auth-form">
+
+            <input
+                id="signupName"
+                placeholder="Full Name">
+
+            <input
+                id="signupMobile"
+                placeholder="Mobile Number">
+
+            <input
+                id="signupEmail"
+                type="email"
+                placeholder="Email / Gmail">
+
+            <input
+                id="signupPassword"
+                type="password"
+                placeholder="Create Password">
+
+            <button
+                class="btn gold"
+                style="width:100%;"
+                onclick="userSignup()">
+                Create Account
+            </button>
+
+            <div id="signupMessage"></div>
+
+        </div>
+
+
+        <!-- ADMIN LOGIN -->
+
+        <div id="adminForm" class="auth-form">
+
+            <div class="status warning">
+                Sirf authorized administrator yahan login kare.
+            </div>
+
+            <input
+                id="adminEmail"
+                type="email"
+                placeholder="Admin Email">
+
+            <input
+                id="adminPassword"
+                type="password"
+                placeholder="Admin Password">
+
+            <button
+                class="btn dark"
+                style="width:100%;"
+                onclick="adminLogin()">
+                Admin Login
+            </button>
+
+            <div id="adminMessage"></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     USER APP
+===================================================== -->
+
+<div id="userApp">
+
+<header>
+
+<div class="navbar">
+
+<div class="logo">
+☪ KHADIMIN-E-AULIYA
+</div>
+
+<nav>
+
+<a href="#userHome">Home</a>
+<a href="#userPrograms">Programs</a>
+<a href="#userDonation">Donation</a>
+<a href="#userGallery">Gallery</a>
+<a href="#userMajlis">Majlis</a>
+<a href="#userRashid">Rashid</a>
+
+<a href="#"
+   onclick="logout();return false;">
+Logout
+</a>
+
+</nav>
+
+</div>
+
+</header>
+
+
+<div class="user-bar">
+👤 Welcome, <span id="loggedUserName">User</span>
+</div>
+
+
+<!-- HOME -->
+
+<div id="userHome" class="hero">
+
+<div>
+
+<div class="badge">
+KHIDMAT • IMDAD • TA'AWUN
+</div>
+
+<h1>
+KHADIMIN-E-AULIYA
+</h1>
+
+<p>
+Welcome to KHADIMIN-E-AULIYA.
+Yahan aap programs, donations, gallery,
+members aur Rashid information dekh sakte hain.
+</p>
+
+<a href="#userDonation" class="btn gold">
+Donate Now
+</a>
+
+</div>
+
+</div>
+
+
+<!-- ABOUT -->
+
+<section>
+
+<h2>About Us</h2>
+
+<div class="card">
+
+<p>
+<b>KHADIMIN-E-AULIYA</b>
+ek khidmati platform hai jahan
+khidmat, imdad, Langar-e-Gausiya,
+programs, donation aur community
+activities ki information di jati hai.
+</p>
+
+</div>
+
+</section>
+
+
+<!-- PROGRAMS -->
+
+<section id="userPrograms">
+
+<h2>Upcoming Programs</h2>
+
+<div
+class="grid"
+id="userProgramList">
+
+</div>
+
+</section>
+
+
+<!-- DONATION -->
+
+<section id="userDonation">
+
+<h2>Donation</h2>
+
+<div class="grid">
+
+<div class="card">
+
+<div class="icon">
+💚
+</div>
+
+<h3>Donation Purpose</h3>
+
+<ul>
+<li>All Purpose</li>
+<li>Langar-e-Gausiya</li>
+<li>Mazarat Ki Tameer</li>
+<li>Other Khidmat</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h3>Bank Details</h3>
+
+<p>
+<b>Account Holder:</b>
+<span id="userAccountHolder">
+KHADIMIN-E-AULIYA
+</span>
+</p>
+
+<p>
+<b>Bank:</b>
+<span id="userBank">
+Your Bank Name
+</span>
+</p>
+
+<p>
+<b>Account Number:</b>
+<span id="userAccountNumber">
+XXXX XXXX XXXX
+</span>
+</p>
+
+<p>
+<b>IFSC:</b>
+<span id="userIFSC">
+XXXXXXXX
+</span>
+</p>
+
+<p>
+<b>UPI:</b>
+<span id="userUPI">
+khadimin@upi
+</span>
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h3>UPI QR</h3>
+
+<img
+id="userQR"
+class="gallery-image"
+style="object-fit:contain;"
+alt="UPI QR Code">
+
+<p>
+QR Code admin upload karega.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- RASHID VERIFICATION -->
+
+<section id="userRashid">
+
+<h2>Rashid Verification</h2>
+
+<div class="form-box">
+
+<input
+id="verificationNumber"
+placeholder="Enter Rashid Number">
+
+<button
+class="btn"
+onclick="verifyRashid()">
+Verify Rashid
+</button>
+
+<div id="verificationResult"></div>
+
+</div>
+
+</section>
+
+
+<!-- GALLERY -->
+
+<section id="userGallery">
+
+<h2>Photo Gallery</h2>
+
+<div
+class="grid"
+id="userGalleryList">
+</div>
+
+</section>
+
+
+<!-- VIDEOS -->
+
+<section>
+
+<h2>Video Gallery</h2>
+
+<div
+class="grid"
+id="userVideoList">
+</div>
+
+</section>
+
+
+<!-- MAJLIS -->
+
+<section id="userMajlis">
+
+<h2>
+MAJLIS KHADIMIN-E-AULIYA
+</h2>
+
+<div
+class="grid"
+id="userMemberList">
+</div>
+
+</section>
+
+
+<!-- CONTACT -->
+
+<section>
+
+<h2>Contact Us</h2>
+
+<div class="card">
+
+<p>
+<b>WhatsApp:</b>
++91 9690341216
+</p>
+
+<p>
+<b>Email:</b>
+<span id="userContactEmail">
+info@example.com
+</span>
+</p>
+
+<a
+class="btn whatsapp"
+href="https://wa.me/919690341216"
+target="_blank">
+
+WhatsApp
+
+</a>
+
+</div>
+
+</section>
+
+
+<footer>
+
+<h3>
+☪ KHADIMIN-E-AULIYA
+</h3>
+
+<p>
+Khidmat • Imdad • Ta'awun
+</p>
+
+<p>
+© <span class="year"></span>
+KHADIMIN-E-AULIYA
+</p>
+
+</footer>
+
+</div>
+
+
+<!-- =====================================================
+     ADMIN APP
+===================================================== -->
+
+<div id="adminApp">
+
+<div class="admin-header">
+
+<h1>
+☪ KHADIMIN-E-AULIYA
+</h1>
+
+<p>
+ADMIN CONTROL PANEL
+</p>
+
+</div>
+
+
+<section>
+
+<div class="admin-menu">
+
+<button onclick="adminTab('dashboard')">
+📊 Dashboard
+</button>
+
+<button onclick="adminTab('homeEdit')">
+🏠 Home
+</button>
+
+<button onclick="adminTab('programEdit')">
+🕌 Programs
+</button>
+
+<button onclick="adminTab('galleryEdit')">
+📷 Photos
+</button>
+
+<button onclick="adminTab('videoEdit')">
+🎥 Videos
+</button>
+
+<button onclick="adminTab('memberEdit')">
+👥 Members
+</button>
+
+<button onclick="adminTab('donationEdit')">
+💰 Donation
+</button>
+
+<button onclick="adminTab('rashidEdit')">
+🧾 Rashid
+</button>
+
+<button onclick="adminTab('contactEdit')">
+📞 Contact
+</button>
+
+<button
+class="btn red"
+onclick="adminLogout()">
+Logout
+</button>
+
+</div>
+
+
+<!-- ADMIN DASHBOARD -->
+
+<div
+id="dashboard"
+class="admin-section active">
+
+<h2>Admin Dashboard</h2>
+
+<div class="grid">
+
+<div class="card stat-card">
+
+<h3>👥 Users</h3>
+
+<div
+class="stat-number"
+id="statUsers">
+0
+</div>
+
+</div>
+
+
+<div class="card stat-card">
+
+<h3>🧾 Rashids</h3>
+
+<div
+class="stat-number"
+id="statRashids">
+0
+</div>
+
+</div>
+
+
+<div class="card stat-card">
+
+<h3>📷 Photos</h3>
+
+<div
+class="stat-number"
+id="statPhotos">
+0
+</div>
+
+</div>
+
+
+<div class="card stat-card">
+
+<h3>🎥 Videos</h3>
+
+<div
+class="stat-number"
+id="statVideos">
+0
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- HOME EDITOR -->
+
+<div
+id="homeEdit"
+class="admin-section">
+
+<h2>Homepage Management</h2>
+
+<div class="form-box">
+
+<input
+id="adminHomeTitle"
+placeholder="Website Title">
+
+<textarea
+id="adminHomeDescription"
+placeholder="Homepage Description">
+</textarea>
+
+<button
+class="btn"
+onclick="saveHomeSettings()">
+Save Homepage
+</button>
+
+<div id="homeSaveMessage"></div>
+
+</div>
+
+</div>
+
+
+<!-- PROGRAM EDITOR -->
+
+<div
+id="programEdit"
+class="admin-section">
+
+<h2>Programs Management</h2>
+
+<div class="form-box">
+
+<input
+id="programTitle"
+placeholder="Program Name">
+
+<input
+id="programPlace"
+placeholder="Place">
+
+<input
+id="programDate"
+placeholder="Date">
+
+<input
+id="programTime"
+placeholder="Time">
+
+<textarea
+id="programDescription"
+placeholder="Program Description">
+</textarea>
+
+<button
+class="btn"
+onclick="addProgram()">
+Add Program
+</button>
+
+<div id="programAdminList"></div>
+
+</div>
+
+</div>
+
+
+<!-- PHOTO EDITOR -->
+
+<div
+id="galleryEdit"
+class="admin-section">
+
+<h2>Photo Gallery Management</h2>
+
+<div class="form-box">
+
+<input
+id="photoTitle"
+placeholder="Photo Title">
+
+<select id="photoCategory">
+
+<option>Programs</option>
+<option>Langar</option>
+<option>Majlis</option>
+<option>Mazarat</option>
+<option>Other</option>
+
+</select>
+
+<input
+id="photoFile"
+type="file"
+accept="image/*">
+
+<button
+class="btn"
+onclick="addPhoto()">
+Upload Photo
+</button>
+
+<div id="photoAdminList"></div>
+
+</div>
+
+</div>
+
+
+<!-- VIDEO EDITOR -->
+
+<div
+id="videoEdit"
+class="admin-section">
+
+<h2>Video Management</h2>
+
+<div class="form-box">
+
+<input
+id="videoTitle"
+placeholder="Video Title">
+
+<input
+id="videoURL"
+placeholder="YouTube Video URL">
+
+<textarea
+id="videoDescription"
+placeholder="Video Description">
+</textarea>
+
+<button
+class="btn"
+onclick="addVideo()">
+Add Video
+</button>
+
+<div id="videoAdminList"></div>
+
+</div>
+
+</div>
+
+
+<!-- MEMBERS -->
+
+<div
+id="memberEdit"
+class="admin-section">
+
+<h2>Members Management</h2>
+
+<div class="form-box">
+
+<input
+id="memberName"
+placeholder="Member Name">
+
+<input
+id="memberRole"
+placeholder="Responsibility">
+
+<input
+id="memberCity"
+placeholder="City / Place">
+
+<input
+id="memberMobile"
+placeholder="Mobile Number">
+
+<button
+class="btn"
+onclick="addMember()">
+Add Member
+</button>
+
+<div id="memberAdminList"></div>
+
+</div>
+
+</div>
+
+
+<!-- DONATION -->
+
+<div
+id="donationEdit"
+class="admin-section">
+
+<h2>Bank / UPI / QR Management</h2>
+
+<div class="form-box">
+
+<input
+id="bankHolder"
+placeholder="Account Holder">
+
+<input
+id="bankName"
+placeholder="Bank Name">
+
+<input
+id="bankAccount"
+placeholder="Account Number">
+
+<input
+id="bankIFSC"
+placeholder="IFSC">
+
+<input
+id="bankUPI"
+placeholder="UPI ID">
+
+<label>
+QR Code:
+</label>
+
+<input
+id="qrFile"
+type="file"
+accept="image/*">
+
+<button
+class="btn"
+onclick="saveDonationSettings()">
+Save Donation Settings
+</button>
+
+<div id="donationSaveMessage"></div>
+
+</div>
+
+</div>
+
+
+<!-- RASHID -->
+
+<div
+id="rashidEdit"
+class="admin-section">
+
+<h2>Donation Rashid Management</h2>
+
+<div class="form-box">
+
+<input
+id="adminDonorName"
+placeholder="Donor Name">
+
+<input
+id="adminDonorMobile"
+placeholder="Donor Mobile">
+
+<input
+id="adminDonorAddress"
+placeholder="Donor Address">
+
+<input
+id="adminDonationAmount"
+type="number"
+placeholder="Donation Amount ₹">
+
+<select id="adminDonationPurpose">
+
+<option>All Purpose</option>
+<option>Langar-e-Gausiya</option>
+<option>Mazarat Ki Tameer</option>
+<option>Other Khidmat</option>
+
+</select>
+
+<input
+id="adminPaymentDetails"
+placeholder="Payment Details">
+
+<button
+class="btn gold"
+onclick="createRashid()">
+Create & Confirm Rashid
+</button>
+
+<div id="adminRashidMessage"></div>
+
+</div>
+
+
+<div id="adminReceiptArea"></div>
+
+</div>
+
+
+<!-- CONTACT -->
+
+<div
+id="contactEdit"
+class="admin-section">
+
+<h2>Contact Management</h2>
+
+<div class="form-box">
+
+<input
+id="contactWhatsApp"
+value="9690341216"
+placeholder="WhatsApp Number">
+
+<input
+id="contactEmail"
+placeholder="Email">
+
+<textarea
+id="contactAddress"
+placeholder="Address">
+</textarea>
+
+<button
+class="btn"
+onclick="saveContact()">
+Save Contact
+</button>
+
+<div id="contactSaveMessage"></div>
+
+</div>
+
+</div>
+
+
+</section>
+
+
+<footer>
+
+<h3>
+☪ KHADIMIN-E-AULIYA
+</h3>
+
+<p>
+Admin Control Panel
+</p>
+
+<p>
+© <span class="year"></span>
+</p>
+
+</footer>
+
+</div>
+
+
+<!-- CANVAS FOR RASHID IMAGE -->
+
+<canvas
+id="receiptCanvas"
+width="1200"
+height="1600">
+</canvas>
+
+
+<script>
+
+"use strict";
+
+/* =====================================================
+   STORAGE
+===================================================== */
+
+const STORAGE = {
+
+    users:"kea_users",
+
+    programs:"kea_programs",
+
+    photos:"kea_photos",
+
+    videos:"kea_videos",
+
+    members:"kea_members",
+
+    rashids:"kea_rashids",
+
+    settings:"kea_settings"
+
+};
+
+
+/* =====================================================
+   DEFAULT DATA
+===================================================== */
+
+function getData(key, fallback){
+
+    try{
+
+        const data =
+            localStorage.getItem(key);
+
+        return data ?
+            JSON.parse(data) :
+            fallback;
+
+    }catch(error){
+
+        return fallback;
+
+    }
+
+}
+
+
+function saveData(key,data){
+
+    localStorage.setItem(
+        key,
+        JSON.stringify(data)
+    );
+
+}
+
+
+if(!localStorage.getItem(STORAGE.programs)){
+
+    saveData(
+        STORAGE.programs,
+        [
+            {
+                title:"Milad Program",
+                place:"Main Markaz",
+                date:"12 Rabi-ul-Awwal",
+                time:"8:00 PM",
+                description:"Islamic program."
+            },
+            {
+                title:"Langar-e-Gausiya",
+                place:"Main Markaz",
+                date:"Weekly",
+                time:"After Maghrib",
+                description:"Weekly Langar Program."
+            }
+        ]
+    );
+
+}
+
+
+if(!localStorage.getItem(STORAGE.members)){
+
+    saveData(
+        STORAGE.members,
+        [
+            {
+                name:"Member Name",
+                role:"Member / Khadim",
+                city:"Your City",
+                mobile:""
+            },
+            {
+                name:"Coordinator",
+                role:"Coordinator",
+                city:"Your City",
+                mobile:""
+            }
+        ]
+    );
+
+}
+
+
+if(!localStorage.getItem(STORAGE.settings)){
+
+    saveData(
+        STORAGE.settings,
+        {
+            title:"KHADIMIN-E-AULIYA",
+
+            description:
+            "A professional Islamic/Sufi-inspired platform for khidmat, donation, programs, gallery and community activities.",
+
+            accountHolder:"KHADIMIN-E-AULIYA",
+
+            bank:"Your Bank Name",
+
+            account:"XXXX XXXX XXXX",
+
+            ifsc:"XXXXXXXX",
+
+            upi:"khadimin@upi",
+
+            qr:"",
+
+            whatsapp:"9690341216",
+
+            email:"info@example.com",
+
+            address:"Your Address"
+        }
+    );
+
+}
+
+
+/* =====================================================
+   YEAR
+===================================================== */
+
+document
+.querySelectorAll(".year")
+.forEach(function(el){
+
+    el.textContent =
+        new Date().getFullYear();
+
+});
+
+
+/* =====================================================
+   SPLASH
+===================================================== */
+
+setTimeout(function(){
+
+    document
+    .getElementById("splashScreen")
+    .classList.add("hide");
+
+    document
+    .getElementById("authScreen")
+    .style.display="flex";
+
+},3500);
+
+
+/* =====================================================
+   AUTH TABS
+===================================================== */
+
+function showAuth(type){
+
+    document
+    .querySelectorAll(".auth-form")
+    .forEach(function(form){
+
+        form.classList.remove("active");
+
+    });
+
+
+    document
+    .querySelectorAll(".auth-tab")
+    .forEach(function(tab){
+
+        tab.classList.remove("active");
+
+    });
+
+
+    if(type==="login"){
+
+        document
+        .getElementById("loginForm")
+        .classList.add("active");
+
+        document
+        .querySelectorAll(".auth-tab")[0]
+        .classList.add("active");
+
+    }
+
+
+    if(type==="signup"){
+
+        document
+        .getElementById("signupForm")
+        .classList.add("active");
+
+        document
+        .querySelectorAll(".auth-tab")[1]
+        .classList.add("active");
+
+    }
+
+
+    if(type==="admin"){
+
+        document
+        .getElementById("adminForm")
+        .classList.add("active");
+
+        document
+        .querySelectorAll(".auth-tab")[2]
+        .classList.add("active");
+
+    }
+
+}
+
+
+/* =====================================================
+   USER SIGNUP
+===================================================== */
+
+function userSignup(){
+
+    const name =
+        document
+        .getElementById("signupName")
+        .value.trim();
+
+    const mobile =
+        document
+        .getElementById("signupMobile")
+        .value.trim();
+
+    const email =
+        document
+        .getElementById("signupEmail")
+        .value.trim();
+
+    const password =
+        document
+        .getElementById("signupPassword")
+        .value;
+
+
+    if(!name || !mobile || !email || !password){
+
+        document
+        .getElementById("signupMessage")
+        .innerHTML =
+        "<div class='status error'>" +
+        "Sabhi details bharna zaroori hai." +
+        "</div>";
+
+        return;
+
+    }
+
+
+    const users =
+        getData(STORAGE.users,[]);
+
+
+    if(
+        users.some(
+            user =>
+            user.email.toLowerCase() ===
+            email.toLowerCase()
+        )
+    ){
+
+        document
+        .getElementById("signupMessage")
+        .innerHTML =
+        "<div class='status error'>" +
+        "Ye email pehle se registered hai." +
+        "</div>";
+
+        return;
+
+    }
+
+
+    users.push({
+
+        id:Date.now(),
+
+        name:name,
+
+        mobile:mobile,
+
+        email:email,
+
+        password:password
+
+    });
+
+
+    saveData(STORAGE.users,users);
+
+
+    document
+    .getElementById("signupMessage")
+    .innerHTML =
+    "<div class='status'>" +
+    "Account successfully create ho gaya. Ab Login karein." +
+    "</div>";
+
+}
+
+
+/* =====================================================
+   USER LOGIN
+===================================================== */
+
+function userLogin(){
+
+    const email =
+        document
+        .getElementById("loginEmail")
+        .value.trim();
+
+    const password =
+        document
+        .getElementById("loginPassword")
+        .value;
+
+
+    const users =
+        getData(STORAGE.users,[]);
+
+
+    const user =
+        users.find(
+            item =>
+            item.email.toLowerCase() ===
+            email.toLowerCase() &&
+            item.password === password
+        );
+
+
+    if(!user){
+
+        document
+        .getElementById("loginMessage")
+        .innerHTML =
+        "<div class='status error'>" +
+        "Email ya password galat hai." +
+        "</div>";
+
+        return;
+
+    }
+
+
+    localStorage.setItem(
+        "kea_current_user",
+        JSON.stringify(user)
+    );
+
+
+    openUserApp(user);
+
+}
+
+
+/* =====================================================
+   OPEN USER APP
+===================================================== */
+
+function openUserApp(user){
+
+    document
+    .getElementById("authScreen")
+    .style.display="none";
+
+    document
+    .getElementById("adminApp")
+    .style.display="none";
+
+    document
+    .getElementById("userApp")
+    .style.display="block";
+
+
+    document
+    .getElementById("loggedUserName")
+    .textContent =
+    user.name;
+
+
+    loadUserData();
+
+}
+
+
+/* =====================================================
+   FORGOT PASSWORD
+===================================================== */
+
+function forgotPassword(){
+
+    alert(
+        "Password reset ke liye real email/OTP backend service connect karni hogi."
+    );
+
+}
+
+
+/* =====================================================
+   ADMIN LOGIN
+===================================================== */
+
+/*
+DEMO ADMIN LOGIN
+
+Real website mein ye credentials
+JavaScript mein nahi hone chahiye.
+
+Production version mein:
+Firebase / Supabase / secure backend
+authentication use karein.
+*/
+
+const DEMO_ADMIN_EMAIL =
+    "admin@khadimin-e-auliya.com";
+
+const DEMO_ADMIN_PASSWORD =
+    "Khadimin@123";
+
+
+function adminLogin(){
+
+    const email =
+        document
+        .getElementById("adminEmail")
+        .value.trim();
+
+    const password =
+        document
+        .getElementById("adminPassword")
+        .value;
+
+
+    if(
+        email !== DEMO_ADMIN_EMAIL ||
+        password !== DEMO_ADMIN_PASSWORD
+    ){
+
+        document
+        .getElementById("adminMessage")
+        .innerHTML =
+        "<div class='status error'>" +
+        "Admin email ya password galat hai." +
+        "</div>";
+
+        return;
+
+    }
+
+
+    localStorage.setItem(
+        "kea_admin_login",
+        "true"
+    );
+
+
+    document
+    .getElementById("authScreen")
+    .style.display="none";
+
+    document
+    .getElementById("userApp")
+    .style.display="none";
+
+    document
+    .getElementById("adminApp")
+    .style.display="block";
+
+
+    loadAdminData();
+
+}
+
+
+/* =====================================================
+   ADMIN LOGOUT
+===================================================== */
+
+function adminLogout(){
+
+    localStorage.removeItem(
+        "kea_admin_login"
+    );
+
+    document
+    .getElementById("adminApp")
+    .style.display="none";
+
+    document
+    .getElementById("authScreen")
+    .style.display="flex";
+
+    showAuth("admin");
+
+}
+
+
+/* =====================================================
+   USER LOGOUT
+===================================================== */
+
+function logout(){
+
+    localStorage.removeItem(
+        "kea_current_user"
+    );
+
+    document
+    .getElementById("userApp")
+    .style.display="none";
+
+    document
+    .getElementById("authScreen")
+    .style.display="flex";
+
+    showAuth("login");
+
+}
+
+
+/* =====================================================
+   ADMIN TABS
+===================================================== */
+
+function adminTab(id){
+
+    document
+    .querySelectorAll(".admin-section")
+    .forEach(function(section){
+
+        section.classList.remove("active");
+
+    });
+
+
+    document
+    .getElementById(id)
+    .classList.add("active");
+
+
+    if(id==="programEdit")
+        renderAdminPrograms();
+
+    if(id==="galleryEdit")
+        renderAdminPhotos();
+
+    if(id==="videoEdit")
+        renderAdminVideos();
+
+    if(id==="memberEdit")
+        renderAdminMembers();
+
+}
+
+
+/* =====================================================
+   HOME SETTINGS
+===================================================== */
+
+function saveHomeSettings(){
+
+    const settings =
+        getData(STORAGE.settings,{});
+
+
+    settings.title =
+        document
+        .getElementById("adminHomeTitle")
+        .value.trim();
+
+
+    settings.description =
+        document
+        .getElementById("adminHomeDescription")
+        .value.trim();
+
+
+    saveData(
+        STORAGE.settings,
+        settings
+    );
+
+
+    document
+    .getElementById("homeSaveMessage")
+    .innerHTML =
+    "<div class='status'>" +
+    "Homepage settings save ho gayi." +
+    "</div>";
+
+}
+
+
+/* =====================================================
+   PROGRAM ADD
+===================================================== */
+
+function addProgram(){
+
+    const title =
+        document
+        .getElementById("programTitle")
+        .value.trim();
+
+    const place =
+        document
+        .getElementById("programPlace")
+        .value.trim();
+
+    const date =
+        document
+        .getElementById("programDate")
+        .value.trim();
+
+    const time =
+        document
+        .getElementById("programTime")
+        .value.trim();
+
+    const description =
+        document
+        .getElementById("programDescription")
+        .value.trim();
+
+
+    if(!title){
+
+        alert("Program name required hai.");
+
+        return;
+
+    }
+
+
+    const programs =
+        getData(STORAGE.programs,[]);
+
+
+    programs.push({
+
+        title,
+        place,
+        date,
+        time,
+        description
+
+    });
+
+
+    saveData(
+        STORAGE.programs,
+        programs
+    );
+
+
+    alert("Program add ho gaya.");
+
+
+    document
+    .getElementById("programTitle")
+    .value="";
+
+    document
+    .getElementById("programPlace")
+    .value="";
+
+    document
+    .getElementById("programDate")
+    .value="";
+
+    document
+    .getElementById("programTime")
+    .value="";
+
+    document
+    .getElementById("programDescription")
+    .value="";
+
+
+    renderAdminPrograms();
+
+}
+
+
+/* =====================================================
+   PROGRAM ADMIN LIST
+===================================================== */
+
+function renderAdminPrograms(){
+
+    const programs =
+        getData(STORAGE.programs,[]);
+
+    const box =
+        document
+        .getElementById("programAdminList");
+
+
+    box.innerHTML =
+        "<br><h3>Existing Programs</h3>";
+
+
+    programs.forEach(
+        function(program,index){
+
+            box.innerHTML += `
+
+            <div class="card" style="margin-top:10px;">
+
+                <h3>${escapeHTML(program.title)}</h3>
+
+                <p>${escapeHTML(program.place)}</p>
+
+                <p>
+                ${escapeHTML(program.date)}
+                -
+                ${escapeHTML(program.time)}
+                </p>
+
+                <button
+                class="btn red"
+                onclick="deleteProgram(${index})">
+                Delete
+                </button>
+
+            </div>
+
+            `;
+
+        }
+    );
+
+}
+
+
+function deleteProgram(index){
+
+    if(!confirm("Program delete karna hai?"))
+        return;
+
+
+    const programs =
+        getData(STORAGE.programs,[]);
+
+    programs.splice(index,1);
+
+    saveData(
+        STORAGE.programs,
+        programs
+    );
+
+    renderAdminPrograms();
+
+}
+
+
+/* =====================================================
+   PHOTO UPLOAD
+===================================================== */
+
+function addPhoto(){
+
+    const file =
+        document
+        .getElementById("photoFile")
+        .files[0];
+
+    const title =
+        document
+        .getElementById("photoTitle")
+        .value.trim();
+
+    const category =
+        document
+        .getElementById("photoCategory")
+        .value;
+
+
+    if(!file){
+
+        alert("Photo select karein.");
+
+        return;
+
+    }
+
+
+    const reader =
+        new FileReader();
+
+
+    reader.onload=function(event){
+
+        const photos =
+            getData(STORAGE.photos,[]);
+
+
+        photos.push({
+
+            title:
+                title || "KHADIMIN-E-AULIYA Photo",
+
+            category:
+
+                category,
+
+            image:
+
+                event.target.result
+
+        });
+
+
+        try{
+
+            saveData(
+                STORAGE.photos,
+                photos
+            );
+
+            alert("Photo upload ho gayi.");
+
+            renderAdminPhotos();
+
+        }catch(error){
+
+            alert(
+                "Photo bahut badi hai. Chhoti image upload karein."
+            );
+
+        }
+
+    };
+
+
+    reader.readAsDataURL(file);
+
+}
+
+
+/* =====================================================
+   PHOTO ADMIN LIST
+===================================================== */
+
+function renderAdminPhotos(){
+
+    const photos =
+        getData(STORAGE.photos,[]);
+
+    const box =
+        document
+        .getElementById("photoAdminList");
+
+
+    box.innerHTML =
+        "<br><h3>Uploaded Photos</h3>";
+
+
+    photos.forEach(
+        function(photo,index){
+
+            box.innerHTML += `
+
+            <div class="card" style="margin-top:10px;">
+
+                <img
+                src="${photo.image}"
+                class="preview-image">
+
+                <h3>
+                ${escapeHTML(photo.title)}
+                </h3>
+
+                <p>
+                Category:
+                ${escapeHTML(photo.category)}
+                </p>
+
+                <button
+                class="btn red"
+                onclick="deletePhoto(${index})">
+                Delete
+                </button>
+
+            </div>
+
+            `;
+
+        }
+    );
+
+}
+
+
+function deletePhoto(index){
+
+    if(!confirm("Photo delete karni hai?"))
+        return;
+
+
+    const photos =
+        getData(STORAGE.photos,[]);
+
+    photos.splice(index,1);
+
+    saveData(
+        STORAGE.photos,
+        photos
+    );
+
+    renderAdminPhotos();
+
+}
+
+
+/* =====================================================
+   VIDEO ADD
+===================================================== */
+
+function addVideo(){
+
+    const title =
+        document
+        .getElementById("videoTitle")
+        .value.trim();
+
+    const url =
+        document
+        .getElementById("videoURL")
+        .value.trim();
+
+    const description =
+        document
+        .getElementById("videoDescription")
+        .value.trim();
+
+
+    if(!title || !url){
+
+        alert("Video title aur URL required hai.");
+
+        return;
+
+    }
+
+
+    const videos =
+        getData(STORAGE.videos,[]);
+
+
+    videos.push({
+
+        title,
+        url,
+        description
+
+    });
+
+
+    saveData(
+        STORAGE.videos,
+        videos
+    );
+
+
+    alert("Video add ho gaya.");
+
+    renderAdminVideos();
+
+
+    document
+    .getElementById("videoTitle")
+    .value="";
+
+    document
+    .getElementById("videoURL")
+    .value="";
+
+    document
+    .getElementById("videoDescription")
+    .value="";
+
+}
+
+
+/* =====================================================
+   VIDEO ADMIN LIST
+===================================================== */
+
+function renderAdminVideos(){
+
+    const videos =
+        getData(STORAGE.videos,[]);
+
+    const box =
+        document
+        .getElementById("videoAdminList");
+
+
+    box.innerHTML =
+        "<br><h3>Videos</h3>";
+
+
+    videos.forEach(
+        function(video,index){
+
+            box.innerHTML += `
+
+            <div class="card" style="margin-top:10px;">
+
+                <h3>
+                ${escapeHTML(video.title)}
+                </h3>
+
+                <p>
+                ${escapeHTML(video.url)}
+                </p>
+
+                <button
+                class="btn red"
+                onclick="deleteVideo(${index})">
+                Delete
+                </button>
+
+            </div>
+
+            `;
+
+        }
+    );
+
+}
+
+
+function deleteVideo(index){
+
+    if(!confirm("Video delete karna hai?"))
+        return;
+
+
+    const videos =
+        getData(STORAGE.videos,[]);
+
+    videos.splice(index,1);
+
+    saveData(
+        STORAGE.videos,
+        videos
+    );
+
+    renderAdminVideos();
+
+}
+
+
+/* =====================================================
+   MEMBERS
+===================================================== */
+
+function addMember(){
+
+    const name =
+        document
+        .getElementById("memberName")
+        .value.trim();
+
+    const role =
+        document
+        .getElementById("memberRole")
+        .value.trim();
+
+    const city =
+        document
+        .getElementById("memberCity")
+        .value.trim();
+
+    const mobile =
+        document
+        .getElementById("memberMobile")
+        .value.trim();
+
+
+    if(!name){
+
+        alert("Member name required hai.");
+
+        return;
+
+    }
+
+
+    const members =
+        getData(STORAGE.members,[]);
+
+
+    members.push({
+
+        name,
+        role,
+        city,
+        mobile
+
+    });
+
+
+    saveData(
+        STORAGE.members,
+        members
+    );
+
+
+    alert("Member add ho gaya.");
+
+    renderAdminMembers();
+
+
+    document
+    .getElementById("memberName")
+    .value="";
+
+    document
+    .getElementById("memberRole")
+    .value="";
+
+    document
+    .getElementById("memberCity")
+    .value="";
+
+    document
+    .getElementById("memberMobile")
+    .value="";
+
+}
+
+
+/* =====================================================
+   MEMBER LIST
+===================================================== */
+
+function renderAdminMembers(){
+
+    const members =
+        getData(STORAGE.members,[]);
+
+    const box =
+        document
+        .getElementById("memberAdminList");
+
+
+    box.innerHTML =
+        "<br><h3>Members</h3>";
+
+
+    members.forEach(
+        function(member,index){
+
+            box.innerHTML += `
+
+            <div class="card" style="margin-top:10px;">
+
+                <h3>
+                ${escapeHTML(member.name)}
+                </h3>
+
+                <p>
+                ${escapeHTML(member.role)}
+                </p>
+
+                <p>
+                ${escapeHTML(member.city)}
+                </p>
+
+                <button
+                class="btn red"
+                onclick="deleteMember(${index})">
+                Delete
+                </button>
+
+            </div>
+
+            `;
+
+        }
+    );
+
+}
+
+
+function deleteMember(index){
+
+    if(!confirm("Member delete karna hai?"))
+        return;
+
+
+    const members =
+        getData(STORAGE.members,[]);
+
+    members.splice(index,1);
+
+    saveData(
+        STORAGE.members,
+        members
+    );
+
+    renderAdminMembers();
+
+}
+
+
+/* =====================================================
+   DONATION SETTINGS
+===================================================== */
+
+function saveDonationSettings(){
+
+    const settings =
+        getData(STORAGE.settings,{});
+
+
+    settings.accountHolder =
+        document
+        .getElementById("bankHolder")
+        .value.trim();
+
+    settings.bank =
+        document
+        .getElementById("bankName")
+        .value.trim();
+
+    settings.account =
+        document
+        .getElementById("bankAccount")
+        .value.trim();
+
+    settings.ifsc =
+        document
+        .getElementById("bankIFSC")
+        .value.trim();
+
+    settings.upi =
+        document
+        .getElementById("bankUPI")
+        .value.trim();
+
+
+    const file =
+        document
+        .getElementById("qrFile")
+        .files[0];
+
+
+    if(file){
+
+        const reader =
+            new FileReader();
+
+
+        reader.onload=function(event){
+
+            settings.qr =
+                event.target.result;
+
+            saveData(
+                STORAGE.settings,
+                settings
+            );
+
+
+            document
+            .getElementById("donationSaveMessage")
+            .innerHTML =
+            "<div class='status'>" +
+            "Donation settings + QR save ho gaya." +
+            "</div>";
+
+        };
+
+
+        reader.readAsDataURL(file);
+
+    }else{
+
+        saveData(
+            STORAGE.settings,
+            settings
+        );
+
+
+        document
+        .getElementById("donationSaveMessage")
+        .innerHTML =
+        "<div class='status'>" +
+        "Donation settings save ho gayi." +
+        "</div>";
+
+    }
+
+}
+
+
+/* =====================================================
+   RASHID CREATE
+===================================================== */
+
+function createRashid(){
+
+    const name =
+        document
+        .getElementById("adminDonorName")
+        .value.trim();
+
+    const mobile =
+        document
+        .getElementById("adminDonorMobile")
+        .value.trim();
+
+    const address =
+        document
+        .getElementById("adminDonorAddress")
+        .value.trim();
+
+    const amount =
+        document
+        .getElementById("adminDonationAmount")
+        .value;
+
+    const purpose =
+        document
+        .getElementById("adminDonationPurpose")
+        .value;
+
+    const payment =
+        document
+        .getElementById("adminPaymentDetails")
+        .value.trim();
+
+
+    if(!name || !mobile || !amount){
+
+        document
+        .getElementById("adminRashidMessage")
+        .innerHTML =
+        "<div class='status error'>" +
+        "Name, mobile aur amount required hai." +
+        "</div>";
+
+        return;
+
+    }
+
+
+    const rashidNumber =
+        "KEA-" +
+        new Date().getFullYear() +
+        "-" +
+        Math.random()
+        .toString(36)
+        .substring(2,8)
+        .toUpperCase();
+
+
+    const rashid = {
+
+        number:rashidNumber,
+
+        name:name,
+
+        mobile:mobile,
+
+        address:address,
+
+        amount:amount,
+
+        purpose:purpose,
+
+        payment:payment,
+
+        date:
+        new Date()
+        .toLocaleDateString("en-IN"),
+
+        status:"CONFIRMED"
+
+    };
+
+
+    const rashids =
+        getData(STORAGE.rashids,[]);
+
+
+    rashids.push(rashid);
+
+
+    saveData(
+        STORAGE.rashids,
+        rashids
+    );
+
+
+    document
+    .getElementById("adminRashidMessage")
+    .innerHTML =
+    "<div class='status'>" +
+    "Rashid successfully create aur confirm ho gayi." +
+    "</div>";
+
+
+    renderAdminReceipt(rashid);
+
+    updateStats();
+
+}
+
+
+/* =====================================================
+   ADMIN RECEIPT PREVIEW
+===================================================== */
+
+function renderAdminReceipt(r){
+
+    const box =
+        document
+        .getElementById("adminReceiptArea");
+
+
+    box.innerHTML = `
+
+    <div
+    id="adminReceipt"
+    class="receipt">
+
+        <div class="receipt-top">
+
+            <div class="receipt-logo">
+            ☪ KHADIMIN-E-AULIYA
+            </div>
+
+            <b>
+            DONATION RASHID / RECEIPT
+            </b>
+
+            <p>
+            Khidmat • Imdad • Ta'awun
+            </p>
+
+        </div>
+
+
+        <div class="receipt-row">
+            <b>Rashid Number</b>
+            <span>${escapeHTML(r.number)}</span>
+        </div>
+
+        <div class="receipt-row">
+            <b>Donor Name</b>
+            <span>${escapeHTML(r.name)}</span>
+        </div>
+
+        <div class="receipt-row">
+            <b>Mobile</b>
+            <span>${escapeHTML(r.mobile)}</span>
+        </div>
+
+        <div class="receipt-row">
+            <b>Address</b>
+            <span>${escapeHTML(r.address || "-")}</span>
+        </div>
+
+        <div class="receipt-row">
+            <b>Amount</b>
+            <span>₹${escapeHTML(r.amount)}</span>
+        </div>
+
+        <div class="receipt-row">
+            <b>Purpose</b>
+            <span>${escapeHTML(r.purpose)}</span>
+        </div>
+
+        <div class="receipt-row">
+            <b>Payment</b>
+            <span>${escapeHTML(r.payment || "-")}</span>
+        </div>
+
+        <div class="receipt-row">
+            <b>Date</b>
+            <span>${escapeHTML(r.date)}</span>
+        </div>
+
+        <div class="receipt-row">
+            <b>Status</b>
+            <span class="receipt-status">
+            CONFIRMED
+            </span>
+        </div>
+
+
+        <br>
+
+        <p>
+        Authorized by:
+        <b>KHADIMIN-E-AULIYA</b>
+        </p>
+
+
+        <div style="text-align:center;margin-top:20px;">
+
+            <button
+            class="btn"
+            onclick="downloadReceiptImage()">
+            🖼️ Download Rashid Photo
+            </button>
+
+
+            <button
+            class="btn whatsapp"
+            onclick="shareReceiptWhatsApp('${escapeHTML(r.number)}','${escapeHTML(r.name)}','${escapeHTML(r.amount)}')">
+            📱 WhatsApp
+            </button>
+
+
+            <button
+            class="btn gold"
+            onclick="shareReceiptImage()">
+            📤 Share Rashid
+            </button>
+
+        </div>
+
+    </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+   RASHID CANVAS IMAGE
+===================================================== */
+
+function createReceiptImage(){
+
+    const canvas =
+        document
+        .getElementById("receiptCanvas");
+
+    const ctx =
+        canvas.getContext("2d");
+
+
+    const rashids =
+        getData(STORAGE.rashids,[]);
+
+
+    if(!rashids.length)
+        return null;
+
+
+    const r =
+        rashids[rashids.length-1];
+
+
+    ctx.fillStyle="#ffffff";
+
+    ctx.fillRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+
+    ctx.strokeStyle="#c9a64b";
+
+    ctx.lineWidth=12;
+
+    ctx.strokeRect(
+        35,
+        35,
+        canvas.width-70,
+        canvas.height-70
+    );
+
+
+    ctx.textAlign="center";
+
+
+    ctx.fillStyle="#075b43";
+
+    ctx.font="bold 50px Arial";
+
+    ctx.fillText(
+        "KHADIMIN-E-AULIYA",
+        canvas.width/2,
+        130
+    );
+
+
+    ctx.fillStyle="#222";
+
+    ctx.font="bold 35px Arial";
+
+    ctx.fillText(
+        "DONATION RASHID / RECEIPT",
+        canvas.width/2,
+        195
+    );
+
+
+    ctx.font="26px Arial";
+
+    ctx.fillText(
+        "Khidmat • Imdad • Ta'awun",
+        canvas.width/2,
+        245
+    );
+
+
+    let y=340;
+
+
+    const rows=[
+
+        ["Rashid Number",r.number],
+
+        ["Donor Name",r.name],
+
+        ["Mobile",r.mobile],
+
+        ["Address",r.address || "-"],
+
+        ["Amount","₹"+r.amount],
+
+        ["Purpose",r.purpose],
+
+        ["Payment",r.payment || "-"],
+
+        ["Date",r.date],
+
+        ["Status","CONFIRMED"]
+
+    ];
+
+
+    rows.forEach(function(row){
+
+        ctx.textAlign="left";
+
+        ctx.fillStyle="#17352d";
+
+        ctx.font="bold 27px Arial";
+
+        ctx.fillText(
+            row[0],
+            100,
+            y
+        );
+
+
+        ctx.textAlign="right";
+
+        ctx.font="27px Arial";
+
+        ctx.fillText(
+            String(row[1]),
+            1100,
+            y
+        );
+
+
+        ctx.strokeStyle="#cccccc";
+
+        ctx.lineWidth=1;
+
+        ctx.beginPath();
+
+        ctx.moveTo(100,y+18);
+
+        ctx.lineTo(1100,y+18);
+
+        ctx.stroke();
+
+
+        y+=105;
+
+    });
+
+
+    ctx.textAlign="center";
+
+    ctx.fillStyle="#075b43";
+
+    ctx.font="bold 30px Arial";
+
+    ctx.fillText(
+        "Authorized by KHADIMIN-E-AULIYA",
+        canvas.width/2,
+        1370
+    );
+
+
+    ctx.fillStyle="#777";
+
+    ctx.font="22px Arial";
+
+    ctx.fillText(
+        "Thank you for your support",
+        canvas.width/2,
+        1430
+    );
+
+
+    return canvas;
+
+}
+
+
+/* =====================================================
+   DOWNLOAD RASHID PHOTO
+===================================================== */
+
+function downloadReceiptImage(){
+
+    const canvas =
+        createReceiptImage();
+
+
+    if(!canvas){
+
+        alert("Pehle Rashid create karein.");
+
+        return;
+
+    }
+
+
+    const link =
+        document.createElement("a");
+
+
+    link.download =
+        "KHADIMIN-E-AULIYA-Rashid.png";
+
+
+    link.href =
+        canvas.toDataURL("image/png");
+
+
+    link.click();
+
+}
+
+
+/* =====================================================
+   SHARE RASHID IMAGE
+===================================================== */
+
+async function shareReceiptImage(){
+
+    const canvas =
+        createReceiptImage();
+
+
+    if(!canvas){
+
+        alert("Pehle Rashid create karein.");
+
+        return;
+
+    }
+
+
+    canvas.toBlob(
+        async function(blob){
+
+            const file =
+                new File(
+                    [blob],
+                    "KHADIMIN-E-AULIYA-Rashid.png",
+                    {
+                        type:"image/png"
+                    }
+                );
+
+
+            if(
+                navigator.share &&
+                navigator.canShare &&
+                navigator.canShare({
+                    files:[file]
+                })
+            ){
+
+                try{
+
+                    await navigator.share({
+
+                        title:
+                        "KHADIMIN-E-AULIYA Rashid",
+
+                        text:
+                        "Donation Rashid",
+
+                        files:[file]
+
+                    });
+
+                }catch(error){}
+
+            }else{
+
+                downloadReceiptImage();
+
+                alert(
+                    "Is device/browser mein direct image sharing available nahi hai. Rashid download kar diya gaya hai."
+                );
+
+            }
+
+        },
+        "image/png"
+    );
+
+}
+
+
+/* =====================================================
+   WHATSAPP SHARE
+===================================================== */
+
+function shareReceiptWhatsApp(
+    number,
+    name,
+    amount
+){
+
+    const text =
+        "KHADIMIN-E-AULIYA Donation Rashid\n\n" +
+
+        "Rashid Number: " +
+        number +
+
+        "\nDonor Name: " +
+        name +
+
+        "\nAmount: ₹" +
+        amount +
+
+        "\n\nJazakAllah Khair.";
+
+
+    const url =
+        "https://wa.me/?text=" +
+        encodeURIComponent(text);
+
+
+    window.open(
+        url,
+        "_blank"
+    );
+
+}
+
+
+/* =====================================================
+   RASHID VERIFY
+===================================================== */
+
+function verifyRashid(){
+
+    const number =
+        document
+        .getElementById("verificationNumber")
+        .value
+        .trim();
+
+
+    const result =
+        document
+        .getElementById("verificationResult");
+
+
+    if(!number){
+
+        result.innerHTML =
+        "<div class='status error'>" +
+        "Rashid number enter karein." +
+        "</div>";
+
+        return;
+
+    }
+
+
+    const rashids =
+        getData(STORAGE.rashids,[]);
+
+
+    const r =
+        rashids.find(
+            item =>
+            item.number.toLowerCase() ===
+            number.toLowerCase()
+        );
+
+
+    if(!r){
+
+        result.innerHTML =
+        "<div class='status error'>" +
+        "Rashid verify nahi hui." +
+        "</div>";
+
+        return;
+
+    }
+
+
+    result.innerHTML = `
+
+    <div class="status">
+
+        <b>✓ Rashid Verified</b>
+
+        <br><br>
+
+        Rashid Number:
+        ${escapeHTML(r.number)}
+
+        <br>
+
+        Donor:
+        ${escapeHTML(r.name)}
+
+        <br>
+
+        Amount:
+        ₹${escapeHTML(r.amount)}
+
+        <br>
+
+        Purpose:
+        ${escapeHTML(r.purpose)}
+
+        <br>
+
+        Date:
+        ${escapeHTML(r.date)}
+
+    </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+   CONTACT
+===================================================== */
+
+function saveContact(){
+
+    const settings =
+        getData(STORAGE.settings,{});
+
+
+    settings.whatsapp =
+        document
+        .getElementById("contactWhatsApp")
+        .value.trim();
+
+    settings.email =
+        document
+        .getElementById("contactEmail")
+        .value.trim();
+
+    settings.address =
+        document
+        .getElementById("contactAddress")
+        .value.trim();
+
+
+    saveData(
+        STORAGE.settings,
+        settings
+    );
+
+
+    document
+    .getElementById("contactSaveMessage")
+    .innerHTML =
+    "<div class='status'>" +
+    "Contact details save ho gayi." +
+    "</div>";
+
+}
+
+
+/* =====================================================
+   LOAD USER DATA
+===================================================== */
+
+function loadUserData(){
+
+    const settings =
+        getData(STORAGE.settings,{});
+
+
+    document
+    .getElementById("userAccountHolder")
+    .textContent =
+    settings.accountHolder ||
+    "KHADIMIN-E-AULIYA";
+
+
+    document
+    .getElementById("userBank")
+    .textContent =
+    settings.bank ||
+    "Your Bank Name";
+
+
+    document
+    .getElementById("userAccountNumber")
+    .textContent =
+    settings.account ||
+    "XXXX XXXX XXXX";
+
+
+    document
+    .getElementById("userIFSC")
+    .textContent =
+    settings.ifsc ||
+    "XXXXXXXX";
+
+
+    document
+    .getElementById("userUPI")
+    .textContent =
+    settings.upi ||
+    "khadimin@upi";
+
+
+    document
+    .getElementById("userContactEmail")
+    .textContent =
+    settings.email ||
+    "info@example.com";
+
+
+    const qr =
+        document
+        .getElementById("userQR");
+
+
+    if(settings.qr){
+
+        qr.src =
+            settings.qr;
+
+        qr.style.display="block";
+
+    }else{
+
+        qr.style.display="none";
+
+    }
+
+
+    renderUserPrograms();
+
+    renderUserPhotos();
+
+    renderUserVideos();
+
+    renderUserMembers();
+
+}
+
+
+/* =====================================================
+   USER PROGRAMS
+===================================================== */
+
+function renderUserPrograms(){
+
+    const programs =
+        getData(STORAGE.programs,[]);
+
+    const box =
+        document
+        .getElementById("userProgramList");
+
+
+    box.innerHTML="";
+
+
+    if(!programs.length){
+
+        box.innerHTML =
+        "<div class='card'>" +
+        "Abhi koi program available nahi hai." +
+        "</div>";
+
+        return;
+
+    }
+
+
+    programs.forEach(
+        function(program){
+
+            box.innerHTML += `
+
+            <div class="card">
+
+                <div class="icon">🕌</div>
+
+                <h3>
+                ${escapeHTML(program.title)}
+                </h3>
+
+                <p>
+                <b>Place:</b>
+                ${escapeHTML(program.place)}
+                </p>
+
+                <p>
+                <b>Date:</b>
+                ${escapeHTML(program.date)}
+                </p>
+
+                <p>
+                <b>Time:</b>
+                ${escapeHTML(program.time)}
+                </p>
+
+                <p>
+                ${escapeHTML(program.description)}
+                </p>
+
+                <button
+                class="btn"
+                onclick="shareText('${escapeHTML(program.title)} - KHADIMIN-E-AULIYA')">
+                Share
+                </button>
+
+            </div>
+
+            `;
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   USER PHOTOS
+===================================================== */
+
+function renderUserPhotos(){
+
+    const photos =
+        getData(STORAGE.photos,[]);
+
+    const box =
+        document
+        .getElementById("userGalleryList");
+
+
+    box.innerHTML="";
+
+
+    if(!photos.length){
+
+        box.innerHTML =
+        "<div class='card'>" +
+        "Admin ke photos yahan show honge." +
+        "</div>";
+
+        return;
+
+    }
+
+
+    photos.forEach(
+        function(photo){
+
+            box.innerHTML += `
+
+            <div class="card">
+
+                <img
+                src="${photo.image}"
+                class="gallery-image">
+
+                <h3>
+                ${escapeHTML(photo.title)}
+                </h3>
+
+                <p>
+                ${escapeHTML(photo.category)}
+                </p>
+
+                <button
+                class="btn"
+                onclick="shareText('${escapeHTML(photo.title)} - KHADIMIN-E-AULIYA')">
+                Share
+                </button>
+
+            </div>
+
+            `;
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   USER VIDEOS
+===================================================== */
+
+function renderUserVideos(){
+
+    const videos =
+        getData(STORAGE.videos,[]);
+
+    const box =
+        document
+        .getElementById("userVideoList");
+
+
+    box.innerHTML="";
+
+
+    videos.forEach(
+        function(video){
+
+            box.innerHTML += `
+
+            <div class="card">
+
+                <div class="icon">
+                ▶️
+                </div>
+
+                <h3>
+                ${escapeHTML(video.title)}
+                </h3>
+
+                <p>
+                ${escapeHTML(video.description)}
+                </p>
+
+                <a
+                class="btn"
+                href="${escapeAttribute(video.url)}"
+                target="_blank">
+                Watch Video
+                </a>
+
+            </div>
+
+            `;
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   USER MEMBERS
+===================================================== */
+
+function renderUserMembers(){
+
+    const members =
+        getData(STORAGE.members,[]);
+
+    const box =
+        document
+        .getElementById("userMemberList");
+
+
+    box.innerHTML="";
+
+
+    members.forEach(
+        function(member){
+
+            box.innerHTML += `
+
+            <div class="card">
+
+                <div class="icon">
+                👤
+                </div>
+
+                <h3>
+                ${escapeHTML(member.name)}
+                </h3>
+
+                <p>
+                <b>Responsibility:</b>
+                ${escapeHTML(member.role)}
+                </p>
+
+                <p>
+                <b>Place:</b>
+                ${escapeHTML(member.city)}
+                </p>
+
+            </div>
+
+            `;
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   ADMIN LOAD
+===================================================== */
+
+function loadAdminData(){
+
+    const settings =
+        getData(STORAGE.settings,{});
+
+
+    document
+    .getElementById("adminHomeTitle")
+    .value =
+    settings.title ||
+    "KHADIMIN-E-AULIYA";
+
+
+    document
+    .getElementById("adminHomeDescription")
+    .value =
+    settings.description || "";
+
+
+    document
+    .getElementById("bankHolder")
+    .value =
+    settings.accountHolder || "";
+
+
+    document
+    .getElementById("bankName")
+    .value =
+    settings.bank || "";
+
+
+    document
+    .getElementById("bankAccount")
+    .value =
+    settings.account || "";
+
+
+    document
+    .getElementById("bankIFSC")
+    .value =
+    settings.ifsc || "";
+
+
+    document
+    .getElementById("bankUPI")
+    .value =
+    settings.upi || "";
+
+
+    document
+    .getElementById("contactWhatsApp")
+    .value =
+    settings.whatsapp ||
+    "9690341216";
+
+
+    document
+    .getElementById("contactEmail")
+    .value =
+    settings.email ||
+    "";
+
+
+    document
+    .getElementById("contactAddress")
+    .value =
+    settings.address ||
+    "";
+
+
+    updateStats();
+
+}
+
+
+/* =====================================================
+   ADMIN STATS
+===================================================== */
+
+function updateStats(){
+
+    document
+    .getElementById("statUsers")
+    .textContent =
+    getData(STORAGE.users,[]).length;
+
+
+    document
+    .getElementById("statRashids")
+    .textContent =
+    getData(STORAGE.rashids,[]).length;
+
+
+    document
+    .getElementById("statPhotos")
+    .textContent =
+    getData(STORAGE.photos,[]).length;
+
+
+    document
+    .getElementById("statVideos")
+    .textContent =
+    getData(STORAGE.videos,[]).length;
+
+}
+
+
+/* =====================================================
+   SHARE TEXT
+===================================================== */
+
+async function shareText(text){
+
+    if(navigator.share){
+
+        try{
+
+            await navigator.share({
+
+                title:
+                "KHADIMIN-E-AULIYA",
+
+                text:text
+
+            });
+
+        }catch(error){}
+
+    }else{
+
+        try{
+
+            await navigator.clipboard.writeText(text);
+
+            alert("Text copied.");
+
+        }catch(error){
+
+            alert(text);
+
+        }
+
+    }
+
+}
+
+
+/* =====================================================
+   HTML SECURITY HELPERS
+===================================================== */
+
+function escapeHTML(value){
+
+    return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+function escapeAttribute(value){
+
+    return String(value ?? "")
+    .replace(/"/g,"%22")
+    .replace(/</g,"%3C")
+    .replace(/>/g,"%3E");
+
+}
+
+</script>
+
+</body>
+</html>
