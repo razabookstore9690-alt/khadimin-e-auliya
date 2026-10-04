@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="KHADIMIN-E-AULIYA">
+<title>KHADIMIN-E-AULIYA</title>
+
+<style>
+:root{
+    --green:#075b43;
+    --dark:#04392d;
+    --gold:#c9a64b;
+    --white:#ffffff;
+    --light:#f7f8f3;
+    --text:#17352d;
+    --danger:#b3261e;
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:var(--light);
+    color:var(--text);
+    line-height:1.6;
+}
+
+header{
+    background:var(--dark);
+    color:white;
+    padding:15px 5%;
+    position:sticky;
+    top:0;
+    z-index:1000;
+    box-shadow:0 3px 15px #0003;
+}
+
+.navbar{
+    max-width:1200px;
+    margin:auto;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+}
+
+.logo{
+    color:var(--gold);
+    font-size:20px;
+    font-weight:bold;
+}
+
+nav{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    padding:8px 10px;
+    border-radius:8px;
+}
+
+nav a:hover{
+    background:#ffffff18;
+}
+
+.hero{
+    min-height:75vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:50px 20px;
+    background:
+    radial-gradient(circle at center,#d9c47755,transparent 35%),
+    linear-gradient(135deg,#eaf5ee,#fffdf5);
+}
+
+.hero h1{
+    color:var(--dark);
+    font-size:clamp(35px,8vw,70px);
+    margin-bottom:10px;
+}
+
+.hero p{
+    max-width:700px;
+    margin:15px auto;
+}
+
+.badge{
+    color:var(--gold);
+    font-weight:bold;
+    letter-spacing:3px;
+}
+
+.btn{
+    display:inline-block;
+    border:none;
+    padding:12px 20px;
+    border-radius:10px;
+    background:var(--green);
+    color:white;
+    cursor:pointer;
+    text-decoration:none;
+    margin:5px;
+    font-weight:bold;
+}
+
+.btn.gold{
+    background:var(--gold);
+    color:#201a08;
+}
+
+.btn.red{
+    background:var(--danger);
+}
+
+section{
+    max-width:1200px;
+    margin:auto;
+    padding:55px 20px;
+}
+
+h2{
+    text-align:center;
+    color:var(--dark);
+    margin-bottom:25px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    gap:20px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:16px;
+    box-shadow:0 5px 25px #1232  ;
+    border:1px solid #e5e5e5;
+}
+
+.card h3{
+    color:var(--green);
+    margin-bottom:8px;
+}
+
+.icon{
+    font-size:45px;
+    text-align:center;
+    margin-bottom:10px;
+}
+
+input,select,textarea{
+    width:100%;
+    padding:12px;
+    margin:7px 0;
+    border:1px solid #ccd5d0;
+    border-radius:9px;
+    font-size:15px;
+}
+
+textarea{
+    min-height:100px;
+    resize:vertical;
+}
+
+.form-box{
+    max-width:600px;
+    margin:auto;
+    background:white;
+    padding:25px;
+    border-radius:18px;
+    box-shadow:0 5px 25px #1232;
+}
+
+.hidden{
+    display:none!important;
+}
+
+.status{
+    padding:12px;
+    border-radius:10px;
+    margin-top:10px;
+    background:#edf8ef;
+    color:#126128;
+}
+
+.error{
+    background:#fff0ef;
+    color:#a51d16;
+}
+
+.receipt{
+    background:white;
+    border:4px double var(--gold);
+    padding:30px;
+    max-width:650px;
+    margin:20px auto;
+    border-radius:10px;
+}
+
+.receipt h2{
+    color:var(--green);
+}
+
+.receipt-row{
+    display:flex;
+    justify-content:space-between;
+    border-bottom:1px dashed #bbb;
+    padding:9px 0;
+    gap:20px;
+}
+
+footer{
+    background:var(--dark);
+    color:white;
+    text-align:center;
+    padding:30px 20px;
+}
+
+.mobile-menu{
+    display:none;
+}
+
+@media(max-width:700px){
+
+    .navbar{
+        flex-direction:column;
+    }
+
+    nav{
+        justify-content:center;
+    }
+
+    nav a{
+        font-size:13px;
+    }
+
+    .hero{
+        min-height:65vh;
+    }
+
+    .receipt-row{
+        flex-direction:column;
+        gap:2px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+
+<header>
+<div class="navbar">
+
+<div class="logo">
+☪ KHADIMIN-E-AULIYA
+</div>
+
+<nav>
+<a href="#home">Home</a>
+<a href="#programs">Programs</a>
+<a href="#donation">Donation</a>
+<a href="#gallery">Gallery</a>
+<a href="#majlis">Majlis</a>
+<a href="#login">Login</a>
+<a href="#admin">Admin</a>
+</nav>
+
+</div>
+</header>
+
+
+<!-- ================= HOME ================= -->
+
+<div id="home" class="hero">
+
+<div>
+
+<div class="badge">
+KHIDMAT • IMDAD • TA'AWUN
+</div>
+
+<h1>KHADIMIN-E-AULIYA</h1>
+
+<p>
+A professional Islamic/Sufi-inspired platform for
+khidmat, donation, programs, gallery and community activities.
+</p>
+
+<a href="#donation" class="btn gold">
+Donate Now
+</a>
+
+<a href="#login" class="btn">
+Login / Signup
+</a>
+
+</div>
+
+</div>
+
+
+<!-- ================= ABOUT ================= -->
+
+<section>
+
+<h2>About Us</h2>
+
+<div class="card">
+
+<p>
+<b>KHADIMIN-E-AULIYA</b> ek khidmati platform hai jahan
+programs, Langar-e-Gausiya, Mazarat ki tameer,
+donation information, Rashid aur community activities
+ko professional tareeqe se manage kiya ja sakta hai.
+</p>
+
+</div>
+
+</section>
+
+
+<!-- ================= PROGRAMS ================= -->
+
+<section id="programs">
+
+<h2>Upcoming Programs</h2>
+
+<div class="grid" id="programList">
+
+<div class="card">
+<div class="icon">🕌</div>
+<h3>Milad Program</h3>
+<p>Place: Main Markaz</p>
+<p>Date: 12 Rabi-ul-Awwal</p>
+<p>Time: 8:00 PM</p>
+<button class="btn" onclick="shareText('Milad Program - KHADIMIN-E-AULIYA')">
+Share
+</button>
+</div>
+
+<div class="card">
+<div class="icon">🍲</div>
+<h3>Langar-e-Gausiya</h3>
+<p>Weekly Langar Program</p>
+<p>Time: After Maghrib</p>
+<button class="btn" onclick="shareText('Langar-e-Gausiya - KHADIMIN-E-AULIYA')">
+Share
+</button>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= DONATION ================= -->
+
+<section id="donation">
+
+<h2>Donation</h2>
+
+<div class="grid">
+
+<div class="card">
+
+<div class="icon">💚</div>
+
+<h3>Donation Purpose</h3>
+
+<p>
+Aap apni donation following purposes ke liye de sakte hain:
+</p>
+
+<ul>
+<li>All Purpose</li>
+<li>Langar-e-Gausiya</li>
+<li>Mazarat Ki Tameer</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h3>Bank Details</h3>
+
+<p>
+<b>Account Holder:</b> KHADIMIN-E-AULIYA
+</p>
+
+<p>
+<b>Bank:</b> Your Bank Name
+</p>
+
+<p>
+<b>Account Number:</b> XXXX XXXX XXXX
+</p>
+
+<p>
+<b>IFSC:</b> XXXXXXXX
+</p>
+
+<p>
+<b>UPI:</b> khadimin@upi
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h3>UPI QR</h3>
+
+<div style="text-align:center;font-size:100px;">
+▦
+</div>
+
+<p style="text-align:center;">
+Admin yahan actual QR Code upload karega.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= RASHID ================= -->
+
+<section>
+
+<h2>Donation Rashid</h2>
+
+<div class="form-box">
+
+<input id="donorName"
+placeholder="Donor Name">
+
+<input id="donorMobile"
+placeholder="Mobile Number">
+
+<input id="donorAddress"
+placeholder="Place / Address">
+
+<input id="donationAmount"
+type="number"
+placeholder="Donation Amount ₹">
+
+<select id="donationPurpose">
+
+<option>All Purpose</option>
+
+<option>Langar-e-Gausiya</option>
+
+<option>Mazarat Ki Tameer</option>
+
+</select>
+
+<input id="paymentDetails"
+placeholder="Payment Details">
+
+<button class="btn"
+onclick="createDemoRashid()">
+
+Create Demo Rashid
+
+</button>
+
+<p id="rashidMessage"></p>
+
+</div>
+
+
+<div id="rashidBox" class="hidden receipt">
+
+<h2>KHADIMIN-E-AULIYA</h2>
+
+<p style="text-align:center;">
+DONATION RASHID / RECEIPT
+</p>
+
+<div class="receipt-row">
+<b>Rashid Number</b>
+<span id="rNo"></span>
+</div>
+
+<div class="receipt-row">
+<b>Donor Name</b>
+<span id="rName"></span>
+</div>
+
+<div class="receipt-row">
+<b>Mobile</b>
+<span id="rMobile"></span>
+</div>
+
+<div class="receipt-row">
+<b>Place</b>
+<span id="rAddress"></span>
+</div>
+
+<div class="receipt-row">
+<b>Amount</b>
+<span id="rAmount"></span>
+</div>
+
+<div class="receipt-row">
+<b>Purpose</b>
+<span id="rPurpose"></span>
+</div>
+
+<div class="receipt-row">
+<b>Date</b>
+<span id="rDate"></span>
+</div>
+
+<div class="receipt-row">
+<b>Status</b>
+<span>CONFIRMED</span>
+</div>
+
+<br>
+
+<p>
+Authorized by: KHADIMIN-E-AULIYA
+</p>
+
+<button class="btn"
+onclick="window.print()">
+Download / Print
+</button>
+
+<button class="btn gold"
+onclick="shareReceipt()">
+Share
+</button>
+
+</div>
+
+</section>
+
+
+<!-- ================= RASHID VERIFICATION ================= -->
+
+<section>
+
+<h2>Rashid Verification</h2>
+
+<div class="form-box">
+
+<input
+id="verificationNumber"
+placeholder="Enter Rashid Number">
+
+<button
+class="btn"
+onclick="verifyDemoRashid()">
+
+Verify Rashid
+
+</button>
+
+<div id="verificationResult"></div>
+
+</div>
+
+</section>
+
+
+<!-- ================= PHOTO GALLERY ================= -->
+
+<section id="gallery">
+
+<h2>Photo Gallery</h2>
+
+<div class="grid">
+
+<div class="card">
+<div class="icon">📷</div>
+<h3>Programs</h3>
+<p>Program photographs</p>
+<button class="btn"
+onclick="alert('Photo viewer open')">
+View Photos
+</button>
+</div>
+
+<div class="card">
+<div class="icon">🍲</div>
+<h3>Langar</h3>
+<p>Langar photographs</p>
+<button class="btn"
+onclick="alert('Photo viewer open')">
+View Photos
+</button>
+</div>
+
+<div class="card">
+<div class="icon">🕌</div>
+<h3>Majlis</h3>
+<p>Majlis photographs</p>
+<button class="btn"
+onclick="alert('Photo viewer open')">
+View Photos
+</button>
+</div>
+
+<div class="card">
+<div class="icon">🌙</div>
+<h3>Mazarat</h3>
+<p>Mazarat related photographs</p>
+<button class="btn"
+onclick="alert('Photo viewer open')">
+View Photos
+</button>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= VIDEO ================= -->
+
+<section>
+
+<h2>Video Gallery</h2>
+
+<div class="grid">
+
+<div class="card">
+
+<div class="icon">▶️</div>
+
+<h3>Islamic Program</h3>
+
+<p>
+Video title and description will appear here.
+</p>
+
+<button class="btn"
+onclick="alert('Video player will open')">
+Watch Video
+</button>
+
+</div>
+
+<div class="card">
+
+<div class="icon">▶️</div>
+
+<h3>Langar Program</h3>
+
+<p>
+Video title and description will appear here.
+</p>
+
+<button class="btn"
+onclick="alert('Video player will open')">
+Watch Video
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= MAJLIS ================= -->
+
+<section id="majlis">
+
+<h2>MAJLIS KHADIMIN-E-AULIYA</h2>
+
+<div class="grid">
+
+<div class="card">
+
+<div class="icon">👤</div>
+
+<h3>Member Name</h3>
+
+<p>
+<b>Responsibility:</b>
+Member / Khadim
+</p>
+
+<p>
+<b>Place:</b>
+Your City
+</p>
+
+</div>
+
+<div class="card">
+
+<div class="icon">👤</div>
+
+<h3>Member Name</h3>
+
+<p>
+<b>Responsibility:</b>
+Coordinator
+</p>
+
+<p>
+<b>Place:</b>
+Your City
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= JOIN ================= -->
+
+<section>
+
+<h2>Join KHADIMIN-E-AULIYA</h2>
+
+<div class="form-box">
+
+<input
+id="joinName"
+placeholder="Your Name">
+
+<input
+id="joinMobile"
+placeholder="Mobile Number">
+
+<input
+id="joinCity"
+placeholder="Place / City">
+
+<button
+class="btn"
+onclick="joinPlatform()">
+
+Join Now
+
+</button>
+
+<div id="joinMessage"></div>
+
+</div>
+
+</section>
+
+
+<!-- ================= LOGIN ================= -->
+
+<section id="login">
+
+<h2>User Login / Signup</h2>
+
+<div class="form-box">
+
+<input
+id="loginEmail"
+type="email"
+placeholder="Email / Gmail">
+
+<input
+id="loginPassword"
+type="password"
+placeholder="Password">
+
+<button
+class="btn"
+onclick="demoLogin()">
+
+Login
+
+</button>
+
+<button
+class="btn gold"
+onclick="demoSignup()">
+
+Sign Up
+
+</button>
+
+<button
+class="btn"
+onclick="forgotPassword()">
+
+Forgot Password
+
+</button>
+
+<div id="loginMessage"></div>
+
+</div>
+
+</section>
+
+
+<!-- ================= ADMIN ================= -->
+
+<section id="admin">
+
+<h2>Secure Admin Panel</h2>
+
+<div class="form-box">
+
+<p>
+<b>Important:</b> Real Admin authorization must be
+performed on the backend server.
+</p>
+
+<input
+id="adminEmail"
+type="email"
+placeholder="Admin Email">
+
+<input
+id="adminPassword"
+type="password"
+placeholder="Admin Password">
+
+<button
+class="btn"
+onclick="adminLogin()">
+
+Admin Login
+
+</button>
+
+<div id="adminMessage"></div>
+
+</div>
+
+
+<div id="adminDashboard" class="hidden">
+
+<h2>Admin Dashboard</h2>
+
+<div class="grid">
+
+<div class="card">
+<h3>👥 Users</h3>
+<h2 id="userCount">0</h2>
+</div>
+
+<div class="card">
+<h3>🧾 Rashids</h3>
+<h2 id="rashidCount">0</h2>
+</div>
+
+<div class="card">
+<h3>💰 Donations</h3>
+<h2 id="donationCount">0</h2>
+</div>
+
+<div class="card">
+<h3>📷 Photos</h3>
+<h2 id="photoCount">0</h2>
+</div>
+
+</div>
+
+<br>
+
+<div class="card">
+
+<h3>Website Management</h3>
+
+<button class="btn"
+onclick="alert('Homepage editor')">
+Homepage
+</button>
+
+<button class="btn"
+onclick="alert('Programs manager')">
+Programs
+</button>
+
+<button class="btn"
+onclick="alert('Gallery manager')">
+Gallery
+</button>
+
+<button class="btn"
+onclick="alert('Members manager')">
+Majlis
+</button>
+
+<button class="btn"
+onclick="alert('Payment settings')">
+Bank / UPI / QR
+</button>
+
+<button class="btn"
+onclick="alert('User manager')">
+Users
+</button>
+
+<button class="btn red"
+onclick="adminLogout()">
+Logout
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= CONTACT ================= -->
+
+<section>
+
+<h2>Contact Us</h2>
+
+<div class="card">
+
+<p>
+<b>WhatsApp:</b> +91 XXXXXXXXXX
+</p>
+
+<p>
+<b>Email:</b> info@example.com
+</p>
+
+<p>
+<b>Address:</b> Your Address
+</p>
+
+<a
+class="btn"
+href="https://wa.me/91XXXXXXXXXX"
+target="_blank">
+
+WhatsApp
+
+</a>
+
+</div>
+
+</section>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+<h3>☪ KHADIMIN-E-AULIYA</h3>
+
+<p>
+Khidmat • Imdad • Ta'awun
+</p>
+
+<p>
+© <span id="year"></span> KHADIMIN-E-AULIYA
+</p>
+
+</footer>
+
+
+<script>
+
+/* ================= BASIC SECURITY ================= */
+
+"use strict";
+
+
+/* ================= YEAR ================= */
+
+document.getElementById("year").textContent =
+new Date().getFullYear();
+
+
+/* ================= DEMO USER LOGIN ================= */
+
+function demoLogin(){
+
+const email =
+document.getElementById("loginEmail").value.trim();
+
+const password =
+document.getElementById("loginPassword").value;
+
+const message =
+document.getElementById("loginMessage");
+
+if(!email || !password){
+
+message.innerHTML =
+"<div class='status error'>Email aur password required hai.</div>";
+
+return;
+
+}
+
+message.innerHTML =
+"<div class='status'>Demo login successful. Real website mein backend authentication required hai.</div>";
+
+}
+
+
+/* ================= DEMO SIGNUP ================= */
+
+function demoSignup(){
+
+const message =
+document.getElementById("loginMessage");
+
+message.innerHTML =
+"<div class='status'>Signup form received. Real account database backend par create hoga.</div>";
+
+}
+
+
+/* ================= FORGOT PASSWORD ================= */
+
+function forgotPassword(){
+
+alert(
+"Password reset ke liye real backend + email/OTP service required hai."
+);
+
+}
+
+
+/* ================= ADMIN LOGIN DEMO ================= */
+
+function adminLogin(){
+
+const email =
+document.getElementById("adminEmail").value.trim();
+
+const password =
+document.getElementById("adminPassword").value;
+
+const message =
+document.getElementById("adminMessage");
+
+if(!email || !password){
+
+message.innerHTML =
+"<div class='status error'>Admin email aur password required hai.</div>";
+
+return;
+
+}
+
+/*
+IMPORTANT:
+Real website mein Admin authorization
+JavaScript se nahi hogi.
+
+Backend server:
+- password hash check karega
+- role check karega
+- session create karega
+- Admin APIs protect karega
+*/
+
+message.innerHTML =
+"<div class='status'>Demo Admin login successful.</div>";
+
+document
+.getElementById("adminDashboard")
+.classList.remove("hidden");
+
+}
+
+
+/* ================= ADMIN LOGOUT ================= */
+
+function adminLogout(){
+
+document
+.getElementById("adminDashboard")
+.classList.add("hidden");
+
+document.getElementById("adminMessage").innerHTML =
+"<div class='status'>Admin logged out.</div>";
+
+}
+
+
+/* ================= RASHID ================= */
+
+function createDemoRashid(){
+
+const name =
+document.getElementById("donorName").value.trim();
+
+const mobile =
+document.getElementById("donorMobile").value.trim();
+
+const address =
+document.getElementById("donorAddress").value.trim();
+
+const amount =
+document.getElementById("donationAmount").value;
+
+const purpose =
+document.getElementById("donationPurpose").value;
+
+if(!name || !mobile || !amount){
+
+document.getElementById("rashidMessage").innerHTML =
+"<div class='status error'>Donor name, mobile aur amount required hai.</div>";
+
+return;
+
+}
+
+const receipt =
+"KA-" +
+new Date().getFullYear() +
+"-" +
+Math.random()
+.toString(36)
+.substring(2,8)
+.toUpperCase();
+
+document.getElementById("rNo").textContent = receipt;
+document.getElementById("rName").textContent = name;
+document.getElementById("rMobile").textContent = mobile;
+document.getElementById("rAddress").textContent = address || "-";
+document.getElementById("rAmount").textContent = "₹" + amount;
+document.getElementById("rPurpose").textContent = purpose;
+document.getElementById("rDate").textContent =
+new Date().toLocaleDateString("en-IN");
+
+document
+.getElementById("rashidBox")
+.classList.remove("hidden");
+
+document.getElementById("rashidMessage").innerHTML =
+"<div class='status'>Demo Rashid generated.</div>";
+
+}
+
+
+/* ================= RASHID SHARE ================= */
+
+async function shareReceipt(){
+
+const receipt =
+document.getElementById("rNo").textContent;
+
+const text =
+"KHADIMIN-E-AULIYA Donation Rashid\n" +
+"Rashid Number: " + receipt;
+
+if(navigator.share){
+
+try{
+
+await navigator.share({
+title:"KHADIMIN-E-AULIYA Rashid",
+text:text
+});
+
+}catch(e){}
+
+}else{
+
+navigator.clipboard.writeText(text);
+
+alert("Rashid information copied.");
+
+}
+
+}
+
+
+/* ================= RASHID VERIFICATION ================= */
+
+function verifyDemoRashid(){
+
+const number =
+document
+.getElementById("verificationNumber")
+.value
+.trim();
+
+const result =
+document.getElementById("verificationResult");
+
+if(!number){
+
+result.innerHTML =
+"<div class='status error'>Rashid number enter karein.</div>";
+
+return;
+
+}
+
+result.innerHTML =
+"<div class='status'>" +
+"Demo verification: Rashid number " +
+number +
+" system mein receive hua." +
+"<br><small>Real verification database se server-side hogi.</small>" +
+"</div>";
+
+}
+
+
+/* ================= JOIN ================= */
+
+function joinPlatform(){
+
+const name =
+document.getElementById("joinName").value.trim();
+
+const mobile =
+document.getElementById("joinMobile").value.trim();
+
+const city =
+document.getElementById("joinCity").value.trim();
+
+const message =
+document.getElementById("joinMessage");
+
+if(!name || !mobile || !city){
+
+message.innerHTML =
+"<div class='status error'>Sabhi details bharna zaroori hai.</div>";
+
+return;
+
+}
+
+message.innerHTML =
+"<div class='status'>" +
+"JazakAllah! Aapki joining request receive ho gayi." +
+"</div>";
+
+}
+
+
+/* ================= SHARE ================= */
+
+async function shareText(text){
+
+if(navigator.share){
+
+try{
+
+await navigator.share({
+title:"KHADIMIN-E-AULIYA",
+text:text
+});
+
+}catch(e){}
+
+}else{
+
+navigator.clipboard.writeText(text);
+
+alert("Text copied.");
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
