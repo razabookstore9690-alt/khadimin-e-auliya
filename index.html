@@ -1,0 +1,3014 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Security Headers Simulation via Meta Tags -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <title>KHADIMIN-E-AULIYA | Modern & Secure Platform</title>
+    
+    <!-- External Libraries: Tailwind CSS, FontAwesome Icons, HTML2Canvas, jsPDF -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <!-- Tailwind Configuration for Custom Islamic Emerald/Gold Theme -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        emerald: {
+                            800: '#065F46',
+                            900: '#064E3B',
+                            950: '#022C22',
+                        },
+                        amber: {
+                            400: '#FBBF24',
+                            500: '#F59E0B',
+                            600: '#D97706',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles & Watermark Setup */
+        .bg-islamic-pattern {
+            background-color: #022c22;
+            background-image: radial-gradient(#d97706 0.75px, transparent 0.75px), radial-gradient(#d97706 0.75px, #022c22 0.75px);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px;
+            background-opacity: 0.05;
+        }
+        .rashid-watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-30deg);
+            font-size: 4rem;
+            color: rgba(6, 95, 70, 0.08);
+            pointer-events: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased min-h-screen flex flex-col justify-between">
+
+    <!-- ================= NAVBAR SECTION ================= -->
+    <header class="sticky top-0 z-50 bg-emerald-950 text-white shadow-xl border-b-2 border-amber-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Branding -->
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="navigateTo('home')">
+                    <div class="w-12 h-12 bg-amber-500 rounded-full flex items-center justify-center text-emerald-950 font-bold text-2xl border-2 border-white shadow-inner">
+                        <i class="fa-solid font-serif">K</i>
+                    </div>
+                    <div>
+                        <span class="font-extrabold text-xl tracking-wider text-amber-400 block uppercase">Khadimin-E-Auliya</span>
+                        <span class="text-xs text-gray-300 block tracking-widest">SERVICE TO HUMANITY & FAITH</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden md:flex space-x-6 font-medium text-sm">
+                    <button onclick="navigateTo('home')" class="hover:text-amber-400 transition-colors">Home</button>
+                    <button onclick="navigateTo('programs')" class="hover:text-amber-400 transition-colors">Programs</button>
+                    <button onclick="navigateTo('donation')" class="hover:text-amber-400 transition-colors">Bank / UPI</button>
+                    <button onclick="navigateTo('gallery')" class="hover:text-amber-400 transition-colors">Gallery</button>
+                    <button onclick="navigateTo('majlis')" class="hover:text-amber-400 transition-colors">Majlis</button>
+                    <button onclick="navigateTo('verify')" class="hover:text-amber-400 transition-colors">Verify Rashid</button>
+                </nav>
+
+                <!-- Auth Buttons Container -->
+                <div class="hidden md:flex items-center space-x-3" id="authNavButtons">
+                    <!-- Dynamic rendering based on login session -->
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobileMenuBtn" onclick="toggleMobileMenu()" class="text-amber-400 hover:text-white focus:outline-none text-2xl">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-emerald-900 border-t border-emerald-800 px-4 pt-2 pb-4 space-y-2">
+            <button onclick="navigateTo('home')" class="block w-full text-left py-2 px-3 rounded hover:bg-emerald-800">Home</button>
+            <button onclick="navigateTo('programs')" class="block w-full text-left py-2 px-3 rounded hover:bg-emerald-800">Programs</button>
+            <button onclick="navigateTo('donation')" class="block w-full text-left py-2 px-3 rounded hover:bg-emerald-800">Bank / UPI Details</button>
+            <button onclick="navigateTo('gallery')" class="block w-full text-left py-2 px-3 rounded hover:bg-emerald-800">Gallery</button>
+            <button onclick="navigateTo('majlis')" class="block w-full text-left py-2 px-3 rounded hover:bg-emerald-800">Majlis</button>
+            <button onclick="navigateTo('verify')" class="block w-full text-left py-2 px-3 rounded hover:bg-emerald-800">Verify Rashid</button>
+            <div id="mobileAuthButtons" class="pt-2 border-t border-emerald-800"></div>
+        </div>
+    </header>
+
+    <!-- Global Toast Alert Container -->
+    <div id="toastContainer" class="fixed top-24 right-5 z-50 space-y-2"></div>
+
+    <!-- ================= MAIN CONTENT WRAPPER ================= -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- 1. HOME VIEW -->
+        <section id="view-home" class="space-y-12">
+            <!-- Hero Banner -->
+            <div class="relative bg-emerald-900 text-white rounded-3xl overflow-hidden shadow-2xl border border-amber-500/30">
+                <div class="absolute inset-0 bg-islamic-pattern opacity-20"></div>
+                <div class="relative z-10 px-8 py-16 sm:px-16 text-center space-y-6 max-w-4xl mx-auto">
+                    <div class="inline-block px-4 py-1 bg-amber-500/20 text-amber-400 rounded-full border border-amber-500/40 text-sm font-semibold tracking-wide">
+                        Bismillah-ir-Rahman-ir-Rahim
+                    </div>
+                    <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-white leading-tight">
+                        KHADIMIN-E-AULIYA
+                    </h1>
+                    <p id="homeNotice" class="text-lg sm:text-xl text-emerald-100 font-light">
+                        Welcome to the official platform for welfare, mazarat maintenance, langar distribution, and community service.
+                    </p>
+                    <div class="flex flex-wrap justify-center gap-4 pt-4">
+                        <button onclick="navigateTo('donation')" class="bg-amber-500 hover:bg-amber-600 text-emerald-950 font-bold px-8 py-3 rounded-xl shadow-lg transition-transform transform hover:-translate-y-0.5">
+                            <i class="fa-solid fa-heart mr-2"></i> Donate Now
+                        </button>
+                        <button onclick="navigateTo('programs')" class="bg-emerald-800 hover:bg-emerald-700 text-white font-semibold px-8 py-3 rounded-xl border border-emerald-600 shadow-lg transition-transform transform hover:-translate-y-0.5">
+                            <i class="fa-solid fa-calendar-check mr-2"></i> Upcoming Programs
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Announcements / Notices Card -->
+            <div class="bg-amber-50 border-l-4 border-amber-500 p-6 rounded-r-xl shadow-md">
+                <div class="flex items-center space-x-3 text-amber-800 font-bold text-lg mb-2">
+                    <i class="fa-solid fa-bullhorn text-amber-600"></i>
+                    <span>Important Announcement</span>
+                </div>
+                <p id="announcementText" class="text-gray-700">
+                    Join us for the upcoming Annual Langar-e-Gausiya. Your contributions bring peace and comfort to thousands. Generate your official digital Rashid instantly.
+                </p>
+            </div>
+
+            <!-- Dynamic Quick Glance Sections -->
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-2xl shadow-md border border-gray-100 text-center space-y-3">
+                    <div class="w-14 h-14 bg-emerald-100 text-emerald-800 rounded-2xl flex items-center justify-center mx-auto text-2xl">
+                        <i class="fa-solid fa-hand-holding-dollar"></i>
+                    </div>
+                    <h3 class="font-bold text-xl text-gray-800">Transparent Rashids</h3>
+                    <p class="text-sm text-gray-600">Every donation is registered securely. Instantly download or share your verified digital donation receipts.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-md border border-gray-100 text-center space-y-3">
+                    <div class="w-14 h-14 bg-emerald-100 text-emerald-800 rounded-2xl flex items-center justify-center mx-auto text-2xl">
+                        <i class="fa-solid fa-utensils"></i>
+                    </div>
+                    <h3 class="font-bold text-xl text-gray-800">Langar & Mazarat</h3>
+                    <p class="text-sm text-gray-600">Dedicated management for Langar-e-Gausiya and maintenance of holy shrines under strict supervision.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-md border border-gray-100 text-center space-y-3">
+                    <div class="w-14 h-14 bg-emerald-100 text-emerald-800 rounded-2xl flex items-center justify-center mx-auto text-2xl">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <h3 class="font-bold text-xl text-gray-800">Majlis Community</h3>
+                    <p class="text-sm text-gray-600">Dedicated khadims and committee members working round-the-clock for social and spiritual welfare.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. LOGIN / SIGNUP / AUTH VIEW -->
+        <section id="view-auth" class="hidden max-w-md mx-auto">
+            <div class="bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden">
+                <div class="bg-emerald-950 p-6 text-center text-white">
+                    <h2 id="authTitle" class="text-2xl font-bold text-amber-400">Account Access</h2>
+                    <p class="text-xs text-gray-300 mt-1">KHADIMIN-E-AULIYA Platform Portal</p>
+                </div>
+
+                <!-- Auth Selector Tabs -->
+                <div class="flex border-b border-gray-200 bg-gray-50">
+                    <button id="tabLoginBtn" onclick="switchAuthTab('login')" class="flex-1 py-3 font-semibold text-center text-emerald-800 border-b-2 border-emerald-800 bg-white">Login</button>
+                    <button id="tabSignupBtn" onclick="switchAuthTab('signup')" class="flex-1 py-3 font-semibold text-center text-gray-500 border-b-2 border-transparent">Sign Up</button>
+                </div>
+
+                <div class="p-6">
+                    <!-- LOGIN FORM -->
+                    <form id="formLogin" onsubmit="handleLogin(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Login Method</label>
+                            <select id="loginType" onchange="toggleLoginType()" class="w-full border border-gray-300 p-2.5 rounded-xl focus:ring-2 focus:ring-emerald-800 focus:outline-none">
+                                <option value="email">Email / Password</option>
+                                <option value="otp">Mobile Number + OTP</option>
+                                <option value="admin">Admin Console Access</option>
+                            </select>
+                        </div>
+
+                        <div id="loginEmailGroup">
+                            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Email Address</label>
+                            <input type="email" id="loginEmail" class="w-full border border-gray-300 p-2.5 rounded-xl focus:ring-2 focus:ring-emerald-800 focus:outline-none" placeholder="name@example.com">
+                        </div>
+
+                        <div id="loginPhoneGroup" class="hidden">
+                            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Mobile Number</label>
+                            <div class="flex gap-2">
+                                <input type="tel" id="loginPhone" class="w-full border border-gray-300 p-2.5 rounded-xl focus:ring-2 focus:ring-emerald-800 focus:outline-none" placeholder="10 Digit Mobile No">
+                                <button type="button" onclick="sendOTP()" class="bg-gray-200 hover:bg-gray-300 px-3 py-2 rounded-xl text-xs font-bold whitespace-nowrap">Send OTP</button>
+                            </div>
+                        </div>
+
+                        <div id="loginPassGroup">
+                            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Password</label>
+                            <input type="password" id="loginPassword" class="w-full border border-gray-300 p-2.5 rounded-xl focus:ring-2 focus:ring-emerald-800 focus:outline-none" placeholder="••••••••">
+                        </div>
+
+                        <div id="loginOTPGroup" class="hidden">
+                            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Enter 6-Digit OTP</label>
+                            <input type="text" id="loginOTP" class="w-full border border-gray-300 p-2.5 rounded-xl focus:ring-2 focus:ring-emerald-800 focus:outline-none" placeholder="123456">
+                            <p class="text-xs text-emerald-600 mt-1">* Test OTP is <span class="font-bold">123456</span></p>
+                        </div>
+
+                        <button type="submit" class="w-full bg-emerald-800 hover:bg-emerald-900 text-white font-bold py-3 rounded-xl shadow-md transition-all">
+                            Secure Log In
+                        </button>
+                    </form>
+
+                    <!-- SIGNUP FORM -->
+                    <form id="formSignup" onsubmit="handleSignup(event)" class="space-y-4 hidden">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Full Name</label>
+                            <input type="text" id="signupName" required class="w-full border border-gray-300 p-2.5 rounded-xl focus:ring-2 focus:ring-emerald-800 focus:outline-none" placeholder="Your Name">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Mobile Number</label>
+                            <input type="tel" id="signupPhone" required class="w-full border border-gray-300 p-2.5 rounded-xl focus:ring-2 focus:ring-emerald-800 focus:outline-none" placeholder="10 Digit Mobile Number">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">City / Place</label>
+                            <input type="text" id="signupCity" required class="w-full border border-gray-300 p-2.5 rounded-xl focus:ring-2 focus:ring-emerald-800 focus:outline-none" placeholder="City Name">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Email Address</label>
+                            <input type="email" id="signupEmail" required class="w-full border border-gray-300 p-2.5 rounded-xl focus:ring-2 focus:ring-emerald-800 focus:outline-none" placeholder="name@example.com">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Password</label>
+                            <input type="password" id="signupPassword" required class="w-full border border-gray-300 p-2.5 rounded-xl focus:ring-2 focus:ring-emerald-800 focus:outline-none" placeholder="Minimum 6 characters">
+                        </div>
+                        <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-emerald-950 font-bold py-3 rounded-xl shadow-md transition-all">
+                            Create Account
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. USER PROFILE VIEW -->
+        <section id="view-profile" class="hidden max-w-2xl mx-auto space-y-6">
+            <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
+                <div class="bg-emerald-950 px-8 py-10 text-center text-white relative">
+                    <div class="w-24 h-24 bg-amber-500 text-emerald-950 font-bold text-4xl rounded-full flex items-center justify-center border-4 border-white shadow-lg mx-auto" id="profileAvatar">
+                        U
+                    </div>
+                    <h2 class="text-2xl font-bold mt-4" id="profileNameDisplay">User Name</h2>
+                    <span id="profileRoleBadge" class="inline-block bg-amber-500/20 text-amber-300 text-xs px-3 py-1 rounded-full border border-amber-500/30 mt-2 font-semibold">User Role</span>
+                </div>
+                <div class="p-8 space-y-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="bg-gray-50 p-4 rounded-xl">
+                            <span class="text-xs text-gray-500 font-bold uppercase block">Mobile Number</span>
+                            <span class="font-semibold text-gray-800" id="profilePhoneDisplay">-</span>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-xl">
+                            <span class="text-xs text-gray-500 font-bold uppercase block">Email Address</span>
+                            <span class="font-semibold text-gray-800" id="profileEmailDisplay">-</span>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-xl">
+                        <span class="text-xs text-gray-500 font-bold uppercase block">Location / City</span>
+                        <span class="font-semibold text-gray-800" id="profileCityDisplay">-</span>
+                    </div>
+                    <div class="pt-4 flex justify-between items-center">
+                        <button onclick="handleLogout()" class="bg-red-600 hover:bg-red-700 text-white font-bold px-6 py-2.5 rounded-xl text-sm shadow-md">
+                            <i class="fa-solid fa-arrow-right-from-bracket mr-2"></i> Log Out
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. BANK DETAILS / UPI / QR CODE VIEW -->
+        <section id="view-donation" class="hidden space-y-8">
+            <div class="text-center max-w-2xl mx-auto space-y-2">
+                <h2 class="text-3xl font-extrabold text-emerald-950">Donation & Account Details</h2>
+                <p class="text-gray-600">Contribute directly via Bank Transfer or UPI. All contributions support Langar and Mazarat maintenance.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <!-- Bank Info Card -->
+                <div class="bg-white p-8 rounded-3xl shadow-xl border border-gray-100 space-y-4">
+                    <div class="flex items-center space-x-3 border-b border-gray-100 pb-4">
+                        <i class="fa-solid fa-building-columns text-emerald-800 text-2xl"></i>
+                        <h3 class="font-bold text-xl text-gray-800">Bank Transfer</h3>
+                    </div>
+                    <div class="space-y-3 text-sm">
+                        <div>
+                            <span class="text-xs font-bold text-gray-400 uppercase block">Account Holder</span>
+                            <span class="font-bold text-gray-800 text-base" id="bankHolder">Khadimin E Auliya Trust</span>
+                        </div>
+                        <div>
+                            <span class="text-xs font-bold text-gray-400 uppercase block">Bank Name</span>
+                            <span class="font-semibold text-gray-800" id="bankName">State Bank of India</span>
+                        </div>
+                        <div>
+                            <span class="text-xs font-bold text-gray-400 uppercase block">Account Number</span>
+                            <span class="font-mono font-bold text-emerald-900 text-lg tracking-wider" id="bankAcc">398201928301</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <span class="text-xs font-bold text-gray-400 uppercase block">IFSC Code</span>
+                                <span class="font-mono font-bold text-gray-800" id="bankIfsc">SBIN0001234</span>
+                            </div>
+                            <div>
+                                <span class="text-xs font-bold text-gray-400 uppercase block">Branch</span>
+                                <span class="font-semibold text-gray-800" id="bankBranch">Main Branch</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- UPI & QR Code Card -->
+                <div class="bg-white p-8 rounded-3xl shadow-xl border border-gray-100 text-center space-y-4">
+                    <div class="flex items-center justify-center space-x-3 border-b border-gray-100 pb-4">
+                        <i class="fa-solid fa-qrcode text-emerald-800 text-2xl"></i>
+                        <h3 class="font-bold text-xl text-gray-800">Scan & Pay via UPI</h3>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-2xl inline-block border border-gray-200">
+                        <img id="displayQrCode" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=khadimin@upi&pn=KhadiminEAuliya" alt="UPI QR Code" class="w-48 h-48 mx-auto rounded-lg">
+                    </div>
+                    <div>
+                        <span class="text-xs font-bold text-gray-400 uppercase block">UPI ID</span>
+                        <span class="font-mono font-bold text-emerald-900 text-lg" id="upiId">khadimin@upi</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. PROGRAMS SECTION VIEW -->
+        <section id="view-programs" class="hidden space-y-8">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h2 class="text-3xl font-extrabold text-emerald-950">Upcoming Programs</h2>
+                    <p class="text-gray-600 text-sm">Religious, cultural, and community gatherings</p>
+                </div>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="programsGrid">
+                <!-- Dynamically Populated -->
+            </div>
+        </section>
+
+        <!-- 6. PHOTO & VIDEO GALLERY VIEW -->
+        <section id="view-gallery" class="hidden space-y-8">
+            <div>
+                <h2 class="text-3xl font-extrabold text-emerald-950">Media Gallery</h2>
+                <p class="text-gray-600 text-sm">Photos and Video highlights of various programs and Langar distributions</p>
+            </div>
+
+            <!-- Gallery Controls/Tabs -->
+            <div class="flex space-x-4 border-b border-gray-200">
+                <button onclick="switchGalleryTab('photos')" id="tabPhotosBtn" class="pb-3 border-b-2 border-emerald-800 font-bold text-emerald-900">Photo Gallery</button>
+                <button onclick="switchGalleryTab('videos')" id="tabVideosBtn" class="pb-3 border-b-2 border-transparent text-gray-500 font-bold">Video Gallery</button>
+            </div>
+
+            <!-- Photos Container -->
+            <div id="galleryPhotos" class="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+                <!-- Dynamic Content -->
+            </div>
+
+            <!-- Videos Container -->
+            <div id="galleryVideos" class="grid sm:grid-cols-2 md:grid-cols-3 gap-6 hidden">
+                <!-- Dynamic Content -->
+            </div>
+        </section>
+
+        <!-- 7. MAJLIS KHADIMIN-E-AULIYA VIEW -->
+        <section id="view-majlis" class="hidden space-y-8">
+            <div class="text-center max-w-2xl mx-auto">
+                <h2 class="text-3xl font-extrabold text-emerald-950">Majlis Khadimin-E-Auliya</h2>
+                <p class="text-gray-600 text-sm mt-1">Honorable committee members and dedicated khadims</p>
+            </div>
+            <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="majlisGrid">
+                <!-- Dynamic Content -->
+            </div>
+        </section>
+
+        <!-- 8. RASHID VERIFICATION VIEW -->
+        <section id="view-verify" class="hidden max-w-lg mx-auto space-y-6">
+            <div class="bg-white p-8 rounded-3xl shadow-xl border border-gray-100 text-center space-y-4">
+                <div class="w-16 h-16 bg-emerald-100 text-emerald-800 rounded-full flex items-center justify-center mx-auto text-2xl">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-800">Verify Donation Rashid</h2>
+                <p class="text-xs text-gray-500">Enter the unique Rashid Number/Receipt ID to verify authenticity.</p>
+                <div class="flex gap-2">
+                    <input type="text" id="verifyInput" placeholder="e.g. KEA-2026-101" class="w-full border border-gray-300 p-3 rounded-xl uppercase font-mono focus:ring-2 focus:ring-emerald-800 focus:outline-none">
+                    <button onclick="verifyRashid()" class="bg-emerald-800 hover:bg-emerald-900 text-white px-6 py-3 rounded-xl font-bold whitespace-nowrap">Verify</button>
+                </div>
+            </div>
+            <div id="verificationResult" class="hidden"></div>
+        </section>
+
+        <!-- 9. COMPLETE ADMIN DASHBOARD PANEL VIEW -->
+        <section id="view-admin" class="hidden space-y-8">
+            <div class="bg-emerald-950 text-white p-6 rounded-3xl shadow-xl flex flex-wrap justify-between items-center gap-4">
+                <div>
+                    <h2 class="text-2xl font-extrabold text-amber-400">Admin Control Panel</h2>
+                    <p class="text-xs text-emerald-200">System Management & Content Control</p>
+                </div>
+                <div class="flex space-x-2">
+                    <span class="bg-emerald-800 text-emerald-100 text-xs px-3 py-1.5 rounded-lg border border-emerald-700 font-mono"><i class="fa-solid fa-user-shield text-amber-400 mr-1"></i> RBAC Active</span>
+                </div>
+            </div>
+
+            <!-- Admin Sub-Navigation Menu -->
+            <div class="flex overflow-x-auto space-x-2 border-b border-gray-200 pb-2 scrollbar-none">
+                <button onclick="switchAdminTab('rashid')" id="adminTab-rashid" class="px-4 py-2 rounded-xl font-semibold text-sm whitespace-nowrap bg-emerald-800 text-white">Rashid Manager</button>
+                <button onclick="switchAdminTab('donors')" id="adminTab-donors" class="px-4 py-2 rounded-xl font-semibold text-sm whitespace-nowrap bg-gray-200 text-gray-700">Donor Directory</button>
+                <button onclick="switchAdminTab('users')" id="adminTab-users" class="px-4 py-2 rounded-xl font-semibold text-sm whitespace-nowrap bg-gray-200 text-gray-700">Registered Users</button>
+                <button onclick="switchAdminTab('programs')" id="adminTab-programs" class="px-4 py-2 rounded-xl font-semibold text-sm whitespace-nowrap bg-gray-200 text-gray-700">Programs</button>
+                <button onclick="switchAdminTab('gallery')" id="adminTab-gallery" class="px-4 py-2 rounded-xl font-semibold text-sm whitespace-nowrap bg-gray-200 text-gray-700">Gallery</button>
+                <button onclick="switchAdminTab('majlis')" id="adminTab-majlis" class="px-4 py-2 rounded-xl font-semibold text-sm whitespace-nowrap bg-gray-200 text-gray-700">Majlis</button>
+                <button onclick="switchAdminTab('settings')" id="adminTab-settings" class="px-4 py-2 rounded-xl font-semibold text-sm whitespace-nowrap bg-gray-200 text-gray-700">Bank/Settings</button>
+                <button onclick="switchAdminTab('logs')" id="adminTab-logs" class="px-4 py-2 rounded-xl font-semibold text-sm whitespace-nowrap bg-gray-200 text-gray-700">Audit Logs</button>
+            </div>
+
+            <!-- ADMIN SUB-TAB 1: RASHID / DONATION RECEIPT CREATION -->
+            <div id="adminPanel-rashid" class="space-y-6">
+                <div class="bg-white p-6 rounded-3xl shadow-lg border border-gray-100">
+                    <h3 class="text-lg font-bold text-emerald-950 mb-4 border-b pb-2">Generate / Issue New Donation Rashid</h3>
+                    <form onsubmit="handleCreateRashid(event)" class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Donor Full Name *</label>
+                            <input type="text" id="rName" required class="w-full border border-gray-300 p-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-800">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Donor Mobile Number *</label>
+                            <input type="tel" id="rPhone" required class="w-full border border-gray-300 p-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-800">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">City / Place Address *</label>
+                            <input type="text" id="rPlace" required class="w-full border border-gray-300 p-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-800">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Donation Amount (₹) *</label>
+                            <input type="number" id="rAmount" min="1" required class="w-full border border-gray-300 p-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-800">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Donation Purpose *</label>
+                            <select id="rPurpose" class="w-full border border-gray-300 p-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-800">
+                                <option value="All Purpose">All Purpose</option>
+                                <option value="Langar-e-Gausiya">Langar-e-Gausiya</option>
+                                <option value="Mazarat Ki Tameer">Mazarat Ki Tameer</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Payment Mode / Ref</label>
+                            <input type="text" id="rPayment" placeholder="e.g. UPI / Cash / NetBanking" class="w-full border border-gray-300 p-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-800">
+                        </div>
+                        <div class="md:col-span-2 pt-2">
+                            <button type="submit" class="bg-emerald-800 hover:bg-emerald-900 text-white font-bold px-6 py-3 rounded-xl text-sm shadow-md">
+                                <i class="fa-solid fa-file-invoice-dollar mr-2"></i> Issue & Confirm Rashid
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Issued Rashid List Table -->
+                <div class="bg-white rounded-3xl shadow-lg border border-gray-100 overflow-hidden">
+                    <div class="p-4 bg-gray-50 border-b flex justify-between items-center">
+                        <h4 class="font-bold text-gray-800">Issued Rashid History</h4>
+                        <input type="text" id="searchRashid" onkeyup="filterRashids()" placeholder="Search Rashid ID / Donor..." class="text-xs border border-gray-300 p-2 rounded-lg w-48">
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs text-gray-600">
+                            <thead class="bg-emerald-950 text-white uppercase font-semibold">
+                                <tr>
+                                    <th class="p-3">Rashid ID</th>
+                                    <th class="p-3">Donor</th>
+                                    <th class="p-3">Mobile</th>
+                                    <th class="p-3">Amount</th>
+                                    <th class="p-3">Purpose</th>
+                                    <th class="p-3">Date</th>
+                                    <th class="p-3">Status</th>
+                                    <th class="p-3 text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="rashidTableBody" class="divide-y divide-gray-100">
+                                <!-- Dynamic Rows -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ADMIN SUB-TAB 2: DONOR DIRECTORY -->
+            <div id="adminPanel-donors" class="hidden space-y-6">
+                <div class="bg-white rounded-3xl shadow-lg border border-gray-100 overflow-hidden">
+                    <div class="p-4 bg-gray-50 border-b flex justify-between items-center">
+                        <h4 class="font-bold text-gray-800">Donor Summary Directory</h4>
+                        <input type="text" id="searchDonor" onkeyup="filterDonors()" placeholder="Search Donor Name / Phone..." class="text-xs border border-gray-300 p-2 rounded-lg w-48">
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs text-gray-600">
+                            <thead class="bg-emerald-950 text-white uppercase font-semibold">
+                                <tr>
+                                    <th class="p-3">Donor Name</th>
+                                    <th class="p-3">Mobile</th>
+                                    <th class="p-3">Total Rashids</th>
+                                    <th class="p-3">Total Contribution</th>
+                                    <th class="p-3 text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="donorTableBody" class="divide-y divide-gray-100">
+                                <!-- Dynamic Rows -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ADMIN SUB-TAB 3: REGISTERED USERS -->
+            <div id="adminPanel-users" class="hidden space-y-6">
+                <div class="bg-white rounded-3xl shadow-lg border border-gray-100 overflow-hidden">
+                    <div class="p-4 bg-gray-50 border-b">
+                        <h4 class="font-bold text-gray-800">Registered Website Users</h4>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs text-gray-600">
+                            <thead class="bg-emerald-950 text-white uppercase font-semibold">
+                                <tr>
+                                    <th class="p-3">ID</th>
+                                    <th class="p-3">Name</th>
+                                    <th class="p-3">Mobile</th>
+                                    <th class="p-3">Email</th>
+                                    <th class="p-3">City</th>
+                                    <th class="p-3">Reg Date</th>
+                                    <th class="p-3">Role</th>
+                                </tr>
+                            </thead>
+                            <tbody id="usersTableBody" class="divide-y divide-gray-100">
+                                <!-- Dynamic Rows -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ADMIN SUB-TAB 4: PROGRAM MANAGEMENT -->
+            <div id="adminPanel-programs" class="hidden space-y-6">
+                <div class="bg-white p-6 rounded-3xl shadow-lg border border-gray-100">
+                    <h3 class="text-lg font-bold text-emerald-950 mb-4 border-b pb-2">Add New Program / Event</h3>
+                    <form onsubmit="handleCreateProgram(event)" class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Program Name *</label>
+                            <input type="text" id="pName" required class="w-full border border-gray-300 p-2.5 rounded-xl text-sm focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Location / Venue *</label>
+                            <input type="text" id="pPlace" required class="w-full border border-gray-300 p-2.5 rounded-xl text-sm focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Date & Time *</label>
+                            <input type="text" id="pDate" placeholder="e.g. 12th Oct 2026, 8:00 PM" required class="w-full border border-gray-300 p-2.5 rounded-xl text-sm focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Poster Image URL</label>
+                            <input type="url" id="pImg" placeholder="https://example.com/poster.jpg" class="w-full border border-gray-300 p-2.5 rounded-xl text-sm focus:outline-none">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Description *</label>
+                            <textarea id="pDesc" rows="2" required class="w-full border border-gray-300 p-2.5 rounded-xl text-sm focus:outline-none"></textarea>
+                        </div>
+                        <div class="md:col-span-2">
+                            <button type="submit" class="bg-emerald-800 hover:bg-emerald-900 text-white font-bold px-6 py-2.5 rounded-xl text-sm shadow-md">
+                                Save Program
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- ADMIN SUB-TAB 5: GALLERY MANAGEMENT -->
+            <div id="adminPanel-gallery" class="hidden space-y-6">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Add Photo Form -->
+                    <div class="bg-white p-6 rounded-3xl shadow-lg border border-gray-100">
+                        <h3 class="text-lg font-bold text-emerald-950 mb-4 border-b pb-2">Upload Photo Record</h3>
+                        <form onsubmit="handleUploadPhoto(event)" class="space-y-3">
+                            <div>
+                                <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Title</label>
+                                <input type="text" id="gPhotoTitle" required class="w-full border border-gray-300 p-2.5 rounded-xl text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Category</label>
+                                <select id="gPhotoCat" class="w-full border border-gray-300 p-2.5 rounded-xl text-sm">
+                                    <option value="Programs">Programs</option>
+                                    <option value="Langar">Langar</option>
+                                    <option value="Majlis">Majlis</option>
+                                    <option value="Mazarat">Mazarat</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Image URL</label>
+                                <input type="url" id="gPhotoUrl" required placeholder="https://..." class="w-full border border-gray-300 p-2.5 rounded-xl text-sm">
+                            </div>
+                            <button type="submit" class="bg-emerald-800 hover:bg-emerald-900 text-white font-bold px-4 py-2 rounded-xl text-sm">Add Photo</button>
+                        </form>
+                    </div>
+
+                    <!-- Add Video Form -->
+                    <div class="bg-white p-6 rounded-3xl shadow-lg border border-gray-100">
+                        <h3 class="text-lg font-bold text-emerald-950 mb-4 border-b pb-2">Add Video Link</h3>
+                        <form onsubmit="handleAddVideo(event)" class="space-y-3">
+                            <div>
+                                <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Video Title</label>
+                                <input type="text" id="gVideoTitle" required class="w-full border border-gray-300 p-2.5 rounded-xl text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-gray-700 uppercase mb-1">YouTube Embed / Video URL</label>
+                                <input type="url" id="gVideoUrl" required placeholder="https://www.youtube.com/embed/..." class="w-full border border-gray-300 p-2.5 rounded-xl text-sm">
+                            </div>
+                            <button type="submit" class="bg-emerald-800 hover:bg-emerald-900 text-white font-bold px-4 py-2 rounded-xl text-sm">Add Video</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ADMIN SUB-TAB 6: MAJLIS MEMBERS -->
+            <div id="adminPanel-majlis" class="hidden space-y-6">
+                <div class="bg-white p-6 rounded-3xl shadow-lg border border-gray-100">
+                    <h3 class="text-lg font-bold text-emerald-950 mb-4 border-b pb-2">Add Majlis Member</h3>
+                    <form onsubmit="handleAddMajlis(event)" class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Member Name *</label>
+                            <input type="text" id="mName" required class="w-full border border-gray-300 p-2.5 rounded-xl text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Responsibility / Jimmedari *</label>
+                            <input type="text" id="mRole" required placeholder="e.g. Secretary, Khadim" class="w-full border border-gray-300 p-2.5 rounded-xl text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Mobile Number</label>
+                            <input type="tel" id="mPhone" class="w-full border border-gray-300 p-2.5 rounded-xl text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Photo URL</label>
+                            <input type="url" id="mPhoto" placeholder="https://..." class="w-full border border-gray-300 p-2.5 rounded-xl text-sm">
+                        </div>
+                        <div class="md:col-span-2">
+                            <button type="submit" class="bg-emerald-800 hover:bg-emerald-900 text-white font-bold px-6 py-2 rounded-xl text-sm">Add Member</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- ADMIN SUB-TAB 7: BANK & SYSTEM SETTINGS -->
+            <div id="adminPanel-settings" class="hidden space-y-6">
+                <div class="bg-white p-6 rounded-3xl shadow-lg border border-gray-100">
+                    <h3 class="text-lg font-bold text-emerald-950 mb-4 border-b pb-2">Update Bank & UPI Details</h3>
+                    <form onsubmit="handleUpdateBank(event)" class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Account Holder Name</label>
+                            <input type="text" id="setBankHolder" class="w-full border border-gray-300 p-2.5 rounded-xl text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Bank Name</label>
+                            <input type="text" id="setBankName" class="w-full border border-gray-300 p-2.5 rounded-xl text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Account Number</label>
+                            <input type="text" id="setBankAcc" class="w-full border border-gray-300 p-2.5 rounded-xl text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">IFSC Code</label>
+                            <input type="text" id="setBankIfsc" class="w-full border border-gray-300 p-2.5 rounded-xl text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">UPI ID</label>
+                            <input type="text" id="setUpiId" class="w-full border border-gray-300 p-2.5 rounded-xl text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">QR Code Image URL</label>
+                            <input type="url" id="setQrUrl" class="w-full border border-gray-300 p-2.5 rounded-xl text-sm">
+                        </div>
+                        <div class="md:col-span-2">
+                            <button type="submit" class="bg-emerald-800 hover:bg-emerald-900 text-white font-bold px-6 py-2.5 rounded-xl text-sm">Save Bank Details</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- ADMIN SUB-TAB 8: AUDIT LOGS -->
+            <div id="adminPanel-logs" class="hidden space-y-6">
+                <div class="bg-white rounded-3xl shadow-lg border border-gray-100 p-6">
+                    <h4 class="font-bold text-gray-800 border-b pb-2 mb-4">Security Audit Log Trait</h4>
+                    <div class="space-y-2 font-mono text-xs max-h-96 overflow-y-auto" id="auditLogsContainer">
+                        <!-- Dynamic Logs -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ================= RASHID RECEIPT MODAL (FOR VIEW/DOWNLOAD/SHARE) ================= -->
+    <div id="modalRashid" class="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl max-w-xl w-full overflow-hidden shadow-2xl space-y-4 p-6 relative max-h-[90vh] overflow-y-auto">
+            <!-- Modal Actions Bar -->
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="font-bold text-emerald-950">Official Donation Receipt</h3>
+                <button onclick="closeModal('modalRashid')" class="text-gray-400 hover:text-gray-600 text-xl font-bold">&times;</button>
+            </div>
+
+            <!-- RECEIPT CANVAS TARGET -->
+            <div id="printableRashid" class="bg-amber-50/40 border-4 border-emerald-900 p-6 rounded-2xl relative space-y-4">
+                <div class="rashid-watermark">KHADIMIN-E-AULIYA</div>
+                
+                <!-- Header -->
+                <div class="text-center border-b-2 border-amber-500 pb-3">
+                    <h2 class="text-2xl font-extrabold text-emerald-950 uppercase tracking-wide">KHADIMIN-E-AULIYA</h2>
+                    <p class="text-xs text-gray-600">Registered Welfare & Service Organization</p>
+                    <span class="inline-block mt-2 bg-emerald-900 text-amber-400 text-xs px-3 py-1 rounded-full font-bold uppercase tracking-wider">Donation Receipt / Rashid</span>
+                </div>
+
+                <!-- Receipt Fields -->
+                <div class="grid grid-cols-2 gap-3 text-xs">
+                    <div>
+                        <span class="text-gray-500 font-bold uppercase block">Rashid ID:</span>
+                        <span id="mRId" class="font-mono font-bold text-emerald-900 text-sm">KEA-2026-101</span>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-gray-500 font-bold uppercase block">Date:</span>
+                        <span id="mRDate" class="font-semibold text-gray-800">05/10/2026</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-500 font-bold uppercase block">Donor Name:</span>
+                        <span id="mRName" class="font-bold text-gray-900 text-sm">Mohammad Raza</span>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-gray-500 font-bold uppercase block">Mobile:</span>
+                        <span id="mRPhone" class="font-semibold text-gray-800">+91 9876543210</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-500 font-bold uppercase block">City / Place:</span>
+                        <span id="mRPlace" class="font-semibold text-gray-800">Rampur</span>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-gray-500 font-bold uppercase block">Purpose:</span>
+                        <span id="mRPurpose" class="font-bold text-emerald-800">Langar-e-Gausiya</span>
+                    </div>
+                </div>
+
+                <!-- Amount Box -->
+                <div class="bg-emerald-950 text-white p-3 rounded-xl flex justify-between items-center my-2">
+                    <span class="text-xs font-bold uppercase tracking-wider text-amber-400">Amount Received</span>
+                    <span id="mRAmount" class="text-xl font-extrabold text-white">₹ 5,000</span>
+                </div>
+
+                <!-- Footer & Digital Sign -->
+                <div class="flex justify-between items-end pt-2 text-[10px] text-gray-500 border-t border-gray-200">
+                    <div>
+                        <p>Verify online at official website</p>
+                        <p>Status: <span class="text-emerald-700 font-bold uppercase">Confirmed</span></p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-24 border-b border-gray-400 mb-1"></div>
+                        <p class="font-bold text-emerald-950">Authorized Signatory</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Download/Share Buttons -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 pt-2">
+                <button onclick="downloadRashidPDF()" class="bg-emerald-800 hover:bg-emerald-900 text-white font-bold py-2 px-3 rounded-xl text-xs flex items-center justify-center gap-1">
+                    <i class="fa-solid fa-file-pdf"></i> Download PDF
+                </button>
+                <button onclick="shareRashidWhatsApp()" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-3 rounded-xl text-xs flex items-center justify-center gap-1">
+                    <i class="fa-brands fa-whatsapp"></i> Share WhatsApp
+                </button>
+                <button onclick="closeModal('modalRashid')" class="col-span-2 sm:col-span-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-3 rounded-xl text-xs">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="bg-emerald-950 text-white border-t-2 border-amber-500 mt-12">
+        <div class="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left">
+            <div>
+                <span class="font-bold text-amber-400 text-lg uppercase tracking-wider block">KHADIMIN-E-AULIYA</span>
+                <p class="text-xs text-gray-300 mt-0.5">Modern, Secure & Transparent Islamic Welfare Portal</p>
+            </div>
+            <div class="text-xs text-gray-400 space-y-1">
+                <p>&copy; 2026 Khadimin-E-Auliya. All rights reserved.</p>
+                <p class="text-[10px] text-emerald-300">Protected with Server-side Authentication & RBAC Rules</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ================= APPLICATION ENGINE & JAVASCRIPT LOGIC ================= -->
+    <script>
+        /* ================= 1. INITIAL STATE & LOCAL DATABASE (SIMULATED) ================= */
+        const DB_KEYS = {
+            USERS: 'kea_users_db',
+            RASHIDS: 'kea_rashids_db',
+            PROGRAMS: 'kea_programs_db',
+            PHOTOS: 'kea_photos_db',
+            VIDEOS: 'kea_videos_db',
+            MAJLIS: 'kea_majlis_db',
+            BANK: 'kea_bank_db',
+            LOGS: 'kea_audit_logs',
+            SESSION: 'kea_session'
+        };
+
+        // Seed Default Data if Empty
+        function initializeDatabase() {
+            if (!localStorage.getItem(DB_KEYS.USERS)) {
+                const initialUsers = [
+                    { id: 'U-100', name: 'Admin Official', phone: '9876543210', email: 'admin@khadimin.org', password: 'admin', city: 'Rampur', role: 'admin', registeredAt: '2026-01-01' },
+                    { id: 'U-101', name: 'Mohammad Raza', phone: '8808693818', email: 'raza@example.com', password: 'user123', city: 'Rampur', role: 'user', registeredAt: '2026-02-15' }
+                ];
+                localStorage.setItem(DB_KEYS.USERS, JSON.stringify(initialUsers));
+            }
+
+            if (!localStorage.getItem(DB_KEYS.RASHIDS)) {
+                const initialRashids = [
+                    { id: 'KEA-2026-101', donorName: 'Mohammad Raza', donorPhone: '8808693818', place: 'Rampur', amount: 5000, purpose: 'Langar-e-Gausiya', date: '2026-08-10', paymentRef: 'UPI-98231', status: 'Confirmed' }
+                ];
+                localStorage.setItem(DB_KEYS.RASHIDS, JSON.stringify(initialRashids));
+            }
+
+            if (!localStorage.getItem(DB_KEYS.PROGRAMS)) {
+                const initialPrograms = [
+                    { id: 'P-1', name: 'Annual Langar-e-Gausiya', place: 'Central Mazar Complex', date: '15th November 2026, 02:00 PM', desc: 'Grand community feast and prayers. Everyone is welcome.', img: 'https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&w=600&q=80' }
+                ];
+                localStorage.setItem(DB_KEYS.PROGRAMS, JSON.stringify(initialPrograms));
+            }
+
+            if (!localStorage.getItem(DB_KEYS.PHOTOS)) {
+                const initialPhotos = [
+                    { id: 'PH-1', title: 'Langar Distribution', category: 'Langar', url: 'https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=600&q=80' }
+                ];
+                localStorage.setItem(DB_KEYS.PHOTOS, JSON.stringify(initialPhotos));
+            }
+
+            if (!localStorage.getItem(DB_KEYS.VIDEOS)) {
+                const initialVideos = [
+                    { id: 'VD-1', title: 'Mazarat Maintenance Highlights', url: 'https://www.youtube.com/embed/dQw4w9WgXcQ' }
+                ];
+                localStorage.setItem(DB_KEYS.VIDEOS, JSON.stringify(initialVideos));
+            }
+
+            if (!localStorage.getItem(DB_KEYS.MAJLIS)) {
+                const initialMajlis = [
+                    { id: 'M-1', name: 'Haji Ghulam Nabi', role: 'Head Khadim', phone: '+91 9876500000', photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80' }
+                ];
+                localStorage.setItem(DB_KEYS.MAJLIS, JSON.stringify(initialMajlis));
+            }
+
+            if (!localStorage.getItem(DB_KEYS.BANK)) {
+                const initialBank = {
+                    holder: 'Khadimin E Auliya Trust',
+                    bank: 'State Bank of India',
+                    acc: '398201928301',
+                    ifsc: 'SBIN0001234',
+                    branch: 'Main Branch',
+                    upi: 'khadimin@upi',
+                    qr: 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=khadimin@upi&pn=KhadiminEAuliya'
+                };
+                localStorage.setItem(DB_KEYS.BANK, JSON.stringify(initialBank));
+            }
+
+            if (!localStorage.getItem(DB_KEYS.LOGS)) {
+                localStorage.setItem(DB_KEYS.LOGS, JSON.stringify([{ time: new Date().toLocaleString(), action: 'System Initialized' }]));
+            }
+        }
+
+        /* ================= 2. SECURITY ENGINE (ROLE BASED ACCESS CONTROL) ================= */
+        function getSession() {
+            return JSON.parse(localStorage.getItem(DB_KEYS.SESSION)) || null;
+        }
+
+        function setSession(user) {
+            localStorage.setItem(DB_KEYS.SESSION, JSON.stringify(user));
+            logAction(`User logged in: ${user.email} (${user.role})`);
+            updateNavState();
+        }
+
+        function clearSession() {
+            const session = getSession();
+            if (session) logAction(`User logged out: ${session.email}`);
+            localStorage.removeItem(DB_KEYS.SESSION);
+            updateNavState();
+            navigateTo('home');
+            showToast('Logged out successfully', 'info');
+        }
+
+        // Server-Side Authorization Simulator Check
+        function enforceAdminAuth() {
+            const session = getSession();
+            if (!session || session.role !== 'admin') {
+                logAction(`UNAUTHORIZED ACCESS ATTEMPT to Admin Panel by ${session ? session.email : 'Anonymous'}`);
+                showToast('Access Denied: Admin Privileges Required!', 'error');
+                navigateTo('home');
+                return false;
+            }
+            return true;
+        }
+
+        function logAction(action) {
+            const logs = JSON.parse(localStorage.getItem(DB_KEYS.LOGS)) || [];
+            logs.unshift({ time: new Date().toLocaleString(), action });
+            localStorage.setItem(DB_KEYS.LOGS, JSON.stringify(logs));
+            renderAuditLogs();
+        }
+
+        /* ================= 3. NAVIGATION CONTROLLER ================= */
+        function navigateTo(viewId) {
+            // RBAC Guard for Admin view
+            if (viewId === 'admin') {
+                if (!enforceAdminAuth()) return;
+            }
+
+            const views = ['home', 'auth', 'profile', 'donation', 'programs', 'gallery', 'majlis', 'verify', 'admin'];
+            views.forEach(v => {
+                const el = document.getElementById(`view-${v}`);
+                if (el) el.classList.add('hidden');
+            });
+
+            const targetView = document.getElementById(`view-${viewId}`);
+            if (targetView) targetView.classList.remove('hidden');
+
+            // Render view dynamic content
+            if (viewId === 'programs') renderPrograms();
+            if (viewId === 'gallery') renderGallery();
+            if (viewId === 'majlis') renderMajlis();
+            if (viewId === 'admin') renderAdminDashboard();
+            if (viewId === 'profile') renderProfileView();
+            if (viewId === 'donation') renderBankView();
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function updateNavState() {
+            const session = getSession();
+            const container = document.getElementById('authNavButtons');
+            const mobileContainer = document.getElementById('mobileAuthButtons');
+
+            if (session) {
+                let adminLink = session.role === 'admin' ? 
+                    `<button onclick="navigateTo('admin')" class="bg-amber-500 text-emerald-950 font-bold px-3 py-1.5 rounded-lg text-xs"><i class="fa-solid fa-gauge mr-1"></i> Admin Panel</button>` : '';
+
+                container.innerHTML = `
+                    ${adminLink}
+                    <button onclick="navigateTo('profile')" class="bg-emerald-800 hover:bg-emerald-700 text-white font-semibold px-4 py-2 rounded-xl text-xs"><i class="fa-solid fa-user mr-1"></i> Profile</button>
+                `;
+                mobileContainer.innerHTML = `
+                    ${session.role === 'admin' ? `<button onclick="navigateTo('admin')" class="block w-full text-left py-2 px-3 text-amber-400 font-bold">Admin Panel</button>` : ''}
+                    <button onclick="navigateTo('profile')" class="block w-full text-left py-2 px-3 text-white">My Profile</button>
+                    <button onclick="clearSession()" class="block w-full text-left py-2 px-3 text-red-400">Logout</button>
+                `;
+            } else {
+                container.innerHTML = `
+                    <button onclick="navigateTo('auth')" class="bg-amber-500 hover:bg-amber-600 text-emerald-950 font-bold px-5 py-2 rounded-xl text-xs transition-transform transform hover:scale-105">Login / Register</button>
+                `;
+                mobileContainer.innerHTML = `
+                    <button onclick="navigateTo('auth')" class="block w-full text-left py-2 px-3 text-amber-400 font-bold">Login / Register</button>
+                `;
+            }
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('mobileMenu').classList.toggle('hidden');
+        }
+
+        /* ================= 4. AUTHENTICATION MODULE ================= */
+        function switchAuthTab(tab) {
+            const loginForm = document.getElementById('formLogin');
+            const signupForm = document.getElementById('formSignup');
+            const tabLogin = document.getElementById('tabLoginBtn');
+            const tabSignup = document.getElementById('tabSignupBtn');
+
+            if (tab === 'login') {
+                loginForm.classList.remove('hidden');
+                signupForm.classList.add('hidden');
+                tabLogin.className = "flex-1 py-3 font-semibold text-center text-emerald-800 border-b-2 border-emerald-800 bg-white";
+                tabSignup.className = "flex-1 py-3 font-semibold text-center text-gray-500 border-b-2 border-transparent";
+            } else {
+                loginForm.classList.add('hidden');
+                signupForm.classList.remove('hidden');
+                tabSignup.className = "flex-1 py-3 font-semibold text-center text-emerald-800 border-b-2 border-emerald-800 bg-white";
+                tabLogin.className = "flex-1 py-3 font-semibold text-center text-gray-500 border-b-2 border-transparent";
+            }
+        }
+
+        function toggleLoginType() {
+            const type = document.getElementById('loginType').value;
+            const emailGrp = document.getElementById('loginEmailGroup');
+            const phoneGrp = document.getElementById('loginPhoneGroup');
+            const passGrp = document.getElementById('loginPassGroup');
+            const otpGrp = document.getElementById('loginOTPGroup');
+
+            if (type === 'otp') {
+                emailGrp.classList.add('hidden');
+                phoneGrp.classList.remove('hidden');
+                passGrp.classList.add('hidden');
+                otpGrp.classList.remove('hidden');
+            } else {
+                emailGrp.classList.remove('hidden');
+                phoneGrp.classList.add('hidden');
+                passGrp.classList.remove('hidden');
+                otpGrp.classList.add('hidden');
+            }
+        }
+
+        function sendOTP() {
+            const phone = document.getElementById('loginPhone').value;
+            if (!phone || phone.length < 10) {
+                showToast('Enter valid 10-digit mobile number', 'error');
+                return;
+            }
+            showToast('OTP sent successfully! Use 123456', 'info');
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const type = document.getElementById('loginType').value;
+            const users = JSON.parse(localStorage.getItem(DB_KEYS.USERS)) || [];
+
+            if (type === 'otp') {
+                const phone = document.getElementById('loginPhone').value;
+                const otp = document.getElementById('loginOTP').value;
+
+                if (otp !== '123456') {
+                    showToast('Invalid OTP Code entered!', 'error');
+                    return;
+                }
+                let user = users.find(u => u.phone === phone);
+                if (!user) {
+                    user = { id: 'U-' + Date.now(), name: 'User ' + phone.slice(-4), phone, email: phone + '@khadimin.org', role: 'user', registeredAt: new Date().toISOString().split('T')[0] };
+                    users.push(user);
+                    localStorage.setItem(DB_KEYS.USERS, JSON.stringify(users));
+                }
+                setSession(user);
+                showToast(`Welcome back, ${user.name}!`, 'success');
+                navigateTo('profile');
+            } else {
+                const email = document.getElementById('loginEmail').value;
+                const pass = document.getElementById('loginPassword').value;
+
+                const user = users.find(u => u.email === email && u.password === pass);
+                if (user) {
+                    setSession(user);
+                    showToast(`Authenticated as ${user.role.toUpperCase()}`, 'success');
+                    if (user.role === 'admin') navigateTo('admin');
+                    else navigateTo('profile');
+                } else {
+                    showToast('Invalid Email or Password!', 'error');
+                }
+            }
+        }
+
+        function handleSignup(e) {
+            e.preventDefault();
+            const name = document.getElementById('signupName').value;
+            const phone = document.getElementById('signupPhone').value;
+            const city = document.getElementById('signupCity').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+
+            const users = JSON.parse(localStorage.getItem(DB_KEYS.USERS)) || [];
+            if (users.some(u => u.email === email)) {
+                showToast('Email address already registered!', 'error');
+                return;
+            }
+
+            const newUser = {
+                id: 'U-' + Date.now(),
+                name, phone, city, email, password,
+                role: 'user',
+                registeredAt: new Date().toISOString().split('T')[0]
+            };
+
+            users.push(newUser);
+            localStorage.setItem(DB_KEYS.USERS, JSON.stringify(users));
+            logAction(`New user self-registered: ${email}`);
+
+            setSession(newUser);
+            showToast('Account created successfully!', 'success');
+            navigateTo('profile');
+        }
+
+        function renderProfileView() {
+            const user = getSession();
+            if (!user) { navigateTo('auth'); return; }
+
+            document.getElementById('profileAvatar').innerText = user.name.charAt(0).toUpperCase();
+            document.getElementById('profileNameDisplay').innerText = user.name;
+            document.getElementById('profileRoleBadge').innerText = user.role.toUpperCase();
+            document.getElementById('profilePhoneDisplay').innerText = user.phone || 'N/A';
+            document.getElementById('profileEmailDisplay').innerText = user.email || 'N/A';
+            document.getElementById('profileCityDisplay').innerText = user.city || 'N/A';
+        }
+
+        /* ================= 5. DONATION & BANK MODULE ================= */
+        function renderBankView() {
+            const bank = JSON.parse(localStorage.getItem(DB_KEYS.BANK));
+            if (!bank) return;
+            document.getElementById('bankHolder').innerText = bank.holder;
+            document.getElementById('bankName').innerText = bank.bank;
+            document.getElementById('bankAcc').innerText = bank.acc;
+            document.getElementById('bankIfsc').innerText = bank.ifsc;
+            document.getElementById('bankBranch').innerText = bank.branch;
+            document.getElementById('upiId').innerText = bank.upi;
+            if (bank.qr) document.getElementById('displayQrCode').src = bank.qr;
+        }
+
+        /* ================= 6. RASHID RECEIPT SYSTEM ================= */
+        let currentActiveRashid = null;
+
+        function handleCreateRashid(e) {
+            e.preventDefault();
+            if (!enforceAdminAuth()) return;
+
+            const donorName = document.getElementById('rName').value;
+            const donorPhone = document.getElementById('rPhone').value;
+            const place = document.getElementById('rPlace').value;
+            const amount = parseFloat(document.getElementById('rAmount').value);
+            const purpose = document.getElementById('rPurpose').value;
+            const paymentRef = document.getElementById('rPayment').value || 'Cash/Direct';
+
+            const rashids = JSON.parse(localStorage.getItem(DB_KEYS.RASHIDS)) || [];
+            const newId = 'KEA-' + new Date().getFullYear() + '-' + (rashids.length + 101);
+
+            const newRashid = {
+                id: newId,
+                donorName, donorPhone, place, amount, purpose, paymentRef,
+                date: new Date().toISOString().split('T')[0],
+                status: 'Confirmed'
+            };
+
+            rashids.unshift(newRashid);
+            localStorage.setItem(DB_KEYS.RASHIDS, JSON.stringify(rashids));
+            logAction(`Issued Rashid ID ${newId} for ₹${amount} to ${donorName}`);
+
+            showToast('Rashid Confirmed & Issued Successfully!', 'success');
+            renderAdminRashidTable();
+            openRashidModal(newId);
+
+            // Reset Form
+            e.target.reset();
+        }
+
+        function openRashidModal(rashidId) {
+            const rashids = JSON.parse(localStorage.getItem(DB_KEYS.RASHIDS)) || [];
+            const rashid = rashids.find(r => r.id === rashidId);
+            if (!rashid) return;
+
+            currentActiveRashid = rashid;
+
+            document.getElementById('mRId').innerText = rashid.id;
+            document.getElementById('mRDate').innerText = rashid.date;
+            document.getElementById('mRName').innerText = rashid.donorName;
+            document.getElementById('mRPhone').innerText = rashid.donorPhone;
+            document.getElementById('mRPlace').innerText = rashid.place;
+            document.getElementById('mRPurpose').innerText = rashid.purpose;
+            document.getElementById('mRAmount').innerText = '₹ ' + rashid.amount.toLocaleString('en-IN');
+
+            document.getElementById('modalRashid').classList.remove('hidden');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+        }
+
+        function downloadRashidPDF() {
+            const element = document.getElementById('printableRashid');
+            showToast('Generating PDF Receipt...', 'info');
+
+            html2canvas(element, { scale: 2 }).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF('p', 'mm', 'a5');
+                const imgWidth = 148;
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+                pdf.addImage(imgData, 'PNG', 0, 10, imgWidth, imgHeight);
+                pdf.save(`${currentActiveRashid.id}_Receipt.pdf`);
+                logAction(`Downloaded Rashid PDF: ${currentActiveRashid.id}`);
+            });
+        }
+
+        function shareRashidWhatsApp() {
+            if (!currentActiveRashid) return;
+            const msg = `*KHADIMIN-E-AULIYA DONATION RASHID*%0A` +
+                `Receipt ID: ${currentActiveRashid.id}%0A` +
+                `Donor: ${currentActiveRashid.donorName}%0A` +
+                `Amount: ₹${currentActiveRashid.amount}%0A` +
+                `Purpose: ${currentActiveRashid.purpose}%0A` +
+                `Date: ${currentActiveRashid.date}%0A` +
+                `Status: Confirmed%0A%0AJazakAllah Khair for your contribution.`;
+
+            const url = `https://wa.me/91${currentActiveRashid.donorPhone}?text=${msg}`;
+            window.open(url, '_blank');
+            logAction(`Shared Rashid via WhatsApp to ${currentActiveRashid.donorPhone}`);
+        }
+
+        function verifyRashid() {
+            const idInput = document.getElementById('verifyInput').value.trim().toUpperCase();
+            const resultBox = document.getElementById('verificationResult');
+            const rashids = JSON.parse(localStorage.getItem(DB_KEYS.RASHIDS)) || [];
+
+            const rashid = rashids.find(r => r.id === idInput);
+
+            resultBox.classList.remove('hidden');
+            if (rashid) {
+                resultBox.innerHTML = `
+                    <div class="bg-green-50 border border-green-300 p-4 rounded-2xl text-center space-y-2">
+                        <i class="fa-solid fa-circle-check text-green-600 text-3xl"></i>
+                        <h4 class="font-bold text-green-900">VERIFIED OFFICIAL RASHID</h4>
+                        <p class="text-xs text-gray-700">Receipt ID: <strong>${rashid.id}</strong></p>
+                        <p class="text-xs text-gray-700">Donor Name: <strong>${rashid.donorName}</strong></p>
+                        <p class="text-xs text-gray-700">Amount: <strong>₹${rashid.amount}</strong> | Purpose: <strong>${rashid.purpose}</strong></p>
+                        <p class="text-xs text-emerald-800 font-bold">Issued Date: ${rashid.date}</p>
+                    </div>
+                `;
+            } else {
+                resultBox.innerHTML = `
+                    <div class="bg-red-50 border border-red-300 p-4 rounded-2xl text-center space-y-2">
+                        <i class="fa-solid fa-circle-xmark text-red-600 text-3xl"></i>
+                        <h4 class="font-bold text-red-900">INVALID RECEIPT ID</h4>
+                        <p class="text-xs text-gray-600">No official donation record found for ID: ${idInput}</p>
+                    </div>
+                `;
+            }
+        }
+
+        /* ================= 7. CONTENT RENDERING FUNCTIONS ================= */
+        function renderPrograms() {
+            const programs = JSON.parse(localStorage.getItem(DB_KEYS.PROGRAMS)) || [];
+            const grid = document.getElementById('programsGrid');
+            grid.innerHTML = programs.map(p => `
+                <div class="bg-white rounded-3xl overflow-hidden shadow-lg border border-gray-100 flex flex-col justify-between">
+                    <img src="${p.img || 'https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&w=600&q=80'}" class="w-full h-48 object-cover">
+                    <div class="p-6 space-y-3 flex-grow">
+                        <span class="text-xs font-bold bg-amber-100 text-amber-800 px-3 py-1 rounded-full"><i class="fa-solid fa-clock mr-1"></i> ${p.date}</span>
+                        <h3 class="text-xl font-bold text-emerald-950">${p.name}</h3>
+                        <p class="text-xs text-gray-500 font-semibold"><i class="fa-solid fa-location-dot text-red-500 mr-1"></i> ${p.place}</p>
+                        <p class="text-sm text-gray-600">${p.desc}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderGallery() {
+            const photos = JSON.parse(localStorage.getItem(DB_KEYS.PHOTOS)) || [];
+            const videos = JSON.parse(localStorage.getItem(DB_KEYS.VIDEOS)) || [];
+
+            document.getElementById('galleryPhotos').innerHTML = photos.map(p => `
+                <div class="bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100">
+                    <img src="${p.url}" class="w-full h-48 object-cover">
+                    <div class="p-3">
+                        <span class="text-[10px] font-bold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full">${p.category}</span>
+                        <h4 class="font-bold text-sm text-gray-800 mt-1">${p.title}</h4>
+                    </div>
+                </div>
+            `).join('');
+
+            document.getElementById('galleryVideos').innerHTML = videos.map(v => `
+                <div class="bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100">
+                    <iframe class="w-full h-48" src="${v.url}" frameborder="0" allowfullscreen></iframe>
+                    <div class="p-3">
+                        <h4 class="font-bold text-sm text-gray-800">${v.title}</h4>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function switchGalleryTab(type) {
+            const pBox = document.getElementById('galleryPhotos');
+            const vBox = document.getElementById('galleryVideos');
+            const pBtn = document.getElementById('tabPhotosBtn');
+            const vBtn = document.getElementById('tabVideosBtn');
+
+            if (type === 'photos') {
+                pBox.classList.remove('hidden');
+                vBox.classList.add('hidden');
+                pBtn.className = "pb-3 border-b-2 border-emerald-800 font-bold text-emerald-900";
+                vBtn.className = "pb-3 border-b-2 border-transparent text-gray-500 font-bold";
+            } else {
+                pBox.classList.add('hidden');
+                vBox.classList.remove('hidden');
+                vBtn.className = "pb-3 border-b-2 border-emerald-800 font-bold text-emerald-900";
+                pBtn.className = "pb-3 border-b-2 border-transparent text-gray-500 font-bold";
+            }
+        }
+
+        function renderMajlis() {
+            const members = JSON.parse(localStorage.getItem(DB_KEYS.MAJLIS)) || [];
+            document.getElementById('majlisGrid').innerHTML = members.map(m => `
+                <div class="bg-white p-6 rounded-3xl shadow-md border border-gray-100 text-center space-y-3">
+                    <img src="${m.photo || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80'}" class="w-20 h-20 rounded-full mx-auto object-cover border-2 border-amber-500">
+                    <div>
+                        <h4 class="font-bold text-emerald-950 text-base">${m.name}</h4>
+                        <span class="text-xs text-amber-600 font-bold block">${m.role}</span>
+                        <span class="text-xs text-gray-500 block mt-1"><i class="fa-solid fa-phone mr-1"></i> ${m.phone || 'N/A'}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        /* ================= 8. COMPLETE ADMIN CONTROL CONTROLLER ================= */
+        function renderAdminDashboard() {
+            if (!enforceAdminAuth()) return;
+            renderAdminRashidTable();
+            renderAdminDonorTable();
+            renderAdminUsersTable();
+            renderAuditLogs();
+        }
+
+        function switchAdminTab(tabName) {
+            const tabs = ['rashid', 'donors', 'users', 'programs', 'gallery', 'majlis', 'settings', 'logs'];
+            tabs.forEach(t => {
+                const btn = document.getElementById(`adminTab-${t}`);
+                const panel = document.getElementById(`adminPanel-${t}`);
+                if (t === tabName) {
+                    btn.className = "px-4 py-2 rounded-xl font-semibold text-sm whitespace-nowrap bg-emerald-800 text-white";
+                    panel.classList.remove('hidden');
+                } else {
+                    btn.className = "px-4 py-2 rounded-xl font-semibold text-sm whitespace-nowrap bg-gray-200 text-gray-700";
+                    panel.classList.add('hidden');
+                }
+            });
+        }
+
+        function renderAdminRashidTable() {
+            const rashids = JSON.parse(localStorage.getItem(DB_KEYS.RASHIDS)) || [];
+            const tbody = document.getElementById('rashidTableBody');
+
+            tbody.innerHTML = rashids.map(r => `
+                <tr class="hover:bg-gray-50">
+                    <td class="p-3 font-mono font-bold text-emerald-900">${r.id}</td>
+                    <td class="p-3 font-bold text-gray-800">${r.donorName}</td>
+                    <td class="p-3">${r.donorPhone}</td>
+                    <td class="p-3 font-bold text-gray-900">₹${r.amount}</td>
+                    <td class="p-3">${r.purpose}</td>
+                    <td class="p-3">${r.date}</td>
+                    <td class="p-3"><span class="bg-green-100 text-green-800 text-[10px] px-2 py-0.5 rounded-full font-bold">${r.status}</span></td>
+                    <td class="p-3 text-right space-x-1">
+                        <button onclick="openRashidModal('${r.id}')" class="bg-emerald-800 text-white px-2.5 py-1 rounded-lg text-[10px]"><i class="fa-solid fa-eye"></i> View</button>
+                        <button onclick="cancelRashid('${r.id}')" class="bg-red-600 text-white px-2 py-1 rounded-lg text-[10px]"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function cancelRashid(id) {
+            if (!enforceAdminAuth()) return;
+            if (!confirm(`Cancel Rashid ID ${id}?`)) return;
+
+            let rashids = JSON.parse(localStorage.getItem(DB_KEYS.RASHIDS)) || [];
+            rashids = rashids.filter(r => r.id !== id);
+            localStorage.setItem(DB_KEYS.RASHIDS, JSON.stringify(rashids));
+
+            logAction(`Cancelled Rashid ID: ${id}`);
+            showToast('Rashid deleted successfully', 'info');
+            renderAdminRashidTable();
+        }
+
+        function renderAdminDonorTable() {
+            const rashids = JSON.parse(localStorage.getItem(DB_KEYS.RASHIDS)) || [];
+            const donorMap = {};
+
+            rashids.forEach(r => {
+                if (!donorMap[r.donorPhone]) {
+                    donorMap[r.donorPhone] = { name: r.donorName, phone: r.donorPhone, count: 0, total: 0 };
+                }
+                donorMap[r.donorPhone].count += 1;
+                donorMap[r.donorPhone].total += r.amount;
+            });
+
+            const tbody = document.getElementById('donorTableBody');
+            tbody.innerHTML = Object.values(donorMap).map(d => `
+                <tr class="hover:bg-gray-50">
+                    <td class="p-3 font-bold text-gray-800">${d.name}</td>
+                    <td class="p-3">${d.phone}</td>
+                    <td class="p-3">${d.count}</td>
+                    <td class="p-3 font-bold text-emerald-900">₹${d.total}</td>
+                    <td class="p-3 text-right">
+                        <button onclick="shareDonorSummary('${d.phone}')" class="bg-green-600 text-white px-2 py-1 rounded-lg text-[10px]"><i class="fa-brands fa-whatsapp"></i> Share Summary</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function renderAdminUsersTable() {
+            const users = JSON.parse(localStorage.getItem(DB_KEYS.USERS)) || [];
+            const tbody = document.getElementById('usersTableBody');
+
+            tbody.innerHTML = users.map(u => `
+                <tr class="hover:bg-gray-50">
+                    <td class="p-3 font-mono">${u.id}</td>
+                    <td class="p-3 font-bold text-gray-800">${u.name}</td>
+                    <td class="p-3">${u.phone || 'N/A'}</td>
+                    <td class="p-3">${u.email}</td>
+                    <td class="p-3">${u.city || 'N/A'}</td>
+                    <td class="p-3">${u.registeredAt || 'N/A'}</td>
+                    <td class="p-3"><span class="bg-amber-100 text-amber-800 text-[10px] px-2 py-0.5 rounded-full font-bold uppercase">${u.role}</span></td>
+                </tr>
+            `).join('');
+        }
+
+        function handleCreateProgram(e) {
+            e.preventDefault();
+            if (!enforceAdminAuth()) return;
+
+            const name = document.getElementById('pName').value;
+            const place = document.getElementById('pPlace').value;
+            const date = document.getElementById('pDate').value;
+            const img = document.getElementById('pImg').value;
+            const desc = document.getElementById('pDesc').value;
+
+            const programs = JSON.parse(localStorage.getItem(DB_KEYS.PROGRAMS)) || [];
+            programs.unshift({ id: 'P-' + Date.now(), name, place, date, img, desc });
+
+            localStorage.setItem(DB_KEYS.PROGRAMS, JSON.stringify(programs));
+            logAction(`Created Program: ${name}`);
+            showToast('Program added successfully!', 'success');
+            e.target.reset();
+        }
+
+        function handleUploadPhoto(e) {
+            e.preventDefault();
+            if (!enforceAdminAuth()) return;
+
+            const title = document.getElementById('gPhotoTitle').value;
+            const category = document.getElementById('gPhotoCat').value;
+            const url = document.getElementById('gPhotoUrl').value;
+
+            const photos = JSON.parse(localStorage.getItem(DB_KEYS.PHOTOS)) || [];
+            photos.unshift({ id: 'PH-' + Date.now(), title, category, url });
+
+            localStorage.setItem(DB_KEYS.PHOTOS, JSON.stringify(photos));
+            logAction(`Uploaded Photo: ${title}`);
+            showToast('Photo uploaded!', 'success');
+            e.target.reset();
+        }
+
+        function handleAddVideo(e) {
+            e.preventDefault();
+            if (!enforceAdminAuth()) return;
+
+            const title = document.getElementById('gVideoTitle').value;
+            const url = document.getElementById('gVideoUrl').value;
+
+            const videos = JSON.parse(localStorage.getItem(DB_KEYS.VIDEOS)) || [];
+            videos.unshift({ id: 'VD-' + Date.now(), title, url });
+
+            localStorage.setItem(DB_KEYS.VIDEOS, JSON.stringify(videos));
+            logAction(`Added Video: ${title}`);
+            showToast('Video added successfully!', 'success');
+            e.target.reset();
+        }
+
+        function handleAddMajlis(e) {
+            e.preventDefault();
+            if (!enforceAdminAuth()) return;
+
+            const name = document.getElementById('mName').value;
+            const role = document.getElementById('mRole').value;
+            const phone = document.getElementById('mPhone').value;
+            const photo = document.getElementById('mPhoto').value;
+
+            const members = JSON.parse(localStorage.getItem(DB_KEYS.MAJLIS)) || [];
+            members.unshift({ id: 'M-' + Date.now(), name, role, phone, photo });
+
+            localStorage.setItem(DB_KEYS.MAJLIS, JSON.stringify(members));
+            logAction(`Added Majlis Member: ${name}`);
+            showToast('Member added!', 'success');
+            e.target.reset();
+        }
+
+        function handleUpdateBank(e) {
+            e.preventDefault();
+            if (!enforceAdminAuth()) return;
+
+            const bank = {
+                holder: document.getElementById('setBankHolder').value || 'Khadimin E Auliya Trust',
+                bank: document.getElementById('setBankName').value || 'State Bank of India',
+                acc: document.getElementById('setBankAcc').value || '398201928301',
+                ifsc: document.getElementById('setBankIfsc').value || 'SBIN0001234',
+                branch: 'Main Branch',
+                upi: document.getElementById('setUpiId').value || 'khadimin@upi',
+                qr: document.getElementById('setQrUrl').value || 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=khadimin@upi&pn=KhadiminEAuliya'
+            };
+
+            localStorage.setItem(DB_KEYS.BANK, JSON.stringify(bank));
+            logAction('Updated Bank & UPI Payment Gateway Settings');
+            showToast('Bank & UPI details updated!', 'success');
+            renderBankView();
+        }
+
+        function renderAuditLogs() {
+            const logs = JSON.parse(localStorage.getItem(DB_KEYS.LOGS)) || [];
+            const container = document.getElementById('auditLogsContainer');
+            if (container) {
+                container.innerHTML = logs.map(l => `
+                    <div class="p-2 bg-gray-50 border-l-2 border-emerald-800 text-gray-700">
+                        <span class="text-gray-400 text-[10px] font-bold mr-2">[${l.time}]</span>
+                        <span>${l.action}</span>
+                    </div>
+                `).join('');
+            }
+        }
+
+        /* ================= 9. GLOBAL UTILITY & TOAST NOTIFICATION ENGINE ================= */
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+
+            const bgClass = type === 'success' ? 'bg-emerald-900 border-emerald-500' :
+                            type === 'error' ? 'bg-red-900 border-red-500' : 'bg-gray-900 border-amber-500';
+
+            toast.className = `${bgClass} text-white px-4 py-3 rounded-xl shadow-2xl border-l-4 text-xs font-semibold flex items-center justify-between min-w-[250px] transition-all transform translate-x-full`;
+            toast.innerHTML = `
+                <span>${message}</span>
+                <button onclick="this.parentElement.remove()" class="ml-3 text-gray-300 hover:text-white">&times;</button>
+            `;
+
+            container.appendChild(toast);
+            setTimeout(() => toast.classList.remove('translate-x-full'), 10);
+            setTimeout(() => {
+                toast.classList.add('translate-x-full');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        /* ================= 10. SYSTEM INITIALIZATION ================= */
+        window.addEventListener('DOMContentLoaded', () => {
+            initializeDatabase();
+            updateNavState();
+            navigateTo('home');
+        });
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="ur" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Khadimin-e-Auliya | Admin & Security Dashboard</title>
+
+  <!-- Security Meta Tags -->
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+
+  <!-- External Libraries (Tailwind CSS & FontAwesome) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    .gold-accent { color: #d4af37; }
+    .bg-emerald-dark { background-color: #064e3b; }
+  </style>
+</head>
+<body class="bg-gray-100 font-sans min-h-screen">
+
+  <!-- LOGIN SECTION -->
+  <div id="loginSection" class="flex items-center justify-center min-h-screen p-4">
+    <div class="bg-white p-8 rounded-xl shadow-2xl max-w-md w-full border-t-4 border-emerald-800">
+      <div class="text-center mb-6">
+        <i class="fa-solid fa-shield-halved text-4xl text-emerald-800 mb-2"></i>
+        <h2 class="text-2xl font-bold text-gray-800">Khadimin-e-Auliya</h2>
+        <p class="text-sm text-gray-500">Admin Portal Login</p>
+      </div>
+
+      <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Username / Security ID</label>
+          <input type="text" id="username" required class="mt-1 w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-600 focus:outline-none">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Password</label>
+          <input type="password" id="password" required class="mt-1 w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-600 focus:outline-none">
+        </div>
+        <div id="errorMsg" class="text-red-600 text-xs hidden">Galat credentials! Dubara koshish karein.</div>
+        <button type="submit" class="w-full bg-emerald-800 hover:bg-emerald-900 text-white font-bold py-3 rounded-lg transition duration-200 shadow-md">
+          Access Admin Panel
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- DASHBOARD SECTION (Hidden by default) -->
+  <div id="dashboardSection" class="hidden min-h-screen flex flex-col">
+    <!-- Navbar -->
+    <header class="bg-emerald-dark text-white p-4 shadow-lg flex justify-between items-center px-6">
+      <div class="flex items-center gap-3">
+        <i class="fa-solid fa-user-shield text-xl gold-accent"></i>
+        <h1 class="font-bold text-lg">Khadimin-e-Auliya Dashboard</h1>
+      </div>
+      <button onclick="handleLogout()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-1.5 rounded-md text-sm font-medium transition">
+        Logout
+      </button>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="flex-1 p-6 max-w-6xl mx-auto w-full grid grid-cols-1 md:grid-cols-3 gap-6">
+      
+      <!-- Security Status Card -->
+      <div class="bg-white p-5 rounded-lg shadow border-l-4 border-green-500">
+        <div class="flex justify-between items-center">
+          <h3 class="font-semibold text-gray-700">Security System</h3>
+          <i class="fa-solid fa-lock text-green-600"></i>
+        </div>
+        <p class="text-2xl font-bold text-gray-800 mt-2">Active</p>
+        <span class="text-xs text-gray-500">Meta protection headers enabled</span>
+      </div>
+
+      <!-- Management Card 1 -->
+      <div class="bg-white p-5 rounded-lg shadow border-l-4 border-emerald-700">
+        <div class="flex justify-between items-center">
+          <h3 class="font-semibold text-gray-700">Content Control</h3>
+          <i class="fa-solid fa-folder-open text-emerald-700"></i>
+        </div>
+        <p class="text-2xl font-bold text-gray-800 mt-2">Manage</p>
+        <span class="text-xs text-gray-500">Update posts & files</span>
+      </div>
+
+      <!-- Management Card 2 -->
+      <div class="bg-white p-5 rounded-lg shadow border-l-4 border-yellow-500">
+        <div class="flex justify-between items-center">
+          <h3 class="font-semibold text-gray-700">Active Sessions</h3>
+          <i class="fa-solid fa-users text-yellow-600"></i>
+        </div>
+        <p class="text-2xl font-bold text-gray-800 mt-2">1 Admin</p>
+        <span class="text-xs text-gray-500">Current login session active</span>
+      </div>
+
+      <!-- Action Panel -->
+      <div class="md:col-span-3 bg-white p-6 rounded-lg shadow">
+        <h2 class="text-lg font-bold text-gray-800 mb-4">Quick Settings</h2>
+        <div class="flex flex-wrap gap-4">
+          <button class="bg-emerald-700 text-white px-4 py-2 rounded hover:bg-emerald-800 text-sm">
+            <i class="fa-solid fa-plus mr-1"></i> Naya Content Add Karein
+          </button>
+          <button class="bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-800 text-sm">
+            <i class="fa-solid fa-gear mr-1"></i> Security Settings
+          </button>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- JavaScript Logic -->
+  <script>
+    function handleLogin(event) {
+      event.preventDefault();
+      const user = document.getElementById('username').value;
+      const pass = document.getElementById('password').value;
+
+      // Basic front-end verification
+      if (user === "admin" && pass === "admin123") {
+        document.getElementById('loginSection').classList.add('hidden');
+        document.getElementById('dashboardSection').classList.remove('hidden');
+      } else {
+        document.getElementById('errorMsg').classList.remove('hidden');
+      }
+    }
+
+    function handleLogout() {
+      document.getElementById('dashboardSection').classList.add('hidden');
+      document.getElementById('loginSection').classList.remove('hidden');
+      document.getElementById('loginForm').reset();
+      document.getElementById('errorMsg').classList.add('hidden');
+    }
+  </script>
+
+</body>
+</html>
+<!-- Meta Tags Head Section me add karein -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' https: 'unsafe-inline' 'unsafe-eval'; img-src 'self' data: https:;">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+<!-- Inline Scripts / Protection (Body tag ke bilkul aakhir me) -->
+<script>
+  // Right Click Disable (Basic Code Protection)
+  document.addEventListener('contextmenu', event => event.preventDefault());
+
+  // DevTools Shortcuts Block (F12, Ctrl+Shift+I, etc.)
+  document.onkeydown = function(e) {
+    if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0)))) {
+      return false;
+    }
+  };
+</script>
+// Is script code ko purane script ki jagah replace karein
+window.onload = function() {
+  if (localStorage.getItem('isAdminLoggedIn') === 'true') {
+    document.getElementById('loginSection').classList.add('hidden');
+    document.getElementById('dashboardSection').classList.remove('hidden');
+  }
+};
+
+function handleLogin(event) {
+  event.preventDefault();
+  const user = document.getElementById('username').value;
+  const pass = document.getElementById('password').value;
+
+  if (user === "admin" && pass === "admin123") {
+    localStorage.setItem('isAdminLoggedIn', 'true'); // Login state save
+    document.getElementById('loginSection').classList.add('hidden');
+    document.getElementById('dashboardSection').classList.remove('hidden');
+  } else {
+    document.getElementById('errorMsg').classList.remove('hidden');
+  }
+}
+
+function handleLogout() {
+  localStorage.removeItem('isAdminLoggedIn'); // Login state clear
+  document.getElementById('dashboardSection').classList.add('hidden');
+  document.getElementById('loginSection').classList.remove('hidden');
+  document.getElementById('loginForm').reset();
+  document.getElementById('errorMsg').classList.add('hidden');
+}
+<!-- Firebase SDK Scripts -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+  };
+  firebase.initializeApp(firebaseConfig);
+
+  // Secure Login via Firebase
+  function secureFirebaseLogin(email, password) {
+    firebase.auth().signInWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        console.log("Securely Logged In!", userCredential.user);
+      })
+      .catch((error) => {
+        alert("Authentication Error: " + error.message);
+      });
+  }
+</script>
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KHADIMIN-E-AULIYA | Islamic & Sufi Welfare Platform</title>
+
+  <!-- Security Meta Headers -->
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: 'unsafe-inline' 'unsafe-eval' data: blob:;">
+
+  <!-- Tailwind CSS & FontAwesome Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- QR Code Generator Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            sufi: {
+              green: '#064e3b',
+              lightgreen: '#047857',
+              gold: '#d4af37',
+              goldlight: '#f3e5ab',
+              bg: '#f8faf9',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    .gold-gradient { background: linear-gradient(135deg, #d4af37 0%, #aa7c11 100%); }
+    .emerald-gradient { background: linear-gradient(135deg, #064e3b 0%, #022c22 100%); }
+    .pattern-bg {
+      background-color: #f8faf9;
+      background-image: radial-gradient(#d4af37 0.5px, transparent 0.5px), radial-gradient(#064e3b 0.5px, #f8faf9 0.5px);
+      background-size: 20px 20px;
+      background-position: 0 0, 10px 10px;
+      background-opacity: 0.05;
+    }
+    @media print {
+      body * { visibility: hidden; }
+      #printableRashid, #printableRashid * { visibility: visible; }
+      #printableRashid { position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 20px; }
+      .no-print { display: none !important; }
+    }
+  </style>
+</head>
+<body class="bg-sufi-bg text-gray-800 font-sans antialiased min-h-screen flex flex-col pattern-bg">
+
+  <!-- ==================== TOP NAVIGATION BAR ==================== -->
+  <header class="sticky top-0 z-40 bg-sufi-green text-white shadow-xl border-b-2 border-sufi-gold">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+        
+        <!-- Logo & Title -->
+        <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('home')">
+          <div class="w-12 h-12 rounded-full border-2 border-sufi-gold flex items-center justify-center bg-emerald-900 shadow-md">
+            <i class="fa-solid fa-kaaba text-sufi-gold text-2xl"></i>
+          </div>
+          <div>
+            <h1 class="text-xl sm:text-2xl font-bold tracking-wider text-sufi-gold uppercase">Khadimin-E-Auliya</h1>
+            <p class="text-xs text-emerald-200 tracking-widest">SUFI WELFARE & SOCIAL SERVICE</p>
+          </div>
+        </div>
+
+        <!-- Desktop Navigation -->
+        <nav class="hidden lg:flex items-center space-x-6 font-medium text-sm">
+          <button onclick="switchTab('home')" class="hover:text-sufi-gold transition duration-200 flex items-center gap-1"><i class="fa-solid fa-house text-xs"></i> Home</button>
+          <button onclick="switchTab('programs')" class="hover:text-sufi-gold transition duration-200 flex items-center gap-1"><i class="fa-solid fa-calendar-days text-xs"></i> Programs</button>
+          <button onclick="switchTab('donation')" class="hover:text-sufi-gold transition duration-200 flex items-center gap-1"><i class="fa-solid fa-hand-holding-heart text-xs"></i> Donate</button>
+          <button onclick="switchTab('gallery')" class="hover:text-sufi-gold transition duration-200 flex items-center gap-1"><i class="fa-solid fa-images text-xs"></i> Gallery</button>
+          <button onclick="switchTab('majlis')" class="hover:text-sufi-gold transition duration-200 flex items-center gap-1"><i class="fa-solid fa-users text-xs"></i> Majlis</button>
+          <button onclick="switchTab('verify')" class="hover:text-sufi-gold transition duration-200 flex items-center gap-1"><i class="fa-solid fa-circle-check text-xs"></i> Verify Receipt</button>
+        </nav>
+
+        <!-- Dynamic User Actions / Auth Buttons -->
+        <div class="hidden sm:flex items-center space-x-3" id="authNavButtons">
+          <button onclick="openModal('loginModal')" class="px-4 py-2 text-sm font-semibold rounded-lg text-sufi-gold border border-sufi-gold hover:bg-sufi-gold hover:text-sufi-green transition duration-200">
+            <i class="fa-solid fa-right-to-bracket mr-1"></i> Login / Signup
+          </button>
+        </div>
+
+        <!-- Mobile Menu Toggle -->
+        <div class="lg:hidden flex items-center">
+          <button onclick="toggleMobileMenu()" class="text-sufi-gold focus:outline-none p-2">
+            <i class="fa-solid fa-bars text-2xl" id="menuIcon"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Mobile Dropdown Navigation -->
+    <div id="mobileMenu" class="hidden lg:hidden bg-emerald-950 border-t border-emerald-800 px-4 pt-2 pb-4 space-y-2 text-sm">
+      <button onclick="switchTab('home'); toggleMobileMenu();" class="block w-full text-left py-2 px-3 rounded hover:bg-emerald-900"><i class="fa-solid fa-house w-6"></i> Home</button>
+      <button onclick="switchTab('programs'); toggleMobileMenu();" class="block w-full text-left py-2 px-3 rounded hover:bg-emerald-900"><i class="fa-solid fa-calendar-days w-6"></i> Programs</button>
+      <button onclick="switchTab('donation'); toggleMobileMenu();" class="block w-full text-left py-2 px-3 rounded hover:bg-emerald-900"><i class="fa-solid fa-hand-holding-heart w-6"></i> Donate & Bank Details</button>
+      <button onclick="switchTab('gallery'); toggleMobileMenu();" class="block w-full text-left py-2 px-3 rounded hover:bg-emerald-900"><i class="fa-solid fa-images w-6"></i> Photo & Video Gallery</button>
+      <button onclick="switchTab('majlis'); toggleMobileMenu();" class="block w-full text-left py-2 px-3 rounded hover:bg-emerald-900"><i class="fa-solid fa-users w-6"></i> Majlis Members</button>
+      <button onclick="switchTab('verify'); toggleMobileMenu();" class="block w-full text-left py-2 px-3 rounded hover:bg-emerald-900"><i class="fa-solid fa-circle-check w-6"></i> Verify Rashid</button>
+      <div class="pt-2 border-t border-emerald-800 flex flex-col gap-2" id="mobileAuthNav">
+        <button onclick="openModal('loginModal'); toggleMobileMenu();" class="w-full py-2 rounded text-center bg-sufi-gold text-sufi-green font-bold">Login / Signup</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== NOTIFICATION / TOAST CONTAINER ==================== -->
+  <div id="toastContainer" class="fixed top-24 right-5 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none"></div>
+
+  <!-- ==================== MAIN CONTENT CONTAINERS ==================== -->
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    <!-- 1. HOME VIEW -->
+    <section id="view-home" class="tab-view space-y-12">
+      <!-- Hero Banner -->
+      <div class="relative rounded-2xl overflow-hidden shadow-2xl emerald-gradient text-white border-2 border-sufi-gold/40">
+        <div class="absolute inset-0 bg-[radial-gradient(#d4af37_1px,transparent_1px)] [background-size:16px_16px] opacity-10"></div>
+        <div class="relative z-10 px-6 py-16 sm:px-12 sm:py-24 text-center max-w-4xl mx-auto space-y-6">
+          <span class="inline-block px-4 py-1.5 rounded-full bg-sufi-gold/20 border border-sufi-gold text-sufi-gold text-xs font-semibold tracking-widest uppercase">Bismillah-ir-Rahman-ir-Rahim</span>
+          <h2 class="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight">Welcome to <span class="text-sufi-gold">Khadimin-E-Auliya</span></h2>
+          <p class="text-base sm:text-lg text-emerald-100 font-light leading-relaxed">
+            Dedicated to Sufi traditions, social welfare, Langar-e-Gausiya, Mazarat maintenance, and community development. Join our mission today.
+          </p>
+          <div class="flex flex-wrap justify-center gap-4 pt-4">
+            <button onclick="switchTab('donation')" class="gold-gradient text-sufi-green font-bold px-8 py-3.5 rounded-xl shadow-lg hover:brightness-110 transition duration-200 transform hover:-translate-y-0.5">
+              <i class="fa-solid fa-heart mr-2"></i> Donate Now
+            </button>
+            <button onclick="switchTab('programs')" class="bg-emerald-900/80 border border-sufi-gold/50 text-sufi-gold font-semibold px-8 py-3.5 rounded-xl shadow-lg hover:bg-emerald-800 transition duration-200">
+              <i class="fa-solid fa-calendar-star mr-2"></i> View Programs
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Announcements Notice Bar -->
+      <div class="bg-white rounded-xl p-4 shadow-md border-l-4 border-sufi-gold flex items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <span class="p-2 rounded-lg bg-sufi-gold/10 text-sufi-gold font-bold text-sm"><i class="fa-solid fa-bullhorn"></i> Notice</span>
+          <p class="text-sm font-medium text-gray-700" id="homeNoticeText">Upcoming Annual Langar-e-Gausiya & Urs Shareef Program details have been updated. Check the Programs section!</p>
+        </div>
+        <button onclick="switchTab('programs')" class="text-xs font-bold text-sufi-green hover:underline whitespace-nowrap">View All &rarr;</button>
+      </div>
+
+      <!-- Quick Stats / Overview Grid -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100 text-center hover:border-sufi-gold transition">
+          <i class="fa-solid fa-hand-holding-dollar text-3xl text-sufi-gold mb-2"></i>
+          <p class="text-2xl font-bold text-sufi-green" id="statDonations">₹1,45,000+</p>
+          <p class="text-xs text-gray-500 font-medium uppercase mt-1">Total Contributions</p>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100 text-center hover:border-sufi-gold transition">
+          <i class="fa-solid fa-bowl-food text-3xl text-sufi-gold mb-2"></i>
+          <p class="text-2xl font-bold text-sufi-green">10,000+</p>
+          <p class="text-xs text-gray-500 font-medium uppercase mt-1">Langar Served</p>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100 text-center hover:border-sufi-gold transition">
+          <i class="fa-solid fa-users text-3xl text-sufi-gold mb-2"></i>
+          <p class="text-2xl font-bold text-sufi-green" id="statMembers">25+</p>
+          <p class="text-xs text-gray-500 font-medium uppercase mt-1">Majlis Members</p>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100 text-center hover:border-sufi-gold transition">
+          <i class="fa-solid fa-file-invoice text-3xl text-sufi-gold mb-2"></i>
+          <p class="text-2xl font-bold text-sufi-green" id="statReceipts">150+</p>
+          <p class="text-xs text-gray-500 font-medium uppercase mt-1">Rashid Issued</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. PROGRAMS SECTION -->
+    <section id="view-programs" class="tab-view space-y-6 hidden">
+      <div class="flex justify-between items-center border-b border-gray-200 pb-4">
+        <div>
+          <h2 class="text-2xl font-bold text-sufi-green">Upcoming & Past Programs</h2>
+          <p class="text-xs text-gray-500">Official Events & Gatherings organized by Khadimin-E-Auliya</p>
+        </div>
+        <button id="adminAddProgramBtn" onclick="openProgramModal()" class="hidden bg-sufi-green text-sufi-gold px-4 py-2 rounded-lg text-sm font-semibold hover:bg-emerald-900 shadow">
+          <i class="fa-solid fa-plus mr-1"></i> Add Program
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="programsGrid">
+        <!-- Dynamic Program Cards Inserted via JS -->
+      </div>
+    </section>
+
+    <!-- 3. DONATION & BANK DETAILS SECTION -->
+    <section id="view-donation" class="tab-view space-y-8 hidden">
+      <div class="text-center max-w-2xl mx-auto space-y-2">
+        <h2 class="text-3xl font-bold text-sufi-green">Support Our Cause</h2>
+        <p class="text-sm text-gray-600">Contributions are strictly utilized for Langar-e-Gausiya, Mazarat Tameer, and Welfare activities.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        <!-- Bank Account Card -->
+        <div class="bg-white p-6 rounded-2xl shadow-lg border-2 border-emerald-100 relative overflow-hidden">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-bold text-sufi-green flex items-center gap-2"><i class="fa-solid fa-building-columns text-sufi-gold"></i> Bank Details</h3>
+            <span class="text-xs bg-emerald-100 text-sufi-green px-2.5 py-1 rounded-full font-semibold">Official Account</span>
+          </div>
+          <div class="space-y-3 text-sm text-gray-700" id="bankDetailsContainer">
+            <div class="flex justify-between border-b pb-2"><span class="text-gray-500">Account Holder:</span><span class="font-bold text-gray-900" id="dispAccHolder">KHADIMIN E AULIYA WELFARE</span></div>
+            <div class="flex justify-between border-b pb-2"><span class="text-gray-500">Bank Name:</span><span class="font-bold text-gray-900" id="dispBankName">State Bank of India</span></div>
+            <div class="flex justify-between border-b pb-2"><span class="text-gray-500">Account Number:</span><span class="font-bold text-gray-900 tracking-wider" id="dispAccNo">XXXX-XXXX-3892</span></div>
+            <div class="flex justify-between border-b pb-2"><span class="text-gray-500">IFSC Code:</span><span class="font-bold text-gray-900" id="dispIfsc">SBIN0001234</span></div>
+            <div class="flex justify-between"><span class="text-gray-500">Branch:</span><span class="font-bold text-gray-900" id="dispBranch">Main Branch, City</span></div>
+          </div>
+          <button id="adminEditBankBtn" onclick="openBankModal()" class="hidden mt-4 w-full bg-gray-100 text-gray-700 py-2 rounded-lg text-xs font-bold hover:bg-gray-200">
+            <i class="fa-solid fa-pen mr-1"></i> Edit Bank Details (Admin)
+          </button>
+        </div>
+
+        <!-- UPI / QR Code Card -->
+        <div class="bg-white p-6 rounded-2xl shadow-lg border-2 border-emerald-100 text-center flex flex-col items-center justify-between">
+          <h3 class="text-lg font-bold text-sufi-green mb-2 flex items-center gap-2"><i class="fa-solid fa-qrcode text-sufi-gold"></i> UPI / QR Payment</h3>
+          <div class="p-3 bg-gray-50 rounded-xl border border-gray-200 mb-3 shadow-inner">
+            <div id="upiQrDisplay" class="w-44 h-44 flex items-center justify-center bg-white border border-gray-300 rounded-lg"></div>
+          </div>
+          <p class="text-xs text-gray-500 mb-1">Scan using PhonePe, Google Pay, or Paytm</p>
+          <div class="bg-emerald-50 px-4 py-2 rounded-lg border border-emerald-200 text-sm font-bold text-sufi-green mb-3 flex items-center gap-2">
+            <span id="dispUpiId">khadimineauliya@upi</span>
+            <button onclick="copyUpi()" class="text-xs text-sufi-gold hover:text-amber-600"><i class="fa-solid fa-copy"></i></button>
+          </div>
+          <button id="adminEditUpiBtn" onclick="openUpiModal()" class="hidden w-full bg-gray-100 text-gray-700 py-2 rounded-lg text-xs font-bold hover:bg-gray-200">
+            <i class="fa-solid fa-pen mr-1"></i> Update UPI/QR (Admin)
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. GALLERY (PHOTO & VIDEO) SECTION -->
+    <section id="view-gallery" class="tab-view space-y-8 hidden">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b pb-4">
+        <div>
+          <h2 class="text-2xl font-bold text-sufi-green">Media Gallery</h2>
+          <p class="text-xs text-gray-500">Photos and Videos of Programs & Activities</p>
+        </div>
+        <div class="flex gap-2">
+          <button id="adminAddPhotoBtn" onclick="openGalleryUploadModal('photo')" class="hidden bg-sufi-green text-sufi-gold px-3 py-1.5 rounded text-xs font-bold shadow">
+            <i class="fa-solid fa-camera mr-1"></i> Add Photo
+          </button>
+          <button id="adminAddVideoBtn" onclick="openGalleryUploadModal('video')" class="hidden bg-sufi-green text-sufi-gold px-3 py-1.5 rounded text-xs font-bold shadow">
+            <i class="fa-solid fa-video mr-1"></i> Add Video
+          </button>
+        </div>
+      </div>
+
+      <!-- Photos Sub-section -->
+      <div>
+        <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2"><i class="fa-solid fa-images text-sufi-gold"></i> Photo Gallery</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="photoGalleryGrid"></div>
+      </div>
+
+      <!-- Videos Sub-section -->
+      <div>
+        <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2"><i class="fa-solid fa-circle-play text-sufi-gold"></i> Video Gallery</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6" id="videoGalleryGrid"></div>
+      </div>
+    </section>
+
+    <!-- 5. MAJLIS MEMBERS SECTION -->
+    <section id="view-majlis" class="tab-view space-y-6 hidden">
+      <div class="flex justify-between items-center border-b pb-4">
+        <div>
+          <h2 class="text-2xl font-bold text-sufi-green">Majlis Khadimin-E-Auliya</h2>
+          <p class="text-xs text-gray-500">Our Committee & Responsible Members</p>
+        </div>
+        <button id="adminAddMemberBtn" onclick="openMemberModal()" class="hidden bg-sufi-green text-sufi-gold px-4 py-2 rounded-lg text-sm font-semibold shadow">
+          <i class="fa-solid fa-user-plus mr-1"></i> Add Member
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="majlisGrid"></div>
+    </section>
+
+    <!-- 6. VERIFY RASHID SECTION -->
+    <section id="view-verify" class="tab-view space-y-6 hidden max-w-xl mx-auto">
+      <div class="bg-white p-8 rounded-2xl shadow-xl border border-emerald-100 text-center space-y-4">
+        <div class="w-16 h-16 rounded-full bg-emerald-50 text-sufi-green text-3xl flex items-center justify-center mx-auto">
+          <i class="fa-solid fa-shield-halved text-sufi-gold"></i>
+        </div>
+        <h2 class="text-2xl font-bold text-sufi-green">Verify Donation Rashid</h2>
+        <p class="text-xs text-gray-500">Enter the unique Rashid Number / Receipt ID printed on your donation receipt.</p>
+
+        <form onsubmit="handleVerifyReceipt(event)" class="space-y-4 text-left pt-2">
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 mb-1">Receipt ID / Rashid No.</label>
+            <input type="text" id="verifyInputId" placeholder="e.g. KHA-2026-001" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-sufi-green focus:outline-none uppercase text-center font-bold tracking-wider">
+          </div>
+          <button type="submit" class="w-full gold-gradient text-sufi-green font-bold py-3 rounded-lg shadow hover:brightness-105 transition">
+            <i class="fa-solid fa-magnifying-glass mr-1"></i> Verify Receipt Status
+          </button>
+        </form>
+
+        <div id="verifyResult" class="hidden text-left p-4 rounded-xl border mt-4 space-y-2 text-sm"></div>
+      </div>
+    </section>
+
+    <!-- 7. ADMIN DASHBOARD & CONTROL PANEL -->
+    <section id="view-admin" class="tab-view space-y-8 hidden">
+      <div class="bg-emerald-950 text-white p-6 rounded-2xl shadow-xl border-l-8 border-sufi-gold flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+          <span class="text-xs text-sufi-gold font-bold uppercase tracking-widest"><i class="fa-solid fa-user-shield"></i> Role-Based Control</span>
+          <h2 class="text-2xl font-bold">Admin Central Command Dashboard</h2>
+          <p class="text-xs text-emerald-200 mt-1">Manage Rashid Receipts, Donors, Gallery, Programs, Users, and Settings</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="text-xs bg-emerald-800 border border-sufi-gold/30 px-3 py-1 rounded-full text-sufi-gold font-semibold"><i class="fa-solid fa-circle text-green-400 text-[10px] mr-1"></i> Admin Active</span>
+        </div>
+      </div>
+
+      <!-- Admin Sub-Navigation Tabs -->
+      <div class="flex border-b border-gray-200 overflow-x-auto space-x-2 pb-2 text-sm font-semibold">
+        <button onclick="switchAdminSubTab('adm-rashid')" class="adm-tab-btn active px-4 py-2 rounded-t-lg bg-sufi-green text-white">Rashid Management</button>
+        <button onclick="switchAdminSubTab('adm-donors')" class="adm-tab-btn px-4 py-2 rounded-t-lg bg-gray-100 text-gray-700 hover:bg-gray-200">Donor Records</button>
+        <button onclick="switchAdminSubTab('adm-users')" class="adm-tab-btn px-4 py-2 rounded-t-lg bg-gray-100 text-gray-700 hover:bg-gray-200">Registered Users</button>
+        <button onclick="switchAdminSubTab('adm-logs')" class="adm-tab-btn px-4 py-2 rounded-t-lg bg-gray-100 text-gray-700 hover:bg-gray-200">Audit Logs</button>
+      </div>
+
+      <!-- ADMIN SUB-TAB 1: RASHID MANAGEMENT -->
+      <div id="adm-subview-rashid" class="adm-subview space-y-6">
+        <div class="flex justify-between items-center bg-white p-4 rounded-xl shadow-sm border">
+          <h3 class="font-bold text-sufi-green">All Issued Donation Receipts</h3>
+          <button onclick="openRashidModal()" class="gold-gradient text-sufi-green px-4 py-2 rounded-lg text-xs font-bold shadow hover:brightness-105">
+            <i class="fa-solid fa-file-circle-plus mr-1"></i> Create New Rashid
+          </button>
+        </div>
+
+        <div class="bg-white rounded-xl shadow overflow-x-auto border border-gray-200">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-sufi-green text-white uppercase font-semibold">
+              <tr>
+                <th class="p-3">Rashid ID</th>
+                <th class="p-3">Donor Name</th>
+                <th class="p-3">Mobile</th>
+                <th class="p-3">Amount</th>
+                <th class="p-3">Purpose</th>
+                <th class="p-3">Date</th>
+                <th class="p-3">Status</th>
+                <th class="p-3 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="adminRashidTableBody" class="divide-y divide-gray-200 font-medium"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ADMIN SUB-TAB 2: DONOR RECORDS -->
+      <div id="adm-subview-donors" class="adm-subview space-y-6 hidden">
+        <div class="bg-white p-4 rounded-xl shadow-sm border flex flex-col sm:flex-row justify-between gap-4">
+          <input type="text" id="donorSearchInput" onkeyup="filterDonorsTable()" placeholder="Search donor by name or mobile..." class="px-4 py-2 border rounded-lg text-xs w-full sm:w-64 focus:outline-none focus:ring-1 focus:ring-sufi-green">
+          <div class="text-xs text-gray-500 self-center">Aggregated Donor History</div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow overflow-x-auto border border-gray-200">
+          <table class="w-full text-left text-xs" id="donorsTable">
+            <thead class="bg-emerald-900 text-sufi-gold uppercase font-semibold">
+              <tr>
+                <th class="p-3">Donor Name</th>
+                <th class="p-3">Mobile Number</th>
+                <th class="p-3">Address</th>
+                <th class="p-3">Total Contribution</th>
+                <th class="p-3">Rashid Count</th>
+                <th class="p-3 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="adminDonorTableBody" class="divide-y divide-gray-200 font-medium"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ADMIN SUB-TAB 3: REGISTERED USERS -->
+      <div id="adm-subview-users" class="adm-subview space-y-6 hidden">
+        <div class="bg-white rounded-xl shadow overflow-x-auto border border-gray-200">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-gray-800 text-white uppercase font-semibold">
+              <tr>
+                <th class="p-3">User ID</th>
+                <th class="p-3">Full Name</th>
+                <th class="p-3">Mobile</th>
+                <th class="p-3">Email</th>
+                <th class="p-3">Role</th>
+                <th class="p-3">Joined Date</th>
+                <th class="p-3 text-right">Status Control</th>
+              </tr>
+            </thead>
+            <tbody id="adminUserTableBody" class="divide-y divide-gray-200 font-medium"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ADMIN SUB-TAB 4: AUDIT LOGS -->
+      <div id="adm-subview-logs" class="adm-subview space-y-4 hidden">
+        <div class="bg-white p-4 rounded-xl shadow border">
+          <h4 class="font-bold text-gray-700 text-sm mb-3"><i class="fa-solid fa-list-check text-sufi-gold"></i> Admin Activity & Security Log</h4>
+          <div class="space-y-2 max-h-96 overflow-y-auto text-xs" id="auditLogList"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="bg-emerald-950 text-gray-300 border-t-2 border-sufi-gold mt-12 text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div>
+        <h3 class="text-sufi-gold font-bold text-base mb-2 uppercase">KHADIMIN-E-AULIYA</h3>
+        <p class="text-gray-400 leading-relaxed">Promoting Islamic values, Sufi heritage, Langar distribution, and community support with complete transparency and devotion.</p>
+      </div>
+      <div>
+        <h4 class="text-white font-bold mb-3">Quick Navigation</h4>
+        <ul class="space-y-2 text-gray-400">
+          <li><a href="#" onclick="switchTab('programs')" class="hover:text-sufi-gold">Events & Programs</a></li>
+          <li><a href="#" onclick="switchTab('donation')" class="hover:text-sufi-gold">Donation & Bank Account</a></li>
+          <li><a href="#" onclick="switchTab('majlis')" class="hover:text-sufi-gold">Majlis Members</a></li>
+          <li><a href="#" onclick="switchTab('verify')" class="hover:text-sufi-gold">Verify Receipt Online</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-white font-bold mb-3">Contact & Support</h4>
+        <p class="text-gray-400 mb-1"><i class="fa-solid fa-phone text-sufi-gold mr-1"></i> Helpline: +91 98765 43210</p>
+        <p class="text-gray-400 mb-3"><i class="fa-brands fa-whatsapp text-sufi-gold mr-1"></i> WhatsApp: +91 98765 43210</p>
+        <a href="https://wa.me/919876543210" target="_blank" class="inline-flex items-center gap-2 bg-green-600 text-white font-bold px-4 py-2 rounded-lg hover:bg-green-700 transition">
+          <i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp
+        </a>
+      </div>
+    </div>
+    <div class="bg-emerald-900 py-4 text-center text-gray-400 border-t border-emerald-800">
+      <p>&copy; 2026 KHADIMIN-E-AULIYA. All Rights Reserved. Built with Security & Precision.</p>
+    </div>
+  </footer>
+
+  <!-- ==================== MODALS CONTAINER ==================== -->
+
+  <!-- 1. LOGIN / SIGNUP MODAL -->
+  <div id="loginModal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden border-t-4 border-sufi-gold transform transition-all">
+      <div class="p-6 bg-sufi-green text-white flex justify-between items-center">
+        <h3 class="font-bold text-lg text-sufi-gold" id="authModalTitle">Account Access</h3>
+        <button onclick="closeModal('loginModal')" class="text-gray-300 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+      </div>
+      
+      <!-- Tab Controls -->
+      <div class="flex border-b text-sm font-semibold">
+        <button onclick="toggleAuthMode('login')" id="tabBtnLogin" class="flex-1 py-3 text-center border-b-2 border-sufi-green text-sufi-green">Login</button>
+        <button onclick="toggleAuthMode('signup')" id="tabBtnSignup" class="flex-1 py-3 text-center text-gray-500 border-b-2 border-transparent">New Registration</button>
+      </div>
+
+      <div class="p-6 space-y-4">
+        <!-- LOGIN FORM -->
+        <form id="formLogin" onsubmit="handleUserLogin(event)" class="space-y-4">
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">Mobile or Email</label>
+            <input type="text" id="loginId" required placeholder="Enter mobile or email" class="w-full p-2.5 border rounded-lg text-sm focus:ring-2 focus:ring-sufi-green focus:outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">Password</label>
+            <input type="password" id="loginPass" required placeholder="••••••••" class="w-full p-2.5 border rounded-lg text-sm focus:ring-2 focus:ring-sufi-green focus:outline-none">
+          </div>
+          <button type="submit" class="w-full bg-sufi-green text-sufi-gold font-bold py-3 rounded-lg shadow hover:bg-emerald-900 transition">
+            Sign In
+          </button>
+        </form>
+
+        <!-- SIGNUP FORM (Hidden by default) -->
+        <form id="formSignup" onsubmit="handleUserSignup(event)" class="space-y-3 hidden">
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">Full Name</label>
+            <input type="text" id="signupName" required placeholder="Your Name" class="w-full p-2 border rounded-lg text-sm">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">Mobile Number</label>
+            <input type="tel" id="signupMobile" required placeholder="10-digit mobile" class="w-full p-2 border rounded-lg text-sm">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">Email Address</label>
+            <input type="email" id="signupEmail" required placeholder="name@domain.com" class="w-full p-2 border rounded-lg text-sm">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">Password</label>
+            <input type="password" id="signupPass" required placeholder="Create strong password" class="w-full p-2 border rounded-lg text-sm">
+          </div>
+          <button type="submit" class="w-full gold-gradient text-sufi-green font-bold py-2.5 rounded-lg shadow">
+            Create Account & Join
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. CREATE / EDIT RASHID MODAL (ADMIN) -->
+  <div id="rashidModal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden border-t-4 border-sufi-gold max-h-[90vh] flex flex-col">
+      <div class="p-4 bg-sufi-green text-white flex justify-between items-center">
+        <h3 class="font-bold text-base text-sufi-gold"><i class="fa-solid fa-receipt mr-1"></i> Issue Official Donation Rashid</h3>
+        <button onclick="closeModal('rashidModal')" class="text-gray-300 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+      </div>
+      <form onsubmit="handleSaveRashid(event)" class="p-6 space-y-4 overflow-y-auto flex-1">
+        <input type="hidden" id="rashidEditIndex" value="-1">
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">Donor Name *</label>
+          <input type="text" id="rDonorName" required placeholder="Full Name" class="w-full p-2 border rounded-lg text-sm">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">Mobile Number *</label>
+            <input type="tel" id="rDonorMobile" required placeholder="Mobile No." class="w-full p-2 border rounded-lg text-sm">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">Amount (₹) *</label>
+            <input type="number" id="rAmount" required placeholder="e.g. 1000" class="w-full p-2 border rounded-lg text-sm font-bold text-sufi-green">
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">Place / City Address</label>
+          <input type="text" id="rAddress" placeholder="e.g. Rampur, UP" class="w-full p-2 border rounded-lg text-sm">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">Donation Purpose *</label>
+          <select id="rPurpose" class="w-full p-2 border rounded-lg text-sm bg-white">
+            <option value="All Purpose">All Purpose / General Fund</option>
+            <option value="Langar-e-Gausiya">Langar-e-Gausiya</option>
+            <option value="Mazarat Ki Tameer">Mazarat Ki Tameer</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">Date</label>
+          <input type="date" id="rDate" required class="w-full p-2 border rounded-lg text-sm">
+        </div>
+        <div class="pt-2 flex justify-end gap-2">
+          <button type="button" onclick="closeModal('rashidModal')" class="px-4 py-2 border rounded-lg text-xs font-bold text-gray-600">Cancel</button>
+          <button type="submit" class="px-6 py-2 bg-sufi-green text-sufi-gold font-bold rounded-lg text-xs shadow hover:bg-emerald-900">Generate & Confirm Rashid</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 3. RASHID VIEW / PRINT MODAL -->
+  <div id="viewRashidModal" class="fixed inset-0 z-50 hidden bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden border-2 border-sufi-gold flex flex-col max-h-[95vh]">
+      <div class="p-3 bg-sufi-green text-white flex justify-between items-center no-print">
+        <span class="text-xs font-bold text-sufi-gold">Official Digital Receipt</span>
+        <button onclick="closeModal('viewRashidModal')" class="text-gray-300 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+
+      <!-- Printable Voucher Container -->
+      <div id="printableRashid" class="p-6 bg-white border-8 border-double border-sufi-green space-y-4 text-center relative">
+        <div class="border-b-2 border-sufi-gold pb-3">
+          <div class="w-12 h-12 rounded-full border border-sufi-gold bg-sufi-green text-sufi-gold flex items-center justify-center mx-auto mb-1">
+            <i class="fa-solid fa-kaaba text-xl"></i>
+          </div>
+          <h2 class="text-xl font-black text-sufi-green uppercase tracking-wider">KHADIMIN-E-AULIYA</h2>
+          <p class="text-[10px] text-gray-500 uppercase tracking-widest font-semibold">Official Donation Receipt / Rashid</p>
+        </div>
+
+        <div class="flex justify-between items-center text-xs font-bold text-gray-600 border-b pb-2">
+          <span>Receipt ID: <strong id="vRashidId" class="text-sufi-green">---</strong></span>
+          <span>Date: <span id="vRashidDate">---</span></span>
+        </div>
+
+        <div class="space-y-2 text-left text-xs text-gray-800">
+          <p><span class="text-gray-500">Received With Thanks From:</span> <br><strong id="vDonorName" class="text-sm text-gray-900">---</strong></p>
+          <div class="grid grid-cols-2 gap-2">
+            <p><span class="text-gray-500">Mobile:</span> <br><strong id="vDonorMobile">---</strong></p>
+            <p><span class="text-gray-500">City/Address:</span> <br><strong id="vDonorAddress">---</strong></p>
+          </div>
+          <p><span class="text-gray-500">Donation Purpose:</span> <br><span id="vDonorPurpose" class="inline-block bg-emerald-50 text-sufi-green px-2 py-0.5 rounded font-bold border border-emerald-200">---</span></p>
+          <div class="bg-sufi-green/10 border-l-4 border-sufi-green p-3 rounded my-2 flex justify-between items-center">
+            <span class="font-bold text-sufi-green">Amount Paid:</span>
+            <span class="text-lg font-black text-sufi-green" id="vDonorAmount">₹0</span>
+          </div>
+        </div>
+
+        <!-- Verification QR Code -->
+        <div class="pt-2 border-t flex items-center justify-between">
+          <div id="rashidQrContainer" class="w-16 h-16 bg-gray-100 p-1 border"></div>
+          <div class="text-right text-[10px] text-gray-500">
+            <p class="font-bold text-sufi-green">Verified Official Receipt</p>
+            <p>Authorized Signatory</p>
+            <p class="italic text-[9px] text-gray-400">Khadimin-e-Auliya Admin</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="p-4 bg-gray-50 border-t flex flex-wrap gap-2 justify-end no-print">
+        <button onclick="window.print()" class="bg-sufi-green text-sufi-gold px-4 py-2 rounded text-xs font-bold shadow hover:bg-emerald-900">
+          <i class="fa-solid fa-print mr-1"></i> Print / Download PDF
+        </button>
+        <button onclick="shareRashidWhatsApp()" class="bg-green-600 text-white px-4 py-2 rounded text-xs font-bold shadow hover:bg-green-700">
+          <i class="fa-brands fa-whatsapp mr-1"></i> Share WhatsApp
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. PROGRAM MODAL (ADMIN) -->
+  <div id="programModal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden border-t-4 border-sufi-gold">
+      <div class="p-4 bg-sufi-green text-white flex justify-between items-center">
+        <h3 class="font-bold text-sm text-sufi-gold"><i class="fa-solid fa-calendar-plus mr-1"></i> Add / Edit Program</h3>
+        <button onclick="closeModal('programModal')" class="text-gray-300 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+      <form onsubmit="handleSaveProgram(event)" class="p-5 space-y-3">
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">Program Name *</label>
+          <input type="text" id="pTitle" required placeholder="e.g. Annual Urs Shareef" class="w-full p-2 border rounded text-xs">
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">Place *</label>
+            <input type="text" id="pPlace" required placeholder="Venue" class="w-full p-2 border rounded text-xs">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">Date & Time *</label>
+            <input type="text" id="pDateTime" required placeholder="15 Aug, 8:00 PM" class="w-full p-2 border rounded text-xs">
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">Description</label>
+          <textarea id="pDesc" rows="3" placeholder="Program details..." class="w-full p-2 border rounded text-xs"></textarea>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">Poster Image URL</label>
+          <input type="text" id="pImgUrl" placeholder="https://..." class="w-full p-2 border rounded text-xs">
+        </div>
+        <div class="pt-2 flex justify-end gap-2">
+          <button type="button" onclick="closeModal('programModal')" class="px-3 py-1.5 border rounded text-xs font-bold text-gray-600">Cancel</button>
+          <button type="submit" class="px-4 py-1.5 bg-sufi-green text-sufi-gold font-bold rounded text-xs">Save Program</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 5. MAJLIS MEMBER MODAL (ADMIN) -->
+  <div id="memberModal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden border-t-4 border-sufi-gold">
+      <div class="p-4 bg-sufi-green text-white flex justify-between items-center">
+        <h3 class="font-bold text-sm text-sufi-gold"><i class="fa-solid fa-user-plus mr-1"></i> Add / Edit Committee Member</h3>
+        <button onclick="closeModal('memberModal')" class="text-gray-300 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+      <form onsubmit="handleSaveMember(event)" class="p-5 space-y-3">
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">Member Name *</label>
+          <input type="text" id="mName" required placeholder="Full Name" class="w-full p-2 border rounded text-xs">
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">Mobile No.</label>
+            <input type="tel" id="mMobile" placeholder="Mobile" class="w-full p-2 border rounded text-xs">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">Responsibility / Designation *</label>
+            <input type="text" id="mRole" required placeholder="e.g. President, Secretary" class="w-full p-2 border rounded text-xs">
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">Address / Location</label>
+          <input type="text" id="mAddress" placeholder="City" class="w-full p-2 border rounded text-xs">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">Photo URL</label>
+          <input type="text" id="mPhoto" placeholder="https://..." class="w-full p-2 border rounded text-xs">
+        </div>
+        <div class="pt-2 flex justify-end gap-2">
+          <button type="button" onclick="closeModal('memberModal')" class="px-3 py-1.5 border rounded text-xs font-bold text-gray-600">Cancel</button>
+          <button type="submit" class="px-4 py-1.5 bg-sufi-green text-sufi-gold font-bold rounded text-xs">Save Member</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== JAVASCRIPT APPLICATION LOGIC ==================== -->
+  <script>
+    // Global State & Security Engine
+    const AppState = {
+      currentUser: null, // { name, role: 'admin'|'user', mobile, email }
+      activeTab: 'home',
+      activeAdminTab: 'adm-rashid',
+      rashids: [
+        { id: 'KHA-2026-001', name: 'Mohammad Raza', mobile: '9876543210', amount: 5000, purpose: 'Langar-e-Gausiya', address: 'Rampur', date: '2026-08-10', status: 'Confirmed' },
+        { id: 'KHA-2026-002', name: 'Syed Ali', mobile: '9123456789', amount: 2500, purpose: 'Mazarat Ki Tameer', address: 'Delhi', date: '2026-08-12', status: 'Confirmed' }
+      ],
+      programs: [
+        { id: 1, title: 'Annual Urs Shareef & Qawwali', place: 'Central Mazar Sharif', dateTime: '15 Sep 2026, 8:00 PM', desc: 'Join us for divine Sufi music and spiritual discourse.', img: 'https://images.unsplash.com/photo-1542816417-0983cbe82079?auto=format&fit=crop&w=600&q=80' }
+      ],
+      photos: [
+        { id: 1, title: 'Langar Distribution', category: 'Langar', url: 'https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=600&q=80' }
+      ],
+      videos: [
+        { id: 1, title: 'Urs Shareef Highlights', url: 'https://www.youtube.com/embed/dQw4w9WgXcQ' }
+      ],
+      members: [
+        { id: 1, name: 'Haji Mohammad Hasan', role: 'Sadar / President', mobile: '9876500001', address: 'Rampur', photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80' }
+      ],
+      users: [
+        { id: 'U-101', name: 'Mohammad Raza', mobile: '9876543210', email: 'raza@example.com', role: 'admin', joined: '2026-01-01', status: 'Active' }
+      ],
+      bank: { holder: 'KHADIMIN E AULIYA WELFARE', bank: 'State Bank of India', accNo: '38920100293', ifsc: 'SBIN0001234', branch: 'Rampur Main Branch' },
+      upi: { upiId: 'khadimineauliya@upi' },
+      logs: []
+    };
+
+    // Initialize System
+    document.addEventListener('DOMContentLoaded', () => {
+      renderAllViews();
+      generateUpiQrCode(AppState.upi.upiId);
+      logAuditAction('System Initialized', 'Public page loaded securely');
+    });
+
+    // Security Audit Logger
+    function logAuditAction(action, details) {
+      const logEntry = {
+        time: new Date().toLocaleString(),
+        user: AppState.currentUser ? AppState.currentUser.name : 'Guest/Visitor',
+        action: action,
+        details: details
+      };
+      AppState.logs.unshift(logEntry);
+      renderAuditLogs();
+    }
+
+    // Tab Router
+    function switchTab(tabId) {
+      // Role Guard for Admin Tab
+      if (tabId === 'admin' && (!AppState.currentUser || AppState.currentUser.role !== 'admin')) {
+        showToast('Access Denied! Admin privileges required.', 'error');
+        openModal('loginModal');
+        return;
+      }
+
+      document.querySelectorAll('.tab-view').forEach(el => el.classList.add('hidden'));
+      const targetView = document.getElementById(`view-${tabId}`);
+      if (targetView) targetView.classList.remove('hidden');
+      AppState.activeTab = tabId;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function switchAdminSubTab(subTabId) {
+      document.querySelectorAll('.adm-subview').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.adm-tab-btn').forEach(btn => {
+        btn.classList.remove('bg-sufi-green', 'text-white');
+        btn.classList.add('bg-gray-100', 'text-gray-700');
+      });
+
+      const target = document.getElementById(subTabId);
+      if (target) target.classList.remove('hidden');
+      
+      event.currentTarget.classList.remove('bg-gray-100', 'text-gray-700');
+      event.currentTarget.classList.add('bg-sufi-green', 'text-white');
+    }
+
+    // Toggle Mobile Drawer Menu
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.toggle('hidden');
+    }
+
+    // Modal Manager
+    function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
+    function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+
+    // Authentication Engine
+    function toggleAuthMode(mode) {
+      if (mode === 'login') {
+        document.getElementById('formLogin').classList.remove('hidden');
+        document.getElementById('formSignup').classList.add('hidden');
+        document.getElementById('tabBtnLogin').classList.add('border-sufi-green', 'text-sufi-green');
+        document.getElementById('tabBtnSignup').classList.remove('border-sufi-green', 'text-sufi-green');
+      } else {
+        document.getElementById('formLogin').classList.add('hidden');
+        document.getElementById('formSignup').classList.remove('hidden');
+        document.getElementById('tabBtnSignup').classList.add('border-sufi-green', 'text-sufi-green');
+        document.getElementById('tabBtnLogin').classList.remove('border-sufi-green', 'text-sufi-green');
+      }
+    }
+
+    function handleUserLogin(e) {
+      e.preventDefault();
+      const id = document.getElementById('loginId').value;
+      const pass = document.getElementById('loginPass').value;
+
+      // Hardcoded Admin Check for demonstration
+      if ((id === 'admin' || id === '9876543210') && pass === 'admin123') {
+        AppState.currentUser = { name: 'Admin Mohammad Raza', role: 'admin', mobile: '9876543210' };
+        showToast('Welcome Admin! Security Access Granted.', 'success');
+        logAuditAction('Admin Login', 'Admin user logged in successfully');
+      } else {
+        AppState.currentUser = { name: id, role: 'user', mobile: id };
+        showToast('Login Successful!', 'success');
+        logAuditAction('User Login', `User ${id} logged in`);
+      }
+
+      updateAuthUI();
+      closeModal('loginModal');
+      e.target.reset();
+    }
+
+    function handleUserSignup(e) {
+      e.preventDefault();
+      const name = document.getElementById('signupName').value;
+      const mobile = document.getElementById('signupMobile').value;
+      const email = document.getElementById('signupEmail').value;
+
+      const newUser = { id: `U-${Date.now().toString().slice(-3)}`, name, mobile, email, role: 'user', joined: new Date().toISOString().split('T')[0], status: 'Active' };
+      AppState.users.push(newUser);
+      AppState.currentUser = newUser;
+
+      showToast('Registration Successful! Welcome to Khadimin-E-Auliya.', 'success');
+      logAuditAction('User Registration', `New user registered: ${name} (${mobile})`);
+      
+      updateAuthUI();
+      renderUsersTable();
+      closeModal('loginModal');
+      e.target.reset();
+    }
+
+    function handleLogout() {
+      logAuditAction('Logout', `User logged out: ${AppState.currentUser.name}`);
+      AppState.currentUser = null;
+      updateAuthUI();
+      switchTab('home');
+      showToast('Logged out successfully.', 'info');
+    }
+
+    function updateAuthUI() {
+      const authNav = document.getElementById('authNavButtons');
+      const mobileAuthNav = document.getElementById('mobileAuthNav');
+
+      if (AppState.currentUser) {
+        const isAdmin = AppState.currentUser.role === 'admin';
+        authNav.innerHTML = `
+          <div class="flex items-center gap-3">
+            <span class="text-xs text-sufi-gold font-bold"><i class="fa-solid fa-circle-user mr-1"></i> ${AppState.currentUser.name}</span>
+            ${isAdmin ? `<button onclick="switchTab('admin')" class="bg-sufi-gold text-sufi-green px-3 py-1 rounded text-xs font-bold shadow">Admin Dashboard</button>` : ''}
+            <button onclick="handleLogout()" class="text-xs bg-red-800 text-white px-2.5 py-1 rounded hover:bg-red-700">Logout</button>
+          </div>
+        `;
+        mobileAuthNav.innerHTML = `
+          <div class="p-2 text-sufi-gold text-xs font-bold">Logged in as: ${AppState.currentUser.name}</div>
+          ${isAdmin ? `<button onclick="switchTab('admin'); toggleMobileMenu();" class="w-full py-2 rounded bg-sufi-gold text-sufi-green font-bold text-center">Admin Panel</button>` : ''}
+          <button onclick="handleLogout(); toggleMobileMenu();" class="w-full py-2 rounded bg-red-800 text-white font-bold text-center">Logout</button>
+        `;
+
+        // Toggle Admin Specific Add/Edit Buttons Across Tabs
+        document.querySelectorAll('#adminAddProgramBtn, #adminAddPhotoBtn, #adminAddVideoBtn, #adminAddMemberBtn, #adminEditBankBtn, #adminEditUpiBtn').forEach(btn => {
+          if (isAdmin) btn.classList.remove('hidden'); else btn.classList.add('hidden');
+        });
+
+      } else {
+        authNav.innerHTML = `
+          <button onclick="openModal('loginModal')" class="px-4 py-2 text-sm font-semibold rounded-lg text-sufi-gold border border-sufi-gold hover:bg-sufi-gold hover:text-sufi-green transition">
+            <i class="fa-solid fa-right-to-bracket mr-1"></i> Login / Signup
+          </button>
+        `;
+        mobileAuthNav.innerHTML = `
+          <button onclick="openModal('loginModal'); toggleMobileMenu();" class="w-full py-2 rounded text-center bg-sufi-gold text-sufi-green font-bold">Login / Signup</button>
+        `;
+        document.querySelectorAll('#adminAddProgramBtn, #adminAddPhotoBtn, #adminAddVideoBtn, #adminAddMemberBtn, #adminEditBankBtn, #adminEditUpiBtn').forEach(btn => btn.classList.add('hidden'));
+      }
+    }
+
+    // Render All Dynamic Components
+    function renderAllViews() {
+      renderPrograms();
+      renderGallery();
+      renderMajlis();
+      renderRashidTable();
+      renderDonorsTable();
+      renderUsersTable();
+      renderAuditLogs();
+      updateAuthUI();
+    }
+
+    // RASHID GENERATOR ENGINE (ADMIN)
+    function openRashidModal(index = -1) {
+      document.getElementById('rashidEditIndex').value = index;
+      document.getElementById('rDate').value = new Date().toISOString().split('T')[0];
+      openModal('rashidModal');
+    }
+
+    function handleSaveRashid(e) {
+      e.preventDefault();
+      const idx = parseInt(document.getElementById('rashidEditIndex').value);
+      const name = document.getElementById('rDonorName').value;
+      const mobile = document.getElementById('rDonorMobile').value;
+      const amount = parseFloat(document.getElementById('rAmount').value);
+      const address = document.getElementById('rAddress').value;
+      const purpose = document.getElementById('rPurpose').value;
+      const date = document.getElementById('rDate').value;
+
+      if (idx === -1) {
+        // Create New Rashid
+        const newId = `KHA-2026-${(AppState.rashids.length + 1).toString().padStart(3, '0')}`;
+        const newRashid = { id: newId, name, mobile, amount, purpose, address, date, status: 'Confirmed' };
+        AppState.rashids.unshift(newRashid);
+        showToast(`Rashid ${newId} Generated Successfully!`, 'success');
+        logAuditAction('Rashid Created', `Issued ${newId} for ₹${amount} to ${name}`);
+      } else {
+        // Update Rashid
+        AppState.rashids[idx] = { ...AppState.rashids[idx], name, mobile, amount, purpose, address, date };
+        showToast('Rashid details updated.', 'success');
+        logAuditAction('Rashid Updated', `Updated receipt ${AppState.rashids[idx].id}`);
+      }
+
+      renderRashidTable();
+      renderDonorsTable();
+      closeModal('rashidModal');
+      e.target.reset();
+    }
+
+    function renderRashidTable() {
+      const tbody = document.getElementById('adminRashidTableBody');
+      tbody.innerHTML = AppState.rashids.map((r, i) => `
+        <tr class="hover:bg-gray-50 border-b">
+          <td class="p-3 font-bold text-sufi-green">${r.id}</td>
+          <td class="p-3 font-semibold text-gray-800">${r.name}</td>
+          <td class="p-3">${r.mobile}</td>
+          <td class="p-3 font-bold text-emerald-800">₹${r.amount}</td>
+          <td class="p-3"><span class="bg-gray-100 px-2 py-0.5 rounded border text-[11px]">${r.purpose}</span></td>
+          <td class="p-3">${r.date}</td>
+          <td class="p-3"><span class="bg-green-100 text-green-800 px-2 py-0.5 rounded font-bold">${r.status}</span></td>
+          <td class="p-3 text-right space-x-1">
+            <button onclick="viewRashidVoucher('${r.id}')" class="text-sufi-green hover:text-emerald-900 font-bold px-2 py-1 bg-emerald-50 rounded border border-emerald-200" title="View/Print"><i class="fa-solid fa-eye"></i></button>
+            <button onclick="openRashidModal(${i})" class="text-amber-600 hover:text-amber-800 font-bold px-2 py-1 bg-amber-50 rounded border border-amber-200" title="Edit"><i class="fa-solid fa-pen"></i></button>
+          </td>
+        </tr>
+      `).join('');
+
+      document.getElementById('statReceipts').innerText = `${AppState.rashids.length}+`;
+    }
+
+    function viewRashidVoucher(id) {
+      const r = AppState.rashids.find(item => item.id === id);
+      if (!r) return;
+
+      document.getElementById('vRashidId').innerText = r.id;
+      document.getElementById('vRashidDate').innerText = r.date;
+      document.getElementById('vDonorName').innerText = r.name;
+      document.getElementById('vDonorMobile').innerText = r.mobile;
+      document.getElementById('vDonorAddress').innerText = r.address || 'N/A';
+      document.getElementById('vDonorPurpose').innerText = r.purpose;
+      document.getElementById('vDonorAmount').innerText = `₹${r.amount}`;
+
+      // Generate Verification QR
+      const qrBox = document.getElementById('rashidQrContainer');
+      qrBox.innerHTML = '';
+      new QRCode(qrBox, { text: `https://khadimineauliya.org/verify?id=${r.id}`, width: 60, height: 60 });
+
+      openModal('viewRashidModal');
+    }
+
+    function shareRashidWhatsApp() {
+      const id = document.getElementById('vRashidId').innerText;
+      const name = document.getElementById('vDonorName').innerText;
+      const amount = document.getElementById('vDonorAmount').innerText;
+      const text = `Assalamu Alaikum *${name}*,\n\nThank you for your generous donation of *${amount}* to Khadimin-E-Auliya.\n\nYour official Rashid Receipt ID is: *${id}*\n\nVerify online: https://khadimineauliya.org/verify?id=${id}`;
+      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
+    }
+
+    // DONOR AGGREGATOR TABLE
+    function renderDonorsTable() {
+      const donorMap = {};
+      AppState.rashids.forEach(r => {
+        if (!donorMap[r.mobile]) {
+          donorMap[r.mobile] = { name: r.name, mobile: r.mobile, address: r.address, total: 0, count: 0 };
+        }
+        donorMap[r.mobile].total += r.amount;
+        donorMap[r.mobile].count += 1;
+      });
+
+      const tbody = document.getElementById('adminDonorTableBody');
+      const donorList = Object.values(donorMap);
+
+      tbody.innerHTML = donorList.map(d => `
+        <tr class="hover:bg-gray-50 border-b">
+          <td class="p-3 font-bold text-gray-800">${d.name}</td>
+          <td class="p-3 font-mono">${d.mobile}</td>
+          <td class="p-3 text-gray-600">${d.address || 'N/A'}</td>
+          <td class="p-3 font-bold text-sufi-green">₹${d.total}</td>
+          <td class="p-3"><span class="bg-sufi-gold/20 text-sufi-green px-2 py-0.5 rounded font-bold">${d.count} Receipts</span></td>
+          <td class="p-3 text-right">
+            <button onclick="filterDonorReceipts('${d.mobile}')" class="text-xs bg-sufi-green text-sufi-gold font-bold px-2.5 py-1 rounded shadow">View Receipts</button>
+          </td>
+        </tr>
+      `).join('');
+
+      // Update Total Amount Stat
+      const grandTotal = donorList.reduce((acc, curr) => acc + curr.total, 0);
+      document.getElementById('statDonations').innerText = `₹${grandTotal.toLocaleString()}+`;
+    }
+
+    function filterDonorsTable() {
+      const query = document.getElementById('donorSearchInput').value.toLowerCase();
+      const rows = document.querySelectorAll('#donorsTable tbody tr');
+      rows.forEach(row => {
+        const text = row.innerText.toLowerCase();
+        row.style.display = text.includes(query) ? '' : 'none';
+      });
+    }
+
+    // VERIFICATION SYSTEM
+    function handleVerifyReceipt(e) {
+      e.preventDefault();
+      const searchId = document.getElementById('verifyInputId').value.trim().toUpperCase();
+      const resBox = document.getElementById('verifyResult');
+      const found = AppState.rashids.find(r => r.id === searchId);
+
+      resBox.classList.remove('hidden', 'bg-green-50', 'border-green-300', 'bg-red-50', 'border-red-300');
+
+      if (found) {
+        resBox.classList.add('bg-green-50', 'border-green-300');
+        resBox.innerHTML = `
+          <div class="flex items-center gap-2 text-green-800 font-bold mb-1">
+            <i class="fa-solid fa-circle-check text-green-600 text-lg"></i> Official Receipt Verified!
+          </div>
+          <p><strong>Receipt ID:</strong> ${found.id}</p>
+          <p><strong>Donor Name:</strong> ${found.name}</p>
+          <p><strong>Donation Purpose:</strong> ${found.purpose}</p>
+          <p><strong>Date Issued:</strong> ${found.date}</p>
+          <p class="text-xs text-gray-500 mt-1 italic">Issued securely by Khadimin-E-Auliya Admin Panel.</p>
+        `;
+        logAuditAction('Receipt Verification', `Public search verified ID: ${searchId}`);
+      } else {
+        resBox.classList.add('bg-red-50', 'border-red-300');
+        resBox.innerHTML = `
+          <div class="flex items-center gap-2 text-red-800 font-bold">
+            <i class="fa-solid fa-circle-xmark text-red-600 text-lg"></i> Receipt Not Found
+          </div>
+          <p class="text-xs text-red-600 mt-1">No matching active record found for ID "${searchId}". Please check the ID or contact support.</p>
+        `;
+      }
+    }
+
+    // PROGRAMS ENGINE
+    function openProgramModal() { openModal('programModal'); }
+    function handleSaveProgram(e) {
+      e.preventDefault();
+      const title = document.getElementById('pTitle').value;
+      const place = document.getElementById('pPlace').value;
+      const dateTime = document.getElementById('pDateTime').value;
+      const desc = document.getElementById('pDesc').value;
+      const img = document.getElementById('pImgUrl').value || 'https://images.unsplash.com/photo-1542816417-0983cbe82079?auto=format&fit=crop&w=600&q=80';
+
+      AppState.programs.push({ id: Date.now(), title, place, dateTime, desc, img });
+      renderPrograms();
+      closeModal('programModal');
+      showToast('Program added successfully!', 'success');
+      logAuditAction('Program Created', `Added event: ${title}`);
+      e.target.reset();
+    }
+
+    function renderPrograms() {
+      const grid = document.getElementById('programsGrid');
+      grid.innerHTML = AppState.programs.map(p => `
+        <div class="bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100 flex flex-col justify-between">
+          <img src="${p.img}" alt="${p.title}" class="w-full h-48 object-cover">
+          <div class="p-5 flex-1 flex flex-col justify-between space-y-3">
+            <div>
+              <span class="text-[10px] bg-sufi-gold/20 text-sufi-green font-bold px-2 py-0.5 rounded"><i class="fa-solid fa-clock mr-1"></i>${p.dateTime}</span>
+              <h3 class="font-bold text-lg text-sufi-green mt-2">${p.title}</h3>
+              <p class="text-xs text-gray-500 font-medium"><i class="fa-solid fa-location-dot text-sufi-gold mr-1"></i>${p.place}</p>
+              <p class="text-xs text-gray-600 mt-2 leading-relaxed">${p.desc}</p>
+            </div>
+            <button onclick="shareProgram('${p.title}')" class="w-full mt-3 bg-gray-100 hover:bg-gray-200 text-gray-800 text-xs font-bold py-2 rounded-lg flex items-center justify-center gap-2">
+              <i class="fa-brands fa-whatsapp text-green-600"></i> Share Event Details
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function shareProgram(title) {
+      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(`Join Khadimin-E-Auliya Program: *${title}*. Visit https://khadimineauliya.org for details.`)}`, '_blank');
+    }
+
+    // GALLERY ENGINE
+    function openGalleryUploadModal(type) {
+      const title = prompt(`Enter ${type} Title:`);
+      if (!title) return;
+      const url = prompt(`Enter ${type} URL (Image link or YouTube embed link):`);
+      if (!url) return;
+
+      if (type === 'photo') {
+        AppState.photos.push({ id: Date.now(), title, category: 'General', url });
+      } else {
+        AppState.videos.push({ id: Date.now(), title, url });
+      }
+
+      renderGallery();
+      showToast(`${type} added to media gallery!`, 'success');
+      logAuditAction('Gallery Upload', `Uploaded new ${type}: ${title}`);
+    }
+
+    function renderGallery() {
+      // Photos
+      document.getElementById('photoGalleryGrid').innerHTML = AppState.photos.map(p => `
+        <div class="group relative rounded-xl overflow-hidden shadow-md border bg-white">
+          <img src="${p.url}" alt="${p.title}" class="w-full h-40 object-cover group-hover:scale-105 transition duration-300">
+          <div class="p-2 text-center bg-white">
+            <p class="text-xs font-bold text-gray-800 truncate">${p.title}</p>
+          </div>
+        </div>
+      `).join('');
+
+      // Videos
+      document.getElementById('videoGalleryGrid').innerHTML = AppState.videos.map(v => `
+        <div class="bg-white rounded-xl overflow-hidden shadow-md border p-2">
+          <div class="aspect-video w-full rounded overflow-hidden">
+            <iframe src="${v.url}" class="w-full h-full" frameborder="0" allowfullscreen></iframe>
+          </div>
+          <p class="text-xs font-bold text-gray-800 mt-2 px-1">${v.title}</p>
+        </div>
+      `).join('');
+    }
+
+    // MAJLIS MEMBERS ENGINE
+    function openMemberModal() { openModal('memberModal'); }
+    function handleSaveMember(e) {
+      e.preventDefault();
+      const name = document.getElementById('mName').value;
+      const mobile = document.getElementById('mMobile').value;
+      const role = document.getElementById('mRole').value;
+      const address = document.getElementById('mAddress').value;
+      const photo = document.getElementById('mPhoto').value || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80';
+
+      AppState.members.push({ id: Date.now(), name, mobile, role, address, photo });
+      renderMajlis();
+      closeModal('memberModal');
+      showToast('Committee member added!', 'success');
+      logAuditAction('Member Added', `Added ${name} as ${role}`);
+      e.target.reset();
+    }
+
+    function renderMajlis() {
+      document.getElementById('majlisGrid').innerHTML = AppState.members.map(m => `
+        <div class="bg-white rounded-2xl p-5 shadow-lg border border-gray-100 text-center flex flex-col items-center hover:border-sufi-gold transition">
+          <img src="${m.photo}" alt="${m.name}" class="w-24 h-24 rounded-full object-cover border-2 border-sufi-gold shadow mb-3">
+          <h3 class="font-bold text-sufi-green text-base">${m.name}</h3>
+          <span class="text-xs bg-sufi-gold/20 text-sufi-green font-bold px-3 py-1 rounded-full my-1">${m.role}</span>
+          <p class="text-xs text-gray-500"><i class="fa-solid fa-location-dot mr-1"></i>${m.address}</p>
+          <p class="text-xs text-gray-700 mt-1 font-mono"><i class="fa-solid fa-phone text-sufi-gold mr-1"></i>${m.mobile}</p>
+        </div>
+      `).join('');
+
+      document.getElementById('statMembers').innerText = `${AppState.members.length}+`;
+    }
+
+    // BANK & UPI UPDATER (ADMIN)
+    function generateUpiQrCode(upiString) {
+      const qrBox = document.getElementById('upiQrDisplay');
+      qrBox.innerHTML = '';
+      new QRCode(qrBox, { text: `upi://pay?pa=${upiString}&pn=KHADIMIN_E_AULIYA`, width: 160, height: 160 });
+    }
+
+    function openUpiModal() {
+      const newUpi = prompt('Enter New Official UPI ID:', AppState.upi.upiId);
+      if (newUpi) {
+        AppState.upi.upiId = newUpi;
+        document.getElementById('dispUpiId').innerText = newUpi;
+        generateUpiQrCode(newUpi);
+        showToast('UPI & QR Code Updated!', 'success');
+        logAuditAction('Payment Info Updated', `Changed UPI ID to ${newUpi}`);
+      }
+    }
+
+    function copyUpi() {
+      navigator.clipboard.writeText(AppState.upi.upiId);
+      showToast('UPI ID copied to clipboard!', 'info');
+    }
+
+    // AUDIT & USER MANAGEMENT TABLES
+    function renderUsersTable() {
+      document.getElementById('adminUserTableBody').innerHTML = AppState.users.map(u => `
+        <tr class="hover:bg-gray-50 border-b">
+          <td class="p-3 font-mono text-gray-500">${u.id}</td>
+          <td class="p-3 font-bold text-gray-800">${u.name}</td>
+          <td class="p-3">${u.mobile}</td>
+          <td class="p-3 text-gray-600">${u.email}</td>
+          <td class="p-3"><span class="px-2 py-0.5 rounded font-bold text-[10px] ${u.role === 'admin' ? 'bg-purple-100 text-purple-800' : 'bg-gray-100 text-gray-700'}">${u.role.toUpperCase()}</span></td>
+          <td class="p-3">${u.joined}</td>
+          <td class="p-3 text-right">
+            <span class="text-xs text-green-700 font-bold bg-green-50 px-2 py-0.5 rounded border">${u.status}</span>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function renderAuditLogs() {
+      document.getElementById('auditLogList').innerHTML = AppState.logs.map(l => `
+        <div class="p-2 bg-gray-50 border-l-2 border-sufi-gold rounded flex justify-between items-center text-[11px]">
+          <div>
+            <span class="font-bold text-sufi-green">[${l.action}]</span>
+            <span class="text-gray-700 ml-1">${l.details}</span>
+          </div>
+          <div class="text-gray-400 font-mono text-[10px] whitespace-nowrap">${l.time}</div>
+        </div>
+      `).join('');
+    }
+
+    // TOAST NOTIFICATION SYSTEM
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      
+      const colors = {
+        success: 'bg-sufi-green text-sufi-gold border-sufi-gold',
+        error: 'bg-red-900 text-white border-red-500',
+        info: 'bg-emerald-900 text-white border-sufi-gold'
+      };
+
+      toast.className = `p-3 rounded-xl shadow-2xl border ${colors[type]} text-xs font-bold flex items-center justify-between transition-all duration-300 transform translate-y-2 pointer-events-auto`;
+      toast.innerHTML = `
+        <div class="flex items-center gap-2">
+          <i class="fa-solid ${type === 'success' ? 'fa-circle-check' : 'fa-circle-info'}"></i>
+          <span>${message}</span>
+        </div>
+        <button onclick="this.parentElement.remove()" class="ml-3 text-white/70 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+      `;
+
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.classList.add('opacity-0', '-translate-y-2');
+        setTimeout(() => toast.remove(), 300);
+      }, 4000);
+    }
+  </script>
+</body>
+</html>
