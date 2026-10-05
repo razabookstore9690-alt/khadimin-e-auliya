@@ -1,0 +1,2866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="KHADIMIN-E-AULIYA">
+<title>KHADIMIN-E-AULIYA</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f5faf7;
+    color:#173b2c;
+}
+
+button,input,select,textarea{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+.hidden{
+    display:none!important;
+}
+
+/* HEADER */
+header{
+    background:linear-gradient(135deg,#06462f,#08724d);
+    color:white;
+    padding:15px;
+    position:sticky;
+    top:0;
+    z-index:100;
+    box-shadow:0 3px 12px #0002;
+}
+
+.header-inner{
+    max-width:1100px;
+    margin:auto;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+}
+
+.logo-title{
+    font-size:20px;
+    font-weight:bold;
+}
+
+.logo-sub{
+    font-size:11px;
+    opacity:.8;
+}
+
+.menu-btn{
+    background:#d4aa3a;
+    border:0;
+    color:white;
+    padding:9px 13px;
+    border-radius:8px;
+}
+
+/* NAV */
+nav{
+    background:white;
+    padding:10px;
+    display:flex;
+    gap:7px;
+    overflow-x:auto;
+    box-shadow:0 2px 10px #0001;
+}
+
+nav button{
+    white-space:nowrap;
+    border:1px solid #0a6947;
+    background:white;
+    color:#075438;
+    padding:9px 13px;
+    border-radius:20px;
+}
+
+nav button:hover{
+    background:#0a6947;
+    color:white;
+}
+
+/* CONTAINER */
+.container{
+    width:min(1100px,94%);
+    margin:20px auto;
+}
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+.card{
+    background:white;
+    border-radius:16px;
+    padding:20px;
+    margin-bottom:18px;
+    box-shadow:0 4px 18px #17493615;
+    border:1px solid #dcebe3;
+}
+
+.card h2,
+.card h3{
+    color:#075438;
+    margin-bottom:12px;
+}
+
+.hero{
+    background:linear-gradient(135deg,#075438,#13875e);
+    color:white;
+    border-radius:20px;
+    padding:35px 22px;
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.hero h1{
+    font-size:30px;
+    margin-bottom:8px;
+}
+
+.hero p{
+    opacity:.9;
+}
+
+/* FORM */
+.form-group{
+    margin-bottom:13px;
+}
+
+.form-group label{
+    display:block;
+    font-weight:bold;
+    margin-bottom:6px;
+}
+
+input,select,textarea{
+    width:100%;
+    padding:12px;
+    border:1px solid #c8ddd3;
+    border-radius:10px;
+    outline:none;
+    background:#fff;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    border-color:#08724d;
+}
+
+textarea{
+    min-height:90px;
+    resize:vertical;
+}
+
+.btn{
+    border:0;
+    border-radius:10px;
+    padding:11px 16px;
+    font-weight:bold;
+    margin:3px;
+}
+
+.btn-primary{
+    background:#08724d;
+    color:white;
+}
+
+.btn-gold{
+    background:#b18a2a;
+    color:white;
+}
+
+.btn-danger{
+    background:#b42323;
+    color:white;
+}
+
+.btn-gray{
+    background:#68736e;
+    color:white;
+}
+
+.btn-whatsapp{
+    background:#20b858;
+    color:white;
+}
+
+/* LOGIN */
+.login-wrap{
+    max-width:480px;
+    margin:35px auto;
+}
+
+.tabs{
+    display:flex;
+    gap:5px;
+    margin-bottom:15px;
+}
+
+.tabs button{
+    flex:1;
+    padding:11px 5px;
+    border:1px solid #08724d;
+    background:white;
+    color:#08724d;
+    border-radius:8px;
+}
+
+.tabs button.active{
+    background:#08724d;
+    color:white;
+}
+
+/* GRID */
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:15px;
+}
+
+.stat{
+    padding:20px;
+    border-radius:15px;
+    background:linear-gradient(135deg,#e7f5ed,#fff);
+    border:1px solid #d5e9df;
+}
+
+.stat-number{
+    font-size:28px;
+    font-weight:bold;
+    color:#08724d;
+}
+
+/* WHATSAPP */
+.whatsapp-card{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    border:1px solid #d8e8df;
+    background:#fbfffc;
+    padding:15px;
+    border-radius:14px;
+    margin-bottom:10px;
+}
+
+.wa-info strong{
+    display:block;
+    color:#075438;
+    font-size:17px;
+}
+
+.wa-number{
+    margin-top:4px;
+    color:#555;
+}
+
+.wa-status{
+    font-size:12px;
+    color:#16823f;
+    font-weight:bold;
+}
+
+/* ADMIN TABLE */
+.table-wrap{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:650px;
+}
+
+th,td{
+    padding:11px;
+    border-bottom:1px solid #e1ebe6;
+    text-align:left;
+}
+
+th{
+    background:#075438;
+    color:white;
+}
+
+.status-active{
+    color:#16823f;
+    font-weight:bold;
+}
+
+.status-off{
+    color:#b42323;
+    font-weight:bold;
+}
+
+.empty{
+    text-align:center;
+    padding:25px;
+    color:#777;
+}
+
+/* TOAST */
+#toast{
+    position:fixed;
+    bottom:20px;
+    left:50%;
+    transform:translateX(-50%);
+    background:#173b2c;
+    color:white;
+    padding:12px 20px;
+    border-radius:30px;
+    z-index:10000;
+    display:none;
+}
+
+/* FOOTER */
+footer{
+    background:#063b28;
+    color:white;
+    text-align:center;
+    padding:25px 15px;
+    margin-top:40px;
+}
+
+@media(max-width:600px){
+
+    .hero h1{
+        font-size:24px;
+    }
+
+    .whatsapp-card{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .whatsapp-card .btn{
+        width:100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header>
+    <div class="header-inner">
+
+        <div>
+            <div class="logo-title">
+                KHADIMIN-E-AULIYA
+            </div>
+
+            <div class="logo-sub">
+                خادمینِ اولیاء
+            </div>
+        </div>
+
+        <button class="menu-btn"
+                onclick="logout()">
+            Logout
+        </button>
+
+    </div>
+</header>
+
+
+<!-- NAVIGATION -->
+<nav id="mainNav">
+
+    <button onclick="showPage('home')">
+        Home
+    </button>
+
+    <button onclick="showPage('programs')">
+        Programs
+    </button>
+
+    <button onclick="showPage('donation')">
+        Donation
+    </button>
+
+    <button onclick="showPage('rashid')">
+        Rashid Check
+    </button>
+
+    <button onclick="showPage('photos')">
+        Photos
+    </button>
+
+    <button onclick="showPage('videos')">
+        Videos
+    </button>
+
+    <button onclick="showPage('majlis')">
+        Majlis
+    </button>
+
+    <button onclick="showPage('bank')">
+        Bank / UPI / QR
+    </button>
+
+    <button onclick="showPage('whatsapp')">
+        WhatsApp
+    </button>
+
+    <button onclick="showPage('join')">
+        Join Us
+    </button>
+
+    <button id="adminNavBtn"
+            class="hidden"
+            onclick="showPage('admin')">
+        Admin Dashboard
+    </button>
+
+</nav>
+
+
+<!-- LOGIN PAGE -->
+<div id="loginPage" class="container">
+
+    <div class="login-wrap">
+
+        <div class="card">
+
+            <div class="tabs">
+
+                <button id="userTab"
+                        class="active"
+                        onclick="loginTab('user')">
+                    User Login
+                </button>
+
+                <button id="adminTab"
+                        onclick="loginTab('admin')">
+                    Admin Login
+                </button>
+
+            </div>
+
+
+            <!-- USER LOGIN -->
+            <div id="userLogin">
+
+                <div class="form-group">
+
+                    <label>
+                        Mobile Number
+                    </label>
+
+                    <input id="loginMobile"
+                           type="tel"
+                           placeholder="Enter mobile number">
+
+                </div>
+
+                <button class="btn btn-primary"
+                        onclick="sendOTP()">
+                    Send OTP
+                </button>
+
+
+                <div id="otpBox"
+                     class="hidden"
+                     style="margin-top:15px;">
+
+                    <div class="form-group">
+
+                        <label>
+                            OTP
+                        </label>
+
+                        <input id="otpInput"
+                               type="number"
+                               placeholder="Enter demo OTP">
+
+                    </div>
+
+                    <button class="btn btn-gold"
+                            onclick="verifyOTP()">
+                        Verify OTP
+                    </button>
+
+                </div>
+
+
+                <hr style="margin:20px 0;
+                           border:0;
+                           border-top:1px solid #ddd;">
+
+
+                <button class="btn btn-primary"
+                        onclick="showSignup()">
+                    Create New Account
+                </button>
+
+            </div>
+
+
+            <!-- ADMIN LOGIN -->
+            <div id="adminLogin"
+                 class="hidden">
+
+                <div class="form-group">
+
+                    <label>
+                        Admin Email
+                    </label>
+
+                    <input id="adminEmail"
+                           type="email"
+                           placeholder="Admin Email">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Admin Password
+                    </label>
+
+                    <input id="adminPassword"
+                           type="password"
+                           placeholder="Password">
+
+                </div>
+
+
+                <button class="btn btn-primary"
+                        onclick="adminLogin()">
+                    Admin Login
+                </button>
+
+
+                <p style="margin-top:15px;
+                          font-size:13px;
+                          color:#777;">
+
+                    Demo login only.
+                    Production system must use
+                    server-side authentication.
+
+                </p>
+
+            </div>
+
+
+            <!-- SIGNUP -->
+            <div id="signupBox"
+                 class="hidden">
+
+                <h3>
+                    Create Account
+                </h3>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Name
+                    </label>
+
+                    <input id="signupName"
+                           placeholder="Full Name">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Mobile Number
+                    </label>
+
+                    <input id="signupMobile"
+                           type="tel"
+                           placeholder="Mobile Number">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Email
+                    </label>
+
+                    <input id="signupEmail"
+                           type="email"
+                           placeholder="Email">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Place / City
+                    </label>
+
+                    <input id="signupCity"
+                           placeholder="City">
+
+                </div>
+
+
+                <button class="btn btn-primary"
+                        onclick="signup()">
+                    Sign Up
+                </button>
+
+
+                <button class="btn btn-gray"
+                        onclick="hideSignup()">
+                    Back
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- MAIN APP -->
+<div id="app"
+     class="hidden">
+
+<div class="container">
+
+
+<!-- HOME -->
+<section id="home"
+         class="page active">
+
+    <div class="hero">
+
+        <h1>
+            KHADIMIN-E-AULIYA
+        </h1>
+
+        <p>
+            Welcome to Khadimin-e-Auliya official platform
+        </p>
+
+    </div>
+
+
+    <div class="grid">
+
+        <div class="card">
+
+            <h3>
+                Donation
+            </h3>
+
+            <p>
+                Donation aur bank information dekhein.
+            </p>
+
+            <button class="btn btn-primary"
+                    onclick="showPage('donation')">
+                Open Donation
+            </button>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Rashid Verification
+            </h3>
+
+            <p>
+                Rashid number se receipt verify karein.
+            </p>
+
+            <button class="btn btn-primary"
+                    onclick="showPage('rashid')">
+                Verify Rashid
+            </button>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                WhatsApp Contact
+            </h3>
+
+            <p>
+                Active WhatsApp numbers par direct baat karein.
+            </p>
+
+            <button class="btn btn-whatsapp"
+                    onclick="showPage('whatsapp')">
+                WhatsApp
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- PROGRAMS -->
+<section id="programs"
+         class="page">
+
+    <div class="card">
+
+        <h2>
+            Programs
+        </h2>
+
+        <p>
+            Coming Soon / Admin Managed Programs
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- DONATION -->
+<section id="donation"
+         class="page">
+
+    <div class="card">
+
+        <h2>
+            Donation
+        </h2>
+
+        <p>
+            Aap active Bank, UPI aur QR details
+            ke zariye donation kar sakte hain.
+        </p>
+
+        <br>
+
+        <button class="btn btn-primary"
+                onclick="showPage('bank')">
+            Bank / UPI / QR Details
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- RASHID -->
+<section id="rashid"
+         class="page">
+
+    <div class="card">
+
+        <h2>
+            Rashid Verification
+        </h2>
+
+        <div class="form-group">
+
+            <label>
+                Rashid Number
+            </label>
+
+            <input id="verifyRashid"
+                   placeholder="Enter Rashid Number">
+
+        </div>
+
+
+        <button class="btn btn-primary"
+                onclick="verifyRashid()">
+            Verify Rashid
+        </button>
+
+
+        <div id="rashidResult"
+             style="margin-top:15px;">
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- PHOTOS -->
+<section id="photos"
+         class="page">
+
+    <div class="card">
+
+        <h2>
+            Photo Gallery
+        </h2>
+
+        <p>
+            Admin managed photo gallery.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- VIDEOS -->
+<section id="videos"
+         class="page">
+
+    <div class="card">
+
+        <h2>
+            Video Gallery
+        </h2>
+
+        <p>
+            Admin managed video gallery.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- MAJLIS -->
+<section id="majlis"
+         class="page">
+
+    <div class="card">
+
+        <h2>
+            Majlis Khadimin-e-Auliya
+        </h2>
+
+        <p>
+            Members information will appear here.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- BANK -->
+<section id="bank"
+         class="page">
+
+    <div class="card">
+
+        <h2>
+            Bank / UPI / QR Details
+        </h2>
+
+        <div id="bankUserDisplay">
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- WHATSAPP -->
+<section id="whatsapp"
+         class="page">
+
+    <div class="card">
+
+        <h2>
+            WhatsApp Contact
+        </h2>
+
+        <p style="margin-bottom:15px;">
+
+            Neeche sirf active WhatsApp contacts
+            dikhaye ja rahe hain.
+
+            Kisi number par Chat button dabakar
+            direct baat karein.
+
+        </p>
+
+        <div id="userWhatsappList">
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- JOIN -->
+<section id="join"
+         class="page">
+
+    <div class="card">
+
+        <h2>
+            Join Khadimin-e-Auliya
+        </h2>
+
+
+        <div class="form-group">
+
+            <label>
+                Name
+            </label>
+
+            <input id="joinName"
+                   placeholder="Your Name">
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Mobile Number
+            </label>
+
+            <input id="joinMobile"
+                   type="tel"
+                   placeholder="Mobile Number">
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Place / City
+            </label>
+
+            <input id="joinCity"
+                   placeholder="Place / City">
+
+        </div>
+
+
+        <button class="btn btn-primary"
+                onclick="submitJoin()">
+            Submit
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ADMIN -->
+<section id="admin"
+         class="page">
+
+    <div class="hero">
+
+        <h1>
+            Admin Dashboard
+        </h1>
+
+        <p>
+            KHADIMIN-E-AULIYA Management Panel
+        </p>
+
+    </div>
+
+
+    <div class="grid">
+
+        <div class="stat">
+
+            <div>
+                Users
+            </div>
+
+            <div id="totalUsers"
+                 class="stat-number">
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div>
+                WhatsApp Contacts
+            </div>
+
+            <div id="totalWhatsapp"
+                 class="stat-number">
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div>
+                Joining Requests
+            </div>
+
+            <div id="totalJoining"
+                 class="stat-number">
+                0
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- WHATSAPP ADMIN -->
+    <div class="card"
+         style="margin-top:20px;">
+
+        <h2>
+            WhatsApp Contact Management
+        </h2>
+
+        <p style="margin-bottom:15px;">
+
+            Admin yahan unlimited WhatsApp numbers
+            add, edit, update, delete aur
+            active/inactive kar sakta hai.
+
+        </p>
+
+
+        <div class="form-group">
+
+            <label>
+                Contact Name / Label
+            </label>
+
+            <input id="waName"
+                   placeholder="Example: Main Office">
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                WhatsApp Number
+            </label>
+
+            <input id="waNumber"
+                   type="tel"
+                   placeholder="Example: 9690341216">
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Status
+            </label>
+
+            <select id="waStatus">
+
+                <option value="active">
+                    Active
+                </option>
+
+                <option value="inactive">
+                    Inactive
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <button id="waSaveBtn"
+                class="btn btn-primary"
+                onclick="saveWhatsapp()">
+
+            Add WhatsApp Number
+
+        </button>
+
+
+        <button id="waCancelBtn"
+                class="btn btn-gray hidden"
+                onclick="cancelWhatsappEdit()">
+
+            Cancel Edit
+
+        </button>
+
+    </div>
+
+
+    <!-- WHATSAPP TABLE -->
+    <div class="card">
+
+        <h3>
+            All WhatsApp Contacts
+        </h3>
+
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Order
+                        </th>
+
+                        <th>
+                            Name
+                        </th>
+
+                        <th>
+                            Number
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            Actions
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="adminWhatsappTable">
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- USER MANAGEMENT -->
+    <div class="card">
+
+        <h2>
+            User Management
+        </h2>
+
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Name
+                        </th>
+
+                        <th>
+                            Mobile
+                        </th>
+
+                        <th>
+                            Email
+                        </th>
+
+                        <th>
+                            City
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="adminUserTable">
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- JOINING -->
+    <div class="card">
+
+        <h2>
+            Joining Requests
+        </h2>
+
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Name
+                        </th>
+
+                        <th>
+                            Mobile
+                        </th>
+
+                        <th>
+                            City
+                        </th>
+
+                        <th>
+                            Date
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="adminJoiningTable">
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+</div>
+
+
+<!-- FOOTER -->
+<footer>
+
+    <strong>
+        KHADIMIN-E-AULIYA
+    </strong>
+
+    <br>
+
+    <small>
+        Islamic / Sufi Inspired Platform
+    </small>
+
+</footer>
+
+</div>
+
+
+<!-- TOAST -->
+<div id="toast">
+</div>
+
+
+<script>
+
+/* =========================
+   GLOBAL DATA
+========================= */
+
+let currentUser = null;
+let isAdminUser = false;
+let editingWhatsappId = null;
+
+
+/* =========================
+   DEFAULT WHATSAPP
+========================= */
+
+const defaultWhatsapp = [
+
+    {
+        id:"WA001",
+        name:"Main WhatsApp",
+        number:"9690341216",
+        active:true,
+        order:1
+    },
+
+    {
+        id:"WA002",
+        name:"WhatsApp Contact 2",
+        number:"8976347640",
+        active:true,
+        order:2
+    }
+
+];
+
+
+/* =========================
+   WHATSAPP DATA
+========================= */
+
+function getWhatsapp(){
+
+    let data =
+        localStorage.getItem("kea_whatsapp");
+
+    if(!data){
+
+        localStorage.setItem(
+            "kea_whatsapp",
+            JSON.stringify(defaultWhatsapp)
+        );
+
+        return defaultWhatsapp;
+    }
+
+    try{
+
+        return JSON.parse(data);
+
+    }catch(e){
+
+        return defaultWhatsapp;
+
+    }
+
+}
+
+
+function saveWhatsappData(data){
+
+    localStorage.setItem(
+        "kea_whatsapp",
+        JSON.stringify(data)
+    );
+
+}
+
+
+/* =========================
+   LOGIN TAB
+========================= */
+
+function loginTab(type){
+
+    const userLogin =
+        document.getElementById("userLogin");
+
+    const adminLoginBox =
+        document.getElementById("adminLogin");
+
+    const userTab =
+        document.getElementById("userTab");
+
+    const adminTab =
+        document.getElementById("adminTab");
+
+    document
+        .getElementById("signupBox")
+        .classList.add("hidden");
+
+
+    if(type === "user"){
+
+        userLogin.classList.remove("hidden");
+
+        adminLoginBox.classList.add("hidden");
+
+        userTab.classList.add("active");
+
+        adminTab.classList.remove("active");
+
+    }else{
+
+        userLogin.classList.add("hidden");
+
+        adminLoginBox.classList.remove("hidden");
+
+        userTab.classList.remove("active");
+
+        adminTab.classList.add("active");
+
+    }
+
+}
+
+
+/* =========================
+   SIGNUP
+========================= */
+
+function showSignup(){
+
+    document
+        .getElementById("userLogin")
+        .classList.add("hidden");
+
+    document
+        .getElementById("signupBox")
+        .classList.remove("hidden");
+
+}
+
+
+function hideSignup(){
+
+    document
+        .getElementById("signupBox")
+        .classList.add("hidden");
+
+    document
+        .getElementById("userLogin")
+        .classList.remove("hidden");
+
+}
+
+
+function signup(){
+
+    const name =
+        document.getElementById("signupName").value.trim();
+
+    const mobile =
+        document.getElementById("signupMobile").value.trim();
+
+    const email =
+        document.getElementById("signupEmail").value.trim();
+
+    const city =
+        document.getElementById("signupCity").value.trim();
+
+
+    if(!name || !mobile){
+
+        toast("Name aur mobile number zaroori hai.");
+
+        return;
+
+    }
+
+
+    let users =
+        JSON.parse(
+            localStorage.getItem("kea_users") || "[]"
+        );
+
+
+    users.push({
+
+        id:"U"+Date.now(),
+
+        name:name,
+
+        mobile:mobile,
+
+        email:email,
+
+        city:city,
+
+        status:"Active",
+
+        date:new Date().toLocaleString()
+
+    });
+
+
+    localStorage.setItem(
+        "kea_users",
+        JSON.stringify(users)
+    );
+
+
+    toast("Account successfully create ho gaya.");
+
+    hideSignup();
+
+    document.getElementById("loginMobile").value =
+        mobile;
+
+}
+
+
+/* =========================
+   OTP
+========================= */
+
+function sendOTP(){
+
+    const mobile =
+        document.getElementById("loginMobile").value.trim();
+
+
+    if(!mobile){
+
+        toast("Mobile number enter karein.");
+
+        return;
+
+    }
+
+
+    document
+        .getElementById("otpBox")
+        .classList.remove("hidden");
+
+
+    toast("Demo OTP: 123456");
+
+}
+
+
+function verifyOTP(){
+
+    const mobile =
+        document.getElementById("loginMobile").value.trim();
+
+    const otp =
+        document.getElementById("otpInput").value.trim();
+
+
+    if(otp !== "123456"){
+
+        toast("Wrong OTP. Demo OTP 123456 hai.");
+
+        return;
+
+    }
+
+
+    let users =
+        JSON.parse(
+            localStorage.getItem("kea_users") || "[]"
+        );
+
+
+    let user =
+        users.find(
+            u => u.mobile === mobile
+        );
+
+
+    if(!user){
+
+        user = {
+
+            id:"U"+Date.now(),
+
+            name:"User",
+
+            mobile:mobile,
+
+            email:"",
+
+            city:"",
+
+            status:"Active",
+
+            date:new Date().toLocaleString()
+
+        };
+
+        users.push(user);
+
+        localStorage.setItem(
+            "kea_users",
+            JSON.stringify(users)
+        );
+
+    }
+
+
+    currentUser = user;
+
+    isAdminUser = false;
+
+    openApp();
+
+    toast("Login successful.");
+
+}
+
+
+/* =========================
+   ADMIN LOGIN
+========================= */
+
+function adminLogin(){
+
+    const email =
+        document.getElementById("adminEmail").value.trim();
+
+    const password =
+        document.getElementById("adminPassword").value;
+
+
+    /*
+      DEMO ADMIN LOGIN
+
+      Email:
+      admin@khadimin-e-auliya.com
+
+      Password:
+      Admin@123
+    */
+
+    if(
+        email === "admin@khadimin-e-auliya.com" &&
+        password === "Admin@123"
+    ){
+
+        currentUser = {
+
+            name:"Administrator",
+
+            email:email
+
+        };
+
+        isAdminUser = true;
+
+        openApp();
+
+        document
+            .getElementById("adminNavBtn")
+            .classList.remove("hidden");
+
+        showPage("admin");
+
+        renderAdmin();
+
+        toast("Admin login successful.");
+
+    }else{
+
+        toast("Invalid admin email or password.");
+
+    }
+
+}
+
+
+/* =========================
+   OPEN APP
+========================= */
+
+function openApp(){
+
+    document
+        .getElementById("loginPage")
+        .classList.add("hidden");
+
+    document
+        .getElementById("app")
+        .classList.remove("hidden");
+
+    renderWhatsapp();
+
+}
+
+
+/* =========================
+   PAGE NAVIGATION
+========================= */
+
+function showPage(pageId){
+
+    if(!currentUser){
+
+        toast("Please login first.");
+
+        return;
+
+    }
+
+
+    if(
+        pageId === "admin" &&
+        !isAdminUser
+    ){
+
+        toast("Admin access required.");
+
+        return;
+
+    }
+
+
+    document
+        .querySelectorAll(".page")
+        .forEach(
+            page => page.classList.remove("active")
+        );
+
+
+    const page =
+        document.getElementById(pageId);
+
+
+    if(page){
+
+        page.classList.add("active");
+
+    }
+
+
+    if(pageId === "whatsapp"){
+
+        renderWhatsapp();
+
+    }
+
+
+    if(pageId === "admin"){
+
+        renderAdmin();
+
+    }
+
+}
+
+
+/* =========================
+   WHATSAPP USER DISPLAY
+========================= */
+
+function renderWhatsapp(){
+
+    const box =
+        document.getElementById(
+            "userWhatsappList"
+        );
+
+    if(!box) return;
+
+
+    const data =
+        getWhatsapp()
+        .filter(item => item.active)
+        .sort(
+            (a,b) =>
+                Number(a.order) -
+                Number(b.order)
+        );
+
+
+    if(data.length === 0){
+
+        box.innerHTML =
+            '<div class="empty">No active WhatsApp contact available.</div>';
+
+        return;
+
+    }
+
+
+    box.innerHTML =
+        data.map(item => `
+
+            <div class="whatsapp-card">
+
+                <div class="wa-info">
+
+                    <strong>
+                        ${escapeHTML(item.name)}
+                    </strong>
+
+                    <div class="wa-number">
+                        +91 ${escapeHTML(item.number)}
+                    </div>
+
+                    <div class="wa-status">
+                        ● Active
+                    </div>
+
+                </div>
+
+                <button
+                    class="btn btn-whatsapp"
+                    onclick="openWhatsapp('${escapeJS(item.number)}')">
+
+                    WhatsApp Chat
+
+                </button>
+
+            </div>
+
+        `).join("");
+
+}
+
+
+function openWhatsapp(number){
+
+    const clean =
+        number.replace(/\D/g,"");
+
+
+    window.open(
+        "https://wa.me/91" + clean,
+        "_blank"
+    );
+
+}
+
+
+/* =========================
+   ADMIN WHATSAPP SAVE
+========================= */
+
+function saveWhatsapp(){
+
+    const name =
+        document.getElementById("waName")
+        .value.trim();
+
+    const number =
+        document.getElementById("waNumber")
+        .value.trim();
+
+    const status =
+        document.getElementById("waStatus")
+        .value;
+
+
+    if(!name || !number){
+
+        toast("Name aur WhatsApp number enter karein.");
+
+        return;
+
+    }
+
+
+    let data = getWhatsapp();
+
+
+    if(editingWhatsappId){
+
+        const index =
+            data.findIndex(
+                item =>
+                    item.id === editingWhatsappId
+            );
+
+
+        if(index !== -1){
+
+            data[index].name = name;
+
+            data[index].number = number;
+
+            data[index].active =
+                status === "active";
+
+        }
+
+        editingWhatsappId = null;
+
+        document.getElementById(
+            "waSaveBtn"
+        ).textContent =
+            "Add WhatsApp Number";
+
+        document.getElementById(
+            "waCancelBtn"
+        ).classList.add("hidden");
+
+
+        toast("WhatsApp contact updated.");
+
+    }else{
+
+        const maxOrder =
+            data.length
+                ? Math.max(
+                    ...data.map(
+                        x => Number(x.order) || 0
+                    )
+                  )
+                : 0;
+
+
+        data.push({
+
+            id:"WA"+Date.now(),
+
+            name:name,
+
+            number:number,
+
+            active:status === "active",
+
+            order:maxOrder + 1
+
+        });
+
+
+        toast("WhatsApp number added.");
+
+    }
+
+
+    saveWhatsappData(data);
+
+    clearWhatsappForm();
+
+    renderAdmin();
+
+    renderWhatsapp();
+
+}
+
+
+/* =========================
+   EDIT WHATSAPP
+========================= */
+
+function editWhatsapp(id){
+
+    const data = getWhatsapp();
+
+    const item =
+        data.find(
+            x => x.id === id
+        );
+
+
+    if(!item) return;
+
+
+    document.getElementById("waName").value =
+        item.name;
+
+    document.getElementById("waNumber").value =
+        item.number;
+
+    document.getElementById("waStatus").value =
+        item.active
+            ? "active"
+            : "inactive";
+
+
+    editingWhatsappId = id;
+
+
+    document.getElementById(
+        "waSaveBtn"
+    ).textContent =
+        "Update WhatsApp Number";
+
+
+    document.getElementById(
+        "waCancelBtn"
+    ).classList.remove("hidden");
+
+
+    window.scrollTo({
+        top:document.getElementById("admin").offsetTop,
+        behavior:"smooth"
+    });
+
+}
+
+
+/* =========================
+   CANCEL EDIT
+========================= */
+
+function cancelWhatsappEdit(){
+
+    editingWhatsappId = null;
+
+    clearWhatsappForm();
+
+    document.getElementById(
+        "waSaveBtn"
+    ).textContent =
+        "Add WhatsApp Number";
+
+    document.getElementById(
+        "waCancelBtn"
+    ).classList.add("hidden");
+
+}
+
+
+/* =========================
+   DELETE WHATSAPP
+========================= */
+
+function deleteWhatsapp(id){
+
+    if(!confirm(
+        "Kya aap is WhatsApp contact ko delete karna chahte hain?"
+    )) return;
+
+
+    let data = getWhatsapp();
+
+
+    data =
+        data.filter(
+            item => item.id !== id
+        );
+
+
+    data.forEach(
+        (item,index) => {
+            item.order = index + 1;
+        }
+    );
+
+
+    saveWhatsappData(data);
+
+    renderAdmin();
+
+    renderWhatsapp();
+
+    toast("WhatsApp contact deleted.");
+
+}
+
+
+/* =========================
+   TOGGLE STATUS
+========================= */
+
+function toggleWhatsapp(id){
+
+    let data = getWhatsapp();
+
+
+    const item =
+        data.find(
+            x => x.id === id
+        );
+
+
+    if(!item) return;
+
+
+    item.active = !item.active;
+
+
+    saveWhatsappData(data);
+
+    renderAdmin();
+
+    renderWhatsapp();
+
+
+    toast(
+        item.active
+            ? "Contact activated."
+            : "Contact deactivated."
+    );
+
+}
+
+
+/* =========================
+   MOVE ORDER
+========================= */
+
+function moveWhatsapp(id,direction){
+
+    let data = getWhatsapp();
+
+
+    data.sort(
+        (a,b) =>
+            Number(a.order) -
+            Number(b.order)
+    );
+
+
+    const index =
+        data.findIndex(
+            x => x.id === id
+        );
+
+
+    if(index === -1) return;
+
+
+    const newIndex =
+        direction === "up"
+            ? index - 1
+            : index + 1;
+
+
+    if(
+        newIndex < 0 ||
+        newIndex >= data.length
+    ){
+
+        return;
+
+    }
+
+
+    [
+        data[index],
+        data[newIndex]
+    ] =
+    [
+        data[newIndex],
+        data[index]
+    ];
+
+
+    data.forEach(
+        (item,index) => {
+            item.order = index + 1;
+        }
+    );
+
+
+    saveWhatsappData(data);
+
+    renderAdmin();
+
+    renderWhatsapp();
+
+}
+
+
+/* =========================
+   CLEAR WHATSAPP FORM
+========================= */
+
+function clearWhatsappForm(){
+
+    document.getElementById(
+        "waName"
+    ).value = "";
+
+    document.getElementById(
+        "waNumber"
+    ).value = "";
+
+    document.getElementById(
+        "waStatus"
+    ).value = "active";
+
+}
+
+
+/* =========================
+   ADMIN RENDER
+========================= */
+
+function renderAdmin(){
+
+    if(!isAdminUser) return;
+
+
+    const whatsapp =
+        getWhatsapp();
+
+
+    const users =
+        JSON.parse(
+            localStorage.getItem(
+                "kea_users"
+            ) || "[]"
+        );
+
+
+    const joining =
+        JSON.parse(
+            localStorage.getItem(
+                "kea_joining"
+            ) || "[]"
+        );
+
+
+    document.getElementById(
+        "totalUsers"
+    ).textContent =
+        users.length;
+
+
+    document.getElementById(
+        "totalWhatsapp"
+    ).textContent =
+        whatsapp.length;
+
+
+    document.getElementById(
+        "totalJoining"
+    ).textContent =
+        joining.length;
+
+
+    renderAdminWhatsapp(
+        whatsapp
+    );
+
+
+    renderAdminUsers(
+        users
+    );
+
+
+    renderAdminJoining(
+        joining
+    );
+
+}
+
+
+/* =========================
+   ADMIN WHATSAPP TABLE
+========================= */
+
+function renderAdminWhatsapp(data){
+
+    const tbody =
+        document.getElementById(
+            "adminWhatsappTable"
+        );
+
+
+    if(!data.length){
+
+        tbody.innerHTML =
+            '<tr><td colspan="5" class="empty">No WhatsApp contacts.</td></tr>';
+
+        return;
+
+    }
+
+
+    data =
+        [...data].sort(
+            (a,b) =>
+                Number(a.order) -
+                Number(b.order)
+        );
+
+
+    tbody.innerHTML =
+        data.map(
+            (item,index) => `
+
+            <tr>
+
+                <td>
+                    ${index + 1}
+                </td>
+
+                <td>
+                    ${escapeHTML(item.name)}
+                </td>
+
+                <td>
+                    +91 ${escapeHTML(item.number)}
+                </td>
+
+                <td class="${
+                    item.active
+                        ? "status-active"
+                        : "status-off"
+                }">
+
+                    ${
+                        item.active
+                            ? "Active"
+                            : "Inactive"
+                    }
+
+                </td>
+
+                <td>
+
+                    <button
+                        class="btn btn-primary"
+                        onclick="editWhatsapp('${escapeJS(item.id)}')">
+                        Edit
+                    </button>
+
+                    <button
+                        class="btn btn-gold"
+                        onclick="toggleWhatsapp('${escapeJS(item.id)}')">
+
+                        ${
+                            item.active
+                                ? "Deactivate"
+                                : "Activate"
+                        }
+
+                    </button>
+
+                    <button
+                        class="btn btn-danger"
+                        onclick="deleteWhatsapp('${escapeJS(item.id)}')">
+                        Delete
+                    </button>
+
+                    <button
+                        class="btn btn-gray"
+                        onclick="moveWhatsapp('${escapeJS(item.id)}','up')">
+                        ↑
+                    </button>
+
+                    <button
+                        class="btn btn-gray"
+                        onclick="moveWhatsapp('${escapeJS(item.id)}','down')">
+                        ↓
+                    </button>
+
+                </td>
+
+            </tr>
+
+        `
+        ).join("");
+
+}
+
+
+/* =========================
+   ADMIN USERS
+========================= */
+
+function renderAdminUsers(users){
+
+    const tbody =
+        document.getElementById(
+            "adminUserTable"
+        );
+
+
+    if(!users.length){
+
+        tbody.innerHTML =
+            '<tr><td colspan="5" class="empty">No users found.</td></tr>';
+
+        return;
+
+    }
+
+
+    tbody.innerHTML =
+        users.map(
+            user => `
+
+            <tr>
+
+                <td>
+                    ${escapeHTML(user.name || "")}
+                </td>
+
+                <td>
+                    ${escapeHTML(user.mobile || "")}
+                </td>
+
+                <td>
+                    ${escapeHTML(user.email || "")}
+                </td>
+
+                <td>
+                    ${escapeHTML(user.city || "")}
+                </td>
+
+                <td class="status-active">
+                    ${escapeHTML(user.status || "Active")}
+                </td>
+
+            </tr>
+
+        `
+        ).join("");
+
+}
+
+
+/* =========================
+   JOINING
+========================= */
+
+function submitJoin(){
+
+    const name =
+        document.getElementById(
+            "joinName"
+        ).value.trim();
+
+    const mobile =
+        document.getElementById(
+            "joinMobile"
+        ).value.trim();
+
+    const city =
+        document.getElementById(
+            "joinCity"
+        ).value.trim();
+
+
+    if(!name || !mobile){
+
+        toast(
+            "Name aur mobile number zaroori hai."
+        );
+
+        return;
+
+    }
+
+
+    let joining =
+        JSON.parse(
+            localStorage.getItem(
+                "kea_joining"
+            ) || "[]"
+        );
+
+
+    joining.push({
+
+        id:"J"+Date.now(),
+
+        name:name,
+
+        mobile:mobile,
+
+        city:city,
+
+        date:new Date().toLocaleString()
+
+    });
+
+
+    localStorage.setItem(
+        "kea_joining",
+        JSON.stringify(joining)
+    );
+
+
+    document.getElementById(
+        "joinName"
+    ).value = "";
+
+    document.getElementById(
+        "joinMobile"
+    ).value = "";
+
+    document.getElementById(
+        "joinCity"
+    ).value = "";
+
+
+    toast(
+        "Joining request successfully submitted."
+    );
+
+
+    if(isAdminUser){
+
+        renderAdmin();
+
+    }
+
+}
+
+
+/* =========================
+   ADMIN JOINING TABLE
+========================= */
+
+function renderAdminJoining(joining){
+
+    const tbody =
+        document.getElementById(
+            "adminJoiningTable"
+        );
+
+
+    if(!joining.length){
+
+        tbody.innerHTML =
+            '<tr><td colspan="4" class="empty">No joining requests.</td></tr>';
+
+        return;
+
+    }
+
+
+    tbody.innerHTML =
+        joining.map(
+            item => `
+
+            <tr>
+
+                <td>
+                    ${escapeHTML(item.name)}
+                </td>
+
+                <td>
+                    ${escapeHTML(item.mobile)}
+                </td>
+
+                <td>
+                    ${escapeHTML(item.city || "")}
+                </td>
+
+                <td>
+                    ${escapeHTML(item.date)}
+                </td>
+
+            </tr>
+
+        `
+        ).join("");
+
+}
+
+
+/* =========================
+   RASHID VERIFICATION
+========================= */
+
+function verifyRashid(){
+
+    const number =
+        document.getElementById(
+            "verifyRashid"
+        ).value.trim();
+
+    const result =
+        document.getElementById(
+            "rashidResult"
+        );
+
+
+    if(!number){
+
+        result.innerHTML =
+            '<div class="card">Rashid number enter karein.</div>';
+
+        return;
+
+    }
+
+
+    /*
+      Demo verification.
+
+      Production mein Rashid data
+      secure database se verify hoga.
+    */
+
+    if(number === "KEA1001"){
+
+        result.innerHTML = `
+
+            <div class="card">
+
+                <h3>
+                    ✓ Rashid Verified
+                </h3>
+
+                <p>
+                    Rashid Number:
+                    <strong>KEA1001</strong>
+                </p>
+
+                <p>
+                    Status:
+                    <strong class="status-active">
+                        Confirmed
+                    </strong>
+                </p>
+
+                <br>
+
+                <button
+                    class="btn btn-primary"
+                    onclick="downloadDemoRashid()">
+
+                    Download Rashid
+
+                </button>
+
+                <button
+                    class="btn btn-whatsapp"
+                    onclick="shareDemoRashid()">
+
+                    Share Rashid
+
+                </button>
+
+            </div>
+
+        `;
+
+    }else{
+
+        result.innerHTML = `
+
+            <div class="card">
+
+                <h3>
+                    ✕ Rashid Not Found
+                </h3>
+
+                <p>
+                    Is Rashid Number ka record nahi mila.
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =========================
+   DEMO RASHID DOWNLOAD
+========================= */
+
+function downloadDemoRashid(){
+
+    const content =
+        "KHADIMIN-E-AULIYA\n\n" +
+        "Donation Receipt\n" +
+        "Rashid Number: KEA1001\n" +
+        "Status: Confirmed\n\n" +
+        "This is a demo receipt.";
+
+    const blob =
+        new Blob(
+            [content],
+            {type:"text/plain"}
+        );
+
+
+    const url =
+        URL.createObjectURL(blob);
+
+
+    const a =
+        document.createElement("a");
+
+    a.href = url;
+
+    a.download =
+        "KHADIMIN-E-AULIYA-Rashid.txt";
+
+    a.click();
+
+
+    URL.revokeObjectURL(url);
+
+}
+
+
+/* =========================
+   SHARE DEMO RASHID
+========================= */
+
+function shareDemoRashid(){
+
+    const text =
+        "KHADIMIN-E-AULIYA Donation Receipt\n" +
+        "Rashid Number: KEA1001\n" +
+        "Status: Confirmed";
+
+
+    if(navigator.share){
+
+        navigator.share({
+
+            title:
+                "KHADIMIN-E-AULIYA Rashid",
+
+            text:text
+
+        });
+
+    }else{
+
+        window.open(
+            "https://wa.me/?text=" +
+            encodeURIComponent(text),
+            "_blank"
+        );
+
+    }
+
+}
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+function logout(){
+
+    currentUser = null;
+
+    isAdminUser = false;
+
+
+    document
+        .getElementById("app")
+        .classList.add("hidden");
+
+
+    document
+        .getElementById("loginPage")
+        .classList.remove("hidden");
+
+
+    document
+        .getElementById("adminNavBtn")
+        .classList.add("hidden");
+
+
+    document
+        .getElementById("adminEmail")
+        .value = "";
+
+    document
+        .getElementById("adminPassword")
+        .value = "";
+
+
+    loginTab("user");
+
+    toast("Logout successful.");
+
+}
+
+
+/* =========================
+   TOAST
+========================= */
+
+function toast(message){
+
+    const box =
+        document.getElementById("toast");
+
+
+    box.textContent =
+        message;
+
+
+    box.style.display =
+        "block";
+
+
+    setTimeout(
+        () => {
+
+            box.style.display =
+                "none";
+
+        },
+        3000
+    );
+
+}
+
+
+/* =========================
+   SECURITY HELPERS
+========================= */
+
+function escapeHTML(value){
+
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+function escapeJS(value){
+
+    return String(value)
+        .replace(/\\/g,"\\\\")
+        .replace(/'/g,"\\'");
+
+}
+
+
+/* =========================
+   INITIALIZATION
+========================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        /*
+          Splash screen removed.
+          Website directly opens Login page.
+        */
+
+        document
+            .getElementById("app")
+            .classList.add("hidden");
+
+        document
+            .getElementById("loginPage")
+            .classList.remove("hidden");
+
+
+        /*
+          Initialize default WhatsApp
+        */
+
+        getWhatsapp();
+
+    }
+);
+
+</script>
+
+</body>
+</html>
