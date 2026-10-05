@@ -1,0 +1,2887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KHADIMIN E AULIYA</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:linear-gradient(135deg,#061b16,#0b3d2e,#061b16);
+    color:white;
+}
+
+/* ================= SPLASH SCREEN ================= */
+
+#splash{
+    position:fixed;
+    inset:0;
+    z-index:9999;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    background:
+      radial-gradient(circle at center,#12664b 0%,#08291f 45%,#03130f 100%);
+    transition:opacity .6s ease, visibility .6s ease;
+}
+
+#splash.hide{
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+}
+
+.splash-content{
+    width:90%;
+    max-width:500px;
+    animation:zoomIn 1.2s ease;
+}
+
+.arabic1{
+    font-size:34px;
+    font-weight:bold;
+    margin-bottom:18px;
+    direction:rtl;
+}
+
+.arabic2{
+    font-size:25px;
+    margin-bottom:35px;
+    direction:rtl;
+}
+
+.welcome{
+    font-size:20px;
+    letter-spacing:3px;
+    margin-bottom:12px;
+}
+
+.logo-name{
+    font-size:38px;
+    font-weight:900;
+    letter-spacing:2px;
+    color:#f4d27a;
+    text-shadow:0 0 15px rgba(244,210,122,.45);
+}
+
+.splash-sub{
+    margin-top:14px;
+    color:#d8e9df;
+    font-size:14px;
+}
+
+.skip-btn{
+    margin-top:45px;
+    padding:12px 30px;
+    border:1px solid #f4d27a;
+    background:transparent;
+    color:#f4d27a;
+    border-radius:30px;
+    font-size:15px;
+    cursor:pointer;
+}
+
+.skip-btn:hover{
+    background:#f4d27a;
+    color:#092018;
+}
+
+@keyframes zoomIn{
+    from{
+        opacity:0;
+        transform:scale(.85);
+    }
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+/* ================= MAIN ================= */
+
+.main-container{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+.auth-box{
+    width:100%;
+    max-width:430px;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(244,210,122,.3);
+    border-radius:25px;
+    padding:30px 25px;
+    backdrop-filter:blur(12px);
+    box-shadow:0 20px 50px rgba(0,0,0,.35);
+}
+
+.logo-small{
+    text-align:center;
+    color:#f4d27a;
+    font-size:27px;
+    font-weight:bold;
+    margin-bottom:8px;
+}
+
+.tagline{
+    text-align:center;
+    color:#cbdad3;
+    font-size:13px;
+    margin-bottom:25px;
+}
+
+/* ================= TABS ================= */
+
+.tabs{
+    display:flex;
+    gap:8px;
+    margin-bottom:25px;
+}
+
+.tab{
+    flex:1;
+    padding:11px 5px;
+    border:0;
+    border-radius:10px;
+    background:rgba(255,255,255,.08);
+    color:white;
+    cursor:pointer;
+}
+
+.tab.active{
+    background:#d7b45e;
+    color:#092018;
+    font-weight:bold;
+}
+
+/* ================= FORM ================= */
+
+.form{
+    display:none;
+}
+
+.form.active{
+    display:block;
+}
+
+label{
+    display:block;
+    margin:13px 0 7px;
+    font-size:14px;
+    color:#e5eee9;
+}
+
+input{
+    width:100%;
+    padding:14px;
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,.2);
+    outline:none;
+    background:rgba(0,0,0,.25);
+    color:white;
+    font-size:15px;
+}
+
+input::placeholder{
+    color:#aabdb5;
+}
+
+.primary-btn{
+    width:100%;
+    padding:14px;
+    margin-top:20px;
+    border:0;
+    border-radius:12px;
+    background:linear-gradient(90deg,#d7b45e,#f2d789);
+    color:#10241c;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.secondary-btn{
+    width:100%;
+    padding:13px;
+    margin-top:12px;
+    border:1px solid #d7b45e;
+    border-radius:12px;
+    background:transparent;
+    color:#f3d98f;
+    cursor:pointer;
+}
+
+.google-btn{
+    width:100%;
+    padding:13px;
+    margin-top:15px;
+    border:0;
+    border-radius:12px;
+    background:white;
+    color:#222;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.divider{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin:20px 0;
+    color:#9eb1a8;
+    font-size:12px;
+}
+
+.divider span{
+    flex:1;
+    height:1px;
+    background:rgba(255,255,255,.15);
+}
+
+.message{
+    margin-top:15px;
+    text-align:center;
+    font-size:13px;
+    color:#f4d27a;
+    min-height:18px;
+}
+
+.back{
+    margin-top:15px;
+    text-align:center;
+    color:#b8cbc2;
+    font-size:13px;
+    cursor:pointer;
+}
+
+/* ================= ADMIN ================= */
+
+.admin-title{
+    text-align:center;
+    color:#f4d27a;
+    font-size:22px;
+    margin-bottom:20px;
+}
+
+.security-note{
+    margin-top:15px;
+    padding:10px;
+    border-radius:10px;
+    background:rgba(255,190,0,.08);
+    color:#e8d9a7;
+    font-size:11px;
+    line-height:1.5;
+}
+
+/* ================= HOME DEMO ================= */
+
+#homePage{
+    display:none;
+    min-height:100vh;
+    padding:25px;
+}
+
+.home-card{
+    max-width:900px;
+    margin:auto;
+    background:rgba(255,255,255,.08);
+    padding:30px;
+    border-radius:20px;
+    border:1px solid rgba(244,210,122,.25);
+}
+
+.home-card h1{
+    color:#f4d27a;
+    margin-bottom:10px;
+}
+
+.logout{
+    margin-top:20px;
+    padding:12px 25px;
+    border:1px solid #d7b45e;
+    background:transparent;
+    color:#f4d27a;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:450px){
+    .arabic1{
+        font-size:29px;
+    }
+
+    .arabic2{
+        font-size:22px;
+    }
+
+    .logo-name{
+        font-size:31px;
+    }
+
+    .auth-box{
+        padding:25px 18px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= SPLASH ================= -->
+
+<div id="splash">
+
+    <div class="splash-content">
+
+        <div class="arabic1">
+            صلوا علی الحبیب
+        </div>
+
+        <div class="arabic2">
+            صلی اللہ علی محمد
+        </div>
+
+        <div class="welcome">
+            Welcome To
+        </div>
+
+        <div class="logo-name">
+            KHADIMIN E AULIYA
+        </div>
+
+        <div class="splash-sub">
+            خدمتِ دین • خدمتِ خلق
+        </div>
+
+        <button class="skip-btn" onclick="hideSplash()">
+            Skip / آگے بڑھیں
+        </button>
+
+    </div>
+</div>
+
+
+<!-- ================= LOGIN AREA ================= -->
+
+<div id="authPage" class="main-container">
+
+    <div class="auth-box">
+
+        <div class="logo-small">
+            KHADIMIN E AULIYA
+        </div>
+
+        <div class="tagline">
+            Welcome to Khadimin-e-Auliya
+        </div>
+
+
+        <!-- TABS -->
+
+        <div class="tabs">
+
+            <button class="tab active" onclick="showForm('phoneForm',this)">
+                Mobile
+            </button>
+
+            <button class="tab" onclick="showForm('googleForm',this)">
+                Gmail
+            </button>
+
+            <button class="tab" onclick="showForm('signupForm',this)">
+                Sign Up
+            </button>
+
+            <button class="tab" onclick="showForm('adminForm',this)">
+                Admin
+            </button>
+
+        </div>
+
+
+        <!-- MOBILE LOGIN -->
+
+        <div id="phoneForm" class="form active">
+
+            <label>Mobile Number</label>
+
+            <input
+                type="tel"
+                id="mobile"
+                placeholder="Enter mobile number"
+                maxlength="10"
+            >
+
+            <button class="primary-btn" onclick="sendOTP()">
+                Send OTP
+            </button>
+
+            <div id="otpArea" style="display:none">
+
+                <label>Enter OTP</label>
+
+                <input
+                    type="number"
+                    id="otp"
+                    placeholder="Enter OTP"
+                >
+
+                <button class="primary-btn" onclick="verifyOTP()">
+                    Verify OTP & Login
+                </button>
+
+            </div>
+
+            <div id="phoneMessage" class="message"></div>
+
+        </div>
+
+
+        <!-- GMAIL LOGIN -->
+
+        <div id="googleForm" class="form">
+
+            <button class="google-btn" onclick="googleLogin()">
+                🔵 Continue with Google / Gmail
+            </button>
+
+            <div class="message" id="googleMessage"></div>
+
+        </div>
+
+
+        <!-- SIGN UP -->
+
+        <div id="signupForm" class="form">
+
+            <label>Full Name</label>
+
+            <input
+                type="text"
+                id="signupName"
+                placeholder="Enter your name"
+            >
+
+            <label>Mobile Number</label>
+
+            <input
+                type="tel"
+                id="signupMobile"
+                placeholder="Enter mobile number"
+                maxlength="10"
+            >
+
+            <label>Email / Gmail</label>
+
+            <input
+                type="email"
+                id="signupEmail"
+                placeholder="Enter email"
+            >
+
+            <button class="primary-btn" onclick="signup()">
+                Create Account
+            </button>
+
+            <div id="signupMessage" class="message"></div>
+
+        </div>
+
+
+        <!-- ADMIN LOGIN -->
+
+        <div id="adminForm" class="form">
+
+            <div class="admin-title">
+                🔐 Admin Login
+            </div>
+
+            <label>Admin Gmail</label>
+
+            <input
+                type="email"
+                id="adminEmail"
+                placeholder="Admin Gmail"
+            >
+
+            <label>Password</label>
+
+            <input
+                type="password"
+                id="adminPassword"
+                placeholder="Enter password"
+            >
+
+            <button class="primary-btn" onclick="adminLogin()">
+                Admin Login
+            </button>
+
+            <div id="adminMessage" class="message"></div>
+
+            <div class="security-note">
+                Demo frontend login. Production website mein admin
+                credentials ko secure server/backend par rakhna zaroori hai.
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= DEMO HOME ================= -->
+
+<div id="homePage">
+
+    <div class="home-card">
+
+        <h1>KHADIMIN E AULIYA</h1>
+
+        <p id="welcomeUser">
+            Welcome!
+        </p>
+
+        <br>
+
+        <p>
+            Aap successfully login ho gaye hain.
+        </p>
+
+        <button class="logout" onclick="logout()">
+            Logout
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* ================= SPLASH ================= */
+
+function hideSplash(){
+
+    const splash = document.getElementById("splash");
+
+    splash.classList.add("hide");
+
+}
+
+/* Automatically hide splash after 4 seconds */
+
+setTimeout(function(){
+
+    hideSplash();
+
+},4000);
+
+
+/* ================= FORM SWITCH ================= */
+
+function showForm(formId, button){
+
+    const forms = document.querySelectorAll(".form");
+
+    forms.forEach(function(form){
+        form.classList.remove("active");
+    });
+
+    document.getElementById(formId).classList.add("active");
+
+
+    const tabs = document.querySelectorAll(".tab");
+
+    tabs.forEach(function(tab){
+        tab.classList.remove("active");
+    });
+
+    button.classList.add("active");
+
+}
+
+
+/* ================= OTP ================= */
+
+let demoOTP = "";
+
+
+function sendOTP(){
+
+    const mobile =
+        document.getElementById("mobile").value.trim();
+
+    const message =
+        document.getElementById("phoneMessage");
+
+    if(!/^[0-9]{10}$/.test(mobile)){
+
+        message.innerText =
+        "Please enter a valid 10 digit mobile number.";
+
+        return;
+    }
+
+    /* DEMO OTP */
+
+    demoOTP =
+        Math.floor(100000 + Math.random()*900000).toString();
+
+    document.getElementById("otpArea").style.display="block";
+
+    message.innerText =
+        "Demo OTP: " + demoOTP;
+
+}
+
+
+function verifyOTP(){
+
+    const enteredOTP =
+        document.getElementById("otp").value.trim();
+
+    const message =
+        document.getElementById("phoneMessage");
+
+    if(enteredOTP === demoOTP){
+
+        openHome(
+            document.getElementById("mobile").value
+        );
+
+    }else{
+
+        message.innerText =
+        "Incorrect OTP. Please try again.";
+
+    }
+
+}
+
+
+/* ================= GOOGLE ================= */
+
+function googleLogin(){
+
+    document.getElementById("googleMessage").innerText =
+    "Google login ko real website par Firebase/Google Authentication se connect karna hoga.";
+
+}
+
+
+/* ================= SIGN UP ================= */
+
+function signup(){
+
+    const name =
+        document.getElementById("signupName").value.trim();
+
+    const mobile =
+        document.getElementById("signupMobile").value.trim();
+
+    const email =
+        document.getElementById("signupEmail").value.trim();
+
+    const message =
+        document.getElementById("signupMessage");
+
+
+    if(!name || !mobile || !email){
+
+        message.innerText =
+        "Please fill all required fields.";
+
+        return;
+    }
+
+    if(!/^[0-9]{10}$/.test(mobile)){
+
+        message.innerText =
+        "Please enter a valid 10 digit mobile number.";
+
+        return;
+    }
+
+    message.innerText =
+    "Account created successfully (demo).";
+
+}
+
+
+/* ================= ADMIN LOGIN ================= */
+
+function adminLogin(){
+
+    const email =
+        document.getElementById("adminEmail").value.trim();
+
+    const password =
+        document.getElementById("adminPassword").value;
+
+    const message =
+        document.getElementById("adminMessage");
+
+
+    /*
+      DEMO CREDENTIALS
+
+      Production mein in credentials ko
+      frontend HTML mein nahi rakhna chahiye.
+    */
+
+    const ADMIN_EMAIL =
+        "khadimineauliya25@Gmail.com";
+
+    const ADMIN_PASSWORD =
+        "Raza2526";
+
+
+    if(
+        email === ADMIN_EMAIL &&
+        password === ADMIN_PASSWORD
+    ){
+
+        message.innerText =
+        "Admin login successful.";
+
+        setTimeout(function(){
+
+            openAdminPanel();
+
+        },500);
+
+    }else{
+
+        message.innerText =
+        "Invalid admin Gmail or password.";
+
+    }
+
+}
+
+
+/* ================= HOME ================= */
+
+function openHome(user){
+
+    document.getElementById("authPage").style.display="none";
+
+    document.getElementById("homePage").style.display="block";
+
+    document.getElementById("welcomeUser").innerText =
+    "Welcome, " + user;
+
+}
+
+
+/* ================= ADMIN PANEL DEMO ================= */
+
+function openAdminPanel(){
+
+    document.getElementById("authPage").style.display="none";
+
+    document.getElementById("homePage").style.display="block";
+
+    document.getElementById("welcomeUser").innerHTML =
+    "<b>Admin Panel Login Successful</b><br><br>" +
+    "Yahan future mein complete Admin Dashboard connect kiya jayega.";
+
+}
+
+
+/* ================= LOGOUT ================= */
+
+function logout(){
+
+    document.getElementById("homePage").style.display="none";
+
+    document.getElementById("authPage").style.display="flex";
+
+}
+
+</script>
+
+</body>
+  </html>
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KHADIMIN-E-AULIYA</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:linear-gradient(135deg,#031711,#0b3d2e,#06261d);
+    color:white;
+}
+
+button{
+    cursor:pointer;
+}
+
+.hidden{
+    display:none!important;
+}
+
+/* ================= SPLASH ================= */
+
+#splash{
+    position:fixed;
+    inset:0;
+    z-index:99999;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    background:radial-gradient(circle,#12644a,#06271e 50%,#020e0a);
+    transition:.6s;
+}
+
+#splash.hide{
+    opacity:0;
+    visibility:hidden;
+}
+
+.splash-content{
+    width:92%;
+    max-width:500px;
+}
+
+.arabic1{
+    direction:rtl;
+    font-size:34px;
+    font-weight:bold;
+    margin-bottom:18px;
+}
+
+.arabic2{
+    direction:rtl;
+    font-size:24px;
+    margin-bottom:35px;
+}
+
+.welcome{
+    letter-spacing:3px;
+    margin-bottom:10px;
+}
+
+.splash-logo{
+    color:#f3d37d;
+    font-size:37px;
+    font-weight:900;
+    letter-spacing:2px;
+}
+
+.skip{
+    margin-top:40px;
+    padding:12px 30px;
+    border:1px solid #f3d37d;
+    background:transparent;
+    color:#f3d37d;
+    border-radius:30px;
+}
+
+/* ================= AUTH ================= */
+
+#authPage{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.auth-box{
+    width:100%;
+    max-width:440px;
+    padding:28px;
+    border-radius:22px;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(243,211,125,.3);
+    backdrop-filter:blur(12px);
+}
+
+.logo{
+    text-align:center;
+    color:#f3d37d;
+    font-size:27px;
+    font-weight:bold;
+}
+
+.subtitle{
+    text-align:center;
+    color:#bfd0c8;
+    margin:8px 0 22px;
+    font-size:13px;
+}
+
+.tabs{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+    margin-bottom:20px;
+}
+
+.tab{
+    padding:12px;
+    border:0;
+    border-radius:10px;
+    color:white;
+    background:rgba(255,255,255,.08);
+}
+
+.tab.active{
+    background:#d9b966;
+    color:#102219;
+    font-weight:bold;
+}
+
+.form{
+    display:none;
+}
+
+.form.active{
+    display:block;
+}
+
+label{
+    display:block;
+    margin:13px 0 7px;
+    font-size:14px;
+}
+
+input,select{
+    width:100%;
+    padding:13px;
+    border-radius:10px;
+    border:1px solid rgba(255,255,255,.2);
+    background:rgba(0,0,0,.25);
+    color:white;
+    outline:none;
+}
+
+select option{
+    color:black;
+}
+
+.btn{
+    width:100%;
+    margin-top:14px;
+    padding:13px;
+    border:0;
+    border-radius:10px;
+    background:#dbbc69;
+    color:#102219;
+    font-weight:bold;
+}
+
+.outline{
+    background:transparent;
+    border:1px solid #dbbc69;
+    color:#f2d68b;
+}
+
+.msg{
+    text-align:center;
+    margin-top:12px;
+    color:#f3d37d;
+    font-size:13px;
+}
+
+/* ================= USER ================= */
+
+#userPage{
+    min-height:100vh;
+    padding:20px;
+}
+
+.header{
+    max-width:1100px;
+    margin:auto;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    padding:18px;
+    border-bottom:1px solid rgba(255,255,255,.1);
+}
+
+.header-title{
+    color:#f3d37d;
+    font-weight:bold;
+    font-size:22px;
+}
+
+.container{
+    max-width:1100px;
+    margin:25px auto;
+}
+
+.card{
+    background:rgba(255,255,255,.07);
+    border:1px solid rgba(243,211,125,.2);
+    border-radius:18px;
+    padding:22px;
+}
+
+.card h2{
+    color:#f3d37d;
+    margin-bottom:10px;
+}
+
+.verify-box{
+    max-width:550px;
+    margin:auto;
+}
+
+.result{
+    margin-top:20px;
+    padding:18px;
+    border-radius:12px;
+    background:rgba(0,0,0,.25);
+}
+
+.receipt{
+    background:#fff;
+    color:#111;
+    padding:20px;
+    border-radius:10px;
+    margin-top:15px;
+}
+
+.receipt h2{
+    color:#0b3d2e;
+    text-align:center;
+}
+
+.receipt-line{
+    padding:8px 0;
+    border-bottom:1px solid #ddd;
+}
+
+/* ================= ADMIN ================= */
+
+#adminPage{
+    min-height:100vh;
+    padding-bottom:40px;
+}
+
+.admin-header{
+    background:#061e17;
+    border-bottom:1px solid rgba(243,211,125,.25);
+    padding:18px;
+}
+
+.admin-header-inner{
+    max-width:1200px;
+    margin:auto;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.admin-title{
+    color:#f3d37d;
+    font-size:22px;
+    font-weight:bold;
+}
+
+.admin-container{
+    max-width:1200px;
+    margin:20px auto;
+    padding:0 15px;
+}
+
+/* ADMIN BUTTONS */
+
+.admin-menu{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+    gap:12px;
+    margin-bottom:20px;
+}
+
+.menu-btn{
+    padding:15px 10px;
+    border:1px solid rgba(243,211,125,.25);
+    border-radius:12px;
+    background:rgba(255,255,255,.07);
+    color:white;
+    font-weight:bold;
+}
+
+.menu-btn:hover{
+    background:#d9b966;
+    color:#102219;
+}
+
+/* ADMIN SECTIONS */
+
+.admin-section{
+    display:none;
+}
+
+.admin-section.active{
+    display:block;
+}
+
+.section-title{
+    color:#f3d37d;
+    font-size:23px;
+    margin-bottom:18px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:15px;
+}
+
+.stat{
+    padding:20px;
+    border-radius:14px;
+    background:rgba(255,255,255,.07);
+    border:1px solid rgba(243,211,125,.15);
+}
+
+.stat h3{
+    color:#b7cbc2;
+    font-size:13px;
+}
+
+.stat strong{
+    display:block;
+    color:#f3d37d;
+    font-size:28px;
+    margin-top:8px;
+}
+
+/* TABLE */
+
+.table-wrap{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:700px;
+}
+
+th,td{
+    padding:11px;
+    border-bottom:1px solid rgba(255,255,255,.1);
+    text-align:left;
+}
+
+th{
+    color:#f3d37d;
+}
+
+.action-btn{
+    padding:7px 10px;
+    border:1px solid #d9b966;
+    border-radius:7px;
+    background:transparent;
+    color:#f3d37d;
+    margin:2px;
+}
+
+/* SEARCH */
+
+.search{
+    margin-bottom:15px;
+}
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+    .splash-logo{
+        font-size:29px;
+    }
+
+    .arabic1{
+        font-size:27px;
+    }
+
+    .arabic2{
+        font-size:21px;
+    }
+
+    .auth-box{
+        padding:20px;
+    }
+
+    .admin-header-inner{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<!-- ==================================================
+     SPLASH SCREEN
+================================================== -->
+
+<div id="splash">
+
+    <div class="splash-content">
+
+        <div class="arabic1">
+            صلوا علی الحبیب
+        </div>
+
+        <div class="arabic2">
+            صلی اللہ علی محمد
+        </div>
+
+        <div class="welcome">
+            Welcome To
+        </div>
+
+        <div class="splash-logo">
+            KHADIMIN E AULIYA
+        </div>
+
+        <button class="skip" onclick="hideSplash()">
+            Skip / آگے بڑھیں
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ==================================================
+     AUTH PAGE
+================================================== -->
+
+<div id="authPage">
+
+    <div class="auth-box">
+
+        <div class="logo">
+            KHADIMIN E AULIYA
+        </div>
+
+        <div class="subtitle">
+            Welcome to Khadimin-e-Auliya
+        </div>
+
+        <div class="tabs">
+
+            <button class="tab active"
+                onclick="switchAuth('phoneForm',this)">
+                Mobile + OTP
+            </button>
+
+            <button class="tab"
+                onclick="switchAuth('googleForm',this)">
+                Gmail
+            </button>
+
+            <button class="tab"
+                onclick="switchAuth('signupForm',this)">
+                Sign Up
+            </button>
+
+            <button class="tab"
+                onclick="switchAuth('adminLoginForm',this)">
+                Admin
+            </button>
+
+        </div>
+
+
+        <!-- MOBILE LOGIN -->
+
+        <div id="phoneForm" class="form active">
+
+            <label>Mobile Number</label>
+
+            <input id="loginMobile"
+                   type="tel"
+                   maxlength="10"
+                   placeholder="10 digit mobile number">
+
+            <button class="btn"
+                    onclick="sendOTP()">
+                Send OTP
+            </button>
+
+            <div id="otpBox" class="hidden">
+
+                <label>OTP</label>
+
+                <input id="loginOTP"
+                       type="number"
+                       placeholder="Enter OTP">
+
+                <button class="btn"
+                        onclick="verifyOTP()">
+                    Verify & Login
+                </button>
+
+            </div>
+
+            <div id="otpMsg" class="msg"></div>
+
+        </div>
+
+
+        <!-- GMAIL -->
+
+        <div id="googleForm" class="form">
+
+            <button class="btn"
+                    onclick="googleLogin()">
+                Continue with Google / Gmail
+            </button>
+
+            <div id="googleMsg" class="msg"></div>
+
+        </div>
+
+
+        <!-- SIGN UP -->
+
+        <div id="signupForm" class="form">
+
+            <label>Full Name</label>
+            <input id="signupName"
+                   placeholder="Full name">
+
+            <label>Mobile Number</label>
+            <input id="signupMobile"
+                   maxlength="10"
+                   placeholder="Mobile number">
+
+            <label>Gmail</label>
+            <input id="signupEmail"
+                   type="email"
+                   placeholder="Gmail">
+
+            <button class="btn"
+                    onclick="signup()">
+                Create Account
+            </button>
+
+            <div id="signupMsg" class="msg"></div>
+
+        </div>
+
+
+        <!-- ADMIN LOGIN -->
+
+        <div id="adminLoginForm" class="form">
+
+            <label>Admin Gmail</label>
+
+            <input id="adminEmail"
+                   type="email"
+                   placeholder="Admin Gmail">
+
+            <label>Password</label>
+
+            <input id="adminPassword"
+                   type="password"
+                   placeholder="Password">
+
+            <button class="btn"
+                    onclick="adminLogin()">
+                Admin Login
+            </button>
+
+            <div id="adminLoginMsg"
+                 class="msg"></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ==================================================
+     USER PAGE
+     USER KO SIRF RASHID VERIFICATION
+================================================== -->
+
+<div id="userPage" class="hidden">
+
+    <div class="header">
+
+        <div class="header-title">
+            KHADIMIN-E-AULIYA
+        </div>
+
+        <button class="action-btn"
+                onclick="logout()">
+            Logout
+        </button>
+
+    </div>
+
+    <div class="container">
+
+        <div class="card verify-box">
+
+            <h2>Rashid Verification</h2>
+
+            <p style="color:#b8cbc2;margin-bottom:20px;">
+                Apni Rashid Number enter karke Rashid check karein.
+            </p>
+
+            <label>Rashid Number / Receipt ID</label>
+
+            <input id="verifyRashid"
+                   placeholder="Example: KEA-1001">
+
+            <button class="btn"
+                    onclick="verifyRashid()">
+                Check Rashid
+            </button>
+
+            <div id="verifyResult"></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ==================================================
+     ADMIN PAGE
+================================================== -->
+
+<div id="adminPage" class="hidden">
+
+    <div class="admin-header">
+
+        <div class="admin-header-inner">
+
+            <div class="admin-title">
+                KHADIMIN-E-AULIYA — ADMIN PANEL
+            </div>
+
+            <button class="action-btn"
+                    onclick="logout()">
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="admin-container">
+
+
+        <!-- ADMIN MENU -->
+
+        <div class="admin-menu">
+
+            <button class="menu-btn"
+                    onclick="openAdminSection('dashboard')">
+                📊 Dashboard
+            </button>
+
+            <button class="menu-btn"
+                    onclick="openAdminSection('createRashid')">
+                🧾 Create Rashid
+            </button>
+
+            <button class="menu-btn"
+                    onclick="openAdminSection('manageRashid')">
+                ✏️ Manage Rashid
+            </button>
+
+            <button class="menu-btn"
+                    onclick="openAdminSection('rashidHistory')">
+                📚 Rashid History
+            </button>
+
+            <button class="menu-btn"
+                    onclick="openAdminSection('donors')">
+                👥 Donor List
+            </button>
+
+            <button class="menu-btn"
+                    onclick="openAdminSection('donationHistory')">
+                💰 Donation History
+            </button>
+
+        </div>
+
+
+        <!-- ================= DASHBOARD ================= -->
+
+        <div id="dashboard"
+             class="admin-section active">
+
+            <div class="section-title">
+                Admin Dashboard
+            </div>
+
+            <div class="grid">
+
+                <div class="stat">
+                    <h3>Total Rashid</h3>
+                    <strong id="totalRashid">0</strong>
+                </div>
+
+                <div class="stat">
+                    <h3>Confirmed Rashid</h3>
+                    <strong id="confirmedRashid">0</strong>
+                </div>
+
+                <div class="stat">
+                    <h3>Total Donation</h3>
+                    <strong id="totalDonation">₹0</strong>
+                </div>
+
+                <div class="stat">
+                    <h3>Total Donors</h3>
+                    <strong id="totalDonors">0</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= CREATE RASHID ================= -->
+
+        <div id="createRashid"
+             class="admin-section">
+
+            <div class="section-title">
+                Create New Rashid
+            </div>
+
+            <div class="card">
+
+                <label>Donor Name</label>
+
+                <input id="donorName"
+                       placeholder="Donor name">
+
+                <label>Donor Mobile Number</label>
+
+                <input id="donorMobile"
+                       maxlength="10"
+                       placeholder="Mobile number">
+
+                <label>Place / Address</label>
+
+                <input id="donorPlace"
+                       placeholder="Place / Address">
+
+                <label>Donation Amount (₹)</label>
+
+                <input id="donorAmount"
+                       type="number"
+                       placeholder="Amount">
+
+                <label>Purpose</label>
+
+                <select id="donorPurpose">
+
+                    <option value="All Purpose">
+                        All Purpose
+                    </option>
+
+                    <option value="Langar-e-Gausiya">
+                        Langar-e-Gausiya
+                    </option>
+
+                    <option value="Mazarat Ki Tameer">
+                        Mazarat Ki Tameer
+                    </option>
+
+                </select>
+
+                <label>Payment Details</label>
+
+                <input id="paymentDetails"
+                       placeholder="Payment details">
+
+                <label>Admin Information</label>
+
+                <input id="adminInfo"
+                       placeholder="Authorized/Admin">
+
+                <button class="btn"
+                        onclick="createRashid()">
+                    Create Rashid
+                </button>
+
+                <div id="createMsg"
+                     class="msg"></div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= MANAGE RASHID ================= -->
+
+        <div id="manageRashid"
+             class="admin-section">
+
+            <div class="section-title">
+                Manage Rashid
+            </div>
+
+            <input class="search"
+                   id="rashidSearch"
+                   oninput="renderRashids()"
+                   placeholder="Search Rashid Number / Donor">
+
+            <div class="card table-wrap">
+
+                <table>
+
+                    <thead>
+
+                    <tr>
+                        <th>Rashid</th>
+                        <th>Donor</th>
+                        <th>Amount</th>
+                        <th>Purpose</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+
+                    </thead>
+
+                    <tbody id="rashidTable"></tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= RASHID HISTORY ================= -->
+
+        <div id="rashidHistory"
+             class="admin-section">
+
+            <div class="section-title">
+                Rashid History
+            </div>
+
+            <div class="card table-wrap">
+
+                <table>
+
+                    <thead>
+
+                    <tr>
+                        <th>Rashid No.</th>
+                        <th>Donor</th>
+                        <th>Mobile</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                    </tr>
+
+                    </thead>
+
+                    <tbody id="historyTable"></tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= DONOR LIST ================= -->
+
+        <div id="donors"
+             class="admin-section">
+
+            <div class="section-title">
+                Donor List
+            </div>
+
+            <input class="search"
+                   id="donorSearch"
+                   oninput="renderDonors()"
+                   placeholder="Search donor name/mobile">
+
+            <div class="card table-wrap">
+
+                <table>
+
+                    <thead>
+
+                    <tr>
+                        <th>Donor</th>
+                        <th>Mobile</th>
+                        <th>Total Donation</th>
+                        <th>Rashid Count</th>
+                        <th>Actions</th>
+                    </tr>
+
+                    </thead>
+
+                    <tbody id="donorTable"></tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= DONATION HISTORY ================= -->
+
+        <div id="donationHistory"
+             class="admin-section">
+
+            <div class="section-title">
+                Donation History
+            </div>
+
+            <div class="card table-wrap">
+
+                <table>
+
+                    <thead>
+
+                    <tr>
+                        <th>Date</th>
+                        <th>Rashid</th>
+                        <th>Donor</th>
+                        <th>Purpose</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                    </tr>
+
+                    </thead>
+
+                    <tbody id="donationTable"></tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* ==================================================
+   SPLASH
+================================================== */
+
+function hideSplash(){
+
+    document.getElementById("splash")
+        .classList.add("hide");
+
+}
+
+setTimeout(hideSplash,4000);
+
+
+/* ==================================================
+   AUTH SWITCH
+================================================== */
+
+function switchAuth(id,button){
+
+    document.querySelectorAll(".form")
+        .forEach(x=>x.classList.remove("active"));
+
+    document.getElementById(id)
+        .classList.add("active");
+
+    document.querySelectorAll(".tab")
+        .forEach(x=>x.classList.remove("active"));
+
+    button.classList.add("active");
+
+}
+
+
+/* ==================================================
+   DEMO OTP
+================================================== */
+
+let demoOTP="";
+
+function sendOTP(){
+
+    let mobile=
+        document.getElementById("
+                                <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="KHADIMIN-E-AULIYA">
+<title>KHADIMIN-E-AULIYA</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#f5faf7;
+    color:#173b2c;
+}
+
+button,input,select,textarea{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+.hidden{
+    display:none!important;
+}
+
+/* SPLASH */
+#splash{
+    position:fixed;
+    inset:0;
+    z-index:9999;
+    background:linear-gradient(145deg,#063b28,#0c6545,#b28a27);
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+}
+
+.splash-box{
+    padding:25px;
+}
+
+.arabic{
+    font-size:28px;
+    line-height:1.8;
+}
+
+.splash-small{
+    margin-top:18px;
+    font-size:18px;
+}
+
+.splash-title{
+    font-size:35px;
+    font-weight:800;
+    margin-top:8px;
+}
+
+.skip-btn{
+    margin-top:30px;
+    border:1px solid #fff;
+    background:white;
+    color:#075133;
+    padding:12px 28px;
+    border-radius:30px;
+    font-weight:bold;
+}
+
+/* HEADER */
+header{
+    background:linear-gradient(135deg,#06462f,#08724d);
+    color:white;
+    padding:15px;
+    position:sticky;
+    top:0;
+    z-index:100;
+    box-shadow:0 3px 12px #0002;
+}
+
+.header-inner{
+    max-width:1100px;
+    margin:auto;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+}
+
+.logo-title{
+    font-size:20px;
+    font-weight:bold;
+}
+
+.logo-sub{
+    font-size:11px;
+    opacity:.8;
+}
+
+.menu-btn{
+    background:#d4aa3a;
+    border:0;
+    color:white;
+    padding:9px 13px;
+    border-radius:8px;
+}
+
+/* NAV */
+nav{
+    background:white;
+    padding:10px;
+    display:flex;
+    gap:7px;
+    overflow-x:auto;
+    box-shadow:0 2px 10px #0001;
+}
+
+nav button{
+    white-space:nowrap;
+    border:1px solid #0a6947;
+    background:white;
+    color:#075438;
+    padding:9px 13px;
+    border-radius:20px;
+}
+
+nav button:hover{
+    background:#0a6947;
+    color:white;
+}
+
+/* CONTAINER */
+.container{
+    width:min(1100px,94%);
+    margin:20px auto;
+}
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+.card{
+    background:white;
+    border-radius:16px;
+    padding:20px;
+    margin-bottom:18px;
+    box-shadow:0 4px 18px #17493615;
+    border:1px solid #dcebe3;
+}
+
+.card h2,
+.card h3{
+    color:#075438;
+    margin-bottom:12px;
+}
+
+.hero{
+    background:linear-gradient(135deg,#075438,#13875e);
+    color:white;
+    border-radius:20px;
+    padding:35px 22px;
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.hero h1{
+    font-size:30px;
+    margin-bottom:8px;
+}
+
+.hero p{
+    opacity:.9;
+}
+
+/* FORM */
+.form-group{
+    margin-bottom:13px;
+}
+
+.form-group label{
+    display:block;
+    font-weight:bold;
+    margin-bottom:6px;
+}
+
+input,select,textarea{
+    width:100%;
+    padding:12px;
+    border:1px solid #c8ddd3;
+    border-radius:10px;
+    outline:none;
+    background:#fff;
+}
+
+input:focus,select:focus,textarea:focus{
+    border-color:#08724d;
+}
+
+textarea{
+    min-height:90px;
+    resize:vertical;
+}
+
+.btn{
+    border:0;
+    border-radius:10px;
+    padding:11px 16px;
+    font-weight:bold;
+    margin:3px;
+}
+
+.btn-primary{
+    background:#08724d;
+    color:white;
+}
+
+.btn-gold{
+    background:#b18a2a;
+    color:white;
+}
+
+.btn-danger{
+    background:#b42323;
+    color:white;
+}
+
+.btn-gray{
+    background:#68736e;
+    color:white;
+}
+
+.btn-whatsapp{
+    background:#20b858;
+    color:white;
+}
+
+/* LOGIN */
+.login-wrap{
+    max-width:480px;
+    margin:35px auto;
+}
+
+.tabs{
+    display:flex;
+    gap:5px;
+    margin-bottom:15px;
+}
+
+.tabs button{
+    flex:1;
+    padding:11px 5px;
+    border:1px solid #08724d;
+    background:white;
+    color:#08724d;
+    border-radius:8px;
+}
+
+.tabs button.active{
+    background:#08724d;
+    color:white;
+}
+
+/* GRID */
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:15px;
+}
+
+.stat{
+    padding:20px;
+    border-radius:15px;
+    background:linear-gradient(135deg,#e7f5ed,#fff);
+    border:1px solid #d5e9df;
+}
+
+.stat-number{
+    font-size:28px;
+    font-weight:bold;
+    color:#08724d;
+}
+
+/* WHATSAPP */
+.whatsapp-card{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    border:1px solid #d8e8df;
+    background:#fbfffc;
+    padding:15px;
+    border-radius:14px;
+    margin-bottom:10px;
+}
+
+.wa-info strong{
+    display:block;
+    color:#075438;
+    font-size:17px;
+}
+
+.wa-number{
+    margin-top:4px;
+    color:#555;
+}
+
+.wa-status{
+    font-size:12px;
+    color:#16823f;
+    font-weight:bold;
+}
+
+/* ADMIN TABLE */
+.table-wrap{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:650px;
+}
+
+th,td{
+    padding:11px;
+    border-bottom:1px solid #e1ebe6;
+    text-align:left;
+}
+
+th{
+    background:#075438;
+    color:white;
+}
+
+.status-active{
+    color:#16823f;
+    font-weight:bold;
+}
+
+.status-off{
+    color:#b42323;
+    font-weight:bold;
+}
+
+.empty{
+    text-align:center;
+    padding:25px;
+    color:#777;
+}
+
+/* TOAST */
+#toast{
+    position:fixed;
+    bottom:20px;
+    left:50%;
+    transform:translateX(-50%);
+    background:#173b2c;
+    color:white;
+    padding:12px 20px;
+    border-radius:30px;
+    z-index:10000;
+    display:none;
+}
+
+/* FOOTER */
+footer{
+    background:#063b28;
+    color:white;
+    text-align:center;
+    padding:25px 15px;
+    margin-top:40px;
+}
+
+@media(max-width:600px){
+    .splash-title{
+        font-size:27px;
+    }
+
+    .arabic{
+        font-size:23px;
+    }
+
+    .hero h1{
+        font-size:24px;
+    }
+
+    .whatsapp-card{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .whatsapp-card .btn{
+        width:100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- SPLASH -->
+<div id="splash">
+    <div class="splash-box">
+        <div class="arabic">صلوا علی الحبیب</div>
+        <div class="arabic">صلی اللہ علی محمد ﷺ</div>
+
+        <div class="splash-small">Welcome To</div>
+        <div class="splash-title">KHADIMIN-E-AULIYA</div>
+
+        <button class="skip-btn" onclick="skipSplash()">
+            Skip / آگے بڑھیں
+        </button>
+    </div>
+</div>
+
+<!-- HEADER -->
+<header>
+    <div class="header-inner">
+        <div>
+            <div class="logo-title">KHADIMIN-E-AULIYA</div>
+            <div class="logo-sub">خادمینِ اولیاء</div>
+        </div>
+
+        <button class="menu-btn" onclick="logout()">Logout</button>
+    </div>
+</header>
+
+<!-- NAV -->
+<nav id="mainNav">
+    <button onclick="showPage('home')">Home</button>
+    <button onclick="showPage('programs')">Programs</button>
+    <button onclick="showPage('donation')">Donation</button>
+    <button onclick="showPage('rashid')">Rashid Check</button>
+    <button onclick="showPage('photos')">Photos</button>
+    <button onclick="showPage('videos')">Videos</button>
+    <button onclick="showPage('majlis')">Majlis</button>
+    <button onclick="showPage('bank')">Bank / UPI / QR</button>
+    <button onclick="showPage('whatsapp')">WhatsApp</button>
+    <button onclick="showPage('join')">Join Us</button>
+    <button id="adminNavBtn" class="hidden" onclick="showPage('admin')">
+        Admin Dashboard
+    </button>
+</nav>
+
+<!-- LOGIN -->
+<div id="loginPage" class="container">
+
+    <div class="login-wrap">
+
+        <div class="card">
+
+            <div class="tabs">
+                <button id="userTab" class="active" onclick="loginTab('user')">
+                    User Login
+                </button>
+
+                <button id="adminTab" onclick="loginTab('admin')">
+                    Admin Login
+                </button>
+            </div>
+
+            <!-- USER LOGIN -->
+            <div id="userLogin">
+
+                <div class="form-group">
+                    <label>Mobile Number</label>
+                    <input id="loginMobile" type="tel"
+                           placeholder="Enter mobile number">
+                </div>
+
+                <button class="btn btn-primary" onclick="sendOTP()">
+                    Send OTP
+                </button>
+
+                <div id="otpBox" class="hidden" style="margin-top:15px;">
+                    <div class="form-group">
+                        <label>OTP</label>
+                        <input id="otpInput"
+                               type="number"
+                               placeholder="Enter demo OTP">
+                    </div>
+
+                    <button class="btn btn-gold" onclick="verifyOTP()">
+                        Verify OTP
+                    </button>
+                </div>
+
+                <hr style="margin:20px 0;border:0;border-top:1px solid #ddd;">
+
+                <button class="btn btn-primary"
+                        onclick="showSignup()">
+                    Create New Account
+                </button>
+
+            </div>
+
+            <!-- ADMIN LOGIN -->
+            <div id="adminLogin" class="hidden">
+
+                <div class="form-group">
+                    <label>Admin Email</label>
+                    <input id="adminEmail"
+                           type="email"
+                           placeholder="Admin Email">
+                </div>
+
+                <div class="form-group">
+                    <label>Admin Password</label>
+                    <input id="adminPassword"
+                           type="password"
+                           placeholder="Password">
+                </div>
+
+                <button class="btn btn-primary"
+                        onclick="adminLogin()">
+                    Admin Login
+                </button>
+
+                <p style="margin-top:15px;font-size:13px;color:#777;">
+                    Demo login only. Production system must use
+                    server-side authentication.
+                </p>
+
+            </div>
+
+            <!-- SIGNUP -->
+            <div id="signupBox" class="hidden">
+
+                <h3>Create Account</h3>
+
+                <div class="form-group">
+                    <label>Name</label>
+                    <input id="signupName" placeholder="Full Name">
+                </div>
+
+                <div class="form-group">
+                    <label>Mobile Number</label>
+                    <input id="signupMobile" type="tel"
+                           placeholder="Mobile Number">
+                </div>
+
+                <div class="form-group">
+                    <label>Email</label>
+                    <input id="signupEmail" type="email"
+                           placeholder="Email">
+                </div>
+
+                <div class="form-group">
+                    <label>Place / City</label>
+                    <input id="signupCity" placeholder="City">
+                </div>
+
+                <button class="btn btn-primary"
+                        onclick="signup()">
+                    Sign Up
+                </button>
+
+                <button class="btn btn-gray"
+                        onclick="hideSignup()">
+                    Back
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<!-- MAIN APP -->
+<div id="app" class="hidden">
+
+<div class="container">
+
+<!-- HOME -->
+<section id="home" class="page active">
+
+    <div class="hero">
+        <h1>KHADIMIN-E-AULIYA</h1>
+        <p>
+            Welcome to Khadimin-e-Auliya official platform
+        </p>
+    </div>
+
+    <div class="grid">
+
+        <div class="card">
+            <h3>Donation</h3>
+            <p>Donation aur bank information dekhein.</p>
+            <button class="btn btn-primary"
+                    onclick="showPage('donation')">
+                Open Donation
+            </button>
+        </div>
+
+        <div class="card">
+            <h3>Rashid Verification</h3>
+            <p>Rashid number se receipt verify karein.</p>
+            <button class="btn btn-primary"
+                    onclick="showPage('rashid')">
+                Verify Rashid
+            </button>
+        </div>
+
+        <div class="card">
+            <h3>WhatsApp Contact</h3>
+            <p>Active WhatsApp numbers par direct baat karein.</p>
+            <button class="btn btn-whatsapp"
+                    onclick="showPage('whatsapp')">
+                WhatsApp
+            </button>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- PROGRAMS -->
+<section id="programs" class="page">
+
+    <div class="card">
+        <h2>Programs</h2>
+        <p>Coming Soon / Admin Managed Programs</p>
+    </div>
+
+</section>
+
+
+<!-- DONATION -->
+<section id="donation" class="page">
+
+    <div class="card">
+        <h2>Donation</h2>
+
+        <p>
+            Aap active Bank, UPI aur QR details ke zariye
+            donation kar sakte hain.
+        </p>
+
+        <br>
+
+        <button class="btn btn-primary"
+                onclick="showPage('bank')">
+            Bank / UPI / QR Details
+        </button>
+    </div>
+
+</section>
+
+
+<!-- RASHID -->
+<section id="rashid" class="page">
+
+    <div class="card">
+
+        <h2>Rashid Verification</h2>
+
+        <div class="form-group">
+            <label>Rashid Number</label>
+            <input id="verifyRashid"
+                   placeholder="Enter Rashid Number">
+        </div>
+
+        <button class="btn btn-primary"
+                onclick="verifyRashid()">
+            Verify Rashid
+        </button>
+
+        <div id="rashidResult" style="margin-top:15px;"></div>
+
+    </div>
+
+</section>
+
+
+<!-- PHOTOS -->
+<section id="photos" class="page">
+
+    <div class="card">
+        <h2>Photo Gallery</h2>
+        <p>Admin managed photo gallery.</p>
+    </div>
+
+</section>
+
+
+<!-- VIDEOS -->
+<section id="videos" class="page">
+
+    <div class="card">
+        <h2>Video Gallery</h2>
+        <p>Admin managed video gallery.</p>
+    </div>
+
+</section>
+
+
+<!-- MAJLIS -->
+<section id="majlis" class="page">
+
+    <div class="card">
+        <h2>Majlis Khadimin-e-Auliya</h2>
+        <p>Members information will appear here.</p>
+    </div>
+
+</section>
+
+
+<!-- BANK -->
+<section id="bank" class="page">
+
+    <div class="card">
+
+        <h2>Bank / UPI / QR Details</h2>
+
+        <div id="bankUserDisplay"></div>
+
+    </div>
+
+</section>
+
+
+<!-- WHATSAPP USER -->
+<section id="whatsapp" class="page">
+
+    <div class="card">
+
+        <h2>WhatsApp Contact</h2>
+
+        <p style="margin-bottom:15px;">
+            Neeche sirf active WhatsApp contacts dikhaye ja rahe hain.
+            Kisi number par Chat button dabakar direct baat karein.
+        </p>
+
+        <div id="userWhatsappList"></div>
+
+    </div>
+
+</section>
+
+
+<!-- JOIN -->
+<section id="join" class="page">
+
+    <div class="card">
+
+        <h2>Join Khadimin-e-Auliya</h2>
+
+        <div class="form-group">
+            <label>Name</label>
+            <input id="joinName" placeholder="Your Name">
+        </div>
+
+        <div class="form-group">
+            <label>Mobile Number</label>
+            <input id="joinMobile" type="tel"
+                   placeholder="Mobile Number">
+        </div>
+
+        <div class="form-group">
+            <label>Place / City</label>
+            <input id="joinCity" placeholder="Place / City">
+        </div>
+
+        <button class="btn btn-primary"
+                onclick="submitJoin()">
+            Submit
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ADMIN -->
+<section id="admin" class="page">
+
+    <div class="hero">
+        <h1>Admin Dashboard</h1>
+        <p>KHADIMIN-E-AULIYA Management Panel</p>
+    </div>
+
+    <div class="grid">
+
+        <div class="stat">
+            <div>Users</div>
+            <div id="totalUsers" class="stat-number">0</div>
+        </div>
+
+        <div class="stat">
+            <div>WhatsApp Contacts</div>
+            <div id="totalWhatsapp" class="stat-number">0</div>
+        </div>
+
+        <div class="stat">
+            <div>Joining Requests</div>
+            <div id="totalJoining" class="stat-number">0</div>
+        </div>
+
+    </div>
+
+
+    <!-- WHATSAPP ADMIN MANAGEMENT -->
+    <div class="card" style="margin-top:20px;">
+
+        <h2>WhatsApp Contact Management</h2>
+
+        <p style="margin-bottom:15px;">
+            Admin yahan unlimited WhatsApp numbers add,
+            edit, update, delete aur active/inactive kar sakta hai.
+        </p>
+
+        <div class="form-group">
+            <label>Contact Name / Label</label>
+            <input id="waName"
+                   placeholder="Example: Main Office">
+        </div>
+
+        <div class="form-group">
+            <label>WhatsApp Number</label>
+            <input id="waNumber"
+                   type="tel"
+                   placeholder="Example: 9690341216">
+        </div>
+
+        <div class="form-group">
+            <label>Status</label>
+            <select id="waStatus">
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+            </select>
+        </div>
+
+        <button id="waSaveBtn"
+                class="btn btn-primary"
+                onclick="saveWhatsapp()">
+            Add WhatsApp Number
+        </button>
+
+        <button id="waCancelBtn"
+                class="btn btn-gray hidden"
+                onclick="cancelWhatsappEdit()">
+            Cancel Edit
+        </button>
+
+    </div>
+
+
+    <!-- WHATSAPP TABLE -->
+    <div class="card">
+
+        <h3>All WhatsApp Contacts</h3>
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Order</th>
+                        <th>Name</th>
+                        <th>Number</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody id="adminWhatsappTable"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- USER MANAGEMENT -->
+    <div class="card">
+
+        <h2>User Management</h2>
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Mobile</th>
+                        <th>Email</th>
+                        <th>City</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody id="adminUserTable"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- JOINING -->
+    <div class="card">
+
+        <h2>Joining Requests</h2>
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Mobile</th>
+                        <th>City</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+
+                <tbody id="adminJoiningTable"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+</div>
+
+<footer>
+    <strong>KHADIMIN-E-AULIYA</strong>
+    <br>
+    <small>Islamic / Sufi Inspired Platform</small>
+</footer>
+
+</div>
+
+
+<div id="toast"></div>
+
+
+<script>
+
+/* =========================
+   GLOBAL DATA
+========================= */
+
+let currentUser = null;
+let isAdminUser = false;
+let editingWhatsappId = null;
+
+
+/* =========================
+   DEFAULT WHATSAPP
+========================= */
+
+const defaultWhatsapp = [
+    {
+        id: "WA001",
+        name: "Main WhatsApp",
+        number: "9690341216",
+        active: true,
+        order: 1
+    },
+    {
+        id: "WA002",
+        name: "WhatsApp Contact 2",
+        number: "8976347640",
+        active: true,
+        order: 2
+    }
+];
+
+
+function getWhatsapp(){
+
+    let data = localStorage.getItem("kea_whatsapp");
+
+    if(!data){
+
+        localStorage.setItem(
+            "kea_whatsapp",
+            JSON.stringify(defaultWhatsapp)
+        );
+
+        return defaultWhatsapp;
+    }
+
+    try{
+        return JSON.parse(data);
+    }catch(e){
+        return defaultWhatsapp;
+    }
+}
+
+
+function saveWhatsappData(data){
+
+    localStorage.setItem(
+        "kea_whatsapp",
+        JSON.stringify(data)
+    );
+
+}
+
+
+/* =========================
+   SPLASH
+========================= */
+
+function skipSplash(){
+
+    doc
