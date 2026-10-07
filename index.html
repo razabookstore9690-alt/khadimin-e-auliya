@@ -77,13 +77,11 @@ button{cursor:pointer;}
     <button id="adminLoginTab">Admin Login</button>
   </div>
 
-  <!-- Aam User Login -->
   <div id="userLoginBox">
     <p style="font-size:14px;color:#555;margin-bottom:15px;text-align:center;">Dekhne ke liye Google se login karein:</p>
     <button class="google" id="googleLogin">Continue with Google</button>
   </div>
 
-  <!-- Admin Login (Secret) -->
   <div id="adminLoginBox" class="hidden">
     <div class="form-group">
       <label>User ID</label>
@@ -110,7 +108,6 @@ button{cursor:pointer;}
 </header>
 
 <main class="container">
-  <!-- Home Page -->
   <section id="home" class="page active">
     <div class="hero">
       <h1>KHADIMIN-E-AULIYA</h1>
@@ -140,11 +137,9 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- Photos Page -->
   <section id="photos" class="page">
     <div class="card">
       <h2>Photos Gallery</h2>
-      <!-- Admin Upload Box -->
       <div id="adminPhotoUpload" class="admin-box hidden">
         <h3>📸 Admin: Photo Upload Karein</h3>
         <div class="form-group"><label>Photo File Chunein</label><input id="photoFile" type="file" accept="image/*"></div>
@@ -155,11 +150,9 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- Videos Page -->
   <section id="videos" class="page">
     <div class="card">
       <h2>Videos Gallery</h2>
-      <!-- Admin Video Upload Box -->
       <div id="adminVideoUpload" class="admin-box hidden">
         <h3>🎥 Admin: Video Upload Karein</h3>
         <div class="form-group"><label>Video File Chunein</label><input id="videoFile" type="file" accept="video/*"></div>
@@ -170,7 +163,6 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- Programs Page -->
   <section id="programs" class="page">
     <div class="card">
       <h2>Programs</h2>
@@ -184,7 +176,6 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- Donation Page -->
   <section id="donation" class="page">
     <div class="card">
       <h2>Donation / Payment Details</h2>
@@ -200,7 +191,6 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- Rashid Page -->
   <section id="rashid" class="page">
     <div class="card">
       <h2>Rashid Check</h2>
@@ -227,7 +217,6 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- Members Page -->
   <section id="members" class="page">
     <div class="card">
       <h2>Members List</h2>
@@ -243,7 +232,6 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- Langar Page -->
   <section id="langar" class="page">
     <div class="card">
       <h2>Langar-e-Gausiya</h2>
@@ -256,7 +244,6 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- Notices Page -->
   <section id="notices" class="page">
     <div class="card">
       <h2>Notices & Announcements</h2>
@@ -270,7 +257,6 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- Central Admin Dashboard -->
   <section id="admin" class="page">
     <div class="hero">
       <h2>⚙️ ADMIN CONTROL DASHBOARD</h2>
@@ -303,7 +289,7 @@ button{cursor:pointer;}
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-import { getFirestore, collection, addDoc, getDocs, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAEcw0NtlOl9egPuU9EkEWp4nkhrxKw2iY",
@@ -319,29 +305,38 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// Cloudinary Configuration
 const CLOUD_NAME = "dfadsjum";
 const UPLOAD_PRESET = "khadimin_preset";
 
-// Cloudinary File Upload Helper (Free & No Billing Required)
-async function uploadToCloudinary(file, resourceType = "auto") {
-  const formData = new FormData();
-  formData.append("file", file);
-  formData.append("upload_preset", UPLOAD_PRESET);
-
-  const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/${resourceType}/upload`, {
-    method: "POST",
-    body: formData
+function fileToBase64(file){
+  return new Promise((resolve, reject)=>{
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (err) => reject(err);
+    reader.readAsDataURL(file);
   });
-
-  const data = await res.json();
-  if (!res.ok) {
-    throw new Error(data.error?.message || "Cloudinary upload failed");
-  }
-  return data.secure_url;
 }
 
-// Authorized Admin Emails
+async function uploadFileSmart(file, resourceType = "auto"){
+  try{
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", UPLOAD_PRESET);
+
+    const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/${resourceType}/upload`, {
+      method: "POST",
+      body: formData
+    });
+
+    if(res.ok){
+      const data = await res.json();
+      if(data.secure_url) return data.secure_url;
+    }
+  }catch(e){}
+
+  return await fileToBase64(file);
+}
+
 const ADMIN_EMAILS = [
   "razabookstore9690@gmail.com",
   "admin@khadimin.com"
@@ -374,7 +369,6 @@ adminTab.onclick=()=>{
   userBox.classList.add("hidden");
 };
 
-// User Google Login
 document.getElementById("googleLogin").addEventListener("click",async()=>{
   try{
     const provider = new GoogleAuthProvider();
@@ -384,7 +378,6 @@ document.getElementById("googleLogin").addEventListener("click",async()=>{
   }
 });
 
-// Admin Login
 document.getElementById("adminLogin").addEventListener("click",async()=>{
   let email = document.getElementById("adminEmail").value.trim().toLowerCase();
   const password = document.getElementById("adminPassword").value;
@@ -415,7 +408,6 @@ onAuthStateChanged(auth, async(user)=>{
   document.getElementById("app").classList.remove("hidden");
   document.getElementById("roleText").textContent = isAdmin ? "👑 Admin Account" : "👤 User Account";
 
-  // Admin Controls Toggle
   const adminElements = [
     "adminNav",
     "adminPhotoUpload",
@@ -463,7 +455,6 @@ async function loadAllData(){
   ]);
 }
 
-// Photo Upload via Cloudinary
 window.uploadPhoto = async function(){
   const btn = document.getElementById("photoUploadBtn");
   try{
@@ -472,9 +463,9 @@ window.uploadPhoto = async function(){
     if(!file) return alert("Pehle Photo chunein.");
 
     btn.disabled = true;
-    btn.textContent = "Uploading to Cloudinary...";
+    btn.textContent = "Uploading...";
 
-    const url = await uploadToCloudinary(file, "image");
+    const url = await uploadFileSmart(file, "image");
     await addDoc(collection(db, "photos"), { title, url, createdAt: serverTimestamp() });
 
     alert("✅ Photo successfully upload ho gayi!");
@@ -503,7 +494,6 @@ async function loadPhotos(){
   }catch(e){}
 }
 
-// Video Upload via Cloudinary
 window.uploadVideo = async function(){
   const btn = document.getElementById("videoUploadBtn");
   try{
@@ -512,9 +502,9 @@ window.uploadVideo = async function(){
     if(!file) return alert("Pehle Video file chunein.");
 
     btn.disabled = true;
-    btn.textContent = "Uploading video (kuch der intezar karein)...";
+    btn.textContent = "Uploading video (intezar karein)...";
 
-    const url = await uploadToCloudinary(file, "video");
+    const url = await uploadFileSmart(file, "video");
     await addDoc(collection(db, "videos"), { title, url, createdAt: serverTimestamp() });
 
     alert("✅ Video successfully upload ho gaya!");
@@ -543,7 +533,6 @@ async function loadVideos(){
   }catch(e){}
 }
 
-// Payment Section & QR Upload
 async function loadPayment(){
   const box = document.getElementById("paymentDetails");
   try{
@@ -577,7 +566,7 @@ window.savePaymentDetails = async function(){
     if(file){
       btn.disabled = true;
       btn.textContent = "Uploading QR...";
-      qrUrl = await uploadToCloudinary(file, "image");
+      qrUrl = await uploadFileSmart(file, "image");
     }
 
     await addDoc(collection(db,"paymentMethods"),{
@@ -593,7 +582,6 @@ window.savePaymentDetails = async function(){
   }
 };
 
-// Programs
 async function loadPrograms(){
   const box = document.getElementById("programList");
   try{
@@ -621,7 +609,6 @@ window.addProgram = async function(){
   }catch(e){ alert(e.message); }
 };
 
-// Members
 async function loadMembers(){
   const box = document.getElementById("memberList");
   try{
@@ -653,7 +640,6 @@ window.addMember = async function(){
   }catch(e){ alert(e.message); }
 };
 
-// Langar
 async function loadLangar(){
   const box = document.getElementById("langarContent");
   try{
@@ -679,7 +665,6 @@ window.saveLangar = async function(){
   }catch(e){ alert(e.message); }
 };
 
-// Notices
 async function loadNotices(){
   const box = document.getElementById("noticeList");
   try{
@@ -707,7 +692,6 @@ window.addNotice = async function(){
   }catch(e){ alert(e.message); }
 };
 
-// Rashid
 window.checkRashid = function(){
   const number = document.getElementById("rashidNumberCheck").value.trim();
   if(!number) return alert("Rashid number daalein.");
