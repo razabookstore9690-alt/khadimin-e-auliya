@@ -83,18 +83,17 @@ button{cursor:pointer;}
     <button class="google" id="googleLogin">Continue with Google</button>
   </div>
 
-  <!-- Khas Admin Sahab Login -->
+  <!-- Admin Login (Secret - Koi Email pehle se nahi dikhega) -->
   <div id="adminLoginBox" class="hidden">
-    <p style="font-size:13px;color:#075c39;margin-bottom:12px;font-weight:bold;text-align:center;">🔒 Khas Admin Login (Upload & Edit Access)</p>
     <div class="form-group">
-      <label>Admin User ID (Email)</label>
-      <input id="adminEmail" type="email" placeholder="razabookstore9690@gmail.com">
+      <label>User ID</label>
+      <input id="adminEmail" type="text" placeholder="Enter User ID" autocomplete="off">
     </div>
     <div class="form-group">
-      <label>Admin Password</label>
-      <input id="adminPassword" type="password" placeholder="Enter Admin Password">
+      <label>Password</label>
+      <input id="adminPassword" type="password" placeholder="Enter Password" autocomplete="off">
     </div>
-    <button class="primary" id="adminLogin">Login as Admin</button>
+    <button class="primary" id="adminLogin">Login</button>
   </div>
 </div>
 </section>
@@ -145,7 +144,7 @@ button{cursor:pointer;}
   <section id="photos" class="page">
     <div class="card">
       <h2>Photos Gallery</h2>
-      <!-- Admin Sahab Upload Box -->
+      <!-- Admin Upload Box -->
       <div id="adminPhotoUpload" class="admin-box hidden">
         <h3>📸 Admin: Photo Upload Karein</h3>
         <div class="form-group"><label>Photo File Chunein</label><input id="photoFile" type="file" accept="image/*"></div>
@@ -160,7 +159,7 @@ button{cursor:pointer;}
   <section id="videos" class="page">
     <div class="card">
       <h2>Videos Gallery</h2>
-      <!-- Admin Sahab Video Upload Box -->
+      <!-- Admin Video Upload Box -->
       <div id="adminVideoUpload" class="admin-box hidden">
         <h3>🎥 Admin: Video Upload Karein</h3>
         <div class="form-group"><label>Video File Chunein</label><input id="videoFile" type="file" accept="video/*"></div>
@@ -322,7 +321,7 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
-// Admin Email List - Yahan jo email hoga sirf wahi admin controls dekh payega:
+// Authorized Admin Emails
 const ADMIN_EMAILS = [
   "razabookstore9690@gmail.com",
   "admin@khadimin.com"
@@ -355,7 +354,7 @@ adminTab.onclick=()=>{
   userBox.classList.add("hidden");
 };
 
-// Aam User Login
+// User Google Login
 document.getElementById("googleLogin").addEventListener("click",async()=>{
   try{
     const provider = new GoogleAuthProvider();
@@ -365,16 +364,21 @@ document.getElementById("googleLogin").addEventListener("click",async()=>{
   }
 });
 
-// Admin Sahab Login
+// Admin Login
 document.getElementById("adminLogin").addEventListener("click",async()=>{
-  const email = document.getElementById("adminEmail").value.trim().toLowerCase();
+  let email = document.getElementById("adminEmail").value.trim().toLowerCase();
   const password = document.getElementById("adminPassword").value;
-  if(!email || !password) return alert("Admin Email aur Password bharein.");
+  if(!email || !password) return alert("User ID aur Password bharein.");
+
+  // Agar user sirf 'admin' likhe to auto email handle karein
+  if(!email.includes("@")){
+    email = email + "@khadimin.com";
+  }
 
   try{
     await signInWithEmailAndPassword(auth, email, password);
   }catch(error){
-    alert("Admin login failed: " + error.message);
+    alert("Login failed: " + error.message);
   }
 });
 
@@ -390,9 +394,9 @@ onAuthStateChanged(auth, async(user)=>{
 
   document.getElementById("loginPage").classList.add("hidden");
   document.getElementById("app").classList.remove("hidden");
-  document.getElementById("roleText").textContent = isAdmin ? `👑 Admin: ${userEmail}` : `👤 User: ${userEmail}`;
+  document.getElementById("roleText").textContent = isAdmin ? "👑 Admin Account" : "👤 User Account";
 
-  // Admin Sahab ke Upload aur Edit buttons
+  // Admin Controls
   const adminElements = [
     "adminNav",
     "adminPhotoUpload",
