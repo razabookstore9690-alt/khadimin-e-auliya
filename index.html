@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b5d3b">
+<meta name="description" content="KHADIMIN-E-AULIYA">
+
 <title>KHADIMIN-E-AULIYA</title>
 
 <style>
@@ -10,56 +13,226 @@
   box-sizing:border-box;
   margin:0;
   padding:0;
+  font-family:Arial, sans-serif;
 }
 
 body{
-  font-family:Arial,sans-serif;
-  background:#f5f7f5;
-  color:#17231d;
+  background:#f5f7f6;
+  color:#222;
 }
 
-header{
-  background:#123c2b;
+button,input,select,textarea{
+  font-size:16px;
+}
+
+button{
+  cursor:pointer;
+}
+
+.hidden{
+  display:none!important;
+}
+
+/* ================= SPLASH ================= */
+
+#splash{
+  position:fixed;
+  inset:0;
+  z-index:99999;
+  background:linear-gradient(135deg,#063d28,#0b6b43,#d6ad45);
   color:white;
-  padding:18px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
   text-align:center;
+  transition:opacity .5s ease, visibility .5s;
+}
+
+#splash.hide{
+  opacity:0;
+  visibility:hidden;
+}
+
+.splash-box{
+  padding:25px;
+  animation:fadeIn 1s ease;
+}
+
+.splash-arabic{
+  font-size:25px;
+  margin-bottom:12px;
+  direction:rtl;
+}
+
+.splash-welcome{
+  font-size:18px;
+  margin-top:20px;
+}
+
+.splash-title{
+  font-size:32px;
+  font-weight:bold;
+  letter-spacing:2px;
+  margin-top:10px;
+}
+
+#skipSplash{
+  margin-top:30px;
+  padding:10px 25px;
+  border:1px solid white;
+  background:transparent;
+  color:white;
+  border-radius:25px;
+}
+
+@keyframes fadeIn{
+  from{opacity:0;transform:scale(.95)}
+  to{opacity:1;transform:scale(1)}
+}
+
+/* ================= LOGIN ================= */
+
+#loginPage{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+  background:#eef5f1;
+}
+
+.login-card{
+  width:100%;
+  max-width:430px;
+  background:white;
+  padding:25px;
+  border-radius:20px;
+  box-shadow:0 10px 35px rgba(0,0,0,.12);
+}
+
+.logo{
+  text-align:center;
+  color:#075c39;
+  font-size:26px;
+  font-weight:bold;
+  margin-bottom:20px;
+}
+
+.tabs{
+  display:flex;
+  gap:8px;
+  margin-bottom:20px;
+}
+
+.tabs button{
+  flex:1;
+  padding:11px;
+  border:0;
+  border-radius:10px;
+  background:#e7eee9;
+}
+
+.tabs button.active{
+  background:#075c39;
+  color:white;
+}
+
+.form-group{
+  margin-bottom:14px;
+}
+
+.form-group label{
+  display:block;
+  margin-bottom:6px;
+  font-weight:bold;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select{
+  width:100%;
+  padding:12px;
+  border:1px solid #ccc;
+  border-radius:10px;
+  outline:none;
+}
+
+.primary{
+  width:100%;
+  border:0;
+  padding:13px;
+  border-radius:10px;
+  background:#075c39;
+  color:white;
+  font-weight:bold;
+  margin-top:8px;
+}
+
+.secondary{
+  width:100%;
+  border:1px solid #075c39;
+  padding:12px;
+  border-radius:10px;
+  background:white;
+  color:#075c39;
+  margin-top:8px;
+}
+
+.google{
+  width:100%;
+  padding:12px;
+  border:0;
+  border-radius:10px;
+  background:#4285f4;
+  color:white;
+  margin-top:10px;
+}
+
+.small-link{
+  text-align:center;
+  margin-top:12px;
+}
+
+.small-link button{
+  border:0;
+  background:none;
+  color:#075c39;
+}
+
+/* ================= APP ================= */
+
+#app{
+  min-height:100vh;
+  padding-bottom:75px;
+}
+
+.topbar{
+  background:#075c39;
+  color:white;
+  padding:15px;
   position:sticky;
   top:0;
   z-index:100;
 }
 
-header h1{
-  font-size:23px;
-}
-
-header p{
-  margin-top:5px;
-  font-size:13px;
-}
-
-nav{
+.topbar-inner{
+  max-width:1100px;
+  margin:auto;
   display:flex;
-  overflow-x:auto;
-  background:white;
-  border-bottom:1px solid #ddd;
-  position:sticky;
-  top:68px;
-  z-index:99;
+  justify-content:space-between;
+  align-items:center;
 }
 
-nav button{
-  min-width:110px;
-  border:0;
-  background:white;
-  padding:14px 10px;
-  cursor:pointer;
-  color:#123c2b;
+.top-title{
   font-weight:bold;
-  white-space:nowrap;
 }
 
-nav button:hover{
-  background:#eaf2ed;
+.logout{
+  background:#fff;
+  color:#075c39;
+  border:0;
+  padding:8px 13px;
+  border-radius:20px;
 }
 
 .container{
@@ -68,746 +241,2255 @@ nav button:hover{
   padding:18px;
 }
 
-.section{
+.page{
   display:none;
 }
 
-.section.active{
+.page.active{
   display:block;
 }
 
-.card{
-  background:white;
-  border-radius:16px;
-  padding:18px;
-  margin-bottom:18px;
-  box-shadow:0 4px 18px rgba(0,0,0,.08);
+.hero{
+  background:linear-gradient(135deg,#075c39,#13895a);
+  color:white;
+  padding:25px;
+  border-radius:18px;
+  margin-bottom:20px;
 }
 
-h2{
-  color:#123c2b;
-  margin-bottom:15px;
-}
-
-h3{
+.hero h1{
   margin-bottom:8px;
-}
-
-input,
-textarea,
-select{
-  width:100%;
-  padding:12px;
-  margin:7px 0;
-  border:1px solid #ccd8d1;
-  border-radius:10px;
-  font-size:15px;
-}
-
-textarea{
-  min-height:90px;
-}
-
-button.action{
-  width:100%;
-  padding:12px;
-  border:0;
-  border-radius:10px;
-  background:#176044;
-  color:white;
-  font-weight:bold;
-  cursor:pointer;
-  margin-top:8px;
-}
-
-button.secondary{
-  background:#e7eee9;
-  color:#17382a;
-}
-
-button.danger{
-  background:#b42318;
-  color:white;
 }
 
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:15px;
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:14px;
 }
 
-.feature{
+.card{
+  background:white;
   padding:18px;
-  background:#f8fbf9;
-  border:1px solid #dce7e0;
-  border-radius:14px;
+  border-radius:15px;
+  box-shadow:0 3px 15px rgba(0,0,0,.07);
+  margin-bottom:15px;
 }
 
-.hero{
-  text-align:center;
-  padding:35px 15px;
-  background:linear-gradient(135deg,#123c2b,#23644b);
+.card h3{
+  color:#075c39;
+  margin-bottom:8px;
+}
+
+.action{
+  border:0;
+  background:#075c39;
   color:white;
-  border-radius:18px;
-  margin-bottom:18px;
+  padding:9px 13px;
+  border-radius:8px;
+  margin-top:8px;
 }
 
-.hero h2{
-  color:white;
-  font-size:28px;
+.danger{
+  background:#b42318;
 }
 
-.status{
-  padding:12px;
-  border-radius:10px;
-  background:#eef7f1;
-  margin:10px 0;
-  font-size:14px;
+.warning{
+  background:#b7791f;
 }
 
-.hidden{
-  display:none!important;
+.bottom-nav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:white;
+  border-top:1px solid #ddd;
+  display:flex;
+  justify-content:space-around;
+  padding:8px 3px;
+  z-index:500;
 }
 
-.small{
-  font-size:13px;
-  color:#68766f;
+.bottom-nav button{
+  border:0;
+  background:none;
+  font-size:12px;
+  color:#555;
+}
+
+.bottom-nav button.active{
+  color:#075c39;
+  font-weight:bold;
 }
 
 .item{
-  border:1px solid #dde5e0;
-  border-radius:13px;
-  padding:14px;
-  margin:10px 0;
-  background:white;
-}
-
-img,
-video{
-  max-width:100%;
+  border:1px solid #ddd;
   border-radius:12px;
+  padding:12px;
+  margin:10px 0;
 }
 
-.badge{
+.item img,
+.item video{
+  width:100%;
+  max-height:300px;
+  object-fit:cover;
+  border-radius:10px;
+}
+
+.admin-badge{
   display:inline-block;
-  padding:3px 8px;
-  border-radius:6px;
-  font-size:12px;
-  font-weight:bold;
-}
-.badge-success{ background:#e6f4ea; color:#137333; }
-.badge-pending{ background:#fef7e0; color:#b06000; }
-
-footer{
-  background:#123c2b;
+  background:#075c39;
   color:white;
-  text-align:center;
-  padding:25px;
-  margin-top:30px;
+  padding:5px 10px;
+  border-radius:20px;
+  font-size:12px;
+}
+
+.status{
+  margin-top:10px;
+  padding:10px;
+  border-radius:8px;
+  background:#eef7f1;
+}
+
+#recaptcha-container{
+  margin-top:10px;
+}
+
+@media(max-width:500px){
+  .splash-title{
+    font-size:26px;
+  }
+
+  .splash-arabic{
+    font-size:21px;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<header>
-  <h1>KHADIMIN-E-AULIYA</h1>
-  <p>Khidmat • Sufiyana Taleem • Community</p>
-</header>
+<!-- ================= SPLASH ================= -->
 
-<nav>
-  <button onclick="showSection('home')">Home</button>
-  <button onclick="showSection('programs')">Programs</button>
-  <button onclick="showSection('donation')">Donation</button>
-  <button onclick="showSection('rashid')">Rashid Check</button>
-  <button onclick="showSection('gallery')">Gallery</button>
-  <button onclick="showSection('videos')">Videos</button>
-  <button onclick="showSection('members')">Members</button>
-  <button onclick="showSection('langar')">Langar</button>
-  <button id="navLoginBtn" onclick="showSection('login')">Login</button>
-  <button onclick="showSection('admin')">Admin</button>
-</nav>
+<div id="splash">
+  <div class="splash-box">
 
-<div class="container">
+    <div class="splash-arabic">
+      صلوا علی الحبیب
+    </div>
 
-<!-- HOME -->
-<section id="home" class="section active">
-  <div class="hero">
-    <h2>KHADIMIN-E-AULIYA</h2>
-    <p>Islamic & Sufi Community Portal</p>
+    <div class="splash-arabic">
+      صلی اللہ علی محمد
+    </div>
+
+    <div class="splash-welcome">
+      Welcome To
+    </div>
+
+    <div class="splash-title">
+      KHADIMIN E AULIYA
+    </div>
+
+    <button id="skipSplash">
+      Skip / Open
+    </button>
+
   </div>
+</div>
 
-  <div class="card">
-    <h2>Khair Maqdam</h2>
-    <p>
-      KHADIMIN-E-AULIYA mein aapka khair maqdam hai. Yahan programs, Langar-e-Gausiya,
-      attested raseed verification, aur community khidmat ki mukammal jankari dastiyab hai.
-    </p>
-  </div>
 
-  <div class="grid">
-    <div class="feature">
-      <h3>Programs</h3>
-      <p>Aane wale majalis aur deeni ijtema ki updates.</p>
-      <button class="action" onclick="showSection('programs')">View Programs</button>
-    </div>
+<!-- ================= LOGIN ================= -->
 
-    <div class="feature">
-      <h3>Donation</h3>
-      <p>Bank, UPI aur barah-e-raast khidmat tafseelat.</p>
-      <button class="action" onclick="showSection('donation')">Donation Details</button>
-    </div>
+<section id="loginPage" class="hidden">
 
-    <div class="feature">
-      <h3>Rashid Check</h3>
-      <p>Apne taawun ki raseed verify karein.</p>
-      <button class="action" onclick="showSection('rashid')">Check Rashid</button>
-    </div>
+<div class="login-card">
 
-    <div class="feature">
-      <h3>Langar-e-Gausiya</h3>
-      <p>Langar intezamat aur khidmat ki details.</p>
-      <button class="action" onclick="showSection('langar')">Langar Info</button>
-    </div>
-  </div>
-</section>
+<div class="logo">
+  KHADIMIN-E-AULIYA
+</div>
 
-<!-- LOGIN -->
-<section id="login" class="section">
-  <div class="card" style="max-width:500px;margin:auto;">
-    <h2>Account Access</h2>
+<div class="tabs">
+  <button id="userLoginTab" class="active">
+    User Login
+  </button>
 
-    <div id="authStatusBox" class="hidden">
-      <p id="currentUserEmail" style="font-weight:bold;margin-bottom:10px;"></p>
-      <button class="action danger" onclick="logout()">Sign Out</button>
-    </div>
+  <button id="adminLoginTab">
+    Admin Login
+  </button>
+</div>
 
-    <div id="authFormBox">
-      <input id="email" type="email" placeholder="Email Address">
-      <input id="password" type="password" placeholder="Password">
 
-      <button class="action" onclick="login()">Sign In</button>
-      <button class="action secondary" onclick="signup()">Create Account</button>
-      <button class="action secondary" onclick="forgotPassword()">Forgot Password</button>
+<!-- USER LOGIN -->
 
-      <p id="authMessage" class="small" style="margin-top:10px;"></p>
-    </div>
-  </div>
-</section>
+<div id="userLoginBox">
 
-<!-- PROGRAMS -->
-<section id="programs" class="section">
-  <div class="card">
-    <h2>Islamic & Community Programs</h2>
-    <div id="programList">
-      <p class="small">Programs load ho rahe hain...</p>
-    </div>
-  </div>
-</section>
+<div class="form-group">
+<label>Email / Gmail</label>
+<input id="email" type="email" placeholder="Enter Gmail / Email">
+</div>
 
-<!-- DONATION -->
-<section id="donation" class="section">
-  <div class="card">
-    <h2>Imdad & Donation Details</h2>
-    <p class="small" style="margin-bottom:15px;">Aap neeche diye gaye bank accounts aur UPI par apna taawun bhej sakte hain.</p>
-    <div id="paymentDetails">
-      <p class="small">Payment methods load ho rahe hain...</p>
-    </div>
-  </div>
-</section>
+<div class="form-group">
+<label>Password</label>
+<input id="password" type="password" placeholder="Enter Password">
+</div>
 
-<!-- RASHID CHECK -->
-<section id="rashid" class="section">
-  <div class="card">
-    <h2>Raseed (Donation Receipt) Verification</h2>
-    <p class="small">
-      Apna registered 10-digit mobile number darj karke apni donation raseed ka status verify karein.
-    </p>
+<button class="primary" id="emailLogin">
+Login
+</button>
 
-    <input id="rashidMobile" type="tel" placeholder="Mobile Number (e.g., 9876543210)" maxlength="10">
-    <button class="action" onclick="checkRashid()">Check Status</button>
+<button class="google" id="googleLogin">
+Continue with Google
+</button>
 
-    <div id="rashidResult"></div>
-  </div>
-</section>
+<div class="small-link">
+<button id="forgotPassword">
+Forgot Password?
+</button>
+</div>
 
-<!-- GALLERY -->
-<section id="gallery" class="section">
-  <div class="card">
-    <h2>Photo Gallery</h2>
-    <div id="photoList">
-      <p class="small">Tasweerein load ho rahi hain...</p>
-    </div>
-  </div>
-</section>
+<hr style="margin:20px 0">
 
-<!-- VIDEOS -->
-<section id="videos" class="section">
-  <div class="card">
-    <h2>Bayan & Video Gallery</h2>
-    <div id="videoList">
-      <p class="small">Videos load ho rahi hain...</p>
-    </div>
-  </div>
-</section>
+<h3>Phone OTP Login</h3>
 
-<!-- MEMBERS -->
-<section id="members" class="section">
-  <div class="card">
-    <h2>Khadimin-e-Auliya Committee Members</h2>
-    <div id="memberList">
-      <p class="small">Members tafseelat load ho rahi hain...</p>
-    </div>
-  </div>
-</section>
+<div class="form-group">
+<label>Mobile Number</label>
+<input id="phoneNumber" type="tel" placeholder="+91XXXXXXXXXX">
+</div>
 
-<!-- LANGAR -->
-<section id="langar" class="section">
-  <div class="card">
-    <h2>Langar-e-Gausiya Updates</h2>
-    <div id="langarData">
-      <p class="small">Langar details load ho rahi hain...</p>
-    </div>
-  </div>
-</section>
+<div id="recaptcha-container"></div>
 
-<!-- ADMIN -->
-<section id="admin" class="section">
-  <div class="card">
-    <h2>Admin Dashboard</h2>
-    <div id="adminStatus" class="status">
-      Admin status check ho raha hai...
-    </div>
+<button class="secondary" id="sendOTP">
+Send OTP
+</button>
 
-    <div id="adminControls" class="hidden">
-      <div class="grid">
-        <div class="feature">
-          <h3>+ Naya Program</h3>
-          <p>Add new upcoming event</p>
-          <button class="action" onclick="openAdminForm('program')">Add Program</button>
-        </div>
-        <div class="feature">
-          <h3>+ Issue Rashid</h3>
-          <p>Generate new donor receipt</p>
-          <button class="action" onclick="openAdminForm('rashid')">Issue Rashid</button>
-        </div>
-        <div class="feature">
-          <h3>+ Payment Method</h3>
-          <p>Add Bank / UPI account</p>
-          <button class="action" onclick="openAdminForm('payment')">Add Payment</button>
-        </div>
-        <div class="feature">
-          <h3>+ Add Member</h3>
-          <p>Add committee member</p>
-          <button class="action" onclick="openAdminForm('member')">Add Member</button>
-        </div>
-      </div>
+<div class="form-group">
+<label>OTP</label>
+<input id="otp" type="number" placeholder="Enter OTP">
+</div>
 
-      <!-- Quick Admin Input Box -->
-      <div id="adminDynamicForm" class="card hidden" style="margin-top:20px;border:2px solid #176044;">
-        <h3 id="formTitle">Manage Data</h3>
-        <div id="formFields"></div>
-        <button class="action" id="formSubmitBtn">Save Data</button>
-        <button class="action secondary" onclick="closeAdminForm()">Cancel</button>
-      </div>
-    </div>
-  </div>
-</section>
+<button class="primary" id="verifyOTP">
+Verify OTP
+</button>
 
 </div>
 
-<footer>
-  <p>© 2026 KHADIMIN-E-AULIYA</p>
-  <p class="small">Islamic Community Portal • Built with Firebase</p>
-</footer>
 
-<!-- FIREBASE SDKs -->
-<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-storage-compat.js"></script>
+<!-- ADMIN LOGIN -->
 
-<script>
-/* =========================================================
-   FIREBASE CONFIG
-========================================================= */
+<div id="adminLoginBox" class="hidden">
+
+<div class="form-group">
+<label>Admin Gmail</label>
+<input id="adminEmail" type="email" placeholder="Admin Gmail">
+</div>
+
+<div class="form-group">
+<label>Admin Password</label>
+<input id="adminPassword" type="password" placeholder="Admin Password">
+</div>
+
+<button class="primary" id="adminLogin">
+Secure Admin Login
+</button>
+
+<div class="status">
+Admin access is allowed only for Firebase users having
+<strong>admin:true</strong> custom claim.
+</div>
+
+</div>
+
+</div>
+</section>
+
+
+<!-- ================= APP ================= -->
+
+<section id="app" class="hidden">
+
+<header class="topbar">
+<div class="topbar-inner">
+<div>
+<div class="top-title">KHADIMIN-E-AULIYA</div>
+<div id="roleText"></div>
+</div>
+
+<button class="logout" id="logout">
+Logout
+</button>
+</div>
+</header>
+
+
+<main class="container">
+
+
+<!-- HOME -->
+
+<section id="home" class="page active">
+
+<div class="hero">
+<h1>KHADIMIN-E-AULIYA</h1>
+<p>Khidmat • Deen • Sufi Riwayat</p>
+</div>
+
+<div class="grid">
+
+<div class="card">
+<h3>Programs</h3>
+<p>Programs aur bayanat dekhein.</p>
+<button class="action" onclick="showPage('programs')">
+Open
+</button>
+</div>
+
+<div class="card">
+<h3>Langar</h3>
+<p>Langar-e-Gausiya ki information.</p>
+<button class="action" onclick="showPage('langar')">
+Open
+</button>
+</div>
+
+<div class="card">
+<h3>Donation</h3>
+<p>Donation aur payment details.</p>
+<button class="action" onclick="showPage('donation')">
+Open
+</button>
+</div>
+
+<div class="card">
+<h3>Rashid</h3>
+<p>Apni Rashid check karein.</p>
+<button class="action" onclick="showPage('rashid')">
+Check
+</button>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- PROGRAMS -->
+
+<section id="programs" class="page">
+
+<div class="card">
+<h2>Programs</h2>
+<div id="programList">
+Loading...
+</div>
+
+<div id="adminProgramForm" class="hidden">
+<hr>
+<h3>Admin: Add Program</h3>
+
+<div class="form-group">
+<input id="programTitle" placeholder="Program Name">
+</div>
+
+<div class="form-group">
+<textarea id="programDescription" placeholder="Program Details"></textarea>
+</div>
+
+<button class="action" onclick="addProgram()">
+Add Program
+</button>
+</div>
+
+</div>
+</section>
+
+
+<!-- DONATION -->
+
+<section id="donation" class="page">
+
+<div class="card">
+
+<h2>Donation / Payment</h2>
+
+<div id="paymentDetails">
+Loading...
+</div>
+
+<div id="adminPaymentForm" class="hidden">
+
+<hr>
+
+<h3>Admin Payment Management</h3>
+
+<div class="form-group">
+<label>Bank Details</label>
+<textarea id="bankDetails"></textarea>
+</div>
+
+<div class="form-group">
+<label>Account Holder</label>
+<input id="accountHolder">
+</div>
+
+<div class="form-group">
+<label>UPI ID</label>
+<input id="upiId">
+</div>
+
+<div class="form-group">
+<label>Payment QR Image</label>
+<input id="qrFile" type="file" accept="image/*">
+</div>
+
+<button class="action" onclick="savePaymentDetails()">
+Save / Replace
+</button>
+
+</div>
+
+</div>
+</section>
+
+
+<!-- RASHID -->
+
+<section id="rashid" class="page">
+
+<div class="card">
+
+<h2>Rashid</h2>
+
+<div id="userRashidBox">
+
+<p>
+Apni Rashid check karne ke liye Rashid Number use karein.
+</p>
+
+<div class="form-group">
+<input id="rashidNumberCheck"
+placeholder="Rashid Number">
+</div>
+
+<button class="action" onclick="checkRashid()">
+Check Rashid
+</button>
+
+<div id="rashidResult"></div>
+
+</div>
+
+
+<div id="adminRashidBox" class="hidden">
+
+<h3>Admin Rashid Management</h3>
+
+<div class="form-group">
+<label>Donor Name</label>
+<input id="donorName">
+</div>
+
+<div class="form-group">
+<label>Donor Mobile</label>
+<input id="donorMobile">
+</div>
+
+<div class="form-group">
+<label>Place / Address</label>
+<textarea id="donorAddress"></textarea>
+</div>
+
+<div class="form-group">
+<label>Donation Amount ₹</label>
+<input id="donationAmount" type="number">
+</div>
+
+<div class="form-group">
+<label>Purpose</label>
+
+<select id="donationPurpose">
+<option value="All Purpose">All Purpose</option>
+<option value="Langar-e-Gausiya">Langar-e-Gausiya</option>
+<option value="Mazarat Ki Tameer">Mazarat Ki Tameer</option>
+</select>
+
+</div>
+
+<button class="action" onclick="createRashid()">
+Create Rashid
+</button>
+
+<p style="margin-top:12px">
+Admin yahan Rashid Create / Edit / Confirm / Cancel /
+Download / Share kar sakta hai.
+</p>
+
+</div>
+
+</div>
+</section>
+
+
+<!-- PHOTOS -->
+
+<section id="photos" class="page">
+
+<div class="card">
+
+<h2>Photos</h2>
+
+<div id="adminPhotoUpload" class="hidden">
+
+<div class="form-group">
+<input id="photoFile" type="file" accept="image/*">
+</div>
+
+<div class="form-group">
+<input id="photoTitle" placeholder="Photo Title">
+</div>
+
+<button class="action" onclick="uploadPhoto()">
+Upload Photo
+</button>
+
+</div>
+
+<div id="photoList">
+Loading...
+</div>
+
+</div>
+</section>
+
+
+<!-- VIDEOS -->
+
+<section id="videos" class="page">
+
+<div class="card">
+
+<h2>Videos</h2>
+
+<div id="adminVideoUpload" class="hidden">
+
+<div class="form-group">
+<input id="videoFile" type="file" accept="video/*">
+</div>
+
+<div class="form-group">
+<input id="videoTitle" placeholder="Video Title">
+</div>
+
+<button class="action" onclick="uploadVideo()">
+Upload Video
+</button>
+
+</div>
+
+<div id="videoList">
+Loading...
+</div>
+
+</div>
+</section>
+
+
+<!-- MEMBERS -->
+
+<section id="members" class="page">
+
+<div class="card">
+
+<h2>Members</h2>
+
+<div id="adminMemberForm" class="hidden">
+
+<h3>Add Member</h3>
+
+<div class="form-group">
+<input id="memberName" placeholder="Name">
+</div>
+
+<div class="form-group">
+<input id="memberPhone" placeholder="Phone Number">
+</div>
+
+<div class="form-group">
+<textarea id="memberAddress" placeholder="Address"></textarea>
+</div>
+
+<div class="form-group">
+<input id="memberResponsibility"
+placeholder="Jimmedari">
+</div>
+
+<button class="action" onclick="addMember()">
+Add Member
+</button>
+
+</div>
+
+<div id="memberList">
+Loading...
+</div>
+
+</div>
+</section>
+
+
+<!-- LANGAR -->
+
+<section id="langar" class="page">
+
+<div class="card">
+
+<h2>Langar-e-Gausiya</h2>
+
+<div id="langarContent">
+Loading...
+</div>
+
+<div id="adminLangarForm" class="hidden">
+
+<hr>
+
+<textarea id="langarText"
+placeholder="Langar details"></textarea>
+
+<button class="action" onclick="saveLangar()">
+Save Langar
+</button>
+
+</div>
+
+</div>
+</section>
+
+
+<!-- NOTICES -->
+
+<section id="notices" class="page">
+
+<div class="card">
+
+<h2>Notices</h2>
+
+<div id="noticeList">
+Loading...
+</div>
+
+<div id="adminNoticeForm" class="hidden">
+
+<hr>
+
+<input id="noticeTitle" placeholder="Notice Title">
+
+<textarea id="noticeText"
+placeholder="Notice"></textarea>
+
+<button class="action" onclick="addNotice()">
+Publish Notice
+</button>
+
+</div>
+
+</div>
+</section>
+
+
+<!-- ADMIN -->
+
+<section id="admin" class="page">
+
+<div class="hero">
+
+<h2>ADMIN PANEL</h2>
+
+<span class="admin-badge">
+SECURE ADMIN
+</span>
+
+<p style="margin-top:10px">
+Sirf authorized Firebase Admin Custom Claim wale account
+ko ye panel dikhega.
+</p>
+
+</div>
+
+
+<div class="grid">
+
+<div class="card">
+<h3>Rashid</h3>
+<p>Create / Edit / Confirm / Cancel</p>
+<button class="action"
+onclick="showPage('rashid')">
+Manage
+</button>
+</div>
+
+<div class="card">
+<h3>Photos</h3>
+<p>Upload / Edit / Delete</p>
+<button class="action"
+onclick="showPage('photos')">
+Manage
+</button>
+</div>
+
+<div class="card">
+<h3>Videos</h3>
+<p>Upload / Edit / Delete</p>
+<button class="action"
+onclick="showPage('videos')">
+Manage
+</button>
+</div>
+
+<div class="card">
+<h3>Members</h3>
+<p>Add / Edit / Delete</p>
+<button class="action"
+onclick="showPage('members')">
+Manage
+</button>
+</div>
+
+<div class="card">
+<h3>Payment</h3>
+<p>QR / Bank / Account</p>
+<button class="action"
+onclick="showPage('donation')">
+Manage
+</button>
+</div>
+
+<div class="card">
+<h3>Programs</h3>
+<p>Add / Edit / Delete</p>
+<button class="action"
+onclick="showPage('programs')">
+Manage
+</button>
+</div>
+
+<div class="card">
+<h3>Langar</h3>
+<p>Manage Langar Information</p>
+<button class="action"
+onclick="showPage('langar')">
+Manage
+</button>
+</div>
+
+<div class="card">
+<h3>Notices</h3>
+<p>Publish / Edit / Delete</p>
+<button class="action"
+onclick="showPage('notices')">
+Manage
+</button>
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+
+<!-- ================= BOTTOM NAV ================= -->
+
+<nav class="bottom-nav">
+
+<button onclick="showPage('home')">
+🏠<br>Home
+</button>
+
+<button onclick="showPage('programs')">
+📅<br>Programs
+</button>
+
+<button onclick="showPage('donation')">
+💰<br>Donation
+</button>
+
+<button onclick="showPage('photos')">
+📷<br>Photos
+</button>
+
+<button onclick="showPage('videos')">
+🎥<br>Videos
+</button>
+
+<button onclick="showPage('members')">
+👥<br>Members
+</button>
+
+<button id="adminNav"
+class="hidden"
+onclick="showPage('admin')">
+⚙️<br>Admin
+</button>
+
+</nav>
+
+</section>
+
+
+<!-- Firebase SDK -->
+
+<script type="module">
+
+import {
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+import {
+  getAuth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
+  signInWithPopup,
+  GoogleAuthProvider,
+  signOut,
+  RecaptchaVerifier,
+  signInWithPhoneNumber
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  getDoc,
+  doc,
+  setDoc,
+  query,
+  orderBy,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  getDownloadURL
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-storage.js";
+
+
+/* =====================================================
+   IMPORTANT:
+   YAHAN APNE FIREBASE WEB APP CONFIG KO PASTE KAREIN
+   ===================================================== */
+
 const firebaseConfig = {
+
   apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
+
+  authDomain:
+  "YOUR_PROJECT_ID.firebaseapp.com",
+
+  projectId:
+  "YOUR_PROJECT_ID",
+
+  storageBucket:
+  "YOUR_PROJECT_ID.firebasestorage.app",
+
+  messagingSenderId:
+  "YOUR_MESSAGING_SENDER_ID",
+
+  appId:
+  "YOUR_APP_ID"
+
 };
 
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.firestore();
-const storage = firebase.storage();
 
-/* =========================================================
-   NAVIGATION
-========================================================= */
-function showSection(id){
-  document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
-  const target = document.getElementById(id);
-  if(target){
-    target.classList.add("active");
-    window.scrollTo({ top:0, behavior:"smooth" });
-  }
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+const db = getFirestore(app);
+
+const storage = getStorage(app);
+
+
+/* ================= SPLASH ================= */
+
+const splash =
+document.getElementById("splash");
+
+function closeSplash(){
+
+  splash.classList.add("hide");
+
+  setTimeout(()=>{
+
+    splash.style.display="none";
+
+  },600);
+
 }
 
-/* =========================================================
-   AUTH LOGIC
-========================================================= */
-async function signup(){
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value;
-  const msg = document.getElementById("authMessage");
-  try{
-    await auth.createUserWithEmailAndPassword(email, password);
-    msg.textContent = "Account successfully created!";
-  }catch(err){
-    msg.textContent = err.message;
-  }
-}
+document
+.getElementById("skipSplash")
+.addEventListener("click",closeSplash);
 
-async function login(){
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value;
-  const msg = document.getElementById("authMessage");
-  try{
-    await auth.signInWithEmailAndPassword(email, password);
-    msg.textContent = "Login successful!";
-  }catch(err){
-    msg.textContent = err.message;
-  }
-}
+setTimeout(closeSplash,3000);
 
-async function forgotPassword(){
-  const email = document.getElementById("email").value.trim();
-  if(!email){ alert("Pehle Email Address darj karein."); return; }
-  try{
-    await auth.sendPasswordResetEmail(email);
-    alert("Password reset email bhej diya gaya hai.");
-  }catch(err){
-    alert(err.message);
-  }
-}
 
-async function logout(){
-  await auth.signOut();
-  showSection("home");
-}
+/* ================= LOGIN TABS ================= */
 
-/* Auth State Observer */
-auth.onAuthStateChanged(async (user) => {
-  const adminStatus = document.getElementById("adminStatus");
-  const adminControls = document.getElementById("adminControls");
-  const authStatusBox = document.getElementById("authStatusBox");
-  const authFormBox = document.getElementById("authFormBox");
-  const navLoginBtn = document.getElementById("navLoginBtn");
+const userTab =
+document.getElementById("userLoginTab");
 
-  if(user){
-    authStatusBox.classList.remove("hidden");
-    authFormBox.classList.add("hidden");
-    document.getElementById("currentUserEmail").textContent = `Logged in as: ${user.email}`;
-    navLoginBtn.textContent = "Account";
+const adminTab =
+document.getElementById("adminLoginTab");
 
-    try{
-      const token = await user.getIdTokenResult(true);
-      if(token.claims.admin === true){
-        adminStatus.textContent = "Admin verified. Full controls open.";
-        adminStatus.style.background = "#e6f4ea";
-        adminControls.classList.remove("hidden");
-      }else{
-        adminStatus.textContent = "Aap authenticated hain, lekin Admin rights nahi hain.";
-        adminStatus.style.background = "#fef7e0";
-        adminControls.classList.add("hidden");
-      }
-    }catch(e){
-      adminStatus.textContent = "Admin verification failed: " + e.message;
-    }
-  }else{
-    authStatusBox.classList.add("hidden");
-    authFormBox.classList.remove("hidden");
-    navLoginBtn.textContent = "Login";
-    adminStatus.textContent = "Admin access ke liye Login zaroori hai.";
-    adminStatus.style.background = "#eef7f1";
-    adminControls.classList.add("hidden");
-  }
-});
+const userBox =
+document.getElementById("userLoginBox");
 
-/* =========================================================
-   PUBLIC DATA LOADERS
-========================================================= */
-async function loadPrograms(){
-  const box = document.getElementById("programList");
-  try{
-    const snap = await db.collection("programs").orderBy("date", "desc").get();
-    if(snap.empty){
-      box.innerHTML = "<p>Filhal koi program registered nahi hai.</p>";
-      return;
-    }
-    box.innerHTML = snap.docs.map(doc => {
-      const p = doc.data();
-      return `
-        <div class="item">
-          <h3>${p.title || "Majlis / Program"}</h3>
-          <p><strong>Tareekh:</strong> ${p.date || "Jald aayegi"}</p>
-          <p><strong>Muqaam:</strong> ${p.location || "Darbar Sharif"}</p>
-          <p style="margin-top:5px;">${p.description || ""}</p>
-        </div>`;
-    }).join("");
-  }catch(e){
-    box.innerHTML = `<p class="small">Error: ${e.message}</p>`;
-  }
-}
+const adminBox =
+document.getElementById("adminLoginBox");
 
-async function loadPaymentDetails(){
-  const box = document.getElementById("paymentDetails");
-  try{
-    const snap = await db.collection("paymentMethods").get();
-    if(snap.empty){
-      box.innerHTML = "<p>Payment details jald update hongi.</p>";
-      return;
-    }
-    box.innerHTML = snap.docs.map(doc => {
-      const p = doc.data();
-      return `
-        <div class="item">
-          <h3>${p.title || "Donation Account"}</h3>
-          ${p.bankName ? `<p><strong>Bank:</strong> ${p.bankName}</p>` : ""}
-          ${p.accountNumber ? `<p><strong>Account No:</strong> ${p.accountNumber}</p>` : ""}
-          ${p.ifsc ? `<p><strong>IFSC:</strong> ${p.ifsc}</p>` : ""}
-          ${p.upi ? `<p><strong>UPI ID:</strong> ${p.upi}</p>` : ""}
-        </div>`;
-    }).join("");
-  }catch(e){
-    box.innerHTML = `<p class="small">Error: ${e.message}</p>`;
-  }
-}
 
-async function loadGallery(){
-  const box = document.getElementById("photoList");
-  try{
-    const snap = await db.collection("gallery").limit(12).get();
-    if(snap.empty){
-      box.innerHTML = "<p>Filhal koi tasveer nahi hai.</p>";
-      return;
-    }
-    box.innerHTML = `<div class="grid">` + snap.docs.map(doc => {
-      const g = doc.data();
-      return `
-        <div class="item">
-          <img src="${g.url}" alt="${g.caption || 'Image'}" loading="lazy">
-          <p class="small" style="margin-top:6px;">${g.caption || ""}</p>
-        </div>`;
-    }).join("") + `</div>`;
-  }catch(e){
-    box.innerHTML = `<p class="small">Error: ${e.message}</p>`;
-  }
-}
+userTab.onclick=()=>{
 
-async function loadMembers(){
-  const box = document.getElementById("memberList");
-  try{
-    const snap = await db.collection("members").get();
-    if(snap.empty){
-      box.innerHTML = "<p>Members list jald update ki jayegi.</p>";
-      return;
-    }
-    box.innerHTML = `<div class="grid">` + snap.docs.map(doc => {
-      const m = doc.data();
-      return `
-        <div class="feature">
-          <h3>${m.name || "Khadim"}</h3>
-          <p class="small"><strong>Khidmat:</strong> ${m.responsibility || "Member"}</p>
-          ${m.address ? `<p class="small">${m.address}</p>` : ""}
-        </div>`;
-    }).join("") + `</div>`;
-  }catch(e){
-    box.innerHTML = `<p class="small">Error: ${e.message}</p>`;
-  }
-}
+  userTab.classList.add("active");
+  adminTab.classList.remove("active");
 
-async function loadLangar(){
-  const box = document.getElementById("langarData");
-  try{
-    const snap = await db.collection("langar").limit(1).get();
-    if(snap.empty){
-      box.innerHTML = "<p>Langar-e-Gausiya jald mun-aqid hoga.</p>";
-      return;
-    }
-    const d = snap.docs[0].data();
-    box.innerHTML = `
-      <div class="item">
-        <h3>${d.title || "Rozana / Jumeraat Langar"}</h3>
-        <p><strong>Timing:</strong> ${d.timing || "Baad Namaz Maghrib"}</p>
-        <p><strong>Pata:</strong> ${d.location || "Darbar Sharif"}</p>
-        <p style="margin-top:6px;">${d.note || "Sabhi hazraat sharik ho sakte hain."}</p>
-      </div>`;
-  }catch(e){
-    box.innerHTML = `<p class="small">Error: ${e.message}</p>`;
-  }
-}
+  userBox.classList.remove("hidden");
+  adminBox.classList.add("hidden");
 
-/* =========================================================
-   RASHID CHECK (Verification Query)
-========================================================= */
-async function checkRashid(){
-  const mobile = document.getElementById("rashidMobile").value.trim();
-  const resBox = document.getElementById("rashidResult");
+};
 
-  if(mobile.length < 10){
-    alert("Kripya valid 10 digit mobile number darj karein.");
+
+adminTab.onclick=()=>{
+
+  adminTab.classList.add("active");
+  userTab.classList.remove("active");
+
+  adminBox.classList.remove("hidden");
+  userBox.classList.add("hidden");
+
+};
+
+
+/* ================= EMAIL LOGIN ================= */
+
+document
+.getElementById("emailLogin")
+.addEventListener("click",async()=>{
+
+  const email =
+  document.getElementById("email").value.trim();
+
+  const password =
+  document.getElementById("password").value;
+
+  if(!email || !password){
+
+    alert("Email aur Password enter karein.");
+
     return;
   }
 
-  resBox.innerHTML = `<div class="status">Talash jari hai...</div>`;
+  try{
+
+    await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+
+  }catch(error){
+
+    alert(error.message);
+
+  }
+
+});
+
+
+/* ================= GOOGLE LOGIN ================= */
+
+document
+.getElementById("googleLogin")
+.addEventListener("click",async()=>{
 
   try{
-    const snap = await db.collection("rashid").where("mobile", "==", mobile).get();
 
-    if(snap.empty){
-      resBox.innerHTML = `
-        <div class="status" style="background:#fde8e8;color:#9b1c1c;">
-          Is number par koi taawun ya raseed darj nahi mili.
-        </div>`;
+    const provider =
+    new GoogleAuthProvider();
+
+    await signInWithPopup(
+      auth,
+      provider
+    );
+
+  }catch(error){
+
+    alert(error.message);
+
+  }
+
+});
+
+
+/* ================= FORGOT PASSWORD ================= */
+
+document
+.getElementById("forgotPassword")
+.addEventListener("click",async()=>{
+
+  const email =
+  document.getElementById("email").value.trim();
+
+  if(!email){
+
+    alert("Pehle email enter karein.");
+
+    return;
+  }
+
+  try{
+
+    await sendPasswordResetEmail(
+      auth,
+      email
+    );
+
+    alert(
+      "Password reset email bhej diya gaya hai."
+    );
+
+  }catch(error){
+
+    alert(error.message);
+
+  }
+
+});
+
+
+/* ================= PHONE OTP ================= */
+
+let confirmationResult=null;
+
+window.recaptchaVerifier =
+new RecaptchaVerifier(
+  auth,
+  "recaptcha-container",
+  {
+    size:"normal"
+  }
+);
+
+
+document
+.getElementById("sendOTP")
+.addEventListener("click",async()=>{
+
+  const phone =
+  document
+  .getElementById("phoneNumber")
+  .value.trim();
+
+  if(!phone){
+
+    alert(
+      "Country code ke saath number enter karein. Example +91XXXXXXXXXX"
+    );
+
+    return;
+  }
+
+  try{
+
+    confirmationResult =
+    await signInWithPhoneNumber(
+      auth,
+      phone,
+      window.recaptchaVerifier
+    );
+
+    alert("OTP bhej diya gaya hai.");
+
+  }catch(error){
+
+    alert(error.message);
+
+  }
+
+});
+
+
+document
+.getElementById("verifyOTP")
+.addEventListener("click",async()=>{
+
+  const otp =
+  document.getElementById("otp").value.trim();
+
+  if(!confirmationResult){
+
+    alert("Pehle OTP send karein.");
+
+    return;
+  }
+
+  try{
+
+    await confirmationResult.confirm(otp);
+
+  }catch(error){
+
+    alert(error.message);
+
+  }
+
+});
+
+
+/* ================= ADMIN LOGIN ================= */
+
+document
+.getElementById("adminLogin")
+.addEventListener("click",async()=>{
+
+  const email =
+  document.getElementById("adminEmail").value.trim();
+
+  const password =
+  document.getElementById("adminPassword").value;
+
+  if(!email || !password){
+
+    alert(
+      "Admin Gmail aur Password enter karein."
+    );
+
+    return;
+  }
+
+  try{
+
+    await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+
+  }catch(error){
+
+    alert(
+      "Admin login failed: "+error.message
+    );
+
+  }
+
+});
+
+
+/* ================= AUTH STATE ================= */
+
+onAuthStateChanged(
+  auth,
+  async(user)=>{
+
+    if(!user){
+
+      document
+      .getElementById("loginPage")
+      .classList.remove("hidden");
+
+      document
+      .getElementById("app")
+      .classList.add("hidden");
+
       return;
     }
 
-    resBox.innerHTML = snap.docs.map(doc => {
-      const r = doc.data();
-      const isConfirmed = r.status === "Confirmed";
-      return `
+
+    try{
+
+      const token =
+      await user.getIdTokenResult(true);
+
+      const isAdmin =
+      token.claims.admin === true;
+
+
+      document
+      .getElementById("loginPage")
+      .classList.add("hidden");
+
+      document
+      .getElementById("app")
+      .classList.remove("hidden");
+
+
+      document
+      .getElementById("roleText")
+      .textContent =
+      isAdmin
+      ? "Admin Account"
+      : "User Account";
+
+
+      if(isAdmin){
+
+        document
+        .getElementById("adminNav")
+        .classList.remove("hidden");
+
+        document
+        .getElementById("adminRashidBox")
+        .classList.remove("hidden");
+
+        document
+        .getElementById("adminPhotoUpload")
+        .classList.remove("hidden");
+
+        document
+        .getElementById("adminVideoUpload")
+        .classList.remove("hidden");
+
+        document
+        .getElementById("adminMemberForm")
+        .classList.remove("hidden");
+
+        document
+        .getElementById("adminProgramForm")
+        .classList.remove("hidden");
+
+        document
+        .getElementById("adminPaymentForm")
+        .classList.remove("hidden");
+
+        document
+        .getElementById("adminLangarForm")
+        .classList.remove("hidden");
+
+        document
+        .getElementById("adminNoticeForm")
+        .classList.remove("hidden");
+
+      }
+
+
+      await loadPayment();
+
+      await loadPrograms();
+
+      await loadPhotos();
+
+      await loadVideos();
+
+      await loadMembers();
+
+      await loadLangar();
+
+      await loadNotices();
+
+
+    }catch(error){
+
+      console.error(error);
+
+      alert(
+        "Account security verification failed."
+      );
+
+      await signOut(auth);
+
+    }
+
+  }
+);
+
+
+/* ================= LOGOUT ================= */
+
+document
+.getElementById("logout")
+.addEventListener("click",async()=>{
+
+  await signOut(auth);
+
+});
+
+
+/* ================= PAGE NAVIGATION ================= */
+
+window.showPage=function(page){
+
+  document
+  .querySelectorAll(".page")
+  .forEach(p=>{
+    p.classList.remove("active");
+  });
+
+  const selected =
+  document.getElementById(page);
+
+  if(selected){
+
+    selected.classList.add("active");
+
+    window.scrollTo({
+      top:0,
+      behavior:"smooth"
+    });
+
+  }
+
+};
+
+
+/* ================= PAYMENT ================= */
+
+async function loadPayment(){
+
+  const box =
+  document.getElementById("paymentDetails");
+
+  try{
+
+    const snapshot =
+    await getDocs(
+      collection(db,"paymentMethods")
+    );
+
+    if(snapshot.empty){
+
+      box.innerHTML =
+      "<p>Payment details abhi available nahi hain.</p>";
+
+      return;
+    }
+
+    let html="";
+
+    snapshot.forEach(item=>{
+
+      const data=item.data();
+
+      html += `
+
         <div class="item">
-          <h3>Raseed No: ${r.receiptNo || "Auto-Gen"}</h3>
-          <p><strong>Name:</strong> ${r.donorName || "Mohtaram"}</p>
-          <p><strong>Raqam:</strong> ₹${r.amount}</p>
-          <p><strong>Status:</strong> <span class="badge ${isConfirmed ? 'badge-success' : 'badge-pending'}">${r.status || 'Pending'}</span></p>
-          <p class="small">Date: ${r.date || "N/A"}</p>
-        </div>`;
-    }).join("");
 
-  }catch(err){
-    resBox.innerHTML = `
-      <div class="status" style="background:#fde8e8;color:#9b1c1c;">
-        Error: ${err.message}. (Rules check karein)
-      </div>`;
+        <h3>Payment Details</h3>
+
+        <p>
+        <strong>Account Holder:</strong>
+        ${escapeHTML(data.accountHolder || "")}
+        </p>
+
+        <p>
+        <strong>Bank:</strong>
+        ${escapeHTML(data.bankDetails || "")}
+        </p>
+
+        <p>
+        <strong>UPI:</strong>
+        ${escapeHTML(data.upiId || "")}
+        </p>
+
+        ${
+          data.qrUrl
+          ?
+          `<img src="${data.qrUrl}"
+          style="max-width:250px">`
+          :
+          ""
+        }
+
+        </div>
+
+      `;
+
+    });
+
+    box.innerHTML=html;
+
+  }catch(error){
+
+    console.error(error);
+
+    box.innerHTML =
+    "<p>Payment details load nahi ho sake.</p>";
+
   }
+
 }
 
-/* =========================================================
-   ADMIN ACTIONS (Dynamic Forms)
-========================================================= */
-function openAdminForm(type){
-  const box = document.getElementById("adminDynamicForm");
-  const title = document.getElementById("formTitle");
-  const fields = document.getElementById("formFields");
-  const btn = document.getElementById("formSubmitBtn");
 
-  box.classList.remove("hidden");
+window.savePaymentDetails =
+async function(){
 
-  if(type === 'program'){
-    title.textContent = "Naya Program Add Karein";
-    fields.innerHTML = `
-      <input id="pTitle" placeholder="Program Ka Naam">
-      <input id="pDate" type="date">
-      <input id="pLoc" placeholder="Muqaam / Location">
-      <textarea id="pDesc" placeholder="Mukhtasar Tafseelat"></textarea>
-    `;
-    btn.onclick = async () => {
-      await db.collection("programs").add({
-        title: document.getElementById("pTitle").value,
-        date: document.getElementById("pDate").value,
-        location: document.getElementById("pLoc").value,
-        description: document.getElementById("pDesc").value,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      });
-      alert("Program shamil kar diya gaya!");
-      closeAdminForm();
-      loadPrograms();
-    };
-  } else if(type === 'rashid'){
-    title.textContent = "Nayi Raseed Generate Karein";
-    fields.innerHTML = `
-      <input id="rReceipt" placeholder="Receipt Number (e.g. R-101)">
-      <input id="rName" placeholder="Donor Ka Naam">
-      <input id="rMobile" placeholder="Donor Mobile (10 Digits)" maxlength="10">
-      <input id="rAmt" type="number" placeholder="Raqam (Amount ₹)">
-      <select id="rStatus">
-        <option value="Confirmed">Confirmed</option>
-        <option value="Pending">Pending</option>
-      </select>
-    `;
-    btn.onclick = async () => {
-      await db.collection("rashid").add({
-        receiptNo: document.getElementById("rReceipt").value,
-        donorName: document.getElementById("rName").value,
-        mobile: document.getElementById("rMobile").value,
-        amount: document.getElementById("rAmt").value,
-        status: document.getElementById("rStatus").value,
-        date: new Date().toLocaleDateString()
-      });
-      alert("Rashid darj ho gayi!");
-      closeAdminForm();
-    };
-  } else if(type === 'payment'){
-    title.textContent = "Naya Payment Method Add Karein";
-    fields.innerHTML = `
-      <input id="payTitle" placeholder="Title (e.g., State Bank Of India)">
-      <input id="payAcc" placeholder="Account Number">
-      <input id="payIfsc" placeholder="IFSC Code">
-      <input id="payUpi" placeholder="UPI ID (optional)">
-    `;
-    btn.onclick = async () => {
-      await db.collection("paymentMethods").add({
-        title: document.getElementById("payTitle").value,
-        accountNumber: document.getElementById("payAcc").value,
-        ifsc: document.getElementById("payIfsc").value,
-        upi: document.getElementById("payUpi").value
-      });
-      alert("Payment method shamil kar diya gaya!");
-      closeAdminForm();
-      loadPaymentDetails();
-    };
-  } else if(type === 'member'){
-    title.textContent = "Committee Member Add Karein";
-    fields.innerHTML = `
-      <input id="mName" placeholder="Pura Naam">
-      <input id="mResp" placeholder="Zimmedari / Role">
-      <input id="mAddr" placeholder="Shahar / Address">
-    `;
-    btn.onclick = async () => {
-      await db.collection("members").add({
-        name: document.getElementById("mName").value,
-        responsibility: document.getElementById("mResp").value,
-        address: document.getElementById("mAddr").value
-      });
-      alert("Member shamil ho gaya!");
-      closeAdminForm();
-      loadMembers();
-    };
+  try{
+
+    const bankDetails =
+    document.getElementById("bankDetails").value;
+
+    const accountHolder =
+    document.getElementById("accountHolder").value;
+
+    const upiId =
+    document.getElementById("upiId").value;
+
+    let qrUrl="";
+
+    const file =
+    document.getElementById("qrFile").files[0];
+
+    if(file){
+
+      const storageRef =
+      ref(
+        storage,
+        "paymentQR/payment-qr-"+Date.now()
+      );
+
+      await uploadBytes(
+        storageRef,
+        file
+      );
+
+      qrUrl =
+      await getDownloadURL(storageRef);
+
+    }
+
+    await addDoc(
+      collection(db,"paymentMethods"),
+      {
+        bankDetails,
+        accountHolder,
+        upiId,
+        qrUrl,
+        updatedAt:serverTimestamp()
+      }
+    );
+
+    alert("Payment details save ho gaye.");
+
+    await loadPayment();
+
+  }catch(error){
+
+    alert(
+      "Payment save error: "+error.message
+    );
+
   }
+
+};
+
+
+/* ================= PROGRAMS ================= */
+
+async function loadPrograms(){
+
+  const box =
+  document.getElementById("programList");
+
+  try{
+
+    const snapshot =
+    await getDocs(
+      collection(db,"programs")
+    );
+
+    if(snapshot.empty){
+
+      box.innerHTML =
+      "<p>Abhi koi program nahi hai.</p>";
+
+      return;
+    }
+
+    let html="";
+
+    snapshot.forEach(item=>{
+
+      const d=item.data();
+
+      html += `
+
+      <div class="item">
+
+        <h3>
+        ${escapeHTML(d.title || "")}
+        </h3>
+
+        <p>
+        ${escapeHTML(d.description || "")}
+        </p>
+
+      </div>
+
+      `;
+
+    });
+
+    box.innerHTML=html;
+
+  }catch(error){
+
+    console.error(error);
+
+  }
+
 }
 
-function closeAdminForm(){
-  document.getElementById("adminDynamicForm").classList.add("hidden");
+
+window.addProgram =
+async function(){
+
+  try{
+
+    const title =
+    document.getElementById("programTitle").value;
+
+    const description =
+    document
+    .getElementById("programDescription")
+    .value;
+
+    if(!title){
+
+      alert("Program title enter karein.");
+
+      return;
+    }
+
+    await addDoc(
+      collection(db,"programs"),
+      {
+        title,
+        description,
+        createdAt:serverTimestamp()
+      }
+    );
+
+    alert("Program add ho gaya.");
+
+    await loadPrograms();
+
+  }catch(error){
+
+    alert(error.message);
+
+  }
+
+};
+
+
+/* ================= PHOTOS ================= */
+
+async function loadPhotos(){
+
+  const box =
+  document.getElementById("photoList");
+
+  try{
+
+    const snapshot =
+    await getDocs(
+      collection(db,"photos")
+    );
+
+    let html="";
+
+    snapshot.forEach(item=>{
+
+      const d=item.data();
+
+      html += `
+
+      <div class="item">
+
+      <h3>
+      ${escapeHTML(d.title || "Photo")}
+      </h3>
+
+      ${
+        d.url
+        ?
+        `<img src="${d.url}" alt="Photo">`
+        :
+        ""
+      }
+
+      <br>
+
+      <button class="action">
+      👍 Like
+      </button>
+
+      <button class="action">
+      💬 Comment
+      </button>
+
+      <button class="action"
+      onclick="shareContent('${encodeURIComponent(d.url || "")}')">
+      ↗ Share
+      </button>
+
+      </div>
+
+      `;
+
+    });
+
+    box.innerHTML =
+    html ||
+    "<p>Abhi photos available nahi hain.</p>";
+
+  }catch(error){
+
+    console.error(error);
+
+  }
+
 }
 
-/* =========================================================
-   INITIAL DATA LOAD
-========================================================= */
-function loadPublicData(){
-  loadPrograms();
-  loadPaymentDetails();
-  loadGallery();
-  loadMembers();
-  loadLangar();
+
+window.uploadPhoto =
+async function(){
+
+  try{
+
+    const file =
+    document
+    .getElementById("photoFile")
+    .files[0];
+
+    const title =
+    document
+    .getElementById("photoTitle")
+    .value;
+
+    if(!file){
+
+      alert("Photo select karein.");
+
+      return;
+    }
+
+    const storageRef =
+    ref(
+      storage,
+      "photos/"+Date.now()+"-"+file.name
+    );
+
+    await uploadBytes(
+      storageRef,
+      file
+    );
+
+    const url =
+    await getDownloadURL(storageRef);
+
+    await addDoc(
+      collection(db,"photos"),
+      {
+        title,
+        url,
+        createdAt:serverTimestamp()
+      }
+    );
+
+    alert("Photo upload ho gayi.");
+
+    await loadPhotos();
+
+  }catch(error){
+
+    alert(
+      "Photo upload error: "+error.message
+    );
+
+  }
+
+};
+
+
+/* ================= VIDEOS ================= */
+
+async function loadVideos(){
+
+  const box =
+  document.getElementById("videoList");
+
+  try{
+
+    const snapshot =
+    await getDocs(
+      collection(db,"videos")
+    );
+
+    let html="";
+
+    snapshot.forEach(item=>{
+
+      const d=item.data();
+
+      html += `
+
+      <div class="item">
+
+      <h3>
+      ${escapeHTML(d.title || "Video")}
+      </h3>
+
+      ${
+        d.url
+        ?
+        `<video controls preload="metadata">
+          <source src="${d.url}">
+        </video>`
+        :
+        ""
+      }
+
+      <button class="action">
+      👍 Like
+      </button>
+
+      <button class="action">
+      💬 Comment
+      </button>
+
+      <button class="action"
+      onclick="shareContent('${encodeURIComponent(d.url || "")}')">
+      ↗ Share
+      </button>
+
+      </div>
+
+      `;
+
+    });
+
+    box.innerHTML =
+    html ||
+    "<p>Abhi videos available nahi hain.</p>";
+
+  }catch(error){
+
+    console.error(error);
+
+  }
+
 }
 
-window.onload = loadPublicData;
+
+window.uploadVideo =
+async function(){
+
+  try{
+
+    const file =
+    document
+    .getElementById("videoFile")
+    .files[0];
+
+    const title =
+    document
+    .getElementById("videoTitle")
+    .value;
+
+    if(!file){
+
+      alert("Video select karein.");
+
+      return;
+    }
+
+    const storageRef =
+    ref(
+      storage,
+      "videos/"+Date.now()+"-"+file.name
+    );
+
+    await uploadBytes(
+      storageRef,
+      file
+    );
+
+    const url =
+    await getDownloadURL(storageRef);
+
+    await addDoc(
+      collection(db,"videos"),
+      {
+        title,
+        url,
+        createdAt:serverTimestamp()
+      }
+    );
+
+    alert("Video upload ho gaya.");
+
+    await loadVideos();
+
+  }catch(error){
+
+    alert(
+      "Video upload error: "+error.message
+    );
+
+  }
+
+};
+
+
+/* ================= MEMBERS ================= */
+
+async function loadMembers(){
+
+  const box =
+  document.getElementById("memberList");
+
+  try{
+
+    const snapshot =
+    await getDocs(
+      collection(db,"members")
+    );
+
+    let html="";
+
+    snapshot.forEach(item=>{
+
+      const d=item.data();
+
+      html += `
+
+      <div class="item">
+
+      <h3>
+      ${escapeHTML(d.name || "")}
+      </h3>
+
+      <p>
+      ${escapeHTML(d.responsibility || "")}
+      </p>
+
+      <p>
+      ${escapeHTML(d.address || "")}
+      </p>
+
+      <a href="tel:${encodeURIComponent(d.phone || "")}">
+      <button class="action">
+      📞 Call
+      </button>
+      </a>
+
+      </div>
+
+      `;
+
+    });
+
+    box.innerHTML =
+    html ||
+    "<p>Members available nahi hain.</p>";
+
+  }catch(error){
+
+    console.error(error);
+
+  }
+
+}
+
+
+window.addMember =
+async function(){
+
+  try{
+
+    const name =
+    document.getElementById("memberName").value;
+
+    const phone =
+    document.getElementById("memberPhone").value;
+
+    const address =
+    document.getElementById("memberAddress").value;
+
+    const responsibility =
+    document
+    .getElementById("memberResponsibility")
+    .value;
+
+    await addDoc(
+      collection(db,"members"),
+      {
+        name,
+        phone,
+        address,
+        responsibility,
+        createdAt:serverTimestamp()
+      }
+    );
+
+    alert("Member add ho gaya.");
+
+    await loadMembers();
+
+  }catch(error){
+
+    alert(error.message);
+
+  }
+
+};
+
+
+/* ================= LANGAR ================= */
+
+async function loadLangar(){
+
+  const box =
+  document.getElementById("langarContent");
+
+  try{
+
+    const snapshot =
+    await getDocs(
+      collection(db,"langar")
+    );
+
+    let html="";
+
+    snapshot.forEach(item=>{
+
+      const d=item.data();
+
+      html += `
+      <div class="item">
+      ${escapeHTML(d.text || "")}
+      </div>
+      `;
+
+    });
+
+    box.innerHTML =
+    html ||
+    "<p>Langar information available nahi hai.</p>";
+
+  }catch(error){
+
+    console.error(error);
+
+  }
+
+}
+
+
+window.saveLangar =
+async function(){
+
+  try{
+
+    const text =
+    document.getElementById("langarText").value;
+
+    await addDoc(
+      collection(db,"langar"),
+      {
+        text,
+        updatedAt:serverTimestamp()
+      }
+    );
+
+    alert("Langar information save ho gayi.");
+
+    await loadLangar();
+
+  }catch(error){
+
+    alert(error.message);
+
+  }
+
+};
+
+
+/* ================= NOTICES ================= */
+
+async function loadNotices(){
+
+  const box =
+  document.getElementById("noticeList");
+
+  try{
+
+    const snapshot =
+    await getDocs(
+      collection(db,"notices")
+    );
+
+    let html="";
+
+    snapshot.forEach(item=>{
+
+      const d=item.data();
+
+      html += `
+
+      <div class="item">
+
+      <h3>
+      ${escapeHTML(d.title || "")}
+      </h3>
+
+      <p>
+      ${escapeHTML(d.text || "")}
+      </p>
+
+      </div>
+
+      `;
+
+    });
+
+    box.innerHTML =
+    html ||
+    "<p>Abhi koi notice nahi hai.</p>";
+
+  }catch(error){
+
+    console.error(error);
+
+  }
+
+}
+
+
+window.addNotice =
+async function(){
+
+  try{
+
+    const title =
+    document.getElementById("noticeTitle").value;
+
+    const text =
+    document.getElementById("noticeText").value;
+
+    await addDoc(
+      collection(db,"notices"),
+      {
+        title,
+        text,
+        createdAt:serverTimestamp()
+      }
+    );
+
+    alert("Notice publish ho gaya.");
+
+    await loadNotices();
+
+  }catch(error){
+
+    alert(error.message);
+
+  }
+
+};
+
+
+/* ================= RASHID ================= */
+
+/*
+IMPORTANT SECURITY:
+
+Normal user ko rashid collection ka direct
+read access nahi dena chahiye.
+
+Rashid verification ko secure Cloud Function/
+backend se karna chahiye.
+
+Isliye yahan direct Firestore rashid query
+intentionally nahi ki gayi hai.
+*/
+
+window.checkRashid =
+function(){
+
+  const number =
+  document
+  .getElementById("rashidNumberCheck")
+  .value.trim();
+
+  if(!number){
+
+    alert("Rashid Number enter karein.");
+
+    return;
+  }
+
+  document
+  .getElementById("rashidResult")
+  .innerHTML = `
+
+  <div class="status">
+
+  Rashid verification secure backend ke
+  through connect ki jayegi.
+
+  <br><br>
+
+  Rashid ki private details normal user ko
+  direct Firestore se nahi dikhayi jayengi.
+
+  </div>
+
+  `;
+
+};
+
+
+/* ================= ADMIN RASHID ================= */
+
+window.createRashid =
+async function(){
+
+  try{
+
+    const donorName =
+    document.getElementById("donorName").value;
+
+    const donorMobile =
+    document.getElementById("donorMobile").value;
+
+    const donorAddress =
+    document.getElementById("donorAddress").value;
+
+    const amount =
+    Number(
+      document.getElementById("donationAmount").value
+    );
+
+    const purpose =
+    document.getElementById("donationPurpose").value;
+
+
+    if(
+      !donorName ||
+      !donorMobile ||
+      !amount
+    ){
+
+      alert(
+        "Donor Name, Mobile aur Amount zaroor bharein."
+      );
+
+      return;
+    }
+
+
+    const rashidNumber =
+    "KEA-"+Date.now();
+
+
+    await addDoc(
+      collection(db,"rashid"),
+      {
+        rashidNumber,
+        donorName,
+        donorMobile,
+        donorAddress,
+        amount,
+        purpose,
+        status:"created",
+        createdAt:serverTimestamp()
+      }
+    );
+
+
+    alert(
+      "Rashid create ho gayi: "+rashidNumber
+    );
+
+
+    /*
+      Production version me yahan Cloud Function:
+
+      1. Rashid receipt generate karegi
+      2. Receipt image/PDF banayegi
+      3. Storage me save karegi
+      4. WhatsApp/SMS provider ko call karegi
+      5. Donor ko notification bhejegi
+    */
+
+  }catch(error){
+
+    alert(
+      "Rashid error: "+error.message
+    );
+
+  }
+
+};
+
+
+/* ================= SHARE ================= */
+
+window.shareContent =
+async function(encodedUrl){
+
+  const url =
+  decodeURIComponent(encodedUrl);
+
+  if(
+    navigator.share &&
+    url
+  ){
+
+    try{
+
+      await navigator.share({
+        title:"KHADIMIN-E-AULIYA",
+        url:url
+      });
+
+    }catch(e){}
+
+  }else{
+
+    window.open(
+      "https://wa.me/?text="+
+      encodeURIComponent(url),
+      "_blank"
+    );
+
+  }
+
+};
+
+
+/* ================= SECURITY HELPER ================= */
+
+function escapeHTML(value){
+
+  return String(value || "")
+  .replace(/&/g,"&amp;")
+  .replace(/</g,"&lt;")
+  .replace(/>/g,"&gt;")
+  .replace(/"/g,"&quot;")
+  .replace(/'/g,"&#039;");
+
+}
+
 </script>
 
 </body>
