@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KHADIMIN-E-AULIYA</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial,sans-serif;
+  background:#f5f7f5;
+  color:#17231d;
+}
+
+header{
+  background:#123c2b;
+  color:white;
+  padding:18px;
+  text-align:center;
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+
+header h1{
+  font-size:23px;
+}
+
+header p{
+  margin-top:5px;
+  font-size:13px;
+}
+
+nav{
+  display:flex;
+  overflow-x:auto;
+  background:white;
+  border-bottom:1px solid #ddd;
+  position:sticky;
+  top:68px;
+  z-index:99;
+}
+
+nav button{
+  min-width:120px;
+  border:0;
+  background:white;
+  padding:14px 10px;
+  cursor:pointer;
+  color:#123c2b;
+  font-weight:bold;
+}
+
+nav button:hover{
+  background:#eaf2ed;
+}
+
+.container{
+  max-width:1100px;
+  margin:auto;
+  padding:18px;
+}
+
+.section{
+  display:none;
+}
+
+.section.active{
+  display:block;
+}
+
+.card{
+  background:white;
+  border-radius:16px;
+  padding:18px;
+  margin-bottom:18px;
+  box-shadow:0 4px 18px rgba(0,0,0,.08);
+}
+
+h2{
+  color:#123c2b;
+  margin-bottom:15px;
+}
+
+h3{
+  margin-bottom:8px;
+}
+
+input,
+textarea,
+select{
+  width:100%;
+  padding:12px;
+  margin:7px 0;
+  border:1px solid #ccd8d1;
+  border-radius:10px;
+  font-size:15px;
+}
+
+textarea{
+  min-height:110px;
+}
+
+button.action{
+  width:100%;
+  padding:12px;
+  border:0;
+  border-radius:10px;
+  background:#176044;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+  margin-top:8px;
+}
+
+button.secondary{
+  background:#e7eee9;
+  color:#17382a;
+}
+
+button.danger{
+  background:#b42318;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:15px;
+}
+
+.feature{
+  padding:18px;
+  background:#f8fbf9;
+  border:1px solid #dce7e0;
+  border-radius:14px;
+}
+
+.hero{
+  text-align:center;
+  padding:35px 15px;
+  background:linear-gradient(135deg,#123c2b,#23644b);
+  color:white;
+  border-radius:18px;
+  margin-bottom:18px;
+}
+
+.hero h2{
+  color:white;
+  font-size:28px;
+}
+
+.status{
+  padding:10px;
+  border-radius:10px;
+  background:#eef7f1;
+  margin:8px 0;
+}
+
+.hidden{
+  display:none!important;
+}
+
+.small{
+  font-size:13px;
+  color:#68766f;
+}
+
+.item{
+  border:1px solid #dde5e0;
+  border-radius:13px;
+  padding:14px;
+  margin:10px 0;
+}
+
+img,
+video{
+  max-width:100%;
+  border-radius:12px;
+}
+
+footer{
+  background:#123c2b;
+  color:white;
+  text-align:center;
+  padding:25px;
+  margin-top:30px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>KHADIMIN-E-AULIYA</h1>
+  <p>Khidmat • Sufiyana Taleem • Community</p>
+</header>
+
+<nav>
+  <button onclick="showSection('home')">Home</button>
+  <button onclick="showSection('programs')">Programs</button>
+  <button onclick="showSection('donation')">Donation</button>
+  <button onclick="showSection('rashid')">Rashid Check</button>
+  <button onclick="showSection('gallery')">Gallery</button>
+  <button onclick="showSection('videos')">Videos</button>
+  <button onclick="showSection('members')">Members</button>
+  <button onclick="showSection('langar')">Langar</button>
+  <button onclick="showSection('login')">Login</button>
+  <button onclick="showSection('admin')">Admin</button>
+</nav>
+
+<div class="container">
+
+<!-- HOME -->
+<section id="home" class="section active">
+
+  <div class="hero">
+    <h2>KHADIMIN-E-AULIYA</h2>
+    <p>Islamic & Sufi Community Website</p>
+  </div>
+
+  <div class="card">
+    <h2>Welcome</h2>
+    <p>
+      KHADIMIN-E-AULIYA mein aapka khair maqdam hai.
+      Yahan programs, Langar, donations, gallery aur community
+      information dekhi ja sakti hai.
+    </p>
+  </div>
+
+  <div class="grid">
+
+    <div class="feature">
+      <h3>Programs</h3>
+      <p>Islamic aur community programs ki information.</p>
+      <button class="action"
+        onclick="showSection('programs')">
+        View Programs
+      </button>
+    </div>
+
+    <div class="feature">
+      <h3>Donation</h3>
+      <p>Donation aur payment details.</p>
+      <button class="action"
+        onclick="showSection('donation')">
+        Donation
+      </button>
+    </div>
+
+    <div class="feature">
+      <h3>Gallery</h3>
+      <p>Photos aur videos dekhein.</p>
+      <button class="action"
+        onclick="showSection('gallery')">
+        Open Gallery
+      </button>
+    </div>
+
+    <div class="feature">
+      <h3>Langar-e-Gausiya</h3>
+      <p>Langar ki latest information.</p>
+      <button class="action"
+        onclick="showSection('langar')">
+        View Langar
+      </button>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- LOGIN -->
+<section id="login" class="section">
+
+  <div class="card">
+    <h2>Login / Sign Up</h2>
+
+    <input
+      id="email"
+      type="email"
+      placeholder="Email Address">
+
+    <input
+      id="password"
+      type="password"
+      placeholder="Password">
+
+    <button class="action" onclick="login()">
+      Sign In
+    </button>
+
+    <button class="action secondary"
+      onclick="signup()">
+      Create Account
+    </button>
+
+    <button class="action secondary"
+      onclick="forgotPassword()">
+      Forgot Password
+    </button>
+
+    <p id="authMessage" class="small"></p>
+  </div>
+
+</section>
+
+
+<!-- PROGRAMS -->
+<section id="programs" class="section">
+
+  <div class="card">
+    <h2>Programs</h2>
+    <div id="programList">
+      <p>Programs Firebase se load honge.</p>
+    </div>
+  </div>
+
+</section>
+
+
+<!-- DONATION -->
+<section id="donation" class="section">
+
+  <div class="card">
+    <h2>Donation</h2>
+
+    <div id="paymentDetails">
+      <p>Bank / UPI / QR details yahan show hongi.</p>
+    </div>
+
+    <button class="action"
+      onclick="loadPaymentDetails()">
+      View Payment Details
+    </button>
+  </div>
+
+</section>
+
+
+<!-- RASHID CHECK -->
+<section id="rashid" class="section">
+
+  <div class="card">
+
+    <h2>Rashid Check</h2>
+
+    <p class="small">
+      Apne registered mobile number se Rashid status check karein.
+      Rashid ki private details public list mein nahi dikhayi jayengi.
+    </p>
+
+    <input
+      id="rashidMobile"
+      type="tel"
+      placeholder="Mobile Number">
+
+    <button class="action"
+      onclick="checkRashid()">
+      Check Rashid
+    </button>
+
+    <div id="rashidResult"></div>
+
+  </div>
+
+</section>
+
+
+<!-- GALLERY -->
+<section id="gallery" class="section">
+
+  <div class="card">
+
+    <h2>Photo Gallery</h2>
+
+    <div id="photoList">
+      Photos Firebase Storage se load hongi.
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- VIDEOS -->
+<section id="videos" class="section">
+
+  <div class="card">
+
+    <h2>Videos</h2>
+
+    <div id="videoList">
+      Videos Firebase Storage se load hongi.
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- MEMBERS -->
+<section id="members" class="section">
+
+  <div class="card">
+
+    <h2>Khadimin-e-Auliya Members</h2>
+
+    <div id="memberList">
+      Members ki information yahan show hogi.
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- LANGAR -->
+<section id="langar" class="section">
+
+  <div class="card">
+
+    <h2>Langar-e-Gausiya</h2>
+
+    <div id="langarData">
+      Langar information Firebase se load hogi.
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ADMIN -->
+<section id="admin" class="section">
+
+  <div class="card">
+
+    <h2>Admin Dashboard</h2>
+
+    <div id="adminStatus" class="status">
+      Admin authentication check ho rahi hai...
+    </div>
+
+    <div id="adminControls" class="hidden">
+
+      <div class="grid">
+
+        <div class="feature">
+          <h3>Rashid</h3>
+          <p>Create, confirm, edit aur cancel Rashid.</p>
+          <button class="action"
+            onclick="adminAction('rashid')">
+            Manage Rashid
+          </button>
+        </div>
+
+        <div class="feature">
+          <h3>Photos</h3>
+          <p>Photos upload/edit/delete.</p>
+          <button class="action"
+            onclick="adminAction('photos')">
+            Manage Photos
+          </button>
+        </div>
+
+        <div class="feature">
+          <h3>Videos</h3>
+          <p>YouTube-style video content management.</p>
+          <button class="action"
+            onclick="adminAction('videos')">
+            Manage Videos
+          </button>
+        </div>
+
+        <div class="feature">
+          <h3>Payment QR</h3>
+          <p>QR aur bank details manage karein.</p>
+          <button class="action"
+            onclick="adminAction('paymentMethods')">
+            Manage Payment
+          </button>
+        </div>
+
+        <div class="feature">
+          <h3>Members</h3>
+          <p>Name, number, address, photo aur responsibility.</p>
+          <button class="action"
+            onclick="adminAction('members')">
+            Manage Members
+          </button>
+        </div>
+
+        <div class="feature">
+          <h3>Social Links</h3>
+          <p>WhatsApp, Instagram aur YouTube.</p>
+          <button class="action"
+            onclick="adminAction('socialLinks')">
+            Manage Social Links
+          </button>
+        </div>
+
+        <div class="feature">
+          <h3>Donations</h3>
+          <p>Donation records manage karein.</p>
+          <button class="action"
+            onclick="adminAction('donations')">
+            Manage Donations
+          </button>
+        </div>
+
+        <div class="feature">
+          <h3>Expenses</h3>
+          <p>Kitna kharch hua aur kis purpose par.</p>
+          <button class="action"
+            onclick="adminAction('expenses')">
+            Manage Expenses
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+</div>
+
+
+<footer>
+  <p>© 2026 KHADIMIN-E-AULIYA</p>
+  <p class="small">
+    Islamic Community • Secure Firebase Website
+  </p>
+</footer>
+
+
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-storage-compat.js"></script>
+
+<script>
+
+/* =========================================================
+   FIREBASE CONFIG
+   YAHAN APNI FIREBASE CONFIG PASTE KARNI HAI
+========================================================= */
+
+const firebaseConfig = {
+
+  apiKey:
+    "YOUR_API_KEY",
+
+  authDomain:
+    "YOUR_PROJECT_ID.firebaseapp.com",
+
+  projectId:
+    "YOUR_PROJECT_ID",
+
+  storageBucket:
+    "YOUR_PROJECT_ID.appspot.com",
+
+  messagingSenderId:
+    "YOUR_MESSAGING_SENDER_ID",
+
+  appId:
+    "YOUR_APP_ID"
+};
+
+
+/* Firebase Start */
+
+firebase.initializeApp(firebaseConfig);
+
+const auth =
+  firebase.auth();
+
+const db =
+  firebase.firestore();
+
+const storage =
+  firebase.storage();
+
+
+/* =========================================================
+   SECTION NAVIGATION
+========================================================= */
+
+function showSection(id){
+
+  document
+    .querySelectorAll(".section")
+    .forEach(section=>{
+      section.classList.remove("active");
+    });
+
+  document
+    .getElementById(id)
+    .classList.add("active");
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+}
+
+
+/* =========================================================
+   AUTHENTICATION
+========================================================= */
+
+async function signup(){
+
+  const email =
+    document.getElementById("email").value.trim();
+
+  const password =
+    document.getElementById("password").value;
+
+  try{
+
+    await auth
+      .createUserWithEmailAndPassword(
+        email,
+        password
+      );
+
+    document.getElementById("authMessage")
+      .textContent =
+      "Account successfully created.";
+
+  }catch(error){
+
+    document.getElementById("authMessage")
+      .textContent =
+      error.message;
+  }
+}
+
+
+async function login(){
+
+  const email =
+    document.getElementById("email").value.trim();
+
+  const password =
+    document.getElementById("password").value;
+
+  try{
+
+    await auth
+      .signInWithEmailAndPassword(
+        email,
+        password
+      );
+
+    document.getElementById("authMessage")
+      .textContent =
+      "Login successful.";
+
+  }catch(error){
+
+    document.getElementById("authMessage")
+      .textContent =
+      error.message;
+  }
+}
+
+
+async function forgotPassword(){
+
+  const email =
+    document.getElementById("email").value.trim();
+
+  if(!email){
+
+    alert("Pehle Email Address enter karein.");
+    return;
+  }
+
+  try{
+
+    await auth
+      .sendPasswordResetEmail(email);
+
+    alert(
+      "Password reset email bhej diya gaya hai."
+    );
+
+  }catch(error){
+
+    alert(error.message);
+  }
+}
+
+
+/* =========================================================
+   AUTH STATE + ADMIN CHECK
+========================================================= */
+
+auth.onAuthStateChanged(
+  async user=>{
+
+    if(!user){
+
+      document.getElementById("adminStatus")
+        .textContent =
+        "Admin login required.";
+
+      document
+        .getElementById("adminControls")
+        .classList.add("hidden");
+
+      return;
+    }
+
+
+    try{
+
+      const token =
+        await user.getIdTokenResult(true);
+
+      const admin =
+        token.claims.admin === true;
+
+
+      if(admin){
+
+        document.getElementById("adminStatus")
+          .textContent =
+          "Admin authenticated successfully.";
+
+        document
+          .getElementById("adminControls")
+          .classList.remove("hidden");
+
+      }else{
+
+        document.getElementById("adminStatus")
+          .textContent =
+          "Aap normal user hain. Admin access nahi hai.";
+
+        document
+          .getElementById("adminControls")
+          .classList.add("hidden");
+      }
+
+    }catch(error){
+
+      console.error(error);
+    }
+
+  }
+);
+
+
+/* =========================================================
+   PAYMENT DETAILS
+========================================================= */
+
+async function loadPaymentDetails(){
+
+  try{
+
+    const snapshot =
+      await db
+        .collection("paymentMethods")
+        .limit(10)
+        .get();
+
+    const box =
+      document.getElementById(
+        "paymentDetails"
+      );
+
+    box.innerHTML = "";
+
+    snapshot.forEach(doc=>{
+
+      const data =
+        doc.data();
+
+      const div =
+        document.createElement("div");
+
+      div.className="item";
+
+      div.innerHTML = `
+
+        <h3>${data.title || "Payment Details"}</h3>
+
+        <p>${data.bankName || ""}</p>
+
+        <p>${data.accountNumber || ""}</p>
+
+        <p>${data.ifsc || ""}</p>
+
+        <p>${data.upi || ""}</p>
+
+      `;
+
+      box.appendChild(div);
+
+    });
+
+  }catch(error){
+
+    document.getElementById(
+      "paymentDetails"
+    ).textContent =
+      error.message;
+  }
+}
+
+
+/* =========================================================
+   RASHID CHECK
+========================================================= */
+
+async function checkRashid(){
+
+  const mobile =
+    document
+      .getElementById("rashidMobile")
+      .value.trim();
+
+  if(!mobile){
+
+    alert("Mobile number enter karein.");
+    return;
+  }
+
+  /*
+    IMPORTANT:
+    Aapke secure Firestore rules mein
+    rashid collection public read ke liye
+    open nahi hai.
+
+    Isliye actual Rashid verification ko
+    backend/Cloud Function se implement
+    karna hoga.
+
+    Direct client-side Rashid search
+    intentionally nahi kiya gaya.
+  */
+
+  document
+    .getElementById("rashidResult")
+    .innerHTML = `
+      <div class="status">
+        Rashid verification secure server
+        function ke through implement ki jayegi.
+      </div>
+    `;
+}
+
+
+/* =========================================================
+   ADMIN ACTIONS
+========================================================= */
+
+function adminAction(collection){
+
+  showSection("admin");
+
+  alert(
+    "Admin collection selected: " +
+    collection +
+    "\n\nIs collection ka full CRUD panel Firebase Firestore ke saath connect kiya jayega."
+  );
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+async function logout(){
+
+  await auth.signOut();
+
+  showSection("home");
+}
+
+
+/* =========================================================
+   INITIAL DATA
+========================================================= */
+
+async function loadPublicData(){
+
+  /*
+    Programs, Langar, Members, Photos aur Videos
+    yahan Firebase se load kiye ja sakte hain.
+  */
+
+  console.log(
+    "KHADIMIN-E-AULIYA Firebase website ready."
+  );
+}
+
+loadPublicData();
+
+</script>
+
+</body>
+</html>
