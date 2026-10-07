@@ -83,7 +83,7 @@ button{cursor:pointer;}
     <button class="google" id="googleLogin">Continue with Google</button>
   </div>
 
-  <!-- Admin Login (Secret - Koi Email pehle se nahi dikhega) -->
+  <!-- Admin Login (Secret) -->
   <div id="adminLoginBox" class="hidden">
     <div class="form-group">
       <label>User ID</label>
@@ -148,8 +148,8 @@ button{cursor:pointer;}
       <div id="adminPhotoUpload" class="admin-box hidden">
         <h3>📸 Admin: Photo Upload Karein</h3>
         <div class="form-group"><label>Photo File Chunein</label><input id="photoFile" type="file" accept="image/*"></div>
-        <div class="form-group"><label>Photo Caption / Title</label><input id="photoTitle" placeholder="Photo Title"></div>
-        <button class="action" onclick="uploadPhoto()">Upload Photo</button>
+        <div class="form-group"><label>Photo Title / Caption</label><input id="photoTitle" placeholder="Photo Title"></div>
+        <button class="action" id="photoUploadBtn" onclick="uploadPhoto()">Upload Photo</button>
       </div>
       <div id="photoList">Loading...</div>
     </div>
@@ -164,7 +164,7 @@ button{cursor:pointer;}
         <h3>🎥 Admin: Video Upload Karein</h3>
         <div class="form-group"><label>Video File Chunein</label><input id="videoFile" type="file" accept="video/*"></div>
         <div class="form-group"><label>Video Title</label><input id="videoTitle" placeholder="Video Title"></div>
-        <button class="action" onclick="uploadVideo()">Upload Video</button>
+        <button class="action" id="videoUploadBtn" onclick="uploadVideo()">Upload Video</button>
       </div>
       <div id="videoList">Loading...</div>
     </div>
@@ -194,7 +194,7 @@ button{cursor:pointer;}
         <div class="form-group"><label>Account Holder Name</label><input id="accountHolder"></div>
         <div class="form-group"><label>UPI ID</label><input id="upiId"></div>
         <div class="form-group"><label>Payment QR Image</label><input id="qrFile" type="file" accept="image/*"></div>
-        <button class="action" onclick="savePaymentDetails()">Save & Update Details</button>
+        <button class="action" id="payUpdateBtn" onclick="savePaymentDetails()">Save & Update Details</button>
       </div>
       <div id="paymentDetails">Loading...</div>
     </div>
@@ -303,8 +303,7 @@ button{cursor:pointer;}
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-import { getFirestore, collection, addDoc, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-storage.js";
+import { getFirestore, collection, addDoc, getDocs, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAEcw0NtlOl9egPuU9EkEWp4nkhrxKw2iY",
@@ -319,7 +318,28 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-const storage = getStorage(app);
+
+// Cloudinary Configuration
+const CLOUD_NAME = "dfadsjum";
+const UPLOAD_PRESET = "khadimin_preset";
+
+// Cloudinary File Upload Helper (Free & No Billing Required)
+async function uploadToCloudinary(file, resourceType = "auto") {
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("upload_preset", UPLOAD_PRESET);
+
+  const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/${resourceType}/upload`, {
+    method: "POST",
+    body: formData
+  });
+
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.error?.message || "Cloudinary upload failed");
+  }
+  return data.secure_url;
+}
 
 // Authorized Admin Emails
 const ADMIN_EMAILS = [
@@ -370,7 +390,6 @@ document.getElementById("adminLogin").addEventListener("click",async()=>{
   const password = document.getElementById("adminPassword").value;
   if(!email || !password) return alert("User ID aur Password bharein.");
 
-  // Agar user sirf 'admin' likhe to auto email handle karein
   if(!email.includes("@")){
     email = email + "@khadimin.com";
   }
@@ -396,7 +415,7 @@ onAuthStateChanged(auth, async(user)=>{
   document.getElementById("app").classList.remove("hidden");
   document.getElementById("roleText").textContent = isAdmin ? "👑 Admin Account" : "👤 User Account";
 
-  // Admin Controls
+  // Admin Controls Toggle
   const adminElements = [
     "adminNav",
     "adminPhotoUpload",
@@ -444,21 +463,30 @@ async function loadAllData(){
   ]);
 }
 
-// Photo Upload
+// Photo Upload via Cloudinary
 window.uploadPhoto = async function(){
+  const btn = document.getElementById("photoUploadBtn");
   try{
     const file = document.getElementById("photoFile").files[0];
     const title = document.getElementById("photoTitle").value.trim();
     if(!file) return alert("Pehle Photo chunein.");
-    const storageRef = ref(storage, "photos/" + Date.now() + "-" + file.name);
-    await uploadBytes(storageRef, file);
-    const url = await getDownloadURL(storageRef);
+
+    btn.disabled = true;
+    btn.textContent = "Uploading to Cloudinary...";
+
+    const url = await uploadToCloudinary(file, "image");
     await addDoc(collection(db, "photos"), { title, url, createdAt: serverTimestamp() });
+
     alert("✅ Photo successfully upload ho gayi!");
     document.getElementById("photoFile").value = "";
     document.getElementById("photoTitle").value = "";
     await loadPhotos();
-  }catch(e){ alert("Upload error: " + e.message); }
+  }catch(e){
+    alert("Upload error: " + e.message);
+  }finally{
+    btn.disabled = false;
+    btn.textContent = "Upload Photo";
+  }
 };
 
 async function loadPhotos(){
@@ -475,21 +503,30 @@ async function loadPhotos(){
   }catch(e){}
 }
 
-// Video Upload
+// Video Upload via Cloudinary
 window.uploadVideo = async function(){
+  const btn = document.getElementById("videoUploadBtn");
   try{
     const file = document.getElementById("videoFile").files[0];
     const title = document.getElementById("videoTitle").value.trim();
     if(!file) return alert("Pehle Video file chunein.");
-    const storageRef = ref(storage, "videos/" + Date.now() + "-" + file.name);
-    await uploadBytes(storageRef, file);
-    const url = await getDownloadURL(storageRef);
+
+    btn.disabled = true;
+    btn.textContent = "Uploading video (kuch der intezar karein)...";
+
+    const url = await uploadToCloudinary(file, "video");
     await addDoc(collection(db, "videos"), { title, url, createdAt: serverTimestamp() });
+
     alert("✅ Video successfully upload ho gaya!");
     document.getElementById("videoFile").value = "";
     document.getElementById("videoTitle").value = "";
     await loadVideos();
-  }catch(e){ alert("Upload error: " + e.message); }
+  }catch(e){
+    alert("Upload error: " + e.message);
+  }finally{
+    btn.disabled = false;
+    btn.textContent = "Upload Video";
+  }
 };
 
 async function loadVideos(){
@@ -506,7 +543,7 @@ async function loadVideos(){
   }catch(e){}
 }
 
-// Payment
+// Payment Section & QR Upload
 async function loadPayment(){
   const box = document.getElementById("paymentDetails");
   try{
@@ -529,23 +566,31 @@ async function loadPayment(){
 }
 
 window.savePaymentDetails = async function(){
+  const btn = document.getElementById("payUpdateBtn");
   try{
     const bankDetails = document.getElementById("bankDetails").value;
     const accountHolder = document.getElementById("accountHolder").value;
     const upiId = document.getElementById("upiId").value;
-    let qrUrl="";
+    let qrUrl = "";
     const file = document.getElementById("qrFile").files[0];
+
     if(file){
-      const storageRef = ref(storage, "paymentQR/"+Date.now());
-      await uploadBytes(storageRef, file);
-      qrUrl = await getDownloadURL(storageRef);
+      btn.disabled = true;
+      btn.textContent = "Uploading QR...";
+      qrUrl = await uploadToCloudinary(file, "image");
     }
+
     await addDoc(collection(db,"paymentMethods"),{
       bankDetails, accountHolder, upiId, qrUrl, updatedAt:serverTimestamp()
     });
-    alert("Payment details update ho gaye!");
+    alert("✅ Payment details update ho gaye!");
     await loadPayment();
-  }catch(e){ alert("Error: "+e.message); }
+  }catch(e){
+    alert("Error: " + e.message);
+  }finally{
+    btn.disabled = false;
+    btn.textContent = "Save & Update Details";
+  }
 };
 
 // Programs
