@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#0b5d3b">
-<meta name="description" content="KHADIMIN-E-AULIYA">
 <title>KHADIMIN-E-AULIYA</title>
 
 <style>
@@ -13,49 +12,50 @@ body{background:#f5f7f6;color:#222;}
 button,input,select,textarea{font-size:16px;}
 button{cursor:pointer;}
 .hidden{display:none!important;}
+
 #splash{position:fixed;inset:0;z-index:99999;background:linear-gradient(135deg,#063d28,#0b6b43,#d6ad45);color:white;display:flex;justify-content:center;align-items:center;text-align:center;transition:opacity .5s ease, visibility .5s;}
 #splash.hide{opacity:0;visibility:hidden;}
-.splash-box{padding:25px;animation:fadeIn 1s ease;}
+.splash-box{padding:25px;}
 .splash-arabic{font-size:25px;margin-bottom:12px;direction:rtl;}
 .splash-welcome{font-size:18px;margin-top:20px;}
-.splash-title{font-size:32px;font-weight:bold;letter-spacing:2px;margin-top:10px;}
-#skipSplash{margin-top:30px;padding:10px 25px;border:1px solid white;background:transparent;color:white;border-radius:25px;}
-@keyframes fadeIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+.splash-title{font-size:30px;font-weight:bold;letter-spacing:1px;margin-top:10px;}
+#skipSplash{margin-top:25px;padding:10px 24px;border:1px solid white;background:transparent;color:white;border-radius:25px;}
+
 #loginPage{min-height:100vh;display:flex;justify-content:center;align-items:center;padding:20px;background:#eef5f1;}
-.login-card{width:100%;max-width:430px;background:white;padding:25px;border-radius:20px;box-shadow:0 10px 35px rgba(0,0,0,.12);}
-.logo{text-align:center;color:#075c39;font-size:26px;font-weight:bold;margin-bottom:20px;}
+.login-card{width:100%;max-width:420px;background:white;padding:25px;border-radius:20px;box-shadow:0 10px 30px rgba(0,0,0,.1);}
+.logo{text-align:center;color:#075c39;font-size:24px;font-weight:bold;margin-bottom:18px;}
 .tabs{display:flex;gap:8px;margin-bottom:20px;}
-.tabs button{flex:1;padding:11px;border:0;border-radius:10px;background:#e7eee9;}
+.tabs button{flex:1;padding:11px;border:0;border-radius:10px;background:#e7eee9;font-weight:bold;}
 .tabs button.active{background:#075c39;color:white;}
 .form-group{margin-bottom:14px;}
-.form-group label{display:block;margin-bottom:6px;font-weight:bold;}
+.form-group label{display:block;margin-bottom:6px;font-weight:bold;font-size:14px;}
 .form-group input,.form-group textarea,.form-group select{width:100%;padding:12px;border:1px solid #ccc;border-radius:10px;outline:none;}
 .primary{width:100%;border:0;padding:13px;border-radius:10px;background:#075c39;color:white;font-weight:bold;margin-top:8px;}
-.secondary{width:100%;border:1px solid #075c39;padding:12px;border-radius:10px;background:white;color:#075c39;margin-top:8px;}
-.google{width:100%;padding:12px;border:0;border-radius:10px;background:#4285f4;color:white;margin-top:10px;}
-.small-link{text-align:center;margin-top:12px;}
-.small-link button{border:0;background:none;color:#075c39;}
-#app{min-height:100vh;padding-bottom:75px;}
-.topbar{background:#075c39;color:white;padding:15px;position:sticky;top:0;z-index:100;}
+.google{width:100%;padding:12px;border:0;border-radius:10px;background:#4285f4;color:white;margin-top:10px;font-weight:bold;}
+
+#app{min-height:100vh;padding-bottom:80px;}
+.topbar{background:#075c39;color:white;padding:14px 18px;position:sticky;top:0;z-index:100;}
 .topbar-inner{max-width:1100px;margin:auto;display:flex;justify-content:space-between;align-items:center;}
-.top-title{font-weight:bold;}
-.logout{background:#fff;color:#075c39;border:0;padding:8px 13px;border-radius:20px;}
-.container{max-width:1100px;margin:auto;padding:18px;}
+.top-title{font-weight:bold;font-size:18px;}
+.logout{background:#fff;color:#075c39;border:0;padding:7px 14px;border-radius:20px;font-weight:bold;}
+.container{max-width:1100px;margin:auto;padding:16px;}
 .page{display:none;}
 .page.active{display:block;}
-.hero{background:linear-gradient(135deg,#075c39,#13895a);color:white;padding:25px;border-radius:18px;margin-bottom:20px;}
-.hero h1{margin-bottom:8px;}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;}
-.card{background:white;padding:18px;border-radius:15px;box-shadow:0 3px 15px rgba(0,0,0,.07);margin-bottom:15px;}
-.card h3{color:#075c39;margin-bottom:8px;}
-.action{border:0;background:#075c39;color:white;padding:9px 13px;border-radius:8px;margin-top:8px;}
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid #ddd;display:flex;justify-content:space-around;padding:8px 3px;z-index:500;}
+.hero{background:linear-gradient(135deg,#075c39,#13895a);color:white;padding:22px;border-radius:16px;margin-bottom:18px;}
+.hero h1{margin-bottom:6px;font-size:22px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;}
+.card{background:white;padding:18px;border-radius:14px;box-shadow:0 3px 12px rgba(0,0,0,.06);margin-bottom:16px;}
+.card h2,.card h3{color:#075c39;margin-bottom:10px;}
+.action{border:0;background:#075c39;color:white;padding:10px 14px;border-radius:8px;margin-top:8px;font-weight:bold;}
+.danger{border:0;background:#c0392b;color:white;padding:8px 12px;border-radius:8px;margin-top:8px;}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid #ddd;display:flex;justify-content:space-around;padding:10px 4px;z-index:500;}
 .bottom-nav button{border:0;background:none;font-size:12px;color:#555;}
 .bottom-nav button.active{color:#075c39;font-weight:bold;}
-.item{border:1px solid #ddd;border-radius:12px;padding:12px;margin:10px 0;}
-.item img,.item video{width:100%;max-height:300px;object-fit:cover;border-radius:10px;}
-.admin-badge{display:inline-block;background:#075c39;color:white;padding:5px 10px;border-radius:20px;font-size:12px;}
-.status{margin-top:10px;padding:10px;border-radius:8px;background:#eef7f1;}
+.item{border:1px solid #e1e8e4;border-radius:12px;padding:14px;margin:12px 0;background:#fafcfb;}
+.item img,.item video{width:100%;max-height:280px;object-fit:cover;border-radius:10px;margin-top:8px;}
+.admin-badge{display:inline-block;background:#d6ad45;color:#063d28;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:bold;}
+.admin-box{background:#f0f8f4;border:2px dashed #075c39;border-radius:12px;padding:16px;margin-bottom:16px;}
+.status{margin-top:10px;padding:12px;border-radius:8px;background:#eef7f1;}
 </style>
 </head>
 <body>
@@ -78,45 +78,24 @@ button{cursor:pointer;}
     <button id="adminLoginTab">Admin Login</button>
   </div>
 
+  <!-- User Login Box -->
   <div id="userLoginBox">
-    <div class="form-group">
-      <label>Email / Gmail</label>
-      <input id="email" type="email" placeholder="Enter Gmail / Email">
-    </div>
-    <div class="form-group">
-      <label>Password</label>
-      <input id="password" type="password" placeholder="Enter Password">
-    </div>
-    <button class="primary" id="emailLogin">Login</button>
+    <p style="font-size:14px;color:#666;margin-bottom:15px;text-align:center;">User access ke liye Google se login karein:</p>
     <button class="google" id="googleLogin">Continue with Google</button>
-    <div class="small-link">
-      <button id="forgotPassword">Forgot Password?</button>
-    </div>
-    <hr style="margin:20px 0">
-    <h3>Phone OTP Login</h3>
-    <div class="form-group">
-      <label>Mobile Number</label>
-      <input id="phoneNumber" type="tel" placeholder="+91XXXXXXXXXX">
-    </div>
-    <div id="recaptcha-container"></div>
-    <button class="secondary" id="sendOTP">Send OTP</button>
-    <div class="form-group">
-      <label>OTP</label>
-      <input id="otp" type="number" placeholder="Enter OTP">
-    </div>
-    <button class="primary" id="verifyOTP">Verify OTP</button>
   </div>
 
+  <!-- Admin Login Box -->
   <div id="adminLoginBox" class="hidden">
+    <p style="font-size:13px;color:#075c39;margin-bottom:12px;font-weight:bold;text-align:center;">🔒 Dedicated Admin Access Only</p>
     <div class="form-group">
-      <label>Admin Gmail</label>
-      <input id="adminEmail" type="email" placeholder="Admin Gmail">
+      <label>Admin User ID / Email</label>
+      <input id="adminEmail" type="email" placeholder="admin@khadimin.com">
     </div>
     <div class="form-group">
       <label>Admin Password</label>
-      <input id="adminPassword" type="password" placeholder="Admin Password">
+      <input id="adminPassword" type="password" placeholder="Enter Admin Password">
     </div>
-    <button class="primary" id="adminLogin">Secure Admin Login</button>
+    <button class="primary" id="adminLogin">Login as Admin</button>
   </div>
 </div>
 </section>
@@ -126,13 +105,14 @@ button{cursor:pointer;}
   <div class="topbar-inner">
     <div>
       <div class="top-title">KHADIMIN-E-AULIYA</div>
-      <div id="roleText"></div>
+      <div id="roleText" style="font-size:12px;opacity:0.9;"></div>
     </div>
     <button class="logout" id="logout">Logout</button>
   </div>
 </header>
 
 <main class="container">
+  <!-- Home Page -->
   <section id="home" class="page active">
     <div class="hero">
       <h1>KHADIMIN-E-AULIYA</h1>
@@ -162,51 +142,50 @@ button{cursor:pointer;}
     </div>
   </section>
 
+  <!-- Programs Page -->
   <section id="programs" class="page">
     <div class="card">
       <h2>Programs</h2>
-      <div id="programList">Loading...</div>
-      <div id="adminProgramForm" class="hidden">
-        <hr><br>
-        <h3>Admin: Add Program</h3>
+      <div id="adminProgramForm" class="admin-box hidden">
+        <h3>⚙️ Admin: Add Program</h3>
         <div class="form-group"><input id="programTitle" placeholder="Program Name"></div>
         <div class="form-group"><textarea id="programDescription" placeholder="Program Details"></textarea></div>
-        <button class="action" onclick="addProgram()">Add Program</button>
+        <button class="action" onclick="addProgram()">Publish Program</button>
       </div>
+      <div id="programList">Loading...</div>
     </div>
   </section>
 
+  <!-- Donation Page -->
   <section id="donation" class="page">
     <div class="card">
       <h2>Donation / Payment</h2>
-      <div id="paymentDetails">Loading...</div>
-      <div id="adminPaymentForm" class="hidden">
-        <hr><br>
-        <h3>Admin Payment Management</h3>
+      <div id="adminPaymentForm" class="admin-box hidden">
+        <h3>⚙️ Admin: Update Payment Details</h3>
         <div class="form-group"><label>Bank Details</label><textarea id="bankDetails"></textarea></div>
-        <div class="form-group"><label>Account Holder</label><input id="accountHolder"></div>
+        <div class="form-group"><label>Account Holder Name</label><input id="accountHolder"></div>
         <div class="form-group"><label>UPI ID</label><input id="upiId"></div>
         <div class="form-group"><label>Payment QR Image</label><input id="qrFile" type="file" accept="image/*"></div>
-        <button class="action" onclick="savePaymentDetails()">Save / Replace</button>
+        <button class="action" onclick="savePaymentDetails()">Save & Update</button>
       </div>
+      <div id="paymentDetails">Loading...</div>
     </div>
   </section>
 
+  <!-- Rashid Page -->
   <section id="rashid" class="page">
     <div class="card">
-      <h2>Rashid</h2>
-      <div id="userRashidBox">
-        <p>Apni Rashid check karne ke liye Rashid Number use karein.</p>
-        <div class="form-group"><input id="rashidNumberCheck" placeholder="Rashid Number"></div>
-        <button class="action" onclick="checkRashid()">Check Rashid</button>
-        <div id="rashidResult"></div>
-      </div>
-      <div id="adminRashidBox" class="hidden">
-        <br><h3>Admin Rashid Management</h3>
+      <h2>Rashid Check</h2>
+      <div class="form-group"><input id="rashidNumberCheck" placeholder="Enter Rashid Number (e.g. KEA-...)"></div>
+      <button class="action" onclick="checkRashid()">Check Rashid</button>
+      <div id="rashidResult"></div>
+
+      <div id="adminRashidBox" class="admin-box hidden" style="margin-top:20px;">
+        <h3>⚙️ Admin: Nayi Rashid Banayein</h3>
         <div class="form-group"><label>Donor Name</label><input id="donorName"></div>
         <div class="form-group"><label>Donor Mobile</label><input id="donorMobile"></div>
         <div class="form-group"><label>Place / Address</label><textarea id="donorAddress"></textarea></div>
-        <div class="form-group"><label>Donation Amount ₹</label><input id="donationAmount" type="number"></div>
+        <div class="form-group"><label>Amount ₹</label><input id="donationAmount" type="number"></div>
         <div class="form-group">
           <label>Purpose</label>
           <select id="donationPurpose">
@@ -220,22 +199,26 @@ button{cursor:pointer;}
     </div>
   </section>
 
+  <!-- Photos Page -->
   <section id="photos" class="page">
     <div class="card">
       <h2>Photos</h2>
-      <div id="adminPhotoUpload" class="hidden">
+      <div id="adminPhotoUpload" class="admin-box hidden">
+        <h3>⚙️ Admin: Upload Photo</h3>
         <div class="form-group"><input id="photoFile" type="file" accept="image/*"></div>
-        <div class="form-group"><input id="photoTitle" placeholder="Photo Title"></div>
+        <div class="form-group"><input id="photoTitle" placeholder="Photo Caption / Title"></div>
         <button class="action" onclick="uploadPhoto()">Upload Photo</button>
       </div>
       <div id="photoList">Loading...</div>
     </div>
   </section>
 
+  <!-- Videos Page -->
   <section id="videos" class="page">
     <div class="card">
       <h2>Videos</h2>
-      <div id="adminVideoUpload" class="hidden">
+      <div id="adminVideoUpload" class="admin-box hidden">
+        <h3>⚙️ Admin: Upload Video</h3>
         <div class="form-group"><input id="videoFile" type="file" accept="video/*"></div>
         <div class="form-group"><input id="videoTitle" placeholder="Video Title"></div>
         <button class="action" onclick="uploadVideo()">Upload Video</button>
@@ -244,60 +227,64 @@ button{cursor:pointer;}
     </div>
   </section>
 
+  <!-- Members Page -->
   <section id="members" class="page">
     <div class="card">
       <h2>Members</h2>
-      <div id="adminMemberForm" class="hidden">
-        <h3>Add Member</h3>
-        <div class="form-group"><input id="memberName" placeholder="Name"></div>
-        <div class="form-group"><input id="memberPhone" placeholder="Phone Number"></div>
+      <div id="adminMemberForm" class="admin-box hidden">
+        <h3>⚙️ Admin: Add Member</h3>
+        <div class="form-group"><input id="memberName" placeholder="Member Name"></div>
+        <div class="form-group"><input id="memberPhone" placeholder="Mobile Number"></div>
         <div class="form-group"><textarea id="memberAddress" placeholder="Address"></textarea></div>
-        <div class="form-group"><input id="memberResponsibility" placeholder="Jimmedari"></div>
-        <button class="action" onclick="addMember()">Add Member</button>
+        <div class="form-group"><input id="memberResponsibility" placeholder="Zimmedari / Role"></div>
+        <button class="action" onclick="addMember()">Save Member</button>
       </div>
       <div id="memberList">Loading...</div>
     </div>
   </section>
 
+  <!-- Langar Page -->
   <section id="langar" class="page">
     <div class="card">
       <h2>Langar-e-Gausiya</h2>
-      <div id="langarContent">Loading...</div>
-      <div id="adminLangarForm" class="hidden">
-        <hr><br>
-        <textarea id="langarText" placeholder="Langar details"></textarea>
-        <button class="action" onclick="saveLangar()">Save Langar</button>
+      <div id="adminLangarForm" class="admin-box hidden">
+        <h3>⚙️ Admin: Langar Information Update</h3>
+        <textarea id="langarText" placeholder="Langar timings & details" style="width:100%;height:90px;"></textarea>
+        <button class="action" onclick="saveLangar()">Save Details</button>
       </div>
+      <div id="langarContent">Loading...</div>
     </div>
   </section>
 
+  <!-- Notices Page -->
   <section id="notices" class="page">
     <div class="card">
-      <h2>Notices</h2>
-      <div id="noticeList">Loading...</div>
-      <div id="adminNoticeForm" class="hidden">
-        <hr><br>
-        <input id="noticeTitle" placeholder="Notice Title">
-        <textarea id="noticeText" placeholder="Notice"></textarea>
+      <h2>Notices & Announcements</h2>
+      <div id="adminNoticeForm" class="admin-box hidden">
+        <h3>⚙️ Admin: New Notice</h3>
+        <div class="form-group"><input id="noticeTitle" placeholder="Notice Title"></div>
+        <div class="form-group"><textarea id="noticeText" placeholder="Notice Content"></textarea></div>
         <button class="action" onclick="addNotice()">Publish Notice</button>
       </div>
+      <div id="noticeList">Loading...</div>
     </div>
   </section>
 
+  <!-- Admin Central Panel -->
   <section id="admin" class="page">
     <div class="hero">
-      <h2>ADMIN PANEL</h2>
-      <span class="admin-badge">SECURE ADMIN</span>
+      <h2>⚙️ ADMIN CONTROL PANEL</h2>
+      <span class="admin-badge">LOGGED IN AS ADMIN</span>
     </div>
     <div class="grid">
-      <div class="card"><h3>Rashid</h3><button class="action" onclick="showPage('rashid')">Manage</button></div>
-      <div class="card"><h3>Photos</h3><button class="action" onclick="showPage('photos')">Manage</button></div>
-      <div class="card"><h3>Videos</h3><button class="action" onclick="showPage('videos')">Manage</button></div>
-      <div class="card"><h3>Members</h3><button class="action" onclick="showPage('members')">Manage</button></div>
-      <div class="card"><h3>Payment</h3><button class="action" onclick="showPage('donation')">Manage</button></div>
-      <div class="card"><h3>Programs</h3><button class="action" onclick="showPage('programs')">Manage</button></div>
-      <div class="card"><h3>Langar</h3><button class="action" onclick="showPage('langar')">Manage</button></div>
-      <div class="card"><h3>Notices</h3><button class="action" onclick="showPage('notices')">Manage</button></div>
+      <div class="card"><h3>📸 Photos</h3><button class="action" onclick="showPage('photos')">Upload / Manage</button></div>
+      <div class="card"><h3>🎥 Videos</h3><button class="action" onclick="showPage('videos')">Upload / Manage</button></div>
+      <div class="card"><h3>💳 Payment QR</h3><button class="action" onclick="showPage('donation')">Update Details</button></div>
+      <div class="card"><h3>📜 Rashid</h3><button class="action" onclick="showPage('rashid')">Create Rashid</button></div>
+      <div class="card"><h3>👥 Members</h3><button class="action" onclick="showPage('members')">Add / Edit</button></div>
+      <div class="card"><h3>📅 Programs</h3><button class="action" onclick="showPage('programs')">Add Program</button></div>
+      <div class="card"><h3>🍲 Langar</h3><button class="action" onclick="showPage('langar')">Edit Info</button></div>
+      <div class="card"><h3>📢 Notices</h3><button class="action" onclick="showPage('notices')">Publish</button></div>
     </div>
   </section>
 </main>
@@ -315,8 +302,8 @@ button{cursor:pointer;}
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithPopup, GoogleAuthProvider, signOut, RecaptchaVerifier, signInWithPhoneNumber } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-import { getFirestore, collection, addDoc, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-storage.js";
 
 const firebaseConfig = {
@@ -333,6 +320,12 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
+
+// Yahan apni Admin emails set karein jo bhi login kare to Admin ban jaye:
+const ADMIN_EMAILS = [
+  "admin@khadimin.com",
+  "razabookstore9690@gmail.com"
+];
 
 const splash = document.getElementById("splash");
 function closeSplash(){
@@ -361,79 +354,26 @@ adminTab.onclick=()=>{
   userBox.classList.add("hidden");
 };
 
-document.getElementById("emailLogin").addEventListener("click",async()=>{
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value;
-  if(!email || !password) return alert("Email aur Password enter karein.");
-
-  try{
-    await signInWithEmailAndPassword(auth, email, password);
-  }catch(error){
-    if(error.code === "auth/user-not-found" || error.code === "auth/invalid-credential"){
-      try {
-        await createUserWithEmailAndPassword(auth, email, password);
-      } catch (err) {
-        alert(err.message);
-      }
-    } else {
-      alert(error.message);
-    }
-  }
-});
-
+// Google Login for regular users
 document.getElementById("googleLogin").addEventListener("click",async()=>{
   try{
     const provider = new GoogleAuthProvider();
     await signInWithPopup(auth, provider);
   }catch(error){
-    alert(error.message);
+    alert("Login failed: " + error.message);
   }
 });
 
-document.getElementById("forgotPassword").addEventListener("click",async()=>{
-  const email = document.getElementById("email").value.trim();
-  if(!email) return alert("Pehle email enter karein.");
-  try{
-    await sendPasswordResetEmail(auth, email);
-    alert("Password reset email bhej diya gaya hai.");
-  }catch(error){
-    alert(error.message);
-  }
-});
-
-let confirmationResult=null;
-document.getElementById("sendOTP").addEventListener("click",async()=>{
-  const phone = document.getElementById("phoneNumber").value.trim();
-  if(!phone) return alert("Number enter karein (+91XXXXXXXXXX)");
-  try{
-    if(!window.recaptchaVerifier){
-      window.recaptchaVerifier = new RecaptchaVerifier(auth, "recaptcha-container", { size: "normal" });
-    }
-    confirmationResult = await signInWithPhoneNumber(auth, phone, window.recaptchaVerifier);
-    alert("OTP bhej diya gaya hai.");
-  }catch(error){
-    alert(error.message);
-  }
-});
-
-document.getElementById("verifyOTP").addEventListener("click",async()=>{
-  const otp = document.getElementById("otp").value.trim();
-  if(!confirmationResult) return alert("Pehle OTP send karein.");
-  try{
-    await confirmationResult.confirm(otp);
-  }catch(error){
-    alert(error.message);
-  }
-});
-
+// Dedicated Admin Login with Password
 document.getElementById("adminLogin").addEventListener("click",async()=>{
-  const email = document.getElementById("adminEmail").value.trim();
+  const email = document.getElementById("adminEmail").value.trim().toLowerCase();
   const password = document.getElementById("adminPassword").value;
-  if(!email || !password) return alert("Admin Email aur Password bharein.");
+  if(!email || !password) return alert("Admin User ID aur Password bharein.");
+
   try{
     await signInWithEmailAndPassword(auth, email, password);
   }catch(error){
-    alert("Admin login failed: "+error.message);
+    alert("Admin login failed: " + error.message);
   }
 });
 
@@ -443,39 +383,40 @@ onAuthStateChanged(auth, async(user)=>{
     document.getElementById("app").classList.add("hidden");
     return;
   }
-  try{
-    const token = await user.getIdTokenResult(true);
-    const isAdmin = token.claims.admin === true;
 
-    document.getElementById("loginPage").classList.add("hidden");
-    document.getElementById("app").classList.remove("hidden");
-    document.getElementById("roleText").textContent = isAdmin ? "Admin Account" : "User Account";
+  const userEmail = (user.email || "").toLowerCase();
+  const isAdmin = ADMIN_EMAILS.includes(userEmail);
 
-    if(isAdmin){
-      document.getElementById("adminNav").classList.remove("hidden");
-      document.getElementById("adminRashidBox").classList.remove("hidden");
-      document.getElementById("adminPhotoUpload").classList.remove("hidden");
-      document.getElementById("adminVideoUpload").classList.remove("hidden");
-      document.getElementById("adminMemberForm").classList.remove("hidden");
-      document.getElementById("adminProgramForm").classList.remove("hidden");
-      document.getElementById("adminPaymentForm").classList.remove("hidden");
-      document.getElementById("adminLangarForm").classList.remove("hidden");
-      document.getElementById("adminNoticeForm").classList.remove("hidden");
+  document.getElementById("loginPage").classList.add("hidden");
+  document.getElementById("app").classList.remove("hidden");
+  document.getElementById("roleText").textContent = isAdmin ? `Admin: ${userEmail}` : `User: ${userEmail}`;
+
+  // Admin Controls Toggle
+  const adminElements = [
+    "adminNav",
+    "adminRashidBox",
+    "adminPhotoUpload",
+    "adminVideoUpload",
+    "adminMemberForm",
+    "adminProgramForm",
+    "adminPaymentForm",
+    "adminLangarForm",
+    "adminNoticeForm"
+  ];
+  adminElements.forEach(id => {
+    const el = document.getElementById(id);
+    if(el){
+      if(isAdmin) el.classList.remove("hidden");
+      else el.classList.add("hidden");
     }
+  });
 
-    await loadPayment();
-    await loadPrograms();
-    await loadPhotos();
-    await loadVideos();
-    await loadMembers();
-    await loadLangar();
-    await loadNotices();
-  }catch(error){
-    console.error(error);
-  }
+  await loadAllData();
 });
 
-document.getElementById("logout").addEventListener("click",async()=>{ await signOut(auth); });
+document.getElementById("logout").addEventListener("click",async()=>{
+  await signOut(auth);
+});
 
 window.showPage=function(page){
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
@@ -486,26 +427,38 @@ window.showPage=function(page){
   }
 };
 
+async function loadAllData(){
+  await Promise.allSettled([
+    loadPayment(),
+    loadPrograms(),
+    loadPhotos(),
+    loadVideos(),
+    loadMembers(),
+    loadLangar(),
+    loadNotices()
+  ]);
+}
+
+// Payment Section
 async function loadPayment(){
   const box = document.getElementById("paymentDetails");
   try{
     const snapshot = await getDocs(collection(db,"paymentMethods"));
-    if(snapshot.empty) return box.innerHTML = "<p>Payment details available nahi hain.</p>";
+    if(snapshot.empty) return box.innerHTML = "<p>Payment details abhi add nahi ki gayi hain.</p>";
     let html="";
     snapshot.forEach(item=>{
       const data=item.data();
       html += `
         <div class="item">
-          <h3>Payment Details</h3>
-          <p><strong>Account Holder:</strong> ${escapeHTML(data.accountHolder || "")}</p>
-          <p><strong>Bank:</strong> ${escapeHTML(data.bankDetails || "")}</p>
-          <p><strong>UPI:</strong> ${escapeHTML(data.upiId || "")}</p>
-          ${data.qrUrl ? `<img src="${data.qrUrl}" style="max-width:250px">` : ""}
+          <p><strong>Account Holder:</strong> ${escapeHTML(data.accountHolder || "-")}</p>
+          <p><strong>Bank Details:</strong> ${escapeHTML(data.bankDetails || "-")}</p>
+          <p><strong>UPI ID:</strong> ${escapeHTML(data.upiId || "-")}</p>
+          ${data.qrUrl ? `<img src="${data.qrUrl}" style="max-width:240px;display:block;margin-top:10px;">` : ""}
         </div>
       `;
     });
     box.innerHTML=html;
-  }catch(e){ box.innerHTML = "<p>Payment details load nahi ho sake.</p>"; }
+  }catch(e){ box.innerHTML = "<p>Error loading payment details.</p>"; }
 }
 
 window.savePaymentDetails = async function(){
@@ -523,16 +476,17 @@ window.savePaymentDetails = async function(){
     await addDoc(collection(db,"paymentMethods"),{
       bankDetails, accountHolder, upiId, qrUrl, updatedAt:serverTimestamp()
     });
-    alert("Payment details save ho gaye.");
+    alert("Payment details successfully update ho gaye!");
     await loadPayment();
   }catch(e){ alert("Error: "+e.message); }
 };
 
+// Programs
 async function loadPrograms(){
   const box = document.getElementById("programList");
   try{
     const snapshot = await getDocs(collection(db,"programs"));
-    if(snapshot.empty) return box.innerHTML = "<p>Koi program nahi hai.</p>";
+    if(snapshot.empty) return box.innerHTML = "<p>Abhi koi program nahi hai.</p>";
     let html="";
     snapshot.forEach(item=>{
       const d=item.data();
@@ -544,96 +498,103 @@ async function loadPrograms(){
 
 window.addProgram = async function(){
   try{
-    const title = document.getElementById("programTitle").value;
-    const description = document.getElementById("programDescription").value;
-    if(!title) return alert("Title enter karein.");
+    const title = document.getElementById("programTitle").value.trim();
+    const description = document.getElementById("programDescription").value.trim();
+    if(!title) return alert("Program ka title enter karein.");
     await addDoc(collection(db,"programs"),{ title, description, createdAt:serverTimestamp() });
-    alert("Program add ho gaya.");
+    alert("Program add ho gaya!");
     document.getElementById("programTitle").value = "";
     document.getElementById("programDescription").value = "";
     await loadPrograms();
   }catch(e){ alert(e.message); }
 };
 
+// Photos
 async function loadPhotos(){
   const box = document.getElementById("photoList");
   try{
     const snapshot = await getDocs(collection(db,"photos"));
+    if(snapshot.empty) return box.innerHTML = "<p>Photos abhi available nahi hain.</p>";
     let html="";
     snapshot.forEach(item=>{
       const d=item.data();
       html += `<div class="item"><h3>${escapeHTML(d.title || "Photo")}</h3>${d.url ? `<img src="${d.url}">` : ""}</div>`;
     });
-    box.innerHTML = html || "<p>Photos available nahi hain.</p>";
+    box.innerHTML = html;
   }catch(e){}
 }
 
 window.uploadPhoto = async function(){
   try{
     const file = document.getElementById("photoFile").files[0];
-    const title = document.getElementById("photoTitle").value;
-    if(!file) return alert("Photo chunein.");
+    const title = document.getElementById("photoTitle").value.trim();
+    if(!file) return alert("Pehle photo select karein.");
     const storageRef = ref(storage, "photos/"+Date.now()+"-"+file.name);
     await uploadBytes(storageRef, file);
     const url = await getDownloadURL(storageRef);
     await addDoc(collection(db,"photos"),{ title, url, createdAt:serverTimestamp() });
-    alert("Photo upload ho gayi.");
+    alert("Photo successfully upload ho gayi!");
     document.getElementById("photoFile").value = "";
     document.getElementById("photoTitle").value = "";
     await loadPhotos();
   }catch(e){ alert(e.message); }
 };
 
+// Videos
 async function loadVideos(){
   const box = document.getElementById("videoList");
   try{
     const snapshot = await getDocs(collection(db,"videos"));
+    if(snapshot.empty) return box.innerHTML = "<p>Videos abhi available nahi hain.</p>";
     let html="";
     snapshot.forEach(item=>{
       const d=item.data();
       html += `<div class="item"><h3>${escapeHTML(d.title || "Video")}</h3>${d.url ? `<video controls><source src="${d.url}"></video>` : ""}</div>`;
     });
-    box.innerHTML = html || "<p>Videos available nahi hain.</p>";
+    box.innerHTML = html;
   }catch(e){}
 }
 
 window.uploadVideo = async function(){
   try{
     const file = document.getElementById("videoFile").files[0];
-    const title = document.getElementById("videoTitle").value;
-    if(!file) return alert("Video chunein.");
+    const title = document.getElementById("videoTitle").value.trim();
+    if(!file) return alert("Pehle video file select karein.");
     const storageRef = ref(storage, "videos/"+Date.now()+"-"+file.name);
     await uploadBytes(storageRef, file);
     const url = await getDownloadURL(storageRef);
     await addDoc(collection(db,"videos"),{ title, url, createdAt:serverTimestamp() });
-    alert("Video upload ho gaya.");
+    alert("Video successfully upload ho gaya!");
     document.getElementById("videoFile").value = "";
     document.getElementById("videoTitle").value = "";
     await loadVideos();
   }catch(e){ alert(e.message); }
 };
 
+// Members
 async function loadMembers(){
   const box = document.getElementById("memberList");
   try{
     const snapshot = await getDocs(collection(db,"members"));
+    if(snapshot.empty) return box.innerHTML = "<p>Members list khali hai.</p>";
     let html="";
     snapshot.forEach(item=>{
       const d=item.data();
-      html += `<div class="item"><h3>${escapeHTML(d.name || "")}</h3><p>${escapeHTML(d.responsibility || "")}</p><p>${escapeHTML(d.address || "")}</p><a href="tel:${encodeURIComponent(d.phone || "")}"><button class="action">📞 Call</button></a></div>`;
+      html += `<div class="item"><h3>${escapeHTML(d.name || "")}</h3><p><strong>Zimmedari:</strong> ${escapeHTML(d.responsibility || "-")}</p><p><strong>Pata:</strong> ${escapeHTML(d.address || "-")}</p>${d.phone ? `<a href="tel:${encodeURIComponent(d.phone)}"><button class="action">📞 Call Member</button></a>` : ""}</div>`;
     });
-    box.innerHTML = html || "<p>Members available nahi hain.</p>";
+    box.innerHTML = html;
   }catch(e){}
 }
 
 window.addMember = async function(){
   try{
-    const name = document.getElementById("memberName").value;
-    const phone = document.getElementById("memberPhone").value;
-    const address = document.getElementById("memberAddress").value;
-    const responsibility = document.getElementById("memberResponsibility").value;
+    const name = document.getElementById("memberName").value.trim();
+    const phone = document.getElementById("memberPhone").value.trim();
+    const address = document.getElementById("memberAddress").value.trim();
+    const responsibility = document.getElementById("memberResponsibility").value.trim();
+    if(!name) return alert("Member ka naam enter karein.");
     await addDoc(collection(db,"members"),{ name, phone, address, responsibility, createdAt:serverTimestamp() });
-    alert("Member add ho gaya.");
+    alert("Member add ho gaya!");
     document.getElementById("memberName").value = "";
     document.getElementById("memberPhone").value = "";
     document.getElementById("memberAddress").value = "";
@@ -642,73 +603,80 @@ window.addMember = async function(){
   }catch(e){ alert(e.message); }
 };
 
+// Langar
 async function loadLangar(){
   const box = document.getElementById("langarContent");
   try{
     const snapshot = await getDocs(collection(db,"langar"));
+    if(snapshot.empty) return box.innerHTML = "<p>Langar details abhi nahi hain.</p>";
     let html="";
     snapshot.forEach(item=>{
       const d=item.data();
       html += `<div class="item">${escapeHTML(d.text || "")}</div>`;
     });
-    box.innerHTML = html || "<p>Langar details nahi hain.</p>";
+    box.innerHTML = html;
   }catch(e){}
 }
 
 window.saveLangar = async function(){
   try{
-    const text = document.getElementById("langarText").value;
+    const text = document.getElementById("langarText").value.trim();
+    if(!text) return alert("Langar details likhein.");
     await addDoc(collection(db,"langar"),{ text, updatedAt:serverTimestamp() });
-    alert("Langar info save ho gayi.");
+    alert("Langar details update ho gayi!");
     document.getElementById("langarText").value = "";
     await loadLangar();
   }catch(e){ alert(e.message); }
 };
 
+// Notices
 async function loadNotices(){
   const box = document.getElementById("noticeList");
   try{
     const snapshot = await getDocs(collection(db,"notices"));
+    if(snapshot.empty) return box.innerHTML = "<p>Abhi koi notice nahi hai.</p>";
     let html="";
     snapshot.forEach(item=>{
       const d=item.data();
       html += `<div class="item"><h3>${escapeHTML(d.title || "")}</h3><p>${escapeHTML(d.text || "")}</p></div>`;
     });
-    box.innerHTML = html || "<p>Notices nahi hain.</p>";
+    box.innerHTML = html;
   }catch(e){}
 }
 
 window.addNotice = async function(){
   try{
-    const title = document.getElementById("noticeTitle").value;
-    const text = document.getElementById("noticeText").value;
+    const title = document.getElementById("noticeTitle").value.trim();
+    const text = document.getElementById("noticeText").value.trim();
+    if(!title || !text) return alert("Notice ka Title aur Content dono bharein.");
     await addDoc(collection(db,"notices"),{ title, text, createdAt:serverTimestamp() });
-    alert("Notice publish ho gaya.");
+    alert("Notice publish ho gaya!");
     document.getElementById("noticeTitle").value = "";
     document.getElementById("noticeText").value = "";
     await loadNotices();
   }catch(e){ alert(e.message); }
 };
 
+// Rashid
 window.checkRashid = function(){
   const number = document.getElementById("rashidNumberCheck").value.trim();
-  if(!number) return alert("Rashid number bharein.");
-  document.getElementById("rashidResult").innerHTML = `<div class="status">Rashid: ${escapeHTML(number)} verified.</div>`;
+  if(!number) return alert("Rashid number daalein.");
+  document.getElementById("rashidResult").innerHTML = `<div class="status">✅ Rashid Verified: <strong>${escapeHTML(number)}</strong></div>`;
 };
 
 window.createRashid = async function(){
   try{
-    const donorName = document.getElementById("donorName").value;
-    const donorMobile = document.getElementById("donorMobile").value;
-    const donorAddress = document.getElementById("donorAddress").value;
+    const donorName = document.getElementById("donorName").value.trim();
+    const donorMobile = document.getElementById("donorMobile").value.trim();
+    const donorAddress = document.getElementById("donorAddress").value.trim();
     const amount = Number(document.getElementById("donationAmount").value);
     const purpose = document.getElementById("donationPurpose").value;
-    if(!donorName || !donorMobile || !amount) return alert("Name, Mobile aur Amount zaroor bharein.");
-    const rashidNumber = "KEA-"+Date.now();
+    if(!donorName || !amount) return alert("Donor Name aur Amount zaroori hai.");
+    const rashidNumber = "KEA-" + Date.now().toString().slice(-6);
     await addDoc(collection(db,"rashid"),{
-      rashidNumber, donorName, donorMobile, donorAddress, amount, purpose, status:"created", createdAt:serverTimestamp()
+      rashidNumber, donorName, donorMobile, donorAddress, amount, purpose, createdAt:serverTimestamp()
     });
-    alert("Rashid create ho gayi: "+rashidNumber);
+    alert("Rashid create ho gayi! Number: " + rashidNumber);
     document.getElementById("donorName").value = "";
     document.getElementById("donorMobile").value = "";
     document.getElementById("donorAddress").value = "";
