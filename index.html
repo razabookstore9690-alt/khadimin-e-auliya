@@ -47,14 +47,13 @@ button{cursor:pointer;}
 .card{background:white;padding:18px;border-radius:14px;box-shadow:0 3px 12px rgba(0,0,0,.06);margin-bottom:16px;}
 .card h2,.card h3{color:#075c39;margin-bottom:10px;}
 .action{border:0;background:#075c39;color:white;padding:10px 14px;border-radius:8px;margin-top:8px;font-weight:bold;}
-.danger{border:0;background:#c0392b;color:white;padding:8px 12px;border-radius:8px;margin-top:8px;}
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid #ddd;display:flex;justify-content:space-around;padding:10px 4px;z-index:500;}
 .bottom-nav button{border:0;background:none;font-size:12px;color:#555;}
 .bottom-nav button.active{color:#075c39;font-weight:bold;}
 .item{border:1px solid #e1e8e4;border-radius:12px;padding:14px;margin:12px 0;background:#fafcfb;}
-.item img,.item video{width:100%;max-height:280px;object-fit:cover;border-radius:10px;margin-top:8px;}
+.item img,.item video{width:100%;max-height:300px;object-fit:cover;border-radius:10px;margin-top:8px;}
 .admin-badge{display:inline-block;background:#d6ad45;color:#063d28;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:bold;}
-.admin-box{background:#f0f8f4;border:2px dashed #075c39;border-radius:12px;padding:16px;margin-bottom:16px;}
+.admin-box{background:#f0f8f4;border:2px dashed #075c39;border-radius:12px;padding:16px;margin-bottom:18px;}
 .status{margin-top:10px;padding:12px;border-radius:8px;background:#eef7f1;}
 </style>
 </head>
@@ -78,18 +77,18 @@ button{cursor:pointer;}
     <button id="adminLoginTab">Admin Login</button>
   </div>
 
-  <!-- User Login Box -->
+  <!-- Aam User Login -->
   <div id="userLoginBox">
-    <p style="font-size:14px;color:#666;margin-bottom:15px;text-align:center;">User access ke liye Google se login karein:</p>
+    <p style="font-size:14px;color:#555;margin-bottom:15px;text-align:center;">Dekhne ke liye Google se login karein:</p>
     <button class="google" id="googleLogin">Continue with Google</button>
   </div>
 
-  <!-- Admin Login Box -->
+  <!-- Khas Admin Sahab Login -->
   <div id="adminLoginBox" class="hidden">
-    <p style="font-size:13px;color:#075c39;margin-bottom:12px;font-weight:bold;text-align:center;">🔒 Dedicated Admin Access Only</p>
+    <p style="font-size:13px;color:#075c39;margin-bottom:12px;font-weight:bold;text-align:center;">🔒 Khas Admin Login (Upload & Edit Access)</p>
     <div class="form-group">
-      <label>Admin User ID / Email</label>
-      <input id="adminEmail" type="email" placeholder="admin@khadimin.com">
+      <label>Admin User ID (Email)</label>
+      <input id="adminEmail" type="email" placeholder="razabookstore9690@gmail.com">
     </div>
     <div class="form-group">
       <label>Admin Password</label>
@@ -142,13 +141,43 @@ button{cursor:pointer;}
     </div>
   </section>
 
+  <!-- Photos Page -->
+  <section id="photos" class="page">
+    <div class="card">
+      <h2>Photos Gallery</h2>
+      <!-- Admin Sahab Upload Box -->
+      <div id="adminPhotoUpload" class="admin-box hidden">
+        <h3>📸 Admin: Photo Upload Karein</h3>
+        <div class="form-group"><label>Photo File Chunein</label><input id="photoFile" type="file" accept="image/*"></div>
+        <div class="form-group"><label>Photo Caption / Title</label><input id="photoTitle" placeholder="Photo Title"></div>
+        <button class="action" onclick="uploadPhoto()">Upload Photo</button>
+      </div>
+      <div id="photoList">Loading...</div>
+    </div>
+  </section>
+
+  <!-- Videos Page -->
+  <section id="videos" class="page">
+    <div class="card">
+      <h2>Videos Gallery</h2>
+      <!-- Admin Sahab Video Upload Box -->
+      <div id="adminVideoUpload" class="admin-box hidden">
+        <h3>🎥 Admin: Video Upload Karein</h3>
+        <div class="form-group"><label>Video File Chunein</label><input id="videoFile" type="file" accept="video/*"></div>
+        <div class="form-group"><label>Video Title</label><input id="videoTitle" placeholder="Video Title"></div>
+        <button class="action" onclick="uploadVideo()">Upload Video</button>
+      </div>
+      <div id="videoList">Loading...</div>
+    </div>
+  </section>
+
   <!-- Programs Page -->
   <section id="programs" class="page">
     <div class="card">
       <h2>Programs</h2>
       <div id="adminProgramForm" class="admin-box hidden">
-        <h3>⚙️ Admin: Add Program</h3>
-        <div class="form-group"><input id="programTitle" placeholder="Program Name"></div>
+        <h3>📅 Admin: Naya Program Add Karein</h3>
+        <div class="form-group"><input id="programTitle" placeholder="Program Title"></div>
         <div class="form-group"><textarea id="programDescription" placeholder="Program Details"></textarea></div>
         <button class="action" onclick="addProgram()">Publish Program</button>
       </div>
@@ -159,14 +188,14 @@ button{cursor:pointer;}
   <!-- Donation Page -->
   <section id="donation" class="page">
     <div class="card">
-      <h2>Donation / Payment</h2>
+      <h2>Donation / Payment Details</h2>
       <div id="adminPaymentForm" class="admin-box hidden">
-        <h3>⚙️ Admin: Update Payment Details</h3>
+        <h3>💳 Admin: Payment Details & QR Code Badalna</h3>
         <div class="form-group"><label>Bank Details</label><textarea id="bankDetails"></textarea></div>
         <div class="form-group"><label>Account Holder Name</label><input id="accountHolder"></div>
         <div class="form-group"><label>UPI ID</label><input id="upiId"></div>
         <div class="form-group"><label>Payment QR Image</label><input id="qrFile" type="file" accept="image/*"></div>
-        <button class="action" onclick="savePaymentDetails()">Save & Update</button>
+        <button class="action" onclick="savePaymentDetails()">Save & Update Details</button>
       </div>
       <div id="paymentDetails">Loading...</div>
     </div>
@@ -176,15 +205,15 @@ button{cursor:pointer;}
   <section id="rashid" class="page">
     <div class="card">
       <h2>Rashid Check</h2>
-      <div class="form-group"><input id="rashidNumberCheck" placeholder="Enter Rashid Number (e.g. KEA-...)"></div>
+      <div class="form-group"><input id="rashidNumberCheck" placeholder="Rashid Number daalein (e.g. KEA-...)"></div>
       <button class="action" onclick="checkRashid()">Check Rashid</button>
       <div id="rashidResult"></div>
 
       <div id="adminRashidBox" class="admin-box hidden" style="margin-top:20px;">
-        <h3>⚙️ Admin: Nayi Rashid Banayein</h3>
+        <h3>📜 Admin: Nayi Rashid Banayein</h3>
         <div class="form-group"><label>Donor Name</label><input id="donorName"></div>
         <div class="form-group"><label>Donor Mobile</label><input id="donorMobile"></div>
-        <div class="form-group"><label>Place / Address</label><textarea id="donorAddress"></textarea></div>
+        <div class="form-group"><label>Address</label><textarea id="donorAddress"></textarea></div>
         <div class="form-group"><label>Amount ₹</label><input id="donationAmount" type="number"></div>
         <div class="form-group">
           <label>Purpose</label>
@@ -199,40 +228,12 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- Photos Page -->
-  <section id="photos" class="page">
-    <div class="card">
-      <h2>Photos</h2>
-      <div id="adminPhotoUpload" class="admin-box hidden">
-        <h3>⚙️ Admin: Upload Photo</h3>
-        <div class="form-group"><input id="photoFile" type="file" accept="image/*"></div>
-        <div class="form-group"><input id="photoTitle" placeholder="Photo Caption / Title"></div>
-        <button class="action" onclick="uploadPhoto()">Upload Photo</button>
-      </div>
-      <div id="photoList">Loading...</div>
-    </div>
-  </section>
-
-  <!-- Videos Page -->
-  <section id="videos" class="page">
-    <div class="card">
-      <h2>Videos</h2>
-      <div id="adminVideoUpload" class="admin-box hidden">
-        <h3>⚙️ Admin: Upload Video</h3>
-        <div class="form-group"><input id="videoFile" type="file" accept="video/*"></div>
-        <div class="form-group"><input id="videoTitle" placeholder="Video Title"></div>
-        <button class="action" onclick="uploadVideo()">Upload Video</button>
-      </div>
-      <div id="videoList">Loading...</div>
-    </div>
-  </section>
-
   <!-- Members Page -->
   <section id="members" class="page">
     <div class="card">
-      <h2>Members</h2>
+      <h2>Members List</h2>
       <div id="adminMemberForm" class="admin-box hidden">
-        <h3>⚙️ Admin: Add Member</h3>
+        <h3>👥 Admin: Naya Member Add Karein</h3>
         <div class="form-group"><input id="memberName" placeholder="Member Name"></div>
         <div class="form-group"><input id="memberPhone" placeholder="Mobile Number"></div>
         <div class="form-group"><textarea id="memberAddress" placeholder="Address"></textarea></div>
@@ -248,8 +249,8 @@ button{cursor:pointer;}
     <div class="card">
       <h2>Langar-e-Gausiya</h2>
       <div id="adminLangarForm" class="admin-box hidden">
-        <h3>⚙️ Admin: Langar Information Update</h3>
-        <textarea id="langarText" placeholder="Langar timings & details" style="width:100%;height:90px;"></textarea>
+        <h3>🍲 Admin: Langar Information Update</h3>
+        <textarea id="langarText" placeholder="Langar timings & information" style="width:100%;height:90px;"></textarea>
         <button class="action" onclick="saveLangar()">Save Details</button>
       </div>
       <div id="langarContent">Loading...</div>
@@ -261,7 +262,7 @@ button{cursor:pointer;}
     <div class="card">
       <h2>Notices & Announcements</h2>
       <div id="adminNoticeForm" class="admin-box hidden">
-        <h3>⚙️ Admin: New Notice</h3>
+        <h3>📢 Admin: Naya Notice Publish Karein</h3>
         <div class="form-group"><input id="noticeTitle" placeholder="Notice Title"></div>
         <div class="form-group"><textarea id="noticeText" placeholder="Notice Content"></textarea></div>
         <button class="action" onclick="addNotice()">Publish Notice</button>
@@ -270,21 +271,21 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- Admin Central Panel -->
+  <!-- Central Admin Dashboard -->
   <section id="admin" class="page">
     <div class="hero">
-      <h2>⚙️ ADMIN CONTROL PANEL</h2>
+      <h2>⚙️ ADMIN CONTROL DASHBOARD</h2>
       <span class="admin-badge">LOGGED IN AS ADMIN</span>
     </div>
     <div class="grid">
-      <div class="card"><h3>📸 Photos</h3><button class="action" onclick="showPage('photos')">Upload / Manage</button></div>
-      <div class="card"><h3>🎥 Videos</h3><button class="action" onclick="showPage('videos')">Upload / Manage</button></div>
-      <div class="card"><h3>💳 Payment QR</h3><button class="action" onclick="showPage('donation')">Update Details</button></div>
-      <div class="card"><h3>📜 Rashid</h3><button class="action" onclick="showPage('rashid')">Create Rashid</button></div>
-      <div class="card"><h3>👥 Members</h3><button class="action" onclick="showPage('members')">Add / Edit</button></div>
-      <div class="card"><h3>📅 Programs</h3><button class="action" onclick="showPage('programs')">Add Program</button></div>
-      <div class="card"><h3>🍲 Langar</h3><button class="action" onclick="showPage('langar')">Edit Info</button></div>
-      <div class="card"><h3>📢 Notices</h3><button class="action" onclick="showPage('notices')">Publish</button></div>
+      <div class="card"><h3>📸 Photos</h3><p>Upload photos</p><button class="action" onclick="showPage('photos')">Upload Photo</button></div>
+      <div class="card"><h3>🎥 Videos</h3><p>Upload videos</p><button class="action" onclick="showPage('videos')">Upload Video</button></div>
+      <div class="card"><h3>💳 Payment QR</h3><p>Change QR/Bank</p><button class="action" onclick="showPage('donation')">Update Payment</button></div>
+      <div class="card"><h3>📜 Rashid</h3><p>Generate slip</p><button class="action" onclick="showPage('rashid')">Create Rashid</button></div>
+      <div class="card"><h3>👥 Members</h3><p>Add team</p><button class="action" onclick="showPage('members')">Add Member</button></div>
+      <div class="card"><h3>📅 Programs</h3><p>Add event</p><button class="action" onclick="showPage('programs')">Add Program</button></div>
+      <div class="card"><h3>🍲 Langar</h3><p>Edit details</p><button class="action" onclick="showPage('langar')">Edit Langar</button></div>
+      <div class="card"><h3>📢 Notices</h3><p>Post alert</p><button class="action" onclick="showPage('notices')">Publish Notice</button></div>
     </div>
   </section>
 </main>
@@ -292,9 +293,9 @@ button{cursor:pointer;}
 <nav class="bottom-nav">
   <button onclick="showPage('home')">🏠<br>Home</button>
   <button onclick="showPage('programs')">📅<br>Programs</button>
-  <button onclick="showPage('donation')">💰<br>Donation</button>
   <button onclick="showPage('photos')">📷<br>Photos</button>
   <button onclick="showPage('videos')">🎥<br>Videos</button>
+  <button onclick="showPage('donation')">💰<br>Donation</button>
   <button onclick="showPage('members')">👥<br>Members</button>
   <button id="adminNav" class="hidden" onclick="showPage('admin')">⚙️<br>Admin</button>
 </nav>
@@ -303,7 +304,7 @@ button{cursor:pointer;}
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-storage.js";
 
 const firebaseConfig = {
@@ -321,10 +322,10 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
-// Yahan apni Admin emails set karein jo bhi login kare to Admin ban jaye:
+// Admin Email List - Yahan jo email hoga sirf wahi admin controls dekh payega:
 const ADMIN_EMAILS = [
-  "admin@khadimin.com",
-  "razabookstore9690@gmail.com"
+  "razabookstore9690@gmail.com",
+  "admin@khadimin.com"
 ];
 
 const splash = document.getElementById("splash");
@@ -354,7 +355,7 @@ adminTab.onclick=()=>{
   userBox.classList.add("hidden");
 };
 
-// Google Login for regular users
+// Aam User Login
 document.getElementById("googleLogin").addEventListener("click",async()=>{
   try{
     const provider = new GoogleAuthProvider();
@@ -364,11 +365,11 @@ document.getElementById("googleLogin").addEventListener("click",async()=>{
   }
 });
 
-// Dedicated Admin Login with Password
+// Admin Sahab Login
 document.getElementById("adminLogin").addEventListener("click",async()=>{
   const email = document.getElementById("adminEmail").value.trim().toLowerCase();
   const password = document.getElementById("adminPassword").value;
-  if(!email || !password) return alert("Admin User ID aur Password bharein.");
+  if(!email || !password) return alert("Admin Email aur Password bharein.");
 
   try{
     await signInWithEmailAndPassword(auth, email, password);
@@ -389,17 +390,17 @@ onAuthStateChanged(auth, async(user)=>{
 
   document.getElementById("loginPage").classList.add("hidden");
   document.getElementById("app").classList.remove("hidden");
-  document.getElementById("roleText").textContent = isAdmin ? `Admin: ${userEmail}` : `User: ${userEmail}`;
+  document.getElementById("roleText").textContent = isAdmin ? `👑 Admin: ${userEmail}` : `👤 User: ${userEmail}`;
 
-  // Admin Controls Toggle
+  // Admin Sahab ke Upload aur Edit buttons
   const adminElements = [
     "adminNav",
-    "adminRashidBox",
     "adminPhotoUpload",
     "adminVideoUpload",
+    "adminPaymentForm",
+    "adminRashidBox",
     "adminMemberForm",
     "adminProgramForm",
-    "adminPaymentForm",
     "adminLangarForm",
     "adminNoticeForm"
   ];
@@ -439,12 +440,74 @@ async function loadAllData(){
   ]);
 }
 
-// Payment Section
+// Photo Upload
+window.uploadPhoto = async function(){
+  try{
+    const file = document.getElementById("photoFile").files[0];
+    const title = document.getElementById("photoTitle").value.trim();
+    if(!file) return alert("Pehle Photo chunein.");
+    const storageRef = ref(storage, "photos/" + Date.now() + "-" + file.name);
+    await uploadBytes(storageRef, file);
+    const url = await getDownloadURL(storageRef);
+    await addDoc(collection(db, "photos"), { title, url, createdAt: serverTimestamp() });
+    alert("✅ Photo successfully upload ho gayi!");
+    document.getElementById("photoFile").value = "";
+    document.getElementById("photoTitle").value = "";
+    await loadPhotos();
+  }catch(e){ alert("Upload error: " + e.message); }
+};
+
+async function loadPhotos(){
+  const box = document.getElementById("photoList");
+  try{
+    const snapshot = await getDocs(collection(db,"photos"));
+    if(snapshot.empty) return box.innerHTML = "<p>Photos abhi nahi hain.</p>";
+    let html="";
+    snapshot.forEach(item=>{
+      const d=item.data();
+      html += `<div class="item"><h3>${escapeHTML(d.title || "Photo")}</h3>${d.url ? `<img src="${d.url}">` : ""}</div>`;
+    });
+    box.innerHTML = html;
+  }catch(e){}
+}
+
+// Video Upload
+window.uploadVideo = async function(){
+  try{
+    const file = document.getElementById("videoFile").files[0];
+    const title = document.getElementById("videoTitle").value.trim();
+    if(!file) return alert("Pehle Video file chunein.");
+    const storageRef = ref(storage, "videos/" + Date.now() + "-" + file.name);
+    await uploadBytes(storageRef, file);
+    const url = await getDownloadURL(storageRef);
+    await addDoc(collection(db, "videos"), { title, url, createdAt: serverTimestamp() });
+    alert("✅ Video successfully upload ho gaya!");
+    document.getElementById("videoFile").value = "";
+    document.getElementById("videoTitle").value = "";
+    await loadVideos();
+  }catch(e){ alert("Upload error: " + e.message); }
+};
+
+async function loadVideos(){
+  const box = document.getElementById("videoList");
+  try{
+    const snapshot = await getDocs(collection(db,"videos"));
+    if(snapshot.empty) return box.innerHTML = "<p>Videos abhi nahi hain.</p>";
+    let html="";
+    snapshot.forEach(item=>{
+      const d=item.data();
+      html += `<div class="item"><h3>${escapeHTML(d.title || "Video")}</h3>${d.url ? `<video controls><source src="${d.url}"></video>` : ""}</div>`;
+    });
+    box.innerHTML = html;
+  }catch(e){}
+}
+
+// Payment
 async function loadPayment(){
   const box = document.getElementById("paymentDetails");
   try{
     const snapshot = await getDocs(collection(db,"paymentMethods"));
-    if(snapshot.empty) return box.innerHTML = "<p>Payment details abhi add nahi ki gayi hain.</p>";
+    if(snapshot.empty) return box.innerHTML = "<p>Payment details add nahi hain.</p>";
     let html="";
     snapshot.forEach(item=>{
       const data=item.data();
@@ -476,7 +539,7 @@ window.savePaymentDetails = async function(){
     await addDoc(collection(db,"paymentMethods"),{
       bankDetails, accountHolder, upiId, qrUrl, updatedAt:serverTimestamp()
     });
-    alert("Payment details successfully update ho gaye!");
+    alert("Payment details update ho gaye!");
     await loadPayment();
   }catch(e){ alert("Error: "+e.message); }
 };
@@ -500,74 +563,12 @@ window.addProgram = async function(){
   try{
     const title = document.getElementById("programTitle").value.trim();
     const description = document.getElementById("programDescription").value.trim();
-    if(!title) return alert("Program ka title enter karein.");
+    if(!title) return alert("Title enter karein.");
     await addDoc(collection(db,"programs"),{ title, description, createdAt:serverTimestamp() });
     alert("Program add ho gaya!");
     document.getElementById("programTitle").value = "";
     document.getElementById("programDescription").value = "";
     await loadPrograms();
-  }catch(e){ alert(e.message); }
-};
-
-// Photos
-async function loadPhotos(){
-  const box = document.getElementById("photoList");
-  try{
-    const snapshot = await getDocs(collection(db,"photos"));
-    if(snapshot.empty) return box.innerHTML = "<p>Photos abhi available nahi hain.</p>";
-    let html="";
-    snapshot.forEach(item=>{
-      const d=item.data();
-      html += `<div class="item"><h3>${escapeHTML(d.title || "Photo")}</h3>${d.url ? `<img src="${d.url}">` : ""}</div>`;
-    });
-    box.innerHTML = html;
-  }catch(e){}
-}
-
-window.uploadPhoto = async function(){
-  try{
-    const file = document.getElementById("photoFile").files[0];
-    const title = document.getElementById("photoTitle").value.trim();
-    if(!file) return alert("Pehle photo select karein.");
-    const storageRef = ref(storage, "photos/"+Date.now()+"-"+file.name);
-    await uploadBytes(storageRef, file);
-    const url = await getDownloadURL(storageRef);
-    await addDoc(collection(db,"photos"),{ title, url, createdAt:serverTimestamp() });
-    alert("Photo successfully upload ho gayi!");
-    document.getElementById("photoFile").value = "";
-    document.getElementById("photoTitle").value = "";
-    await loadPhotos();
-  }catch(e){ alert(e.message); }
-};
-
-// Videos
-async function loadVideos(){
-  const box = document.getElementById("videoList");
-  try{
-    const snapshot = await getDocs(collection(db,"videos"));
-    if(snapshot.empty) return box.innerHTML = "<p>Videos abhi available nahi hain.</p>";
-    let html="";
-    snapshot.forEach(item=>{
-      const d=item.data();
-      html += `<div class="item"><h3>${escapeHTML(d.title || "Video")}</h3>${d.url ? `<video controls><source src="${d.url}"></video>` : ""}</div>`;
-    });
-    box.innerHTML = html;
-  }catch(e){}
-}
-
-window.uploadVideo = async function(){
-  try{
-    const file = document.getElementById("videoFile").files[0];
-    const title = document.getElementById("videoTitle").value.trim();
-    if(!file) return alert("Pehle video file select karein.");
-    const storageRef = ref(storage, "videos/"+Date.now()+"-"+file.name);
-    await uploadBytes(storageRef, file);
-    const url = await getDownloadURL(storageRef);
-    await addDoc(collection(db,"videos"),{ title, url, createdAt:serverTimestamp() });
-    alert("Video successfully upload ho gaya!");
-    document.getElementById("videoFile").value = "";
-    document.getElementById("videoTitle").value = "";
-    await loadVideos();
   }catch(e){ alert(e.message); }
 };
 
@@ -580,7 +581,7 @@ async function loadMembers(){
     let html="";
     snapshot.forEach(item=>{
       const d=item.data();
-      html += `<div class="item"><h3>${escapeHTML(d.name || "")}</h3><p><strong>Zimmedari:</strong> ${escapeHTML(d.responsibility || "-")}</p><p><strong>Pata:</strong> ${escapeHTML(d.address || "-")}</p>${d.phone ? `<a href="tel:${encodeURIComponent(d.phone)}"><button class="action">📞 Call Member</button></a>` : ""}</div>`;
+      html += `<div class="item"><h3>${escapeHTML(d.name || "")}</h3><p><strong>Zimmedari:</strong> ${escapeHTML(d.responsibility || "-")}</p><p><strong>Pata:</strong> ${escapeHTML(d.address || "-")}</p>${d.phone ? `<a href="tel:${encodeURIComponent(d.phone)}"><button class="action">📞 Call</button></a>` : ""}</div>`;
     });
     box.innerHTML = html;
   }catch(e){}
@@ -648,7 +649,7 @@ window.addNotice = async function(){
   try{
     const title = document.getElementById("noticeTitle").value.trim();
     const text = document.getElementById("noticeText").value.trim();
-    if(!title || !text) return alert("Notice ka Title aur Content dono bharein.");
+    if(!title || !text) return alert("Notice details bharein.");
     await addDoc(collection(db,"notices"),{ title, text, createdAt:serverTimestamp() });
     alert("Notice publish ho gaya!");
     document.getElementById("noticeTitle").value = "";
