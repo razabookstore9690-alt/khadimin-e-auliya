@@ -46,7 +46,7 @@ button{cursor:pointer;}
 .top-title{font-weight:bold;font-size:17px;}
 .logout{background:#fff;color:#075c39;border:0;padding:6px 14px;border-radius:20px;font-weight:bold;}
 
-/* Drawer Menu (For both Admin & User) */
+/* Drawer Menu */
 #menuOverlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:2000;opacity:0;visibility:hidden;transition:all .3s ease;}
 #menuOverlay.active{opacity:1;visibility:visible;}
 #sideDrawer{position:fixed;top:0;left:0;width:280px;height:100%;background:#ffffff;z-index:2001;transform:translateX(-100%);transition:transform .3s ease;box-shadow:4px 0 16px rgba(0,0,0,0.2);display:flex;flex-direction:column;}
@@ -63,24 +63,25 @@ button{cursor:pointer;}
 .page.active{display:block;}
 .hero{background:linear-gradient(135deg,#075c39,#13895a);color:white;padding:22px;border-radius:16px;margin-bottom:18px;}
 .hero h1{margin-bottom:6px;font-size:22px;}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;}
 .card{background:white;padding:18px;border-radius:14px;box-shadow:0 3px 12px rgba(0,0,0,.06);margin-bottom:16px;}
 .card h2,.card h3{color:#075c39;margin-bottom:10px;}
+.section-badge{display:inline-block;background:#075c39;color:white;padding:4px 10px;border-radius:14px;font-size:12px;font-weight:bold;margin-bottom:10px;}
 .action{border:0;background:#075c39;color:white;padding:10px 14px;border-radius:8px;margin-top:8px;font-weight:bold;}
 .btn-whatsapp{border:0;background:#25d366;color:white;padding:8px 14px;border-radius:8px;margin-top:10px;margin-right:6px;font-weight:bold;display:inline-block;text-decoration:none;}
 .btn-edit{border:0;background:#f39c12;color:white;padding:8px 14px;border-radius:8px;margin-top:10px;margin-right:6px;font-weight:bold;display:inline-block;}
 .btn-delete{border:0;background:#d32f2f;color:white;padding:8px 14px;border-radius:8px;margin-top:10px;font-weight:bold;display:inline-block;}
 .item{border:1px solid #e1e8e4;border-radius:12px;padding:14px;margin:12px 0;background:#fafcfb;}
-.item img,.item video,.item iframe{width:100%;max-height:300px;border-radius:10px;margin-top:8px;}
-.item iframe{height:220px;border:0;}
+.item img,.item video,.item iframe{width:100%;max-height:360px;border-radius:10px;margin-top:8px;display:block;}
+.item iframe{height:240px;border:0;}
 .admin-badge{display:inline-block;background:#d6ad45;color:#063d28;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:bold;}
 .admin-box{background:#f0f8f4;border:2px dashed #075c39;border-radius:12px;padding:16px;margin-bottom:18px;}
 .status-success{margin-top:14px;padding:16px;border-radius:12px;background:#eef7f1;border:2px solid #075c39;color:#063d28;}
 .status-error{margin-top:14px;padding:14px;border-radius:12px;background:#fde8e8;border:2px solid #d32f2f;color:#b71c1c;font-weight:bold;}
 .divider-text{text-align:center;font-size:13px;color:#888;margin:12px 0;font-weight:bold;}
 .action-box{margin-top:10px;}
+.grid-admin{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;}
 
-/* Invisible printable receipt card */
+/* Printable receipt */
 #printableReceipt{
   position:fixed;
   left:-9999px;
@@ -176,7 +177,7 @@ button{cursor:pointer;}
 <header class="topbar">
   <div class="topbar-inner">
     <div class="top-left">
-      <button class="menu-btn" onclick="toggleMenu(true)" title="Open Menu">☰</button>
+      <button class="menu-btn" onclick="toggleMenu(true)" title="Menu">☰</button>
       <div>
         <div class="top-title">KHADIMIN-E-AULIYA</div>
         <div id="roleText" style="font-size:11px;opacity:0.9;"></div>
@@ -186,16 +187,16 @@ button{cursor:pointer;}
   </div>
 </header>
 
-<!-- Slide-out Drawer Menu (Accessible for both Admin & User) -->
+<!-- Slide-out Drawer Menu (All sections are here) -->
 <div id="menuOverlay" onclick="toggleMenu(false)"></div>
 <div id="sideDrawer">
   <div class="drawer-header">
-    <div style="font-size:18px;font-weight:bold;">MENU LIST</div>
+    <div style="font-size:18px;font-weight:bold;">MENU</div>
     <button class="drawer-close" onclick="toggleMenu(false)">✕</button>
   </div>
   <ul class="drawer-links">
     <li><a href="javascript:void(0)" onclick="menuNav('home')">🏠 Home</a></li>
-    <li><a href="javascript:void(0)" onclick="menuNav('programs')">📅 Programs</a></li>
+    <li><a href="javascript:void(0)" onclick="menuNav('programs')">📅 Programs (All)</a></li>
     <li><a href="javascript:void(0)" onclick="menuNav('langar')">🍲 Langar-e-Gausiya</a></li>
     <li><a href="javascript:void(0)" onclick="menuNav('notices')">📢 Notices & Elan</a></li>
     <li><a href="javascript:void(0)" onclick="menuNav('photos')">📷 Photos Gallery</a></li>
@@ -203,62 +204,38 @@ button{cursor:pointer;}
     <li><a href="javascript:void(0)" onclick="menuNav('members')">👥 Members List</a></li>
     <li><a href="javascript:void(0)" onclick="menuNav('donation')">💰 Donation / Payment</a></li>
     <li><a href="javascript:void(0)" onclick="menuNav('rashid')">📜 Rashid Check</a></li>
-    <!-- Admin Only Link inside Menu -->
     <li id="drawerAdminLink" class="hidden"><a href="javascript:void(0)" onclick="menuNav('admin')" style="color:#075c39;background:#eef7f1;">⚙️ Admin Dashboard</a></li>
   </ul>
 </div>
 
 <main class="container">
+  <!-- Dynamic Clean Home Page for Users -->
   <section id="home" class="page active">
     <div class="hero">
       <h1>KHADIMIN-E-AULIYA</h1>
       <p>Khidmat • Deen • Sufi Riwayat</p>
     </div>
-    <div class="grid">
-      <div class="card">
-        <h3>📅 Programs</h3>
-        <p>Programs aur bayanat dekhein.</p>
-        <button class="action" onclick="showPage('programs')">Open</button>
-      </div>
-      <div class="card">
-        <h3>🍲 Langar</h3>
-        <p>Langar-e-Gausiya ki information.</p>
-        <button class="action" onclick="showPage('langar')">Open</button>
-      </div>
-      <div class="card">
-        <h3>📢 Notices</h3>
-        <p>Ahem elanat aur khabrein.</p>
-        <button class="action" onclick="showPage('notices')">Open</button>
-      </div>
-      <div class="card">
-        <h3>📷 Photos</h3>
-        <p>Tasweerein dekhein.</p>
-        <button class="action" onclick="showPage('photos')">Open</button>
-      </div>
-      <div class="card">
-        <h3>🎥 Videos</h3>
-        <p>Video bayanat dekhein.</p>
-        <button class="action" onclick="showPage('videos')">Open</button>
-      </div>
-      <div class="card">
-        <h3>👥 Members</h3>
-        <p>Khadimin ki list.</p>
-        <button class="action" onclick="showPage('members')">Open</button>
-      </div>
-      <div class="card">
-        <h3>💰 Donation</h3>
-        <p>Bank & QR code details.</p>
-        <button class="action" onclick="showPage('donation')">Open</button>
-      </div>
-      <div class="card">
-        <h3>📜 Rashid</h3>
-        <p>Apni Rashid check karein.</p>
-        <button class="action" onclick="showPage('rashid')">Check</button>
-      </div>
+
+    <!-- Latest Photo Section -->
+    <div class="card">
+      <span class="section-badge">📸 Taza Tasweer (Latest Photo)</span>
+      <div id="homeLatestPhoto">Loading...</div>
+    </div>
+
+    <!-- Latest Video Section -->
+    <div class="card">
+      <span class="section-badge">🎥 Taza Video Bayan (Latest Video)</span>
+      <div id="homeLatestVideo">Loading...</div>
+    </div>
+
+    <!-- Active Programs Section (Auto expires after date passes) -->
+    <div class="card">
+      <span class="section-badge">📅 Upcoming Programs</span>
+      <div id="homeActivePrograms">Loading...</div>
     </div>
   </section>
 
-  <!-- Photos Page -->
+  <!-- Photos Page (Full Gallery) -->
   <section id="photos" class="page">
     <div class="card">
       <h2>Photos Gallery</h2>
@@ -272,7 +249,7 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- Videos Page -->
+  <!-- Videos Page (Full Gallery) -->
   <section id="videos" class="page">
     <div class="card">
       <h2>Videos Gallery</h2>
@@ -294,12 +271,16 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- Programs Page -->
+  <!-- Programs Page (With Expiry Date Selector) -->
   <section id="programs" class="page">
     <div class="card">
       <h2>Programs</h2>
       <div id="adminProgramForm" class="admin-box hidden">
         <h3>📅 Admin: Naya Program Add Karein</h3>
+        <div class="form-group">
+          <label>Program Date (Is date ke baad Home page se auto hat jayega)</label>
+          <input id="programDate" type="date">
+        </div>
         <div class="form-group"><input id="programTitle" placeholder="Program Title"></div>
         <div class="form-group"><textarea id="programDescription" placeholder="Program Details"></textarea></div>
         <button class="action" onclick="addProgram()">Publish Program</button>
@@ -403,13 +384,13 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- Central Admin Dashboard -->
+  <!-- Admin Central Hub -->
   <section id="admin" class="page">
     <div class="hero">
       <h2>⚙️ ADMIN CONTROL DASHBOARD</h2>
       <span class="admin-badge">LOGGED IN AS ADMIN</span>
     </div>
-    <div class="grid">
+    <div class="grid-admin">
       <div class="card"><h3>📸 Photos</h3><p>Upload / Edit / Delete</p><button class="action" onclick="showPage('photos')">Manage Photos</button></div>
       <div class="card"><h3>🎥 Videos</h3><p>Upload / Edit / Delete</p><button class="action" onclick="showPage('videos')">Manage Videos</button></div>
       <div class="card"><h3>💳 Payment QR</h3><p>Edit / Delete</p><button class="action" onclick="showPage('donation')">Update Payment</button></div>
@@ -450,8 +431,8 @@ import {
   getAuth, 
   onAuthStateChanged, 
   signInWithEmailAndPassword, 
-  createUserWithEmailAndPassword,
-  sendPasswordResetEmail,
+  createUserWithEmailAndPassword, 
+  sendPasswordResetEmail, 
   signInWithPopup, 
   GoogleAuthProvider, 
   signOut 
@@ -461,8 +442,9 @@ import {
   collection, 
   addDoc, 
   getDocs, 
-  query,
-  where,
+  query, 
+  where, 
+  orderBy, 
   deleteDoc, 
   updateDoc, 
   doc, 
@@ -488,7 +470,6 @@ const UPLOAD_PRESET = "khadimin_preset";
 
 let CURRENT_IS_ADMIN = false;
 
-// Menu toggle handler (Open / Close Drawer)
 window.toggleMenu = function(open){
   const drawer = document.getElementById("sideDrawer");
   const overlay = document.getElementById("menuOverlay");
@@ -513,7 +494,6 @@ function uploadToCloudinaryDirect(file, type = "auto"){
     const url = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/${endpoint}/upload`;
 
     xhr.open("POST", url, true);
-
     xhr.onload = function(){
       if(xhr.status >= 200 && xhr.status < 300){
         try{
@@ -531,11 +511,9 @@ function uploadToCloudinaryDirect(file, type = "auto"){
         }
       }
     };
-
     xhr.onerror = function(){
       reject(new Error("Network connection error / Browser interrupted upload"));
     };
-
     const formData = new FormData();
     formData.append("file", file);
     formData.append("upload_preset", UPLOAD_PRESET);
@@ -722,6 +700,7 @@ window.deleteItem = async function(collectionName, docId, reloadFunction){
     if(typeof window[reloadFunction] === "function"){
       await window[reloadFunction]();
     }
+    await loadHomePageDynamic();
   }catch(e){
     alert("Delete error: " + e.message);
   }
@@ -734,6 +713,7 @@ async function updateFirestoreFields(collectionName, docId, updateData, reloadFu
     if(typeof window[reloadFunction] === "function"){
       await window[reloadFunction]();
     }
+    await loadHomePageDynamic();
   }catch(e){
     alert("Update error: " + e.message);
   }
@@ -741,6 +721,7 @@ async function updateFirestoreFields(collectionName, docId, updateData, reloadFu
 
 async function loadAllData(){
   await Promise.allSettled([
+    loadHomePageDynamic(),
     loadPayment(),
     loadPrograms(),
     loadPhotos(),
@@ -750,6 +731,92 @@ async function loadAllData(){
     loadNotices(),
     loadRashids()
   ]);
+}
+
+// HOME PAGE: Latest 1 Photo, 1 Video & Active Upcoming Programs
+async function loadHomePageDynamic(){
+  // 1. Latest Photo only
+  try{
+    const pSnap = await getDocs(collection(db, "photos"));
+    const photoBox = document.getElementById("homeLatestPhoto");
+    if(pSnap.empty){
+      photoBox.innerHTML = "<p style='color:#666;'>Abhi koi photo upload nahi hai.</p>";
+    }else{
+      const photos = [];
+      pSnap.forEach(d => photos.push({ id: d.id, ...d.data() }));
+      // Sort to get newest
+      photos.sort((a,b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+      const latestPhoto = photos[0];
+      photoBox.innerHTML = `
+        <div class="item" style="margin:0;">
+          <h3 style="font-size:16px;">${escapeHTML(latestPhoto.title || "Photo")}</h3>
+          <img src="${latestPhoto.url}" alt="${escapeHTML(latestPhoto.title)}">
+        </div>
+      `;
+    }
+  }catch(e){}
+
+  // 2. Latest Video only
+  try{
+    const vSnap = await getDocs(collection(db, "videos"));
+    const videoBox = document.getElementById("homeLatestVideo");
+    if(vSnap.empty){
+      videoBox.innerHTML = "<p style='color:#666;'>Abhi koi video upload nahi hai.</p>";
+    }else{
+      const videos = [];
+      vSnap.forEach(d => videos.push({ id: d.id, ...d.data() }));
+      videos.sort((a,b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+      const latestVideo = videos[0];
+      const parsed = parseVideoSource(latestVideo.url);
+      let mediaHtml = "";
+      if(parsed.type === "youtube"){
+        mediaHtml = `<iframe src="${parsed.url}" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>`;
+      }else if(latestVideo.url){
+        mediaHtml = `<video controls playsinline><source src="${latestVideo.url}"></video>`;
+      }
+      videoBox.innerHTML = `
+        <div class="item" style="margin:0;">
+          <h3 style="font-size:16px;">${escapeHTML(latestVideo.title || "Video")}</h3>
+          ${mediaHtml}
+        </div>
+      `;
+    }
+  }catch(e){}
+
+  // 3. Active Upcoming Programs (Date >= Today)
+  try{
+    const progBox = document.getElementById("homeActivePrograms");
+    const progSnap = await getDocs(collection(db, "programs"));
+    if(progSnap.empty){
+      progBox.innerHTML = "<p style='color:#666;'>Filhal koi upcoming program scheduled nahi hai.</p>";
+    }else{
+      const todayStr = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
+      let html = "";
+      let count = 0;
+
+      progSnap.forEach(item => {
+        const d = item.data();
+        // If program has date, check if date is today or future. If no date set, show it.
+        const progDate = d.date || "";
+        if(!progDate || progDate >= todayStr){
+          count++;
+          html += `
+            <div class="item" style="margin:8px 0;">
+              <h3 style="color:#075c39;">${escapeHTML(d.title || "")}</h3>
+              ${progDate ? `<p style="font-size:13px;color:#d6ad45;font-weight:bold;margin-bottom:6px;">📅 Date: ${progDate}</p>` : ""}
+              <p>${escapeHTML(d.description || "")}</p>
+            </div>
+          `;
+        }
+      });
+
+      if(count === 0){
+        progBox.innerHTML = "<p style='color:#666;'>Pichle saare programs guzar chuke hain. Naya elan jald hoga.</p>";
+      }else{
+        progBox.innerHTML = html;
+      }
+    }
+  }catch(e){}
 }
 
 // 1. Photos
@@ -766,10 +833,11 @@ window.uploadPhoto = async function(){
     const url = await uploadToCloudinaryDirect(file, "image");
     await addDoc(collection(db, "photos"), { title, url, createdAt: serverTimestamp() });
 
-    alert("✅ Photo successfully upload ho gayi!");
+    alert("✅ Photo successfully upload ho gayi! Home page par update ho gayi.");
     document.getElementById("photoFile").value = "";
     document.getElementById("photoTitle").value = "";
     await loadPhotos();
+    await loadHomePageDynamic();
   }catch(e){
     alert("Upload error: " + e.message);
   }finally{
@@ -842,11 +910,12 @@ window.uploadVideo = async function(){
       createdAt: serverTimestamp() 
     });
 
-    alert("✅ Video successfully add ho gaya!");
+    alert("✅ Video successfully add ho gaya! Home page par update ho gaya.");
     document.getElementById("videoFile").value = "";
     document.getElementById("videoUrlInput").value = "";
     document.getElementById("videoTitle").value = "";
     await loadVideos();
+    await loadHomePageDynamic();
   }catch(e){
     alert("Video Error: " + e.message);
   }finally{
@@ -976,9 +1045,11 @@ window.savePaymentDetails = async function(){
   }
 };
 
-// 4. Programs
-window.editProgram = function(id, curTitle, curDesc){
+// 4. Programs with Date Expiry Logic
+window.editProgram = function(id, curTitle, curDesc, curDate){
   if(!CURRENT_IS_ADMIN) return alert("Sirf Admin edit kar sakta hai.");
+  const newDate = prompt("Program Date (YYYY-MM-DD):", curDate || "");
+  if(newDate === null) return;
   const newTitle = prompt("Naya Program Title:", curTitle);
   if(newTitle === null) return;
   const newDesc = prompt("Naya Program Description:", curDesc);
@@ -986,6 +1057,7 @@ window.editProgram = function(id, curTitle, curDesc){
   if(!newTitle.trim()) return alert("Title zaroori hai.");
 
   updateFirestoreFields("programs", id, {
+    date: newDate.trim(),
     title: newTitle.trim(),
     description: newDesc.trim()
   }, "loadPrograms");
@@ -1002,14 +1074,16 @@ window.loadPrograms = async function(){
       const id=item.id;
       const titleAttr = (d.title || "").replace(/"/g, '&quot;');
       const descAttr = (d.description || "").replace(/"/g, '&quot;');
+      const dateAttr = (d.date || "").replace(/"/g, '&quot;');
       html += `
         <div class="item">
           <h3>${escapeHTML(d.title || "")}</h3>
+          ${d.date ? `<p style="font-size:13px;color:#075c39;font-weight:bold;margin:4px 0;">📅 Program Date: ${escapeHTML(d.date)}</p>` : ""}
           <p>${escapeHTML(d.description || "")}</p>
           ${CURRENT_IS_ADMIN ? `
             <div class="action-box">
-              <button class="btn-edit" onclick="editProgram('${id}', '${titleAttr}', '${descAttr}')">Edit</button>
-              <button class="btn-delete" onclick="deleteItem('programs', '${id}', 'loadPrograms')">Delete</button>
+              <button class="btn-edit" onclick="editProgram('${id}', '${titleAttr}', '${descAttr}', '${dateAttr}')">Edit</button>
+              <button class="btn-delete" onclick="deleteItem('programs', '${id}', 'loadPrograms')">Delete Program</button>
             </div>
           ` : ""}
         </div>
@@ -1021,14 +1095,17 @@ window.loadPrograms = async function(){
 
 window.addProgram = async function(){
   try{
+    const date = document.getElementById("programDate").value;
     const title = document.getElementById("programTitle").value.trim();
     const description = document.getElementById("programDescription").value.trim();
     if(!title) return alert("Title enter karein.");
-    await addDoc(collection(db,"programs"),{ title, description, createdAt:serverTimestamp() });
+    await addDoc(collection(db,"programs"),{ date, title, description, createdAt:serverTimestamp() });
     alert("Program add ho gaya!");
+    document.getElementById("programDate").value = "";
     document.getElementById("programTitle").value = "";
     document.getElementById("programDescription").value = "";
     await loadPrograms();
+    await loadHomePageDynamic();
   }catch(e){ alert(e.message); }
 };
 
@@ -1265,7 +1342,6 @@ window.checkRashid = async function(){
   }
 };
 
-// Download Photo Receipt Function
 window.downloadReceiptImage = async function(rNum, rName, rMobile, rPurpose, rAmt, rDate){
   document.getElementById("r_num").textContent = rNum;
   document.getElementById("r_date").textContent = rDate;
@@ -1284,7 +1360,6 @@ window.downloadReceiptImage = async function(rNum, rName, rMobile, rPurpose, rAm
   a.click();
 };
 
-// Direct WhatsApp App
 window.openWhatsApp = function(mobile, rNum, rName, rAmt, rPurpose){
   let cleanMobile = (mobile || "").replace(/\D/g, "");
   if(cleanMobile.length === 10) cleanMobile = "91" + cleanMobile;
