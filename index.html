@@ -6,6 +6,9 @@
 <meta name="theme-color" content="#0b5d3b">
 <title>KHADIMIN-E-AULIYA</title>
 
+<!-- html2canvas for Receipt Image Generation -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:Arial, sans-serif;}
 body{background:#f5f7f6;color:#222;}
@@ -49,6 +52,7 @@ button{cursor:pointer;}
 .card{background:white;padding:18px;border-radius:14px;box-shadow:0 3px 12px rgba(0,0,0,.06);margin-bottom:16px;}
 .card h2,.card h3{color:#075c39;margin-bottom:10px;}
 .action{border:0;background:#075c39;color:white;padding:10px 14px;border-radius:8px;margin-top:8px;font-weight:bold;}
+.btn-whatsapp{border:0;background:#25d366;color:white;padding:8px 14px;border-radius:8px;margin-top:10px;margin-right:6px;font-weight:bold;display:inline-block;text-decoration:none;}
 .btn-edit{border:0;background:#f39c12;color:white;padding:8px 14px;border-radius:8px;margin-top:10px;margin-right:6px;font-weight:bold;display:inline-block;}
 .btn-delete{border:0;background:#d32f2f;color:white;padding:8px 14px;border-radius:8px;margin-top:10px;font-weight:bold;display:inline-block;}
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid #ddd;display:flex;justify-content:space-around;padding:10px 4px;z-index:500;}
@@ -62,6 +66,26 @@ button{cursor:pointer;}
 .status{margin-top:10px;padding:12px;border-radius:8px;background:#eef7f1;}
 .divider-text{text-align:center;font-size:13px;color:#888;margin:12px 0;font-weight:bold;}
 .action-box{margin-top:10px;}
+
+/* Invisible printable receipt card */
+#printableReceipt{
+  position:fixed;
+  left:-9999px;
+  top:0;
+  width:420px;
+  background:#ffffff;
+  border:4px double #075c39;
+  border-radius:12px;
+  padding:20px;
+  color:#111;
+  box-shadow:none;
+}
+.rc-header{text-align:center;border-bottom:2px solid #075c39;padding-bottom:10px;margin-bottom:12px;}
+.rc-arabic{font-size:18px;color:#075c39;font-weight:bold;direction:rtl;}
+.rc-title{font-size:22px;color:#075c39;font-weight:bold;margin-top:4px;}
+.rc-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dashed #ddd;font-size:14px;}
+.rc-row strong{color:#333;}
+.rc-footer{text-align:center;margin-top:14px;font-size:12px;color:#666;font-style:italic;}
 </style>
 </head>
 <body>
@@ -252,7 +276,7 @@ button{cursor:pointer;}
       <div id="adminRashidBox" class="admin-box hidden" style="margin-top:20px;">
         <h3>📜 Admin: Nayi Rashid Banayein</h3>
         <div class="form-group"><label>Donor Name</label><input id="donorName"></div>
-        <div class="form-group"><label>Donor Mobile</label><input id="donorMobile"></div>
+        <div class="form-group"><label>Donor Mobile</label><input id="donorMobile" type="tel" placeholder="10-digit mobile number"></div>
         <div class="form-group"><label>Address</label><textarea id="donorAddress"></textarea></div>
         <div class="form-group"><label>Amount ₹</label><input id="donationAmount" type="number"></div>
         <div class="form-group">
@@ -261,9 +285,10 @@ button{cursor:pointer;}
             <option value="All Purpose">All Purpose</option>
             <option value="Langar-e-Gausiya">Langar-e-Gausiya</option>
             <option value="Mazarat Ki Tameer">Mazarat Ki Tameer</option>
+            <option value="Imamo ki Tankha">Imamo ki Tankha</option>
           </select>
         </div>
-        <button class="action" onclick="createRashid()">Create Rashid</button>
+        <button class="action" id="createRashidBtn" onclick="createRashid()">Create Rashid & Download Photo</button>
       </div>
 
       <div id="adminRashidList" class="hidden" style="margin-top:20px;">
@@ -326,7 +351,7 @@ button{cursor:pointer;}
       <div class="card"><h3>📸 Photos</h3><p>Upload / Edit / Delete</p><button class="action" onclick="showPage('photos')">Manage Photos</button></div>
       <div class="card"><h3>🎥 Videos</h3><p>Upload / Edit / Delete</p><button class="action" onclick="showPage('videos')">Manage Videos</button></div>
       <div class="card"><h3>💳 Payment QR</h3><p>Edit / Delete</p><button class="action" onclick="showPage('donation')">Update Payment</button></div>
-      <div class="card"><h3>📜 Rashid</h3><p>Edit / Delete</p><button class="action" onclick="showPage('rashid')">Manage Rashid</button></div>
+      <div class="card"><h3>📜 Rashid</h3><p>Edit / Delete / WhatsApp</p><button class="action" onclick="showPage('rashid')">Manage Rashid</button></div>
       <div class="card"><h3>👥 Members</h3><p>Edit / Delete</p><button class="action" onclick="showPage('members')">Manage Members</button></div>
       <div class="card"><h3>📅 Programs</h3><p>Edit / Delete</p><button class="action" onclick="showPage('programs')">Manage Programs</button></div>
       <div class="card"><h3>🍲 Langar</h3><p>Edit / Delete</p><button class="action" onclick="showPage('langar')">Manage Langar</button></div>
@@ -345,6 +370,27 @@ button{cursor:pointer;}
   <button id="adminNav" class="hidden" onclick="showPage('admin')">⚙️<br>Admin</button>
 </nav>
 </section>
+
+<!-- HIDDEN RECEIPT CARD TEMPLATE FOR SCREENSHOT PHOTO -->
+<div id="printableReceipt">
+  <div class="rc-header">
+    <div class="rc-arabic">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+    <div class="rc-title">KHADIMIN-E-AULIYA</div>
+    <div style="font-size:12px;color:#075c39;font-weight:bold;">OFFICIAL DONATION RECEIPT</div>
+  </div>
+  <div class="rc-row"><strong>Receipt No:</strong> <span id="r_num">-</span></div>
+  <div class="rc-row"><strong>Date:</strong> <span id="r_date">-</span></div>
+  <div class="rc-row"><strong>Donor Name:</strong> <span id="r_name">-</span></div>
+  <div class="rc-row"><strong>Mobile No:</strong> <span id="r_mobile">-</span></div>
+  <div class="rc-row"><strong>Purpose:</strong> <span id="r_purpose">-</span></div>
+  <div class="rc-row" style="font-size:16px;font-weight:bold;color:#075c39;border-top:2px solid #075c39;border-bottom:2px solid #075c39;margin-top:8px;">
+    <strong>Amount Received:</strong> <span>₹<span id="r_amount">0</span></span>
+  </div>
+  <div class="rc-footer">
+    JazakAllah Khair! Aapka taawun qubool farmaye.<br>
+    Authorized Signature: KHADIMIN-E-AULIYA
+  </div>
+</div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
@@ -593,7 +639,6 @@ window.showPage=function(page){
   }
 };
 
-// Universal Delete Function
 window.deleteItem = async function(collectionName, docId, reloadFunction){
   if(!CURRENT_IS_ADMIN) return alert("Sirf Admin delete kar sakta hai.");
   const confirmDelete = confirm("Kya aap isko sach me delete karna chahte hain?");
@@ -610,7 +655,6 @@ window.deleteItem = async function(collectionName, docId, reloadFunction){
   }
 };
 
-// Universal Field Update Function
 async function updateFirestoreFields(collectionName, docId, updateData, reloadFunction){
   try{
     await updateDoc(doc(db, collectionName, docId), updateData);
@@ -636,7 +680,7 @@ async function loadAllData(){
   ]);
 }
 
-// 1. Photos
+// Photos
 window.uploadPhoto = async function(){
   const btn = document.getElementById("photoUploadBtn");
   try{
@@ -698,7 +742,7 @@ window.loadPhotos = async function(){
   }catch(e){}
 };
 
-// 2. Videos
+// Videos
 window.uploadVideo = async function(){
   const btn = document.getElementById("videoUploadBtn");
   try{
@@ -784,7 +828,7 @@ window.loadVideos = async function(){
   }catch(e){}
 };
 
-// 3. Payment Details
+// Payment Details
 window.editPayment = function(id, curHolder, curBank, curUpi){
   if(!CURRENT_IS_ADMIN) return alert("Sirf Admin edit kar sakta hai.");
   const holder = prompt("Account Holder Name:", curHolder);
@@ -860,7 +904,7 @@ window.savePaymentDetails = async function(){
   }
 };
 
-// 4. Programs
+// Programs
 window.editProgram = function(id, curTitle, curDesc){
   if(!CURRENT_IS_ADMIN) return alert("Sirf Admin edit kar sakta hai.");
   const newTitle = prompt("Naya Program Title:", curTitle);
@@ -892,8 +936,8 @@ window.loadPrograms = async function(){
           <p>${escapeHTML(d.description || "")}</p>
           ${CURRENT_IS_ADMIN ? `
             <div class="action-box">
-              <button class="btn-edit" onclick="editProgram('${id}', '${titleAttr}', '${descAttr}')">Edit</button>
-              <button class="btn-delete" onclick="deleteItem('programs', '${id}', 'loadPrograms')">Delete</button>
+              <button class="btn-edit" onclick="editProgram('${id}', '${titleAttr}', '${descAttr}')">✏️ Edit</button>
+              <button class="btn-delete" onclick="deleteItem('programs', '${id}', 'loadPrograms')">🗑️ Delete Program</button>
             </div>
           ` : ""}
         </div>
@@ -916,7 +960,7 @@ window.addProgram = async function(){
   }catch(e){ alert(e.message); }
 };
 
-// 5. Members
+// Members
 window.editMember = function(id, curName, curPhone, curAddress, curResp){
   if(!CURRENT_IS_ADMIN) return alert("Sirf Admin edit kar sakta hai.");
   const name = prompt("Member Name:", curName);
@@ -958,8 +1002,8 @@ window.loadMembers = async function(){
           ${d.phone ? `<a href="tel:${encodeURIComponent(d.phone)}"><button class="action">📞 Call</button></a>` : ""}
           ${CURRENT_IS_ADMIN ? `
             <div class="action-box">
-              <button class="btn-edit" onclick="editMember('${id}', '${nameAttr}', '${phoneAttr}', '${addrAttr}', '${respAttr}')">Edit</button>
-              <button class="btn-delete" onclick="deleteItem('members', '${id}', 'loadMembers')">Delete</button>
+              <button class="btn-edit" onclick="editMember('${id}', '${nameAttr}', '${phoneAttr}', '${addrAttr}', '${respAttr}')">✏️ Edit Member</button>
+              <button class="btn-delete" onclick="deleteItem('members', '${id}', 'loadMembers')">🗑️ Delete Member</button>
             </div>
           ` : ""}
         </div>
@@ -986,7 +1030,7 @@ window.addMember = async function(){
   }catch(e){ alert(e.message); }
 };
 
-// 6. Langar
+// Langar
 window.editLangar = function(id, curText){
   if(!CURRENT_IS_ADMIN) return alert("Sirf Admin edit kar sakta hai.");
   const newText = prompt("Langar details update karein:", curText);
@@ -1010,8 +1054,8 @@ window.loadLangar = async function(){
           <div>${escapeHTML(d.text || "")}</div>
           ${CURRENT_IS_ADMIN ? `
             <div class="action-box">
-              <button class="btn-edit" onclick="editLangar('${id}', '${textAttr}')">Edit</button>
-              <button class="btn-delete" onclick="deleteItem('langar', '${id}', 'loadLangar')">Delete</button>
+              <button class="btn-edit" onclick="editLangar('${id}', '${textAttr}')">✏️ Edit</button>
+              <button class="btn-delete" onclick="deleteItem('langar', '${id}', 'loadLangar')">🗑️ Delete</button>
             </div>
           ` : ""}
         </div>
@@ -1032,7 +1076,7 @@ window.saveLangar = async function(){
   }catch(e){ alert(e.message); }
 };
 
-// 7. Notices
+// Notices
 window.editNotice = function(id, curTitle, curText){
   if(!CURRENT_IS_ADMIN) return alert("Sirf Admin edit kar sakta hai.");
   const title = prompt("Naya Notice Title:", curTitle);
@@ -1064,8 +1108,8 @@ window.loadNotices = async function(){
           <p>${escapeHTML(d.text || "")}</p>
           ${CURRENT_IS_ADMIN ? `
             <div class="action-box">
-              <button class="btn-edit" onclick="editNotice('${id}', '${titleAttr}', '${textAttr}')">Edit</button>
-              <button class="btn-delete" onclick="deleteItem('notices', '${id}', 'loadNotices')">Delete</button>
+              <button class="btn-edit" onclick="editNotice('${id}', '${titleAttr}', '${textAttr}')">✏️ Edit Notice</button>
+              <button class="btn-delete" onclick="deleteItem('notices', '${id}', 'loadNotices')">🗑️ Delete Notice</button>
             </div>
           ` : ""}
         </div>
@@ -1088,11 +1132,41 @@ window.addNotice = async function(){
   }catch(e){ alert(e.message); }
 };
 
-// 8. Rashid Management
+// Rashid Management & WhatsApp Photo Generation
 window.checkRashid = function(){
   const number = document.getElementById("rashidNumberCheck").value.trim();
   if(!number) return alert("Rashid number daalein.");
   document.getElementById("rashidResult").innerHTML = `<div class="status">✅ Rashid Verified: <strong>${escapeHTML(number)}</strong></div>`;
+};
+
+// Download Photo Receipt
+async function downloadReceiptImage(rNum, rName, rMobile, rPurpose, rAmt, rDate){
+  document.getElementById("r_num").textContent = rNum;
+  document.getElementById("r_date").textContent = rDate;
+  document.getElementById("r_name").textContent = rName;
+  document.getElementById("r_mobile").textContent = rMobile || "-";
+  document.getElementById("r_purpose").textContent = rPurpose;
+  document.getElementById("r_amount").textContent = rAmt;
+
+  const receiptCard = document.getElementById("printableReceipt");
+  const canvas = await html2canvas(receiptCard, { scale: 2 });
+  const imgData = canvas.toDataURL("image/png");
+
+  const a = document.createElement("a");
+  a.href = imgData;
+  a.download = `Rashid_${rNum}.png`;
+  a.click();
+}
+
+// Generate WhatsApp Link
+window.openWhatsApp = function(mobile, rNum, rName, rAmt, rPurpose){
+  let cleanMobile = (mobile || "").replace(/\D/g, "");
+  if(cleanMobile.length === 10) cleanMobile = "91" + cleanMobile;
+
+  const msg = `Assalamu Alaikum wa Rahmatullahi wa Barakatuh ${rName} Sahab,\n\n*KHADIMIN-E-AULIYA* ki taraf se aapki taawun raseed taiyar hai:\n\n📜 *Receipt No:* ${rNum}\n💰 *Amount:* ₹${rAmt}\n🎯 *Purpose:* ${rPurpose}\n\nAapki donation receipt ki photo sath me share ki ja rahi hai. JazakAllah Khair!`;
+
+  const url = `https://api.whatsapp.com/send?phone=${cleanMobile}&text=${encodeURIComponent(msg)}`;
+  window.open(url, "_blank");
 };
 
 window.editRashid = function(id, curDonor, curAmount, curPurpose){
@@ -1101,7 +1175,7 @@ window.editRashid = function(id, curDonor, curAmount, curPurpose){
   if(donor === null) return;
   const amt = prompt("Amount (₹):", curAmount);
   if(amt === null) return;
-  const purp = prompt("Purpose:", curPurpose);
+  const purp = prompt("Purpose (All Purpose / Langar-e-Gausiya / Mazarat Ki Tameer / Imamo ki Tankha):", curPurpose);
   if(purp === null) return;
 
   updateFirestoreFields("rashid", id, {
@@ -1112,6 +1186,7 @@ window.editRashid = function(id, curDonor, curAmount, curPurpose){
 };
 
 window.createRashid = async function(){
+  const btn = document.getElementById("createRashidBtn");
   try{
     const donorName = document.getElementById("donorName").value.trim();
     const donorMobile = document.getElementById("donorMobile").value.trim();
@@ -1119,17 +1194,40 @@ window.createRashid = async function(){
     const amount = Number(document.getElementById("donationAmount").value);
     const purpose = document.getElementById("donationPurpose").value;
     if(!donorName || !amount) return alert("Donor Name aur Amount zaroori hai.");
+
+    btn.disabled = true;
+    btn.textContent = "Receipt Ban rahi hai...";
+
     const rashidNumber = "KEA-" + Date.now().toString().slice(-6);
+    const dateStr = new Date().toLocaleDateString("en-IN", { day: '2-digit', month: 'short', year: 'numeric' });
+
     await addDoc(collection(db,"rashid"),{
-      rashidNumber, donorName, donorMobile, donorAddress, amount, purpose, createdAt:serverTimestamp()
+      rashidNumber, donorName, donorMobile, donorAddress, amount, purpose, dateStr, createdAt:serverTimestamp()
     });
-    alert("Rashid create ho gayi! Number: " + rashidNumber);
+
+    // Generate & Download Receipt Image
+    await downloadReceiptImage(rashidNumber, donorName, donorMobile, purpose, amount, dateStr);
+
+    alert(`✅ Rashid ban gayi (${rashidNumber}) aur Photo aapke phone me Download ho gayi hai!\nAb WhatsApp button daba kar donor ko photo attach karke bhej dein.`);
+
+    if(donorMobile){
+      const openNow = confirm("Kya aap abhi is Rashid ko WhatsApp par bhejna chahte hain?");
+      if(openNow){
+        openWhatsApp(donorMobile, rashidNumber, donorName, amount, purpose);
+      }
+    }
+
     document.getElementById("donorName").value = "";
     document.getElementById("donorMobile").value = "";
     document.getElementById("donorAddress").value = "";
     document.getElementById("donationAmount").value = "";
     await loadRashids();
-  }catch(e){ alert(e.message); }
+  }catch(e){ 
+    alert("Error: " + e.message); 
+  }finally{
+    btn.disabled = false;
+    btn.textContent = "Create Rashid & Download Photo";
+  }
 };
 
 window.loadRashids = async function(){
@@ -1145,15 +1243,20 @@ window.loadRashids = async function(){
       const donorAttr = (d.donorName || "").replace(/"/g, '&quot;');
       const amtAttr = (d.amount || 0).toString();
       const purpAttr = (d.purpose || "").replace(/"/g, '&quot;');
+      const mobileAttr = (d.donorMobile || "").replace(/"/g, '&quot;');
+      const numAttr = (d.rashidNumber || "").replace(/"/g, '&quot;');
+
       html += `
         <div class="item">
           <p><strong>Rashid No:</strong> ${escapeHTML(d.rashidNumber)}</p>
           <p><strong>Donor:</strong> ${escapeHTML(d.donorName)} (₹${escapeHTML(d.amount)})</p>
+          <p><strong>Mobile:</strong> ${escapeHTML(d.donorMobile || "-")}</p>
           <p><strong>Purpose:</strong> ${escapeHTML(d.purpose)}</p>
           ${CURRENT_IS_ADMIN ? `
             <div class="action-box">
-              <button class="btn-edit" onclick="editRashid('${id}', '${donorAttr}', '${amtAttr}', '${purpAttr}')">Edit</button>
-              <button class="btn-delete" onclick="deleteItem('rashid', '${id}', 'loadRashids')">Delete</button>
+              ${d.donorMobile ? `<button class="btn-whatsapp" onclick="openWhatsApp('${mobileAttr}', '${numAttr}', '${donorAttr}', '${amtAttr}', '${purpAttr}')">📲 WhatsApp Share</button>` : ""}
+              <button class="btn-edit" onclick="editRashid('${id}', '${donorAttr}', '${amtAttr}', '${purpAttr}')">✏️ Edit</button>
+              <button class="btn-delete" onclick="deleteItem('rashid', '${id}', 'loadRashids')">🗑️ Delete</button>
             </div>
           ` : ""}
         </div>
