@@ -64,7 +64,7 @@ button{cursor:pointer;}
 
 <div id="splash">
   <div class="splash-box">
-    <div class="splash-arabic">صلوا علی الحبیب</div>
+    <div class="splash-arabic">صلوا علی الحبیb</div>
     <div class="splash-arabic">صلی اللہ علی محمد</div>
     <div class="splash-welcome">Welcome To</div>
     <div class="splash-title">KHADIMIN E AULIYA</div>
@@ -166,14 +166,14 @@ button{cursor:pointer;}
         </div>
         
         <div class="form-group">
-          <label>Tareeqa 1: Mobile se File Upload karein</label>
+          <label>Tareeqa 1: Mobile se Video File Upload</label>
           <input id="videoFile" type="file" accept="video/*">
         </div>
 
         <div class="divider-text">— YA —</div>
 
         <div class="form-group">
-          <label>Tareeqa 2: YouTube ya Online Video Link daalein (Recommended for big videos)</label>
+          <label>Tareeqa 2: YouTube / Online Link Paste Karein</label>
           <input id="videoUrlInput" placeholder="https://youtu.be/... ya https://www.youtube.com/watch?v=...">
         </div>
 
@@ -337,12 +337,13 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-const CLOUD_NAME = "dfadsjum";
+// Sahi Cloudinary Name
+const CLOUD_NAME = "cfadsjum";
 const UPLOAD_PRESET = "khadimin_preset";
 
 let CURRENT_IS_ADMIN = false;
 
-// Direct XHR Upload (Fetch timeout se bachne ke liye)
+// Direct Unsigned Upload
 function uploadToCloudinaryDirect(file, type = "auto"){
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
@@ -380,7 +381,6 @@ function uploadToCloudinaryDirect(file, type = "auto"){
   });
 }
 
-// YouTube URL parser
 function parseVideoSource(rawUrl){
   if(!rawUrl) return { type: "none", url: "" };
   const ytMatch = rawUrl.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
@@ -574,7 +574,7 @@ window.loadPhotos = async function(){
   }catch(e){}
 };
 
-// Videos (Supports both direct upload & YouTube/web links)
+// Videos
 window.uploadVideo = async function(){
   const btn = document.getElementById("videoUploadBtn");
   try{
