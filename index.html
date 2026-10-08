@@ -61,6 +61,7 @@ button{cursor:pointer;}
 .admin-box{background:#f0f8f4;border:2px dashed #075c39;border-radius:12px;padding:16px;margin-bottom:18px;}
 .status{margin-top:10px;padding:12px;border-radius:8px;background:#eef7f1;}
 .divider-text{text-align:center;font-size:13px;color:#888;margin:12px 0;font-weight:bold;}
+.action-box{margin-top:10px;}
 </style>
 </head>
 <body>
@@ -83,7 +84,6 @@ button{cursor:pointer;}
     <button id="adminLoginTab">Admin Login</button>
   </div>
 
-  <!-- User Login System -->
   <div id="userLoginBox">
     <div id="userSignInForm">
       <div class="form-group">
@@ -105,7 +105,6 @@ button{cursor:pointer;}
       <button class="google" id="googleLogin">Continue with Google</button>
     </div>
 
-    <!-- User Sign Up Box -->
     <div id="userRegisterBox" class="hidden">
       <h3 style="color:#075c39;margin-bottom:12px;font-size:16px;text-align:center;">Naya Account Banayein</h3>
       <div class="form-group">
@@ -121,7 +120,6 @@ button{cursor:pointer;}
     </div>
   </div>
 
-  <!-- Admin Login System -->
   <div id="adminLoginBox" class="hidden">
     <div class="form-group">
       <label>User ID</label>
@@ -327,12 +325,12 @@ button{cursor:pointer;}
     <div class="grid">
       <div class="card"><h3>📸 Photos</h3><p>Upload / Edit / Delete</p><button class="action" onclick="showPage('photos')">Manage Photos</button></div>
       <div class="card"><h3>🎥 Videos</h3><p>Upload / Edit / Delete</p><button class="action" onclick="showPage('videos')">Manage Videos</button></div>
-      <div class="card"><h3>💳 Payment QR</h3><p>Change details</p><button class="action" onclick="showPage('donation')">Update Payment</button></div>
-      <div class="card"><h3>📜 Rashid</h3><p>Manage slips</p><button class="action" onclick="showPage('rashid')">Manage Rashid</button></div>
-      <div class="card"><h3>👥 Members</h3><p>Add / Remove team</p><button class="action" onclick="showPage('members')">Manage Members</button></div>
-      <div class="card"><h3>📅 Programs</h3><p>Add / Remove event</p><button class="action" onclick="showPage('programs')">Manage Programs</button></div>
-      <div class="card"><h3>🍲 Langar</h3><p>Edit / Remove info</p><button class="action" onclick="showPage('langar')">Manage Langar</button></div>
-      <div class="card"><h3>📢 Notices</h3><p>Post / Remove alert</p><button class="action" onclick="showPage('notices')">Manage Notices</button></div>
+      <div class="card"><h3>💳 Payment QR</h3><p>Edit / Delete</p><button class="action" onclick="showPage('donation')">Update Payment</button></div>
+      <div class="card"><h3>📜 Rashid</h3><p>Edit / Delete</p><button class="action" onclick="showPage('rashid')">Manage Rashid</button></div>
+      <div class="card"><h3>👥 Members</h3><p>Edit / Delete</p><button class="action" onclick="showPage('members')">Manage Members</button></div>
+      <div class="card"><h3>📅 Programs</h3><p>Edit / Delete</p><button class="action" onclick="showPage('programs')">Manage Programs</button></div>
+      <div class="card"><h3>🍲 Langar</h3><p>Edit / Delete</p><button class="action" onclick="showPage('langar')">Manage Langar</button></div>
+      <div class="card"><h3>📢 Notices</h3><p>Edit / Delete</p><button class="action" onclick="showPage('notices')">Manage Notices</button></div>
     </div>
   </section>
 </main>
@@ -595,26 +593,7 @@ window.showPage=function(page){
   }
 };
 
-// Edit Title Function
-window.editItemTitle = async function(collectionName, docId, currentTitle, reloadFunction){
-  if(!CURRENT_IS_ADMIN) return alert("Sirf Admin edit kar sakta hai.");
-  const newTitle = prompt("Naya title enter karein:", currentTitle);
-  if(newTitle === null) return;
-  const trimmed = newTitle.trim();
-  if(!trimmed) return alert("Title khali nahi ho sakta.");
-
-  try{
-    await updateDoc(doc(db, collectionName, docId), { title: trimmed });
-    alert("✅ Title update ho gaya!");
-    if(typeof window[reloadFunction] === "function"){
-      await window[reloadFunction]();
-    }
-  }catch(e){
-    alert("Edit error: " + e.message);
-  }
-};
-
-// Delete Item Function
+// Universal Delete Function
 window.deleteItem = async function(collectionName, docId, reloadFunction){
   if(!CURRENT_IS_ADMIN) return alert("Sirf Admin delete kar sakta hai.");
   const confirmDelete = confirm("Kya aap isko sach me delete karna chahte hain?");
@@ -631,6 +610,19 @@ window.deleteItem = async function(collectionName, docId, reloadFunction){
   }
 };
 
+// Universal Field Update Function
+async function updateFirestoreFields(collectionName, docId, updateData, reloadFunction){
+  try{
+    await updateDoc(doc(db, collectionName, docId), updateData);
+    alert("✅ Update ho gaya!");
+    if(typeof window[reloadFunction] === "function"){
+      await window[reloadFunction]();
+    }
+  }catch(e){
+    alert("Update error: " + e.message);
+  }
+}
+
 async function loadAllData(){
   await Promise.allSettled([
     loadPayment(),
@@ -644,7 +636,7 @@ async function loadAllData(){
   ]);
 }
 
-// Photos
+// 1. Photos
 window.uploadPhoto = async function(){
   const btn = document.getElementById("photoUploadBtn");
   try{
@@ -670,6 +662,14 @@ window.uploadPhoto = async function(){
   }
 };
 
+window.editPhoto = function(id, currentTitle){
+  if(!CURRENT_IS_ADMIN) return alert("Sirf Admin edit kar sakta hai.");
+  const newTitle = prompt("Naya photo title enter karein:", currentTitle);
+  if(newTitle === null) return;
+  if(!newTitle.trim()) return alert("Title khali nahi ho sakta.");
+  updateFirestoreFields("photos", id, { title: newTitle.trim() }, "loadPhotos");
+};
+
 window.loadPhotos = async function(){
   const box = document.getElementById("photoList");
   try{
@@ -686,9 +686,9 @@ window.loadPhotos = async function(){
           <h3>${titleSafe}</h3>
           ${d.url ? `<img src="${d.url}">` : ""}
           ${CURRENT_IS_ADMIN ? `
-            <div>
-              <button class="btn-edit" onclick="editItemTitle('photos', '${id}', '${titleAttr}', 'loadPhotos')">✏️ Edit Title</button>
-              <button class="btn-delete" onclick="deleteItem('photos', '${id}', 'loadPhotos')">🗑️ Delete Photo</button>
+            <div class="action-box">
+              <button class="btn-edit" onclick="editPhoto('${id}', '${titleAttr}')">✏️ Edit</button>
+              <button class="btn-delete" onclick="deleteItem('photos', '${id}', 'loadPhotos')">🗑️ Delete</button>
             </div>
           ` : ""}
         </div>
@@ -698,7 +698,7 @@ window.loadPhotos = async function(){
   }catch(e){}
 };
 
-// Videos
+// 2. Videos
 window.uploadVideo = async function(){
   const btn = document.getElementById("videoUploadBtn");
   try{
@@ -739,6 +739,14 @@ window.uploadVideo = async function(){
   }
 };
 
+window.editVideo = function(id, currentTitle){
+  if(!CURRENT_IS_ADMIN) return alert("Sirf Admin edit kar sakta hai.");
+  const newTitle = prompt("Naya video title enter karein:", currentTitle);
+  if(newTitle === null) return;
+  if(!newTitle.trim()) return alert("Title khali nahi ho sakta.");
+  updateFirestoreFields("videos", id, { title: newTitle.trim() }, "loadVideos");
+};
+
 window.loadVideos = async function(){
   const box = document.getElementById("videoList");
   try{
@@ -764,9 +772,9 @@ window.loadVideos = async function(){
           <h3>${titleSafe}</h3>
           ${mediaHtml}
           ${CURRENT_IS_ADMIN ? `
-            <div>
-              <button class="btn-edit" onclick="editItemTitle('videos', '${id}', '${titleAttr}', 'loadVideos')">✏️ Edit Title</button>
-              <button class="btn-delete" onclick="deleteItem('videos', '${id}', 'loadVideos')">🗑️ Delete Video</button>
+            <div class="action-box">
+              <button class="btn-edit" onclick="editVideo('${id}', '${titleAttr}')">✏️ Edit</button>
+              <button class="btn-delete" onclick="deleteItem('videos', '${id}', 'loadVideos')">🗑️ Delete</button>
             </div>
           ` : ""}
         </div>
@@ -776,7 +784,23 @@ window.loadVideos = async function(){
   }catch(e){}
 };
 
-// Payment Details
+// 3. Payment Details
+window.editPayment = function(id, curHolder, curBank, curUpi){
+  if(!CURRENT_IS_ADMIN) return alert("Sirf Admin edit kar sakta hai.");
+  const holder = prompt("Account Holder Name:", curHolder);
+  if(holder === null) return;
+  const bank = prompt("Bank Details:", curBank);
+  if(bank === null) return;
+  const upi = prompt("UPI ID:", curUpi);
+  if(upi === null) return;
+
+  updateFirestoreFields("paymentMethods", id, {
+    accountHolder: holder.trim(),
+    bankDetails: bank.trim(),
+    upiId: upi.trim()
+  }, "loadPayment");
+};
+
 window.loadPayment = async function(){
   const box = document.getElementById("paymentDetails");
   try{
@@ -786,13 +810,21 @@ window.loadPayment = async function(){
     snapshot.forEach(item=>{
       const data=item.data();
       const id=item.id;
+      const holderAttr = (data.accountHolder || "").replace(/"/g, '&quot;');
+      const bankAttr = (data.bankDetails || "").replace(/"/g, '&quot;');
+      const upiAttr = (data.upiId || "").replace(/"/g, '&quot;');
       html += `
         <div class="item">
           <p><strong>Account Holder:</strong> ${escapeHTML(data.accountHolder || "-")}</p>
           <p><strong>Bank Details:</strong> ${escapeHTML(data.bankDetails || "-")}</p>
           <p><strong>UPI ID:</strong> ${escapeHTML(data.upiId || "-")}</p>
           ${data.qrUrl ? `<img src="${data.qrUrl}" style="max-width:240px;display:block;margin-top:10px;">` : ""}
-          ${CURRENT_IS_ADMIN ? `<button class="btn-delete" onclick="deleteItem('paymentMethods', '${id}', 'loadPayment')">🗑️ Delete Payment Info</button>` : ""}
+          ${CURRENT_IS_ADMIN ? `
+            <div class="action-box">
+              <button class="btn-edit" onclick="editPayment('${id}', '${holderAttr}', '${bankAttr}', '${upiAttr}')">✏️ Edit Details</button>
+              <button class="btn-delete" onclick="deleteItem('paymentMethods', '${id}', 'loadPayment')">🗑️ Delete Payment Info</button>
+            </div>
+          ` : ""}
         </div>
       `;
     });
@@ -828,7 +860,21 @@ window.savePaymentDetails = async function(){
   }
 };
 
-// Programs
+// 4. Programs
+window.editProgram = function(id, curTitle, curDesc){
+  if(!CURRENT_IS_ADMIN) return alert("Sirf Admin edit kar sakta hai.");
+  const newTitle = prompt("Naya Program Title:", curTitle);
+  if(newTitle === null) return;
+  const newDesc = prompt("Naya Program Description:", curDesc);
+  if(newDesc === null) return;
+  if(!newTitle.trim()) return alert("Title zaroori hai.");
+
+  updateFirestoreFields("programs", id, {
+    title: newTitle.trim(),
+    description: newDesc.trim()
+  }, "loadPrograms");
+};
+
 window.loadPrograms = async function(){
   const box = document.getElementById("programList");
   try{
@@ -838,11 +884,18 @@ window.loadPrograms = async function(){
     snapshot.forEach(item=>{
       const d=item.data();
       const id=item.id;
+      const titleAttr = (d.title || "").replace(/"/g, '&quot;');
+      const descAttr = (d.description || "").replace(/"/g, '&quot;');
       html += `
         <div class="item">
           <h3>${escapeHTML(d.title || "")}</h3>
           <p>${escapeHTML(d.description || "")}</p>
-          ${CURRENT_IS_ADMIN ? `<button class="btn-delete" onclick="deleteItem('programs', '${id}', 'loadPrograms')">🗑️ Delete Program</button>` : ""}
+          ${CURRENT_IS_ADMIN ? `
+            <div class="action-box">
+              <button class="btn-edit" onclick="editProgram('${id}', '${titleAttr}', '${descAttr}')">Edit</button>
+              <button class="btn-delete" onclick="deleteItem('programs', '${id}', 'loadPrograms')">Delete</button>
+            </div>
+          ` : ""}
         </div>
       `;
     });
@@ -863,7 +916,27 @@ window.addProgram = async function(){
   }catch(e){ alert(e.message); }
 };
 
-// Members
+// 5. Members
+window.editMember = function(id, curName, curPhone, curAddress, curResp){
+  if(!CURRENT_IS_ADMIN) return alert("Sirf Admin edit kar sakta hai.");
+  const name = prompt("Member Name:", curName);
+  if(name === null) return;
+  const phone = prompt("Mobile Number:", curPhone);
+  if(phone === null) return;
+  const address = prompt("Address:", curAddress);
+  if(address === null) return;
+  const resp = prompt("Zimmedari / Role:", curResp);
+  if(resp === null) return;
+  if(!name.trim()) return alert("Naam zaroori hai.");
+
+  updateFirestoreFields("members", id, {
+    name: name.trim(),
+    phone: phone.trim(),
+    address: address.trim(),
+    responsibility: resp.trim()
+  }, "loadMembers");
+};
+
 window.loadMembers = async function(){
   const box = document.getElementById("memberList");
   try{
@@ -873,13 +946,22 @@ window.loadMembers = async function(){
     snapshot.forEach(item=>{
       const d=item.data();
       const id=item.id;
+      const nameAttr = (d.name || "").replace(/"/g, '&quot;');
+      const phoneAttr = (d.phone || "").replace(/"/g, '&quot;');
+      const addrAttr = (d.address || "").replace(/"/g, '&quot;');
+      const respAttr = (d.responsibility || "").replace(/"/g, '&quot;');
       html += `
         <div class="item">
           <h3>${escapeHTML(d.name || "")}</h3>
           <p><strong>Zimmedari:</strong> ${escapeHTML(d.responsibility || "-")}</p>
           <p><strong>Pata:</strong> ${escapeHTML(d.address || "-")}</p>
           ${d.phone ? `<a href="tel:${encodeURIComponent(d.phone)}"><button class="action">📞 Call</button></a>` : ""}
-          ${CURRENT_IS_ADMIN ? `<button class="btn-delete" onclick="deleteItem('members', '${id}', 'loadMembers')">🗑️ Delete Member</button>` : ""}
+          ${CURRENT_IS_ADMIN ? `
+            <div class="action-box">
+              <button class="btn-edit" onclick="editMember('${id}', '${nameAttr}', '${phoneAttr}', '${addrAttr}', '${respAttr}')">Edit</button>
+              <button class="btn-delete" onclick="deleteItem('members', '${id}', 'loadMembers')">Delete</button>
+            </div>
+          ` : ""}
         </div>
       `;
     });
@@ -904,7 +986,15 @@ window.addMember = async function(){
   }catch(e){ alert(e.message); }
 };
 
-// Langar
+// 6. Langar
+window.editLangar = function(id, curText){
+  if(!CURRENT_IS_ADMIN) return alert("Sirf Admin edit kar sakta hai.");
+  const newText = prompt("Langar details update karein:", curText);
+  if(newText === null) return;
+  if(!newText.trim()) return alert("Details khali nahi ho sakti.");
+  updateFirestoreFields("langar", id, { text: newText.trim() }, "loadLangar");
+};
+
 window.loadLangar = async function(){
   const box = document.getElementById("langarContent");
   try{
@@ -914,10 +1004,16 @@ window.loadLangar = async function(){
     snapshot.forEach(item=>{
       const d=item.data();
       const id=item.id;
+      const textAttr = (d.text || "").replace(/"/g, '&quot;');
       html += `
         <div class="item">
           <div>${escapeHTML(d.text || "")}</div>
-          ${CURRENT_IS_ADMIN ? `<button class="btn-delete" onclick="deleteItem('langar', '${id}', 'loadLangar')">🗑️ Delete</button>` : ""}
+          ${CURRENT_IS_ADMIN ? `
+            <div class="action-box">
+              <button class="btn-edit" onclick="editLangar('${id}', '${textAttr}')">Edit</button>
+              <button class="btn-delete" onclick="deleteItem('langar', '${id}', 'loadLangar')">Delete</button>
+            </div>
+          ` : ""}
         </div>
       `;
     });
@@ -936,7 +1032,21 @@ window.saveLangar = async function(){
   }catch(e){ alert(e.message); }
 };
 
-// Notices
+// 7. Notices
+window.editNotice = function(id, curTitle, curText){
+  if(!CURRENT_IS_ADMIN) return alert("Sirf Admin edit kar sakta hai.");
+  const title = prompt("Naya Notice Title:", curTitle);
+  if(title === null) return;
+  const text = prompt("Naya Notice Content:", curText);
+  if(text === null) return;
+  if(!title.trim()) return alert("Title zaroori hai.");
+
+  updateFirestoreFields("notices", id, {
+    title: title.trim(),
+    text: text.trim()
+  }, "loadNotices");
+};
+
 window.loadNotices = async function(){
   const box = document.getElementById("noticeList");
   try{
@@ -946,11 +1056,18 @@ window.loadNotices = async function(){
     snapshot.forEach(item=>{
       const d=item.data();
       const id=item.id;
+      const titleAttr = (d.title || "").replace(/"/g, '&quot;');
+      const textAttr = (d.text || "").replace(/"/g, '&quot;');
       html += `
         <div class="item">
           <h3>${escapeHTML(d.title || "")}</h3>
           <p>${escapeHTML(d.text || "")}</p>
-          ${CURRENT_IS_ADMIN ? `<button class="btn-delete" onclick="deleteItem('notices', '${id}', 'loadNotices')">🗑️ Delete Notice</button>` : ""}
+          ${CURRENT_IS_ADMIN ? `
+            <div class="action-box">
+              <button class="btn-edit" onclick="editNotice('${id}', '${titleAttr}', '${textAttr}')">Edit</button>
+              <button class="btn-delete" onclick="deleteItem('notices', '${id}', 'loadNotices')">Delete</button>
+            </div>
+          ` : ""}
         </div>
       `;
     });
@@ -971,11 +1088,27 @@ window.addNotice = async function(){
   }catch(e){ alert(e.message); }
 };
 
-// Rashid Management
+// 8. Rashid Management
 window.checkRashid = function(){
   const number = document.getElementById("rashidNumberCheck").value.trim();
   if(!number) return alert("Rashid number daalein.");
   document.getElementById("rashidResult").innerHTML = `<div class="status">✅ Rashid Verified: <strong>${escapeHTML(number)}</strong></div>`;
+};
+
+window.editRashid = function(id, curDonor, curAmount, curPurpose){
+  if(!CURRENT_IS_ADMIN) return alert("Sirf Admin edit kar sakta hai.");
+  const donor = prompt("Donor Name:", curDonor);
+  if(donor === null) return;
+  const amt = prompt("Amount (₹):", curAmount);
+  if(amt === null) return;
+  const purp = prompt("Purpose:", curPurpose);
+  if(purp === null) return;
+
+  updateFirestoreFields("rashid", id, {
+    donorName: donor.trim(),
+    amount: Number(amt),
+    purpose: purp.trim()
+  }, "loadRashids");
 };
 
 window.createRashid = async function(){
@@ -1009,12 +1142,20 @@ window.loadRashids = async function(){
     snapshot.forEach(item=>{
       const d=item.data();
       const id=item.id;
+      const donorAttr = (d.donorName || "").replace(/"/g, '&quot;');
+      const amtAttr = (d.amount || 0).toString();
+      const purpAttr = (d.purpose || "").replace(/"/g, '&quot;');
       html += `
         <div class="item">
           <p><strong>Rashid No:</strong> ${escapeHTML(d.rashidNumber)}</p>
           <p><strong>Donor:</strong> ${escapeHTML(d.donorName)} (₹${escapeHTML(d.amount)})</p>
           <p><strong>Purpose:</strong> ${escapeHTML(d.purpose)}</p>
-          ${CURRENT_IS_ADMIN ? `<button class="btn-delete" onclick="deleteItem('rashid', '${id}', 'loadRashids')">🗑️ Delete Rashid</button>` : ""}
+          ${CURRENT_IS_ADMIN ? `
+            <div class="action-box">
+              <button class="btn-edit" onclick="editRashid('${id}', '${donorAttr}', '${amtAttr}', '${purpAttr}')">Edit</button>
+              <button class="btn-delete" onclick="deleteItem('rashid', '${id}', 'loadRashids')">Delete</button>
+            </div>
+          ` : ""}
         </div>
       `;
     });
