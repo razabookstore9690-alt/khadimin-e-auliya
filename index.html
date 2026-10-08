@@ -49,6 +49,7 @@ button{cursor:pointer;}
 .card{background:white;padding:18px;border-radius:14px;box-shadow:0 3px 12px rgba(0,0,0,.06);margin-bottom:16px;}
 .card h2,.card h3{color:#075c39;margin-bottom:10px;}
 .action{border:0;background:#075c39;color:white;padding:10px 14px;border-radius:8px;margin-top:8px;font-weight:bold;}
+.btn-edit{border:0;background:#f39c12;color:white;padding:8px 14px;border-radius:8px;margin-top:10px;margin-right:6px;font-weight:bold;display:inline-block;}
 .btn-delete{border:0;background:#d32f2f;color:white;padding:8px 14px;border-radius:8px;margin-top:10px;font-weight:bold;display:inline-block;}
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid #ddd;display:flex;justify-content:space-around;padding:10px 4px;z-index:500;}
 .bottom-nav button{border:0;background:none;font-size:12px;color:#555;}
@@ -324,8 +325,8 @@ button{cursor:pointer;}
       <span class="admin-badge">LOGGED IN AS ADMIN</span>
     </div>
     <div class="grid">
-      <div class="card"><h3>📸 Photos</h3><p>Upload / Delete</p><button class="action" onclick="showPage('photos')">Manage Photos</button></div>
-      <div class="card"><h3>🎥 Videos</h3><p>Upload / Delete</p><button class="action" onclick="showPage('videos')">Manage Videos</button></div>
+      <div class="card"><h3>📸 Photos</h3><p>Upload / Edit / Delete</p><button class="action" onclick="showPage('photos')">Manage Photos</button></div>
+      <div class="card"><h3>🎥 Videos</h3><p>Upload / Edit / Delete</p><button class="action" onclick="showPage('videos')">Manage Videos</button></div>
       <div class="card"><h3>💳 Payment QR</h3><p>Change details</p><button class="action" onclick="showPage('donation')">Update Payment</button></div>
       <div class="card"><h3>📜 Rashid</h3><p>Manage slips</p><button class="action" onclick="showPage('rashid')">Manage Rashid</button></div>
       <div class="card"><h3>👥 Members</h3><p>Add / Remove team</p><button class="action" onclick="showPage('members')">Manage Members</button></div>
@@ -359,7 +360,16 @@ import {
   GoogleAuthProvider, 
   signOut 
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+import { 
+  getFirestore, 
+  collection, 
+  addDoc, 
+  getDocs, 
+  deleteDoc, 
+  updateDoc, 
+  doc, 
+  serverTimestamp 
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAEcw0NtlOl9egPuU9EkEWp4nkhrxKw2iY",
@@ -458,7 +468,6 @@ adminTab.onclick=()=>{
   userBox.classList.add("hidden");
 };
 
-// User Form Toggle (Sign in vs Register)
 const userSignInForm = document.getElementById("userSignInForm");
 const userRegisterBox = document.getElementById("userRegisterBox");
 document.getElementById("showRegisterBtn").onclick=()=>{
@@ -514,7 +523,7 @@ document.getElementById("googleLogin").addEventListener("click",async()=>{
     const provider = new GoogleAuthProvider();
     await signInWithPopup(auth, provider);
   }catch(error){
-    alert("Google Login Error: " + error.message + "\n(Agar unauthorized domain aaye to Firebase me vercel domain add karein)");
+    alert("Google Login Error: " + error.message);
   }
 });
 
@@ -586,6 +595,26 @@ window.showPage=function(page){
   }
 };
 
+// Edit Title Function
+window.editItemTitle = async function(collectionName, docId, currentTitle, reloadFunction){
+  if(!CURRENT_IS_ADMIN) return alert("Sirf Admin edit kar sakta hai.");
+  const newTitle = prompt("Naya title enter karein:", currentTitle);
+  if(newTitle === null) return;
+  const trimmed = newTitle.trim();
+  if(!trimmed) return alert("Title khali nahi ho sakta.");
+
+  try{
+    await updateDoc(doc(db, collectionName, docId), { title: trimmed });
+    alert("✅ Title update ho gaya!");
+    if(typeof window[reloadFunction] === "function"){
+      await window[reloadFunction]();
+    }
+  }catch(e){
+    alert("Edit error: " + e.message);
+  }
+};
+
+// Delete Item Function
 window.deleteItem = async function(collectionName, docId, reloadFunction){
   if(!CURRENT_IS_ADMIN) return alert("Sirf Admin delete kar sakta hai.");
   const confirmDelete = confirm("Kya aap isko sach me delete karna chahte hain?");
@@ -650,11 +679,18 @@ window.loadPhotos = async function(){
     snapshot.forEach(item=>{
       const d=item.data();
       const id=item.id;
+      const titleSafe = escapeHTML(d.title || "Photo");
+      const titleAttr = (d.title || "Photo").replace(/"/g, '&quot;');
       html += `
         <div class="item">
-          <h3>${escapeHTML(d.title || "Photo")}</h3>
+          <h3>${titleSafe}</h3>
           ${d.url ? `<img src="${d.url}">` : ""}
-          ${CURRENT_IS_ADMIN ? `<button class="btn-delete" onclick="deleteItem('photos', '${id}', 'loadPhotos')">🗑️ Delete Photo</button>` : ""}
+          ${CURRENT_IS_ADMIN ? `
+            <div>
+              <button class="btn-edit" onclick="editItemTitle('photos', '${id}', '${titleAttr}', 'loadPhotos')">✏️ Edit Title</button>
+              <button class="btn-delete" onclick="deleteItem('photos', '${id}', 'loadPhotos')">🗑️ Delete Photo</button>
+            </div>
+          ` : ""}
         </div>
       `;
     });
@@ -712,6 +748,8 @@ window.loadVideos = async function(){
     snapshot.forEach(item=>{
       const d=item.data();
       const id=item.id;
+      const titleSafe = escapeHTML(d.title || "Video");
+      const titleAttr = (d.title || "Video").replace(/"/g, '&quot;');
       const parsed = parseVideoSource(d.url);
 
       let mediaHtml = "";
@@ -723,9 +761,14 @@ window.loadVideos = async function(){
 
       html += `
         <div class="item">
-          <h3>${escapeHTML(d.title || "Video")}</h3>
+          <h3>${titleSafe}</h3>
           ${mediaHtml}
-          ${CURRENT_IS_ADMIN ? `<button class="btn-delete" onclick="deleteItem('videos', '${id}', 'loadVideos')">🗑️ Delete Video</button>` : ""}
+          ${CURRENT_IS_ADMIN ? `
+            <div>
+              <button class="btn-edit" onclick="editItemTitle('videos', '${id}', '${titleAttr}', 'loadVideos')">✏️ Edit Title</button>
+              <button class="btn-delete" onclick="deleteItem('videos', '${id}', 'loadVideos')">🗑️ Delete Video</button>
+            </div>
+          ` : ""}
         </div>
       `;
     });
