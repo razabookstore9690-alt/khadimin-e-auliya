@@ -74,7 +74,6 @@ button{cursor:pointer;}
   </div>
 </div>
 
-<!-- Login Section (Mandatory) -->
 <section id="loginPage" class="hidden">
 <div class="login-card">
   <div class="logo">KHADIMIN-E-AULIYA</div>
@@ -88,14 +87,14 @@ button{cursor:pointer;}
     <div id="userSignInForm">
       <div class="form-group">
         <label>Email ID</label>
-        <input id="userEmail" type="email" placeholder="Apna Email ID likhein">
+        <input id="userEmail" type="email" placeholder="Apna email likhein">
       </div>
       <div class="form-group">
         <label>Password</label>
         <input id="userPassword" type="password" placeholder="Password likhein">
       </div>
       <button class="primary" id="userEmailLoginBtn">Login Karein</button>
-
+      
       <div style="display:flex;justify-content:space-between;margin-top:6px;">
         <button type="button" class="link-btn" id="forgotPassBtn">Forgot Password?</button>
         <button type="button" class="link-btn" id="showRegisterBtn">Naya Account Banayein</button>
@@ -110,10 +109,10 @@ button{cursor:pointer;}
       <h3 style="color:#075c39;margin-bottom:12px;font-size:16px;text-align:center;">Naya Account Banayein</h3>
       <div class="form-group">
         <label>Email ID</label>
-        <input id="regEmail" type="email" placeholder="Apna Email ID likhein">
+        <input id="regEmail" type="email" placeholder="Apna email likhein">
       </div>
       <div class="form-group">
-        <label>Password (Min 6 characters)</label>
+        <label>Password (Min 6 digit)</label>
         <input id="regPassword" type="password" placeholder="Password banayein">
       </div>
       <button class="primary" id="userRegisterBtn">Register / Sign Up</button>
@@ -136,7 +135,6 @@ button{cursor:pointer;}
 </div>
 </section>
 
-<!-- Main App (Only after login) -->
 <section id="app" class="hidden">
 <header class="topbar">
   <div class="topbar-inner">
@@ -357,8 +355,7 @@ import {
   signInWithEmailAndPassword, 
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
-  signInWithRedirect,
-  getRedirectResult,
+  signInWithPopup, 
   GoogleAuthProvider, 
   signOut 
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
@@ -382,10 +379,6 @@ const CLOUD_NAME = "cfadsjum";
 const UPLOAD_PRESET = "khadimin_preset";
 
 let CURRENT_IS_ADMIN = false;
-
-getRedirectResult(auth).catch((error) => {
-  if(error && error.code) console.warn("Redirect notice:", error.message);
-});
 
 function uploadToCloudinaryDirect(file, type = "auto"){
   return new Promise((resolve, reject) => {
@@ -465,6 +458,7 @@ adminTab.onclick=()=>{
   userBox.classList.add("hidden");
 };
 
+// User Form Toggle (Sign in vs Register)
 const userSignInForm = document.getElementById("userSignInForm");
 const userRegisterBox = document.getElementById("userRegisterBox");
 document.getElementById("showRegisterBtn").onclick=()=>{
@@ -484,11 +478,7 @@ document.getElementById("userEmailLoginBtn").addEventListener("click", async()=>
   try{
     await signInWithEmailAndPassword(auth, email, password);
   }catch(e){
-    if(e.code === "auth/invalid-credential" || e.code === "auth/wrong-password"){
-      alert("Password ya Email galat hai. Kripya sahi password dalein ya 'Forgot Password' par click karein.");
-    }else{
-      alert("Login Error: " + e.message);
-    }
+    alert("Login Error: " + e.message);
   }
 });
 
@@ -497,43 +487,39 @@ document.getElementById("userRegisterBtn").addEventListener("click", async()=>{
   const email = document.getElementById("regEmail").value.trim();
   const password = document.getElementById("regPassword").value;
   if(!email || !password) return alert("Email aur Password bharein.");
-  if(password.length < 6) return alert("Password kam se kam 6 akshar ka hona chahiye.");
+  if(password.length < 6) return alert("Password kam se kam 6 characters ka hona chahiye.");
   try{
     await createUserWithEmailAndPassword(auth, email, password);
     alert("✅ Account ban gaya! Aap login ho chuke hain.");
   }catch(e){
-    if(e.code === "auth/email-already-in-use"){
-      alert("Yeh email pehle se registered hai. Kripya login karein.");
-    }else{
-      alert("Registration Error: " + e.message);
-    }
+    alert("Registration Error: " + e.message);
   }
 });
 
-// Forgot Password
+// User Forgot Password
 document.getElementById("forgotPassBtn").addEventListener("click", async()=>{
-  const email = prompt("Apna registered Email ID likhein:");
+  const email = prompt("Apna registered Email ID likhein jahan password reset link bhejna hai:");
   if(!email) return;
   try{
     await sendPasswordResetEmail(auth, email.trim());
-    alert("✅ Password reset karne ka link aapke email par bhej diya gaya hai! Gmail check karein.");
+    alert("✅ Password reset link aapke email par bhej diya gaya hai!");
   }catch(e){
     alert("Error: " + e.message);
   }
 });
 
-// Google Login
-document.getElementById("googleLogin").addEventListener("click", async()=>{
+// User Google Login
+document.getElementById("googleLogin").addEventListener("click",async()=>{
   try{
     const provider = new GoogleAuthProvider();
-    await signInWithRedirect(auth, provider);
+    await signInWithPopup(auth, provider);
   }catch(error){
-    alert("Google Sign-In Error: " + error.message);
+    alert("Google Login Error: " + error.message + "\n(Agar unauthorized domain aaye to Firebase me vercel domain add karein)");
   }
 });
 
 // Admin Login
-document.getElementById("adminLogin").addEventListener("click", async()=>{
+document.getElementById("adminLogin").addEventListener("click",async()=>{
   let email = document.getElementById("adminEmail").value.trim().toLowerCase();
   const password = document.getElementById("adminPassword").value;
   if(!email || !password) return alert("User ID aur Password bharein.");
@@ -545,15 +531,24 @@ document.getElementById("adminLogin").addEventListener("click", async()=>{
   try{
     await signInWithEmailAndPassword(auth, email, password);
   }catch(error){
-    alert("Admin Login Failed: " + error.message);
+    alert("Login failed: " + error.message);
   }
 });
 
-function openApp(isAdmin, roleLabel){
-  CURRENT_IS_ADMIN = isAdmin;
+onAuthStateChanged(auth, async(user)=>{
+  if(!user){
+    CURRENT_IS_ADMIN = false;
+    document.getElementById("loginPage").classList.remove("hidden");
+    document.getElementById("app").classList.add("hidden");
+    return;
+  }
+
+  const userEmail = (user.email || "").toLowerCase();
+  CURRENT_IS_ADMIN = ADMIN_EMAILS.includes(userEmail);
+
   document.getElementById("loginPage").classList.add("hidden");
   document.getElementById("app").classList.remove("hidden");
-  document.getElementById("roleText").textContent = roleLabel;
+  document.getElementById("roleText").textContent = CURRENT_IS_ADMIN ? "👑 Admin Account" : "👤 User Account";
 
   const adminElements = [
     "adminNav",
@@ -575,30 +570,15 @@ function openApp(isAdmin, roleLabel){
     }
   });
 
-  loadAllData();
-}
-
-onAuthStateChanged(auth, async(user)=>{
-  if(!user){
-    document.getElementById("loginPage").classList.remove("hidden");
-    document.getElementById("app").classList.add("hidden");
-    return;
-  }
-
-  const userEmail = (user.email || "").toLowerCase();
-  const isAdmin = ADMIN_EMAILS.includes(userEmail);
-  openApp(isAdmin, isAdmin ? "👑 Admin Account" : "👤 User Account");
+  await loadAllData();
 });
 
-document.getElementById("logout").addEventListener("click", async()=>{
-  try{
-    await signOut(auth);
-  }catch(e){}
-  location.reload();
+document.getElementById("logout").addEventListener("click",async()=>{
+  await signOut(auth);
 });
 
-window.showPage = function(page){
-  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+window.showPage=function(page){
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   const selected = document.getElementById(page);
   if(selected){
     selected.classList.add("active");
