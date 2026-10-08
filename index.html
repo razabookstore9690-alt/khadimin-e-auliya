@@ -47,10 +47,12 @@ button{cursor:pointer;}
 .card{background:white;padding:18px;border-radius:14px;box-shadow:0 3px 12px rgba(0,0,0,.06);margin-bottom:16px;}
 .card h2,.card h3{color:#075c39;margin-bottom:10px;}
 .action{border:0;background:#075c39;color:white;padding:10px 14px;border-radius:8px;margin-top:8px;font-weight:bold;}
+.btn-delete{border:0;background:#d32f2f;color:white;padding:8px 14px;border-radius:8px;margin-top:10px;font-weight:bold;display:inline-block;}
+.btn-delete:hover{background:#b71c1c;}
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid #ddd;display:flex;justify-content:space-around;padding:10px 4px;z-index:500;}
 .bottom-nav button{border:0;background:none;font-size:12px;color:#555;}
 .bottom-nav button.active{color:#075c39;font-weight:bold;}
-.item{border:1px solid #e1e8e4;border-radius:12px;padding:14px;margin:12px 0;background:#fafcfb;}
+.item{border:1px solid #e1e8e4;border-radius:12px;padding:14px;margin:12px 0;background:#fafcfb;position:relative;}
 .item img,.item video{width:100%;max-height:300px;object-fit:cover;border-radius:10px;margin-top:8px;}
 .admin-badge{display:inline-block;background:#d6ad45;color:#063d28;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:bold;}
 .admin-box{background:#f0f8f4;border:2px dashed #075c39;border-radius:12px;padding:16px;margin-bottom:18px;}
@@ -108,6 +110,7 @@ button{cursor:pointer;}
 </header>
 
 <main class="container">
+  <!-- Home Page -->
   <section id="home" class="page active">
     <div class="hero">
       <h1>KHADIMIN-E-AULIYA</h1>
@@ -137,6 +140,7 @@ button{cursor:pointer;}
     </div>
   </section>
 
+  <!-- Photos Page -->
   <section id="photos" class="page">
     <div class="card">
       <h2>Photos Gallery</h2>
@@ -150,6 +154,7 @@ button{cursor:pointer;}
     </div>
   </section>
 
+  <!-- Videos Page -->
   <section id="videos" class="page">
     <div class="card">
       <h2>Videos Gallery</h2>
@@ -163,6 +168,7 @@ button{cursor:pointer;}
     </div>
   </section>
 
+  <!-- Programs Page -->
   <section id="programs" class="page">
     <div class="card">
       <h2>Programs</h2>
@@ -176,6 +182,7 @@ button{cursor:pointer;}
     </div>
   </section>
 
+  <!-- Donation Page -->
   <section id="donation" class="page">
     <div class="card">
       <h2>Donation / Payment Details</h2>
@@ -191,6 +198,7 @@ button{cursor:pointer;}
     </div>
   </section>
 
+  <!-- Rashid Page -->
   <section id="rashid" class="page">
     <div class="card">
       <h2>Rashid Check</h2>
@@ -214,9 +222,15 @@ button{cursor:pointer;}
         </div>
         <button class="action" onclick="createRashid()">Create Rashid</button>
       </div>
+
+      <div id="adminRashidList" class="hidden" style="margin-top:20px;">
+        <h3 style="color:#075c39;margin-bottom:10px;">📋 All Issued Rashids</h3>
+        <div id="rashidList">Loading...</div>
+      </div>
     </div>
   </section>
 
+  <!-- Members Page -->
   <section id="members" class="page">
     <div class="card">
       <h2>Members List</h2>
@@ -232,6 +246,7 @@ button{cursor:pointer;}
     </div>
   </section>
 
+  <!-- Langar Page -->
   <section id="langar" class="page">
     <div class="card">
       <h2>Langar-e-Gausiya</h2>
@@ -244,6 +259,7 @@ button{cursor:pointer;}
     </div>
   </section>
 
+  <!-- Notices Page -->
   <section id="notices" class="page">
     <div class="card">
       <h2>Notices & Announcements</h2>
@@ -257,20 +273,21 @@ button{cursor:pointer;}
     </div>
   </section>
 
+  <!-- Central Admin Dashboard -->
   <section id="admin" class="page">
     <div class="hero">
       <h2>⚙️ ADMIN CONTROL DASHBOARD</h2>
       <span class="admin-badge">LOGGED IN AS ADMIN</span>
     </div>
     <div class="grid">
-      <div class="card"><h3>📸 Photos</h3><p>Upload photos</p><button class="action" onclick="showPage('photos')">Upload Photo</button></div>
-      <div class="card"><h3>🎥 Videos</h3><p>Upload videos</p><button class="action" onclick="showPage('videos')">Upload Video</button></div>
-      <div class="card"><h3>💳 Payment QR</h3><p>Change QR/Bank</p><button class="action" onclick="showPage('donation')">Update Payment</button></div>
-      <div class="card"><h3>📜 Rashid</h3><p>Generate slip</p><button class="action" onclick="showPage('rashid')">Create Rashid</button></div>
-      <div class="card"><h3>👥 Members</h3><p>Add team</p><button class="action" onclick="showPage('members')">Add Member</button></div>
-      <div class="card"><h3>📅 Programs</h3><p>Add event</p><button class="action" onclick="showPage('programs')">Add Program</button></div>
-      <div class="card"><h3>🍲 Langar</h3><p>Edit details</p><button class="action" onclick="showPage('langar')">Edit Langar</button></div>
-      <div class="card"><h3>📢 Notices</h3><p>Post alert</p><button class="action" onclick="showPage('notices')">Publish Notice</button></div>
+      <div class="card"><h3>📸 Photos</h3><p>Upload / Delete</p><button class="action" onclick="showPage('photos')">Manage Photos</button></div>
+      <div class="card"><h3>🎥 Videos</h3><p>Upload / Delete</p><button class="action" onclick="showPage('videos')">Manage Videos</button></div>
+      <div class="card"><h3>💳 Payment QR</h3><p>Change details</p><button class="action" onclick="showPage('donation')">Update Payment</button></div>
+      <div class="card"><h3>📜 Rashid</h3><p>Manage slips</p><button class="action" onclick="showPage('rashid')">Manage Rashid</button></div>
+      <div class="card"><h3>👥 Members</h3><p>Add / Remove team</p><button class="action" onclick="showPage('members')">Manage Members</button></div>
+      <div class="card"><h3>📅 Programs</h3><p>Add / Remove event</p><button class="action" onclick="showPage('programs')">Manage Programs</button></div>
+      <div class="card"><h3>🍲 Langar</h3><p>Edit / Remove info</p><button class="action" onclick="showPage('langar')">Manage Langar</button></div>
+      <div class="card"><h3>📢 Notices</h3><p>Post / Remove alert</p><button class="action" onclick="showPage('notices')">Manage Notices</button></div>
     </div>
   </section>
 </main>
@@ -289,7 +306,7 @@ button{cursor:pointer;}
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-import { getFirestore, collection, addDoc, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAEcw0NtlOl9egPuU9EkEWp4nkhrxKw2iY",
@@ -307,6 +324,8 @@ const db = getFirestore(app);
 
 const CLOUD_NAME = "dfadsjum";
 const UPLOAD_PRESET = "khadimin_preset";
+
+let CURRENT_IS_ADMIN = false;
 
 function fileToBase64(file){
   return new Promise((resolve, reject)=>{
@@ -396,17 +415,18 @@ document.getElementById("adminLogin").addEventListener("click",async()=>{
 
 onAuthStateChanged(auth, async(user)=>{
   if(!user){
+    CURRENT_IS_ADMIN = false;
     document.getElementById("loginPage").classList.remove("hidden");
     document.getElementById("app").classList.add("hidden");
     return;
   }
 
   const userEmail = (user.email || "").toLowerCase();
-  const isAdmin = ADMIN_EMAILS.includes(userEmail);
+  CURRENT_IS_ADMIN = ADMIN_EMAILS.includes(userEmail);
 
   document.getElementById("loginPage").classList.add("hidden");
   document.getElementById("app").classList.remove("hidden");
-  document.getElementById("roleText").textContent = isAdmin ? "👑 Admin Account" : "👤 User Account";
+  document.getElementById("roleText").textContent = CURRENT_IS_ADMIN ? "👑 Admin Account" : "👤 User Account";
 
   const adminElements = [
     "adminNav",
@@ -414,6 +434,7 @@ onAuthStateChanged(auth, async(user)=>{
     "adminVideoUpload",
     "adminPaymentForm",
     "adminRashidBox",
+    "adminRashidList",
     "adminMemberForm",
     "adminProgramForm",
     "adminLangarForm",
@@ -422,7 +443,7 @@ onAuthStateChanged(auth, async(user)=>{
   adminElements.forEach(id => {
     const el = document.getElementById(id);
     if(el){
-      if(isAdmin) el.classList.remove("hidden");
+      if(CURRENT_IS_ADMIN) el.classList.remove("hidden");
       else el.classList.add("hidden");
     }
   });
@@ -443,6 +464,23 @@ window.showPage=function(page){
   }
 };
 
+// Universal Generic Delete Item Function
+window.deleteItem = async function(collectionName, docId, reloadFunction){
+  if(!CURRENT_IS_ADMIN) return alert("Sirf Admin delete kar sakta hai.");
+  const confirmDelete = confirm("Kya aap isko sach me delete karna chahte hain?");
+  if(!confirmDelete) return;
+
+  try{
+    await deleteDoc(doc(db, collectionName, docId));
+    alert("✅ Safaltapoorvak delete ho gaya!");
+    if(typeof window[reloadFunction] === "function"){
+      await window[reloadFunction]();
+    }
+  }catch(e){
+    alert("Delete error: " + e.message);
+  }
+};
+
 async function loadAllData(){
   await Promise.allSettled([
     loadPayment(),
@@ -451,10 +489,12 @@ async function loadAllData(){
     loadVideos(),
     loadMembers(),
     loadLangar(),
-    loadNotices()
+    loadNotices(),
+    loadRashids()
   ]);
 }
 
+// Photos
 window.uploadPhoto = async function(){
   const btn = document.getElementById("photoUploadBtn");
   try{
@@ -480,7 +520,7 @@ window.uploadPhoto = async function(){
   }
 };
 
-async function loadPhotos(){
+window.loadPhotos = async function(){
   const box = document.getElementById("photoList");
   try{
     const snapshot = await getDocs(collection(db,"photos"));
@@ -488,12 +528,20 @@ async function loadPhotos(){
     let html="";
     snapshot.forEach(item=>{
       const d=item.data();
-      html += `<div class="item"><h3>${escapeHTML(d.title || "Photo")}</h3>${d.url ? `<img src="${d.url}">` : ""}</div>`;
+      const id=item.id;
+      html += `
+        <div class="item">
+          <h3>${escapeHTML(d.title || "Photo")}</h3>
+          ${d.url ? `<img src="${d.url}">` : ""}
+          ${CURRENT_IS_ADMIN ? `<button class="btn-delete" onclick="deleteItem('photos', '${id}', 'loadPhotos')">🗑️ Delete Photo</button>` : ""}
+        </div>
+      `;
     });
     box.innerHTML = html;
   }catch(e){}
-}
+};
 
+// Videos
 window.uploadVideo = async function(){
   const btn = document.getElementById("videoUploadBtn");
   try{
@@ -519,7 +567,7 @@ window.uploadVideo = async function(){
   }
 };
 
-async function loadVideos(){
+window.loadVideos = async function(){
   const box = document.getElementById("videoList");
   try{
     const snapshot = await getDocs(collection(db,"videos"));
@@ -527,13 +575,21 @@ async function loadVideos(){
     let html="";
     snapshot.forEach(item=>{
       const d=item.data();
-      html += `<div class="item"><h3>${escapeHTML(d.title || "Video")}</h3>${d.url ? `<video controls><source src="${d.url}"></video>` : ""}</div>`;
+      const id=item.id;
+      html += `
+        <div class="item">
+          <h3>${escapeHTML(d.title || "Video")}</h3>
+          ${d.url ? `<video controls><source src="${d.url}"></video>` : ""}
+          ${CURRENT_IS_ADMIN ? `<button class="btn-delete" onclick="deleteItem('videos', '${id}', 'loadVideos')">🗑️ Delete Video</button>` : ""}
+        </div>
+      `;
     });
     box.innerHTML = html;
   }catch(e){}
-}
+};
 
-async function loadPayment(){
+// Payment
+window.loadPayment = async function(){
   const box = document.getElementById("paymentDetails");
   try{
     const snapshot = await getDocs(collection(db,"paymentMethods"));
@@ -541,18 +597,20 @@ async function loadPayment(){
     let html="";
     snapshot.forEach(item=>{
       const data=item.data();
+      const id=item.id;
       html += `
         <div class="item">
           <p><strong>Account Holder:</strong> ${escapeHTML(data.accountHolder || "-")}</p>
           <p><strong>Bank Details:</strong> ${escapeHTML(data.bankDetails || "-")}</p>
           <p><strong>UPI ID:</strong> ${escapeHTML(data.upiId || "-")}</p>
           ${data.qrUrl ? `<img src="${data.qrUrl}" style="max-width:240px;display:block;margin-top:10px;">` : ""}
+          ${CURRENT_IS_ADMIN ? `<button class="btn-delete" onclick="deleteItem('paymentMethods', '${id}', 'loadPayment')">🗑️ Delete Payment Info</button>` : ""}
         </div>
       `;
     });
     box.innerHTML=html;
   }catch(e){ box.innerHTML = "<p>Error loading payment details.</p>"; }
-}
+};
 
 window.savePaymentDetails = async function(){
   const btn = document.getElementById("payUpdateBtn");
@@ -582,7 +640,8 @@ window.savePaymentDetails = async function(){
   }
 };
 
-async function loadPrograms(){
+// Programs
+window.loadPrograms = async function(){
   const box = document.getElementById("programList");
   try{
     const snapshot = await getDocs(collection(db,"programs"));
@@ -590,11 +649,18 @@ async function loadPrograms(){
     let html="";
     snapshot.forEach(item=>{
       const d=item.data();
-      html += `<div class="item"><h3>${escapeHTML(d.title || "")}</h3><p>${escapeHTML(d.description || "")}</p></div>`;
+      const id=item.id;
+      html += `
+        <div class="item">
+          <h3>${escapeHTML(d.title || "")}</h3>
+          <p>${escapeHTML(d.description || "")}</p>
+          ${CURRENT_IS_ADMIN ? `<button class="btn-delete" onclick="deleteItem('programs', '${id}', 'loadPrograms')">🗑️ Delete Program</button>` : ""}
+        </div>
+      `;
     });
     box.innerHTML=html;
   }catch(e){}
-}
+};
 
 window.addProgram = async function(){
   try{
@@ -609,7 +675,8 @@ window.addProgram = async function(){
   }catch(e){ alert(e.message); }
 };
 
-async function loadMembers(){
+// Members
+window.loadMembers = async function(){
   const box = document.getElementById("memberList");
   try{
     const snapshot = await getDocs(collection(db,"members"));
@@ -617,11 +684,20 @@ async function loadMembers(){
     let html="";
     snapshot.forEach(item=>{
       const d=item.data();
-      html += `<div class="item"><h3>${escapeHTML(d.name || "")}</h3><p><strong>Zimmedari:</strong> ${escapeHTML(d.responsibility || "-")}</p><p><strong>Pata:</strong> ${escapeHTML(d.address || "-")}</p>${d.phone ? `<a href="tel:${encodeURIComponent(d.phone)}"><button class="action">📞 Call</button></a>` : ""}</div>`;
+      const id=item.id;
+      html += `
+        <div class="item">
+          <h3>${escapeHTML(d.name || "")}</h3>
+          <p><strong>Zimmedari:</strong> ${escapeHTML(d.responsibility || "-")}</p>
+          <p><strong>Pata:</strong> ${escapeHTML(d.address || "-")}</p>
+          ${d.phone ? `<a href="tel:${encodeURIComponent(d.phone)}"><button class="action">📞 Call</button></a>` : ""}
+          ${CURRENT_IS_ADMIN ? `<button class="btn-delete" onclick="deleteItem('members', '${id}', 'loadMembers')">🗑️ Delete Member</button>` : ""}
+        </div>
+      `;
     });
     box.innerHTML = html;
   }catch(e){}
-}
+};
 
 window.addMember = async function(){
   try{
@@ -640,7 +716,8 @@ window.addMember = async function(){
   }catch(e){ alert(e.message); }
 };
 
-async function loadLangar(){
+// Langar
+window.loadLangar = async function(){
   const box = document.getElementById("langarContent");
   try{
     const snapshot = await getDocs(collection(db,"langar"));
@@ -648,11 +725,17 @@ async function loadLangar(){
     let html="";
     snapshot.forEach(item=>{
       const d=item.data();
-      html += `<div class="item">${escapeHTML(d.text || "")}</div>`;
+      const id=item.id;
+      html += `
+        <div class="item">
+          <div>${escapeHTML(d.text || "")}</div>
+          ${CURRENT_IS_ADMIN ? `<button class="btn-delete" onclick="deleteItem('langar', '${id}', 'loadLangar')">🗑️ Delete</button>` : ""}
+        </div>
+      `;
     });
     box.innerHTML = html;
   }catch(e){}
-}
+};
 
 window.saveLangar = async function(){
   try{
@@ -665,7 +748,8 @@ window.saveLangar = async function(){
   }catch(e){ alert(e.message); }
 };
 
-async function loadNotices(){
+// Notices
+window.loadNotices = async function(){
   const box = document.getElementById("noticeList");
   try{
     const snapshot = await getDocs(collection(db,"notices"));
@@ -673,11 +757,18 @@ async function loadNotices(){
     let html="";
     snapshot.forEach(item=>{
       const d=item.data();
-      html += `<div class="item"><h3>${escapeHTML(d.title || "")}</h3><p>${escapeHTML(d.text || "")}</p></div>`;
+      const id=item.id;
+      html += `
+        <div class="item">
+          <h3>${escapeHTML(d.title || "")}</h3>
+          <p>${escapeHTML(d.text || "")}</p>
+          ${CURRENT_IS_ADMIN ? `<button class="btn-delete" onclick="deleteItem('notices', '${id}', 'loadNotices')">🗑️ Delete Notice</button>` : ""}
+        </div>
+      `;
     });
     box.innerHTML = html;
   }catch(e){}
-}
+};
 
 window.addNotice = async function(){
   try{
@@ -692,6 +783,7 @@ window.addNotice = async function(){
   }catch(e){ alert(e.message); }
 };
 
+// Rashid Management
 window.checkRashid = function(){
   const number = document.getElementById("rashidNumberCheck").value.trim();
   if(!number) return alert("Rashid number daalein.");
@@ -715,7 +807,31 @@ window.createRashid = async function(){
     document.getElementById("donorMobile").value = "";
     document.getElementById("donorAddress").value = "";
     document.getElementById("donationAmount").value = "";
+    await loadRashids();
   }catch(e){ alert(e.message); }
+};
+
+window.loadRashids = async function(){
+  const box = document.getElementById("rashidList");
+  if(!box) return;
+  try{
+    const snapshot = await getDocs(collection(db,"rashid"));
+    if(snapshot.empty) return box.innerHTML = "<p>Koi Rashid nahi hai.</p>";
+    let html="";
+    snapshot.forEach(item=>{
+      const d=item.data();
+      const id=item.id;
+      html += `
+        <div class="item">
+          <p><strong>Rashid No:</strong> ${escapeHTML(d.rashidNumber)}</p>
+          <p><strong>Donor:</strong> ${escapeHTML(d.donorName)} (₹${escapeHTML(d.amount)})</p>
+          <p><strong>Purpose:</strong> ${escapeHTML(d.purpose)}</p>
+          ${CURRENT_IS_ADMIN ? `<button class="btn-delete" onclick="deleteItem('rashid', '${id}', 'loadRashids')">🗑️ Delete Rashid</button>` : ""}
+        </div>
+      `;
+    });
+    box.innerHTML = html;
+  }catch(e){}
 };
 
 function escapeHTML(value){
