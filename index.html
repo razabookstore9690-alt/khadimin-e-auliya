@@ -31,7 +31,9 @@ button{cursor:pointer;}
 .form-group label{display:block;margin-bottom:6px;font-weight:bold;font-size:14px;}
 .form-group input,.form-group textarea,.form-group select{width:100%;padding:12px;border:1px solid #ccc;border-radius:10px;outline:none;}
 .primary{width:100%;border:0;padding:13px;border-radius:10px;background:#075c39;color:white;font-weight:bold;margin-top:8px;}
+.secondary-btn{width:100%;border:1px solid #075c39;background:transparent;color:#075c39;padding:11px;border-radius:10px;font-weight:bold;margin-top:8px;}
 .google{width:100%;padding:12px;border:0;border-radius:10px;background:#4285f4;color:white;margin-top:10px;font-weight:bold;}
+.link-btn{background:none;border:0;color:#075c39;font-size:13px;font-weight:bold;text-decoration:underline;margin-top:8px;cursor:pointer;padding:4px 0;}
 
 #app{min-height:100vh;padding-bottom:80px;}
 .topbar{background:#075c39;color:white;padding:14px 18px;position:sticky;top:0;z-index:100;}
@@ -57,7 +59,7 @@ button{cursor:pointer;}
 .admin-badge{display:inline-block;background:#d6ad45;color:#063d28;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:bold;}
 .admin-box{background:#f0f8f4;border:2px dashed #075c39;border-radius:12px;padding:16px;margin-bottom:18px;}
 .status{margin-top:10px;padding:12px;border-radius:8px;background:#eef7f1;}
-.divider-text{text-align:center;font-size:13px;color:#888;margin:10px 0;font-weight:bold;}
+.divider-text{text-align:center;font-size:13px;color:#888;margin:12px 0;font-weight:bold;}
 </style>
 </head>
 <body>
@@ -65,7 +67,7 @@ button{cursor:pointer;}
 <div id="splash">
   <div class="splash-box">
     <div class="splash-arabic">صلوا علی الحبیب</div>
-    <div class="splash-arabic">صلی الله علی محمد</div>
+    <div class="splash-arabic">صلی اللہ علی محمد</div>
     <div class="splash-welcome">Welcome To</div>
     <div class="splash-title">KHADIMIN E AULIYA</div>
     <button id="skipSplash">Skip / Open</button>
@@ -80,11 +82,45 @@ button{cursor:pointer;}
     <button id="adminLoginTab">Admin Login</button>
   </div>
 
+  <!-- User Login System -->
   <div id="userLoginBox">
-    <p style="font-size:14px;color:#555;margin-bottom:15px;text-align:center;">Dekhne ke liye Google se login karein:</p>
-    <button class="google" id="googleLogin">Continue with Google</button>
+    <div id="userSignInForm">
+      <div class="form-group">
+        <label>Email ID</label>
+        <input id="userEmail" type="email" placeholder="Apna email likhein">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input id="userPassword" type="password" placeholder="Password likhein">
+      </div>
+      <button class="primary" id="userEmailLoginBtn">Login Karein</button>
+      
+      <div style="display:flex;justify-content:space-between;margin-top:6px;">
+        <button type="button" class="link-btn" id="forgotPassBtn">Forgot Password?</button>
+        <button type="button" class="link-btn" id="showRegisterBtn">Naya Account Banayein</button>
+      </div>
+
+      <div class="divider-text">— YA —</div>
+      <button class="google" id="googleLogin">Continue with Google</button>
+    </div>
+
+    <!-- User Sign Up Box -->
+    <div id="userRegisterBox" class="hidden">
+      <h3 style="color:#075c39;margin-bottom:12px;font-size:16px;text-align:center;">Naya Account Banayein</h3>
+      <div class="form-group">
+        <label>Email ID</label>
+        <input id="regEmail" type="email" placeholder="Apna email likhein">
+      </div>
+      <div class="form-group">
+        <label>Password (Min 6 digit)</label>
+        <input id="regPassword" type="password" placeholder="Password banayein">
+      </div>
+      <button class="primary" id="userRegisterBtn">Register / Sign Up</button>
+      <button type="button" class="secondary-btn" id="backToUserLoginBtn">Wapas Login Par Jayein</button>
+    </div>
   </div>
 
+  <!-- Admin Login System -->
   <div id="adminLoginBox" class="hidden">
     <div class="form-group">
       <label>User ID</label>
@@ -160,23 +196,16 @@ button{cursor:pointer;}
       <h2>Videos Gallery</h2>
       <div id="adminVideoUpload" class="admin-box hidden">
         <h3>🎥 Admin: Video Add / Upload Karein</h3>
-        <div class="form-group">
-          <label>Video Title</label>
-          <input id="videoTitle" placeholder="Video Title">
-        </div>
-        
+        <div class="form-group"><label>Video Title</label><input id="videoTitle" placeholder="Video Title"></div>
         <div class="form-group">
           <label>Tareeqa 1: Mobile se Video File Upload</label>
           <input id="videoFile" type="file" accept="video/*">
         </div>
-
         <div class="divider-text">— YA —</div>
-
         <div class="form-group">
-          <label>Tareeqa 2: YouTube / Online Link Paste Karein</label>
+          <label>Tareeqa 2: YouTube / Online Link</label>
           <input id="videoUrlInput" placeholder="https://youtu.be/... ya https://www.youtube.com/watch?v=...">
         </div>
-
         <button class="action" id="videoUploadBtn" onclick="uploadVideo()">Save / Upload Video</button>
       </div>
       <div id="videoList">Loading...</div>
@@ -320,7 +349,16 @@ button{cursor:pointer;}
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+import { 
+  getAuth, 
+  onAuthStateChanged, 
+  signInWithEmailAndPassword, 
+  createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
+  signInWithPopup, 
+  GoogleAuthProvider, 
+  signOut 
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -337,13 +375,11 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// Sahi Cloudinary Name
 const CLOUD_NAME = "cfadsjum";
 const UPLOAD_PRESET = "khadimin_preset";
 
 let CURRENT_IS_ADMIN = false;
 
-// Direct Unsigned Upload
 function uploadToCloudinaryDirect(file, type = "auto"){
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
@@ -422,15 +458,67 @@ adminTab.onclick=()=>{
   userBox.classList.add("hidden");
 };
 
+// User Form Toggle (Sign in vs Register)
+const userSignInForm = document.getElementById("userSignInForm");
+const userRegisterBox = document.getElementById("userRegisterBox");
+document.getElementById("showRegisterBtn").onclick=()=>{
+  userSignInForm.classList.add("hidden");
+  userRegisterBox.classList.remove("hidden");
+};
+document.getElementById("backToUserLoginBtn").onclick=()=>{
+  userRegisterBox.classList.add("hidden");
+  userSignInForm.classList.remove("hidden");
+};
+
+// User Email Login
+document.getElementById("userEmailLoginBtn").addEventListener("click", async()=>{
+  const email = document.getElementById("userEmail").value.trim();
+  const password = document.getElementById("userPassword").value;
+  if(!email || !password) return alert("Email aur Password dono bharein.");
+  try{
+    await signInWithEmailAndPassword(auth, email, password);
+  }catch(e){
+    alert("Login Error: " + e.message);
+  }
+});
+
+// User Register
+document.getElementById("userRegisterBtn").addEventListener("click", async()=>{
+  const email = document.getElementById("regEmail").value.trim();
+  const password = document.getElementById("regPassword").value;
+  if(!email || !password) return alert("Email aur Password bharein.");
+  if(password.length < 6) return alert("Password kam se kam 6 characters ka hona chahiye.");
+  try{
+    await createUserWithEmailAndPassword(auth, email, password);
+    alert("✅ Account ban gaya! Aap login ho chuke hain.");
+  }catch(e){
+    alert("Registration Error: " + e.message);
+  }
+});
+
+// User Forgot Password
+document.getElementById("forgotPassBtn").addEventListener("click", async()=>{
+  const email = prompt("Apna registered Email ID likhein jahan password reset link bhejna hai:");
+  if(!email) return;
+  try{
+    await sendPasswordResetEmail(auth, email.trim());
+    alert("✅ Password reset link aapke email par bhej diya gaya hai!");
+  }catch(e){
+    alert("Error: " + e.message);
+  }
+});
+
+// User Google Login
 document.getElementById("googleLogin").addEventListener("click",async()=>{
   try{
     const provider = new GoogleAuthProvider();
     await signInWithPopup(auth, provider);
   }catch(error){
-    alert("Login failed: " + error.message);
+    alert("Google Login Error: " + error.message + "\n(Agar unauthorized domain aaye to Firebase me vercel domain add karein)");
   }
 });
 
+// Admin Login
 document.getElementById("adminLogin").addEventListener("click",async()=>{
   let email = document.getElementById("adminEmail").value.trim().toLowerCase();
   const password = document.getElementById("adminPassword").value;
