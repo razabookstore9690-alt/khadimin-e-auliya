@@ -63,7 +63,8 @@ button{cursor:pointer;}
 .item iframe{height:220px;border:0;}
 .admin-badge{display:inline-block;background:#d6ad45;color:#063d28;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:bold;}
 .admin-box{background:#f0f8f4;border:2px dashed #075c39;border-radius:12px;padding:16px;margin-bottom:18px;}
-.status{margin-top:10px;padding:12px;border-radius:8px;background:#eef7f1;}
+.status-success{margin-top:14px;padding:16px;border-radius:12px;background:#eef7f1;border:2px solid #075c39;color:#063d28;}
+.status-error{margin-top:14px;padding:14px;border-radius:12px;background:#fde8e8;border:2px solid #d32f2f;color:#b71c1c;font-weight:bold;}
 .divider-text{text-align:center;font-size:13px;color:#888;margin:12px 0;font-weight:bold;}
 .action-box{margin-top:10px;}
 
@@ -92,7 +93,7 @@ button{cursor:pointer;}
 
 <div id="splash">
   <div class="splash-box">
-    <div class="splash-arabic">صلوا علی الحبیب</div>
+    <div class="splash-arabic">صلوا علی الحبیb</div>
     <div class="splash-arabic">صلی اللہ علی محمد</div>
     <div class="splash-welcome">Welcome To</div>
     <div class="splash-title">KHADIMIN E AULIYA</div>
@@ -269,8 +270,11 @@ button{cursor:pointer;}
   <section id="rashid" class="page">
     <div class="card">
       <h2>Rashid Check</h2>
-      <div class="form-group"><input id="rashidNumberCheck" placeholder="Rashid Number daalein (e.g. KEA-...)"></div>
-      <button class="action" onclick="checkRashid()">Check Rashid</button>
+      <div class="form-group">
+        <label>Rashid Number Check Karein</label>
+        <input id="rashidNumberCheck" placeholder="Jaise: KEA-123456">
+      </div>
+      <button class="action" id="checkRashidBtn" onclick="checkRashid()">Check Rashid</button>
       <div id="rashidResult"></div>
 
       <div id="adminRashidBox" class="admin-box hidden" style="margin-top:20px;">
@@ -409,6 +413,8 @@ import {
   collection, 
   addDoc, 
   getDocs, 
+  query,
+  where,
   deleteDoc, 
   updateDoc, 
   doc, 
@@ -639,7 +645,6 @@ window.showPage=function(page){
   }
 };
 
-// Universal Delete Function
 window.deleteItem = async function(collectionName, docId, reloadFunction){
   if(!CURRENT_IS_ADMIN) return alert("Sirf Admin delete kar sakta hai.");
   const confirmDelete = confirm("Kya aap isko sach me delete karna chahte hain?");
@@ -656,7 +661,6 @@ window.deleteItem = async function(collectionName, docId, reloadFunction){
   }
 };
 
-// Universal Field Update Function
 async function updateFirestoreFields(collectionName, docId, updateData, reloadFunction){
   try{
     await updateDoc(doc(db, collectionName, docId), updateData);
@@ -1134,15 +1138,70 @@ window.addNotice = async function(){
   }catch(e){ alert(e.message); }
 };
 
-// 8. Rashid Management & Direct WhatsApp Opening
-window.checkRashid = function(){
-  const number = document.getElementById("rashidNumberCheck").value.trim();
-  if(!number) return alert("Rashid number daalein.");
-  document.getElementById("rashidResult").innerHTML = `<div class="status">✅ Rashid Verified: <strong>${escapeHTML(number)}</strong></div>`;
+// 8. REAL DATABASE RASHID VERIFICATION
+window.checkRashid = async function(){
+  const inputEl = document.getElementById("rashidNumberCheck");
+  const resultBox = document.getElementById("rashidResult");
+  const checkBtn = document.getElementById("checkRashidBtn");
+  const number = inputEl.value.trim().toUpperCase();
+
+  if(!number){
+    return alert("Kripya Rashid Number enter karein.");
+  }
+
+  checkBtn.disabled = true;
+  checkBtn.textContent = "Checking...";
+  resultBox.innerHTML = "<p style='margin-top:10px;color:#666;'>Database mein check kiya ja raha hai...</p>";
+
+  try{
+    // Search in Firestore
+    const q = query(collection(db, "rashid"), where("rashidNumber", "==", number));
+    const snapshot = await getDocs(q);
+
+    if(snapshot.empty){
+      resultBox.innerHTML = `
+        <div class="status-error">
+          ❌ Rashid Nahi Mili!<br>
+          <span style="font-size:13px;font-weight:normal;color:#555;">Dala gaya number (${escapeHTML(number)}) galat hai ya abhi tak issue nahi kiya gaya hai.</span>
+        </div>
+      `;
+    }else{
+      let rashidData = null;
+      snapshot.forEach(docSnap => {
+        rashidData = docSnap.data();
+      });
+
+      const rNum = escapeHTML(rashidData.rashidNumber);
+      const rName = escapeHTML(rashidData.donorName);
+      const rAmount = escapeHTML(rashidData.amount);
+      const rPurpose = escapeHTML(rashidData.purpose);
+      const rDate = escapeHTML(rashidData.dateStr || "Verified");
+      const rMobile = escapeHTML(rashidData.donorMobile || "-");
+
+      resultBox.innerHTML = `
+        <div class="status-success">
+          <div style="font-size:17px;font-weight:bold;margin-bottom:8px;">✅ Rashid Verified (Asli Raseed)</div>
+          <div style="line-height:1.7;font-size:14px;">
+            <strong>Rashid No:</strong> ${rNum}<br>
+            <strong>Donor Name:</strong> ${rName}<br>
+            <strong>Amount:</strong> ₹${rAmount}<br>
+            <strong>Purpose:</strong> ${rPurpose}<br>
+            <strong>Date:</strong> ${rDate}
+          </div>
+          <button class="action" style="margin-top:12px;background:#075c39;" onclick="downloadReceiptImage('${rNum}', '${rName}', '${rMobile}', '${rPurpose}', '${rAmount}', '${rDate}')">📥 Download Receipt Card</button>
+        </div>
+      `;
+    }
+  }catch(e){
+    resultBox.innerHTML = `<div class="status-error">Error: ${e.message}</div>`;
+  }finally{
+    checkBtn.disabled = false;
+    checkBtn.textContent = "Check Rashid";
+  }
 };
 
-// Download Photo Receipt
-async function downloadReceiptImage(rNum, rName, rMobile, rPurpose, rAmt, rDate){
+// Download Photo Receipt Function
+window.downloadReceiptImage = async function(rNum, rName, rMobile, rPurpose, rAmt, rDate){
   document.getElementById("r_num").textContent = rNum;
   document.getElementById("r_date").textContent = rDate;
   document.getElementById("r_name").textContent = rName;
@@ -1158,9 +1217,9 @@ async function downloadReceiptImage(rNum, rName, rMobile, rPurpose, rAmt, rDate)
   a.href = imgData;
   a.download = `Rashid_${rNum}.png`;
   a.click();
-}
+};
 
-// Open Direct WhatsApp App
+// Direct WhatsApp App
 window.openWhatsApp = function(mobile, rNum, rName, rAmt, rPurpose){
   let cleanMobile = (mobile || "").replace(/\D/g, "");
   if(cleanMobile.length === 10) cleanMobile = "91" + cleanMobile;
@@ -1168,11 +1227,8 @@ window.openWhatsApp = function(mobile, rNum, rName, rAmt, rPurpose){
   const msg = `Assalamu Alaikum wa Rahmatullahi wa Barakatuh ${rName} Sahab,\n\n*KHADIMIN-E-AULIYA* ki taraf se aapki taawun raseed taiyar hai:\n\n📜 *Receipt No:* ${rNum}\n💰 *Amount:* ₹${rAmt}\n🎯 *Purpose:* ${rPurpose}\n\nAapki donation receipt ki photo sath me share ki ja rahi hai. JazakAllah Khair!`;
 
   const appUrl = `whatsapp://send?phone=${cleanMobile}&text=${encodeURIComponent(msg)}`;
-  
-  // Try opening direct WhatsApp native app
   window.location.href = appUrl;
 
-  // Fallback to web link after short delay if app not responded
   setTimeout(() => {
     window.open(`https://api.whatsapp.com/send?phone=${cleanMobile}&text=${encodeURIComponent(msg)}`, '_blank');
   }, 1200);
@@ -1214,7 +1270,6 @@ window.createRashid = async function(){
       rashidNumber, donorName, donorMobile, donorAddress, amount, purpose, dateStr, createdAt:serverTimestamp()
     });
 
-    // Generate & Download Receipt Image
     await downloadReceiptImage(rashidNumber, donorName, donorMobile, purpose, amount, dateStr);
 
     alert(`✅ Rashid ban gayi (${rashidNumber}) aur Photo phone me save ho gayi hai!`);
