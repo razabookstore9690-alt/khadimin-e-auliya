@@ -38,26 +38,38 @@ button{cursor:pointer;}
 .google{width:100%;padding:12px;border:0;border-radius:10px;background:#4285f4;color:white;margin-top:10px;font-weight:bold;}
 .link-btn{background:none;border:0;color:#075c39;font-size:13px;font-weight:bold;text-decoration:underline;margin-top:8px;cursor:pointer;padding:4px 0;}
 
-#app{min-height:100vh;padding-bottom:80px;}
-.topbar{background:#075c39;color:white;padding:14px 18px;position:sticky;top:0;z-index:100;}
+#app{min-height:100vh;padding-bottom:30px;}
+.topbar{background:#075c39;color:white;padding:12px 16px;position:sticky;top:0;z-index:1000;}
 .topbar-inner{max-width:1100px;margin:auto;display:flex;justify-content:space-between;align-items:center;}
-.top-title{font-weight:bold;font-size:18px;}
-.logout{background:#fff;color:#075c39;border:0;padding:7px 14px;border-radius:20px;font-weight:bold;}
+.top-left{display:flex;align-items:center;gap:12px;}
+.menu-btn{background:none;border:0;color:white;font-size:26px;display:flex;align-items:center;padding:4px;}
+.top-title{font-weight:bold;font-size:17px;}
+.logout{background:#fff;color:#075c39;border:0;padding:6px 14px;border-radius:20px;font-weight:bold;}
+
+/* Drawer Menu (For both Admin & User) */
+#menuOverlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:2000;opacity:0;visibility:hidden;transition:all .3s ease;}
+#menuOverlay.active{opacity:1;visibility:visible;}
+#sideDrawer{position:fixed;top:0;left:0;width:280px;height:100%;background:#ffffff;z-index:2001;transform:translateX(-100%);transition:transform .3s ease;box-shadow:4px 0 16px rgba(0,0,0,0.2);display:flex;flex-direction:column;}
+#sideDrawer.active{transform:translateX(0);}
+.drawer-header{background:#075c39;color:white;padding:20px 16px;display:flex;justify-content:space-between;align-items:center;}
+.drawer-close{background:none;border:0;color:white;font-size:22px;}
+.drawer-links{list-style:none;padding:12px 0;overflow-y:auto;flex:1;}
+.drawer-links li{border-bottom:1px solid #f0f0f0;}
+.drawer-links a{display:flex;align-items:center;gap:12px;padding:14px 20px;color:#222;text-decoration:none;font-weight:bold;font-size:15px;}
+.drawer-links a:hover{background:#f0f8f4;color:#075c39;}
+
 .container{max-width:1100px;margin:auto;padding:16px;}
 .page{display:none;}
 .page.active{display:block;}
 .hero{background:linear-gradient(135deg,#075c39,#13895a);color:white;padding:22px;border-radius:16px;margin-bottom:18px;}
 .hero h1{margin-bottom:6px;font-size:22px;}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;}
 .card{background:white;padding:18px;border-radius:14px;box-shadow:0 3px 12px rgba(0,0,0,.06);margin-bottom:16px;}
 .card h2,.card h3{color:#075c39;margin-bottom:10px;}
 .action{border:0;background:#075c39;color:white;padding:10px 14px;border-radius:8px;margin-top:8px;font-weight:bold;}
 .btn-whatsapp{border:0;background:#25d366;color:white;padding:8px 14px;border-radius:8px;margin-top:10px;margin-right:6px;font-weight:bold;display:inline-block;text-decoration:none;}
 .btn-edit{border:0;background:#f39c12;color:white;padding:8px 14px;border-radius:8px;margin-top:10px;margin-right:6px;font-weight:bold;display:inline-block;}
 .btn-delete{border:0;background:#d32f2f;color:white;padding:8px 14px;border-radius:8px;margin-top:10px;font-weight:bold;display:inline-block;}
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid #ddd;display:flex;justify-content:space-around;padding:10px 4px;z-index:500;}
-.bottom-nav button{border:0;background:none;font-size:12px;color:#555;}
-.bottom-nav button.active{color:#075c39;font-weight:bold;}
 .item{border:1px solid #e1e8e4;border-radius:12px;padding:14px;margin:12px 0;background:#fafcfb;}
 .item img,.item video,.item iframe{width:100%;max-height:300px;border-radius:10px;margin-top:8px;}
 .item iframe{height:220px;border:0;}
@@ -94,7 +106,7 @@ button{cursor:pointer;}
 <div id="splash">
   <div class="splash-box">
     <div class="splash-arabic">صلوا علی الحبیب</div>
-    <div class="splash-arabic">صلی الله علی محمد</div>
+    <div class="splash-arabic">صلی اللہ علی محمد</div>
     <div class="splash-welcome">Welcome To</div>
     <div class="splash-title">KHADIMIN E AULIYA</div>
     <button id="skipSplash">Skip / Open</button>
@@ -160,15 +172,41 @@ button{cursor:pointer;}
 </section>
 
 <section id="app" class="hidden">
+<!-- Topbar Header -->
 <header class="topbar">
   <div class="topbar-inner">
-    <div>
-      <div class="top-title">KHADIMIN-E-AULIYA</div>
-      <div id="roleText" style="font-size:12px;opacity:0.9;"></div>
+    <div class="top-left">
+      <button class="menu-btn" onclick="toggleMenu(true)" title="Open Menu">☰</button>
+      <div>
+        <div class="top-title">KHADIMIN-E-AULIYA</div>
+        <div id="roleText" style="font-size:11px;opacity:0.9;"></div>
+      </div>
     </div>
     <button class="logout" id="logout">Logout</button>
   </div>
 </header>
+
+<!-- Slide-out Drawer Menu (Accessible for both Admin & User) -->
+<div id="menuOverlay" onclick="toggleMenu(false)"></div>
+<div id="sideDrawer">
+  <div class="drawer-header">
+    <div style="font-size:18px;font-weight:bold;">MENU LIST</div>
+    <button class="drawer-close" onclick="toggleMenu(false)">✕</button>
+  </div>
+  <ul class="drawer-links">
+    <li><a href="javascript:void(0)" onclick="menuNav('home')">🏠 Home</a></li>
+    <li><a href="javascript:void(0)" onclick="menuNav('programs')">📅 Programs</a></li>
+    <li><a href="javascript:void(0)" onclick="menuNav('langar')">🍲 Langar-e-Gausiya</a></li>
+    <li><a href="javascript:void(0)" onclick="menuNav('notices')">📢 Notices & Elan</a></li>
+    <li><a href="javascript:void(0)" onclick="menuNav('photos')">📷 Photos Gallery</a></li>
+    <li><a href="javascript:void(0)" onclick="menuNav('videos')">🎥 Videos Gallery</a></li>
+    <li><a href="javascript:void(0)" onclick="menuNav('members')">👥 Members List</a></li>
+    <li><a href="javascript:void(0)" onclick="menuNav('donation')">💰 Donation / Payment</a></li>
+    <li><a href="javascript:void(0)" onclick="menuNav('rashid')">📜 Rashid Check</a></li>
+    <!-- Admin Only Link inside Menu -->
+    <li id="drawerAdminLink" class="hidden"><a href="javascript:void(0)" onclick="menuNav('admin')" style="color:#075c39;background:#eef7f1;">⚙️ Admin Dashboard</a></li>
+  </ul>
+</div>
 
 <main class="container">
   <section id="home" class="page active">
@@ -178,22 +216,42 @@ button{cursor:pointer;}
     </div>
     <div class="grid">
       <div class="card">
-        <h3>Programs</h3>
+        <h3>📅 Programs</h3>
         <p>Programs aur bayanat dekhein.</p>
         <button class="action" onclick="showPage('programs')">Open</button>
       </div>
       <div class="card">
-        <h3>Langar</h3>
+        <h3>🍲 Langar</h3>
         <p>Langar-e-Gausiya ki information.</p>
         <button class="action" onclick="showPage('langar')">Open</button>
       </div>
       <div class="card">
-        <h3>Donation</h3>
-        <p>Donation aur payment details.</p>
+        <h3>📢 Notices</h3>
+        <p>Ahem elanat aur khabrein.</p>
+        <button class="action" onclick="showPage('notices')">Open</button>
+      </div>
+      <div class="card">
+        <h3>📷 Photos</h3>
+        <p>Tasweerein dekhein.</p>
+        <button class="action" onclick="showPage('photos')">Open</button>
+      </div>
+      <div class="card">
+        <h3>🎥 Videos</h3>
+        <p>Video bayanat dekhein.</p>
+        <button class="action" onclick="showPage('videos')">Open</button>
+      </div>
+      <div class="card">
+        <h3>👥 Members</h3>
+        <p>Khadimin ki list.</p>
+        <button class="action" onclick="showPage('members')">Open</button>
+      </div>
+      <div class="card">
+        <h3>💰 Donation</h3>
+        <p>Bank & QR code details.</p>
         <button class="action" onclick="showPage('donation')">Open</button>
       </div>
       <div class="card">
-        <h3>Rashid</h3>
+        <h3>📜 Rashid</h3>
         <p>Apni Rashid check karein.</p>
         <button class="action" onclick="showPage('rashid')">Check</button>
       </div>
@@ -321,9 +379,9 @@ button{cursor:pointer;}
   <!-- Langar Page -->
   <section id="langar" class="page">
     <div class="card">
-      <h2>Langar-e-Gausiya</h2>
+      <h2>🍲 Langar-e-Gausiya</h2>
       <div id="adminLangarForm" class="admin-box hidden">
-        <h3>🍲 Admin: Langar Information Update</h3>
+        <h3>Admin: Langar Information Update</h3>
         <textarea id="langarText" placeholder="Langar timings & information" style="width:100%;height:90px;"></textarea>
         <button class="action" onclick="saveLangar()">Save Details</button>
       </div>
@@ -334,9 +392,9 @@ button{cursor:pointer;}
   <!-- Notices Page -->
   <section id="notices" class="page">
     <div class="card">
-      <h2>Notices & Announcements</h2>
+      <h2>📢 Notices & Announcements</h2>
       <div id="adminNoticeForm" class="admin-box hidden">
-        <h3>📢 Admin: Naya Notice Publish Karein</h3>
+        <h3>Admin: Naya Notice Publish Karein</h3>
         <div class="form-group"><input id="noticeTitle" placeholder="Notice Title"></div>
         <div class="form-group"><textarea id="noticeText" placeholder="Notice Content"></textarea></div>
         <button class="action" onclick="addNotice()">Publish Notice</button>
@@ -363,16 +421,6 @@ button{cursor:pointer;}
     </div>
   </section>
 </main>
-
-<nav class="bottom-nav">
-  <button onclick="showPage('home')">🏠<br>Home</button>
-  <button onclick="showPage('programs')">📅<br>Programs</button>
-  <button onclick="showPage('photos')">📷<br>Photos</button>
-  <button onclick="showPage('videos')">🎥<br>Videos</button>
-  <button onclick="showPage('donation')">💰<br>Donation</button>
-  <button onclick="showPage('members')">👥<br>Members</button>
-  <button id="adminNav" class="hidden" onclick="showPage('admin')">⚙️<br>Admin</button>
-</nav>
 </section>
 
 <!-- HIDDEN RECEIPT CARD TEMPLATE FOR SCREENSHOT PHOTO -->
@@ -439,6 +487,24 @@ const CLOUD_NAME = "cfadsjum";
 const UPLOAD_PRESET = "khadimin_preset";
 
 let CURRENT_IS_ADMIN = false;
+
+// Menu toggle handler (Open / Close Drawer)
+window.toggleMenu = function(open){
+  const drawer = document.getElementById("sideDrawer");
+  const overlay = document.getElementById("menuOverlay");
+  if(open){
+    drawer.classList.add("active");
+    overlay.classList.add("active");
+  }else{
+    drawer.classList.remove("active");
+    overlay.classList.remove("active");
+  }
+};
+
+window.menuNav = function(page){
+  window.toggleMenu(false);
+  window.showPage(page);
+};
 
 function uploadToCloudinaryDirect(file, type = "auto"){
   return new Promise((resolve, reject) => {
@@ -607,10 +673,10 @@ onAuthStateChanged(auth, async(user)=>{
 
   document.getElementById("loginPage").classList.add("hidden");
   document.getElementById("app").classList.remove("hidden");
-  document.getElementById("roleText").textContent = CURRENT_IS_ADMIN ? "Admin Account" : "👤 User Account";
+  document.getElementById("roleText").textContent = CURRENT_IS_ADMIN ? "👑 Admin Account" : "👤 User Account";
 
   const adminElements = [
-    "adminNav",
+    "drawerAdminLink",
     "adminPhotoUpload",
     "adminVideoUpload",
     "adminPaymentForm",
@@ -1154,7 +1220,6 @@ window.checkRashid = async function(){
   resultBox.innerHTML = "<p style='margin-top:10px;color:#666;'>Database mein check kiya ja raha hai...</p>";
 
   try{
-    // Search in Firestore
     const q = query(collection(db, "rashid"), where("rashidNumber", "==", number));
     const snapshot = await getDocs(q);
 
