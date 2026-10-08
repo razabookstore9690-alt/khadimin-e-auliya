@@ -52,10 +52,12 @@ button{cursor:pointer;}
 .bottom-nav button{border:0;background:none;font-size:12px;color:#555;}
 .bottom-nav button.active{color:#075c39;font-weight:bold;}
 .item{border:1px solid #e1e8e4;border-radius:12px;padding:14px;margin:12px 0;background:#fafcfb;}
-.item img,.item video{width:100%;max-height:300px;object-fit:cover;border-radius:10px;margin-top:8px;}
+.item img,.item video,.item iframe{width:100%;max-height:300px;border-radius:10px;margin-top:8px;}
+.item iframe{height:220px;border:0;}
 .admin-badge{display:inline-block;background:#d6ad45;color:#063d28;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:bold;}
 .admin-box{background:#f0f8f4;border:2px dashed #075c39;border-radius:12px;padding:16px;margin-bottom:18px;}
 .status{margin-top:10px;padding:12px;border-radius:8px;background:#eef7f1;}
+.divider-text{text-align:center;font-size:13px;color:#888;margin:10px 0;font-weight:bold;}
 </style>
 </head>
 <body>
@@ -109,7 +111,6 @@ button{cursor:pointer;}
 </header>
 
 <main class="container">
-  <!-- Home Page -->
   <section id="home" class="page active">
     <div class="hero">
       <h1>KHADIMIN-E-AULIYA</h1>
@@ -158,10 +159,25 @@ button{cursor:pointer;}
     <div class="card">
       <h2>Videos Gallery</h2>
       <div id="adminVideoUpload" class="admin-box hidden">
-        <h3>🎥 Admin: Video Upload Karein</h3>
-        <div class="form-group"><label>Video File Chunein (Badi Video Bhi Upload Hogi)</label><input id="videoFile" type="file" accept="video/*"></div>
-        <div class="form-group"><label>Video Title</label><input id="videoTitle" placeholder="Video Title"></div>
-        <button class="action" id="videoUploadBtn" onclick="uploadVideo()">Upload Video</button>
+        <h3>🎥 Admin: Video Add / Upload Karein</h3>
+        <div class="form-group">
+          <label>Video Title</label>
+          <input id="videoTitle" placeholder="Video Title">
+        </div>
+        
+        <div class="form-group">
+          <label>Tareeqa 1: Mobile se File Upload karein</label>
+          <input id="videoFile" type="file" accept="video/*">
+        </div>
+
+        <div class="divider-text">— YA —</div>
+
+        <div class="form-group">
+          <label>Tareeqa 2: YouTube ya Online Video Link daalein (Recommended for big videos)</label>
+          <input id="videoUrlInput" placeholder="https://youtu.be/... ya https://www.youtube.com/watch?v=...">
+        </div>
+
+        <button class="action" id="videoUploadBtn" onclick="uploadVideo()">Save / Upload Video</button>
       </div>
       <div id="videoList">Loading...</div>
     </div>
@@ -321,29 +337,57 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// Cloudinary Direct Configuration
 const CLOUD_NAME = "dfadsjum";
 const UPLOAD_PRESET = "khadimin_preset";
 
 let CURRENT_IS_ADMIN = false;
 
-// Direct Cloudinary Upload for Any Size Video/Photo
-async function uploadToCloudinaryDirect(file, type = "auto"){
-  const formData = new FormData();
-  formData.append("file", file);
-  formData.append("upload_preset", UPLOAD_PRESET);
+// Direct XHR Upload (Fetch timeout se bachne ke liye)
+function uploadToCloudinaryDirect(file, type = "auto"){
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    const endpoint = (type === "video" || file.type.startsWith("video/")) ? "video" : "image";
+    const url = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/${endpoint}/upload`;
 
-  const endpoint = type === "video" || file.type.startsWith("video/") ? "video" : "image";
-  const response = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/${endpoint}/upload`, {
-    method: "POST",
-    body: formData
+    xhr.open("POST", url, true);
+
+    xhr.onload = function(){
+      if(xhr.status >= 200 && xhr.status < 300){
+        try{
+          const response = JSON.parse(xhr.responseText);
+          resolve(response.secure_url);
+        }catch(e){
+          reject(new Error("Response parse error"));
+        }
+      }else{
+        try{
+          const errRes = JSON.parse(xhr.responseText);
+          reject(new Error(errRes.error?.message || "Upload status: " + xhr.status));
+        }catch(e){
+          reject(new Error("Upload failed with status: " + xhr.status));
+        }
+      }
+    };
+
+    xhr.onerror = function(){
+      reject(new Error("Network connection error / Browser interrupted upload"));
+    };
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", UPLOAD_PRESET);
+    xhr.send(formData);
   });
+}
 
-  const resJson = await response.json();
-  if(!response.ok){
-    throw new Error(resJson.error?.message || "Cloudinary upload failed");
+// YouTube URL parser
+function parseVideoSource(rawUrl){
+  if(!rawUrl) return { type: "none", url: "" };
+  const ytMatch = rawUrl.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+  if(ytMatch && ytMatch[1]){
+    return { type: "youtube", url: `https://www.youtube.com/embed/${ytMatch[1]}` };
   }
-  return resJson.secure_url;
+  return { type: "direct", url: rawUrl };
 }
 
 const ADMIN_EMAILS = [
@@ -530,29 +574,44 @@ window.loadPhotos = async function(){
   }catch(e){}
 };
 
-// Videos (Supports large video files)
+// Videos (Supports both direct upload & YouTube/web links)
 window.uploadVideo = async function(){
   const btn = document.getElementById("videoUploadBtn");
   try{
     const file = document.getElementById("videoFile").files[0];
-    const title = document.getElementById("videoTitle").value.trim();
-    if(!file) return alert("Pehle Video file chunein.");
+    const urlInput = document.getElementById("videoUrlInput").value.trim();
+    const title = document.getElementById("videoTitle").value.trim() || "Video";
+
+    if(!file && !urlInput){
+      return alert("Kripya video file chunein YA video ka link enter karein.");
+    }
 
     btn.disabled = true;
-    btn.textContent = "Uploading video (kripya thoda intezar karein)...";
+    let finalVideoUrl = "";
 
-    const url = await uploadToCloudinaryDirect(file, "video");
-    await addDoc(collection(db, "videos"), { title, url, createdAt: serverTimestamp() });
+    if(urlInput){
+      finalVideoUrl = urlInput;
+    }else if(file){
+      btn.textContent = "Uploading video (kripya intezar karein)...";
+      finalVideoUrl = await uploadToCloudinaryDirect(file, "video");
+    }
 
-    alert("✅ Video successfully upload ho gaya!");
+    await addDoc(collection(db, "videos"), { 
+      title, 
+      url: finalVideoUrl, 
+      createdAt: serverTimestamp() 
+    });
+
+    alert("✅ Video successfully add ho gaya!");
     document.getElementById("videoFile").value = "";
+    document.getElementById("videoUrlInput").value = "";
     document.getElementById("videoTitle").value = "";
     await loadVideos();
   }catch(e){
-    alert("Video Upload Error: " + e.message);
+    alert("Video Error: " + e.message);
   }finally{
     btn.disabled = false;
-    btn.textContent = "Upload Video";
+    btn.textContent = "Save / Upload Video";
   }
 };
 
@@ -565,10 +624,19 @@ window.loadVideos = async function(){
     snapshot.forEach(item=>{
       const d=item.data();
       const id=item.id;
+      const parsed = parseVideoSource(d.url);
+
+      let mediaHtml = "";
+      if(parsed.type === "youtube"){
+        mediaHtml = `<iframe src="${parsed.url}" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>`;
+      }else if(d.url){
+        mediaHtml = `<video controls playsinline><source src="${d.url}"></video>`;
+      }
+
       html += `
         <div class="item">
           <h3>${escapeHTML(d.title || "Video")}</h3>
-          ${d.url ? `<video controls playsinline><source src="${d.url}"></video>` : ""}
+          ${mediaHtml}
           ${CURRENT_IS_ADMIN ? `<button class="btn-delete" onclick="deleteItem('videos', '${id}', 'loadVideos')">🗑️ Delete Video</button>` : ""}
         </div>
       `;
