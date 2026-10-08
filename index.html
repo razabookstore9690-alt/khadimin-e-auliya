@@ -93,8 +93,8 @@ button{cursor:pointer;}
 
 <div id="splash">
   <div class="splash-box">
-    <div class="splash-arabic">صلوا علی الحبیb</div>
-    <div class="splash-arabic">صلی اللہ علی محمد</div>
+    <div class="splash-arabic">صلوا علی الحبیب</div>
+    <div class="splash-arabic">صلی الله علی محمد</div>
     <div class="splash-welcome">Welcome To</div>
     <div class="splash-title">KHADIMIN E AULIYA</div>
     <button id="skipSplash">Skip / Open</button>
@@ -607,7 +607,7 @@ onAuthStateChanged(auth, async(user)=>{
 
   document.getElementById("loginPage").classList.add("hidden");
   document.getElementById("app").classList.remove("hidden");
-  document.getElementById("roleText").textContent = CURRENT_IS_ADMIN ? "👑 Admin Account" : "👤 User Account";
+  document.getElementById("roleText").textContent = CURRENT_IS_ADMIN ? "Admin Account" : "👤 User Account";
 
   const adminElements = [
     "adminNav",
@@ -737,8 +737,8 @@ window.loadPhotos = async function(){
           ${d.url ? `<img src="${d.url}">` : ""}
           ${CURRENT_IS_ADMIN ? `
             <div class="action-box">
-              <button class="btn-edit" onclick="editPhoto('${id}', '${titleAttr}')">✏️ Edit</button>
-              <button class="btn-delete" onclick="deleteItem('photos', '${id}', 'loadPhotos')">🗑️ Delete</button>
+              <button class="btn-edit" onclick="editPhoto('${id}', '${titleAttr}')">Edit</button>
+              <button class="btn-delete" onclick="deleteItem('photos', '${id}', 'loadPhotos')">Delete</button>
             </div>
           ` : ""}
         </div>
@@ -823,8 +823,8 @@ window.loadVideos = async function(){
           ${mediaHtml}
           ${CURRENT_IS_ADMIN ? `
             <div class="action-box">
-              <button class="btn-edit" onclick="editVideo('${id}', '${titleAttr}')">✏️ Edit</button>
-              <button class="btn-delete" onclick="deleteItem('videos', '${id}', 'loadVideos')">🗑️ Delete</button>
+              <button class="btn-edit" onclick="editVideo('${id}', '${titleAttr}')">Edit</button>
+              <button class="btn-delete" onclick="deleteItem('videos', '${id}', 'loadVideos')">Delete</button>
             </div>
           ` : ""}
         </div>
@@ -871,8 +871,8 @@ window.loadPayment = async function(){
           ${data.qrUrl ? `<img src="${data.qrUrl}" style="max-width:240px;display:block;margin-top:10px;">` : ""}
           ${CURRENT_IS_ADMIN ? `
             <div class="action-box">
-              <button class="btn-edit" onclick="editPayment('${id}', '${holderAttr}', '${bankAttr}', '${upiAttr}')">✏️ Edit Details</button>
-              <button class="btn-delete" onclick="deleteItem('paymentMethods', '${id}', 'loadPayment')">🗑️ Delete Payment Info</button>
+              <button class="btn-edit" onclick="editPayment('${id}', '${holderAttr}', '${bankAttr}', '${upiAttr}')">Edit Details</button>
+              <button class="btn-delete" onclick="deleteItem('paymentMethods', '${id}', 'loadPayment')">Delete Payment Info</button>
             </div>
           ` : ""}
         </div>
@@ -942,8 +942,8 @@ window.loadPrograms = async function(){
           <p>${escapeHTML(d.description || "")}</p>
           ${CURRENT_IS_ADMIN ? `
             <div class="action-box">
-              <button class="btn-edit" onclick="editProgram('${id}', '${titleAttr}', '${descAttr}')">✏️ Edit</button>
-              <button class="btn-delete" onclick="deleteItem('programs', '${id}', 'loadPrograms')">🗑️ Delete Program</button>
+              <button class="btn-edit" onclick="editProgram('${id}', '${titleAttr}', '${descAttr}')">Edit</button>
+              <button class="btn-delete" onclick="deleteItem('programs', '${id}', 'loadPrograms')">Delete</button>
             </div>
           ` : ""}
         </div>
@@ -1008,8 +1008,8 @@ window.loadMembers = async function(){
           ${d.phone ? `<a href="tel:${encodeURIComponent(d.phone)}"><button class="action">📞 Call</button></a>` : ""}
           ${CURRENT_IS_ADMIN ? `
             <div class="action-box">
-              <button class="btn-edit" onclick="editMember('${id}', '${nameAttr}', '${phoneAttr}', '${addrAttr}', '${respAttr}')">✏️ Edit Member</button>
-              <button class="btn-delete" onclick="deleteItem('members', '${id}', 'loadMembers')">🗑️ Delete Member</button>
+              <button class="btn-edit" onclick="editMember('${id}', '${nameAttr}', '${phoneAttr}', '${addrAttr}', '${respAttr}')">Edit</button>
+              <button class="btn-delete" onclick="deleteItem('members', '${id}', 'loadMembers')">Delete</button>
             </div>
           ` : ""}
         </div>
@@ -1060,8 +1060,8 @@ window.loadLangar = async function(){
           <div>${escapeHTML(d.text || "")}</div>
           ${CURRENT_IS_ADMIN ? `
             <div class="action-box">
-              <button class="btn-edit" onclick="editLangar('${id}', '${textAttr}')">✏️ Edit</button>
-              <button class="btn-delete" onclick="deleteItem('langar', '${id}', 'loadLangar')">🗑️ Delete</button>
+              <button class="btn-edit" onclick="editLangar('${id}', '${textAttr}')">Edit</button>
+              <button class="btn-delete" onclick="deleteItem('langar', '${id}', 'loadLangar')">Delete</button>
             </div>
           ` : ""}
         </div>
@@ -1114,8 +1114,8 @@ window.loadNotices = async function(){
           <p>${escapeHTML(d.text || "")}</p>
           ${CURRENT_IS_ADMIN ? `
             <div class="action-box">
-              <button class="btn-edit" onclick="editNotice('${id}', '${titleAttr}', '${textAttr}')">✏️ Edit Notice</button>
-              <button class="btn-delete" onclick="deleteItem('notices', '${id}', 'loadNotices')">🗑️ Delete Notice</button>
+              <button class="btn-edit" onclick="editNotice('${id}', '${titleAttr}', '${textAttr}')">Edit</button>
+              <button class="btn-delete" onclick="deleteItem('notices', '${id}', 'loadNotices')">Delete</button>
             </div>
           ` : ""}
         </div>
@@ -1161,7 +1161,7 @@ window.checkRashid = async function(){
     if(snapshot.empty){
       resultBox.innerHTML = `
         <div class="status-error">
-          ❌ Rashid Nahi Mili!<br>
+          ⚠️ Rashid Nahi Mili!<br>
           <span style="font-size:13px;font-weight:normal;color:#555;">Dala gaya number (${escapeHTML(number)}) galat hai ya abhi tak issue nahi kiya gaya hai.</span>
         </div>
       `;
@@ -1319,8 +1319,8 @@ window.loadRashids = async function(){
           ${CURRENT_IS_ADMIN ? `
             <div class="action-box">
               ${d.donorMobile ? `<button class="btn-whatsapp" onclick="openWhatsApp('${mobileAttr}', '${numAttr}', '${donorAttr}', '${amtAttr}', '${purpAttr}')">📲 WhatsApp Share</button>` : ""}
-              <button class="btn-edit" onclick="editRashid('${id}', '${donorAttr}', '${amtAttr}', '${purpAttr}')">✏️ Edit</button>
-              <button class="btn-delete" onclick="deleteItem('rashid', '${id}', 'loadRashids')">🗑️ Delete</button>
+              <button class="btn-edit" onclick="editRashid('${id}', '${donorAttr}', '${amtAttr}', '${purpAttr}')">Edit</button>
+              <button class="btn-delete" onclick="deleteItem('rashid', '${id}', 'loadRashids')">Delete</button>
             </div>
           ` : ""}
         </div>
