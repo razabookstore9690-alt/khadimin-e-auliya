@@ -34,9 +34,11 @@ button{cursor:pointer;}
 .form-group label{display:block;margin-bottom:6px;font-weight:bold;font-size:14px;}
 .form-group input,.form-group textarea,.form-group select{width:100%;padding:12px;border:1px solid #ccc;border-radius:10px;outline:none;}
 .primary{width:100%;border:0;padding:13px;border-radius:10px;background:#075c39;color:white;font-weight:bold;margin-top:8px;}
-.secondary-btn{width:100%;border:1px solid #075c39;background:transparent;color:#075c39;padding:11px;border-radius:10px;font-weight:bold;margin-top:8px;}
-.google{width:100%;padding:12px;border:0;border-radius:10px;background:#4285f4;color:white;margin-top:10px;font-weight:bold;}
-.link-btn{background:none;border:0;color:#075c39;font-size:13px;font-weight:bold;text-decoration:underline;margin-top:8px;cursor:pointer;padding:4px 0;}
+
+/* Captcha Styling */
+.captcha-container{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.captcha-badge{background:#e2eee6;border:2px dashed #075c39;padding:10px 18px;font-size:20px;font-weight:bold;letter-spacing:4px;color:#075c39;border-radius:8px;user-select:none;}
+.captcha-refresh{background:#075c39;color:white;border:0;border-radius:8px;padding:10px 14px;font-size:16px;}
 
 #app{min-height:100vh;padding-bottom:30px;}
 .topbar{background:#075c39;color:white;padding:12px 16px;position:sticky;top:0;z-index:1000;}
@@ -118,46 +120,32 @@ button{cursor:pointer;}
 <div class="login-card">
   <div class="logo">KHADIMIN-E-AULIYA</div>
   <div class="tabs">
-    <button id="userLoginTab" class="active">User Login</button>
+    <button id="userLoginTab" class="active">User Entry</button>
     <button id="adminLoginTab">Admin Login</button>
   </div>
 
+  <!-- User Login via Name + Mobile + Captcha -->
   <div id="userLoginBox">
-    <div id="userSignInForm">
-      <div class="form-group">
-        <label>Email ID</label>
-        <input id="userEmail" type="email" placeholder="Apna email likhein">
-      </div>
-      <div class="form-group">
-        <label>Password</label>
-        <input id="userPassword" type="password" placeholder="Password likhein">
-      </div>
-      <button class="primary" id="userEmailLoginBtn">Login Karein</button>
-      
-      <div style="display:flex;justify-content:space-between;margin-top:6px;">
-        <button type="button" class="link-btn" id="forgotPassBtn">Forgot Password?</button>
-        <button type="button" class="link-btn" id="showRegisterBtn">Naya Account Banayein</button>
-      </div>
-
-      <div class="divider-text">— YA —</div>
-      <button class="google" id="googleLogin">Continue with Google</button>
+    <div class="form-group">
+      <label>Apna Naam (Full Name)</label>
+      <input id="userNameInput" type="text" placeholder="Apna pura naam likhein">
     </div>
-
-    <div id="userRegisterBox" class="hidden">
-      <h3 style="color:#075c39;margin-bottom:12px;font-size:16px;text-align:center;">Naya Account Banayein</h3>
-      <div class="form-group">
-        <label>Email ID</label>
-        <input id="regEmail" type="email" placeholder="Apna email likhein">
-      </div>
-      <div class="form-group">
-        <label>Password (Min 6 digit)</label>
-        <input id="regPassword" type="password" placeholder="Password banayein">
-      </div>
-      <button class="primary" id="userRegisterBtn">Register / Sign Up</button>
-      <button type="button" class="secondary-btn" id="backToUserLoginBtn">Wapas Login Par Jayein</button>
+    <div class="form-group">
+      <label>Mobile Number</label>
+      <input id="userPhoneInput" type="tel" placeholder="10-digit mobile number">
     </div>
+    <div class="form-group">
+      <label>Captcha Code</label>
+      <div class="captcha-container">
+        <div id="captchaText" class="captcha-badge">----</div>
+        <button type="button" class="captcha-refresh" onclick="generateCaptcha()" title="Naya Code">🔄</button>
+      </div>
+      <input id="userCaptchaInput" type="text" placeholder="Upar dikhaya gaya code likhein">
+    </div>
+    <button class="primary" id="userEnterBtn">Website Me Dakhil Hon</button>
   </div>
 
+  <!-- Admin Login (Same as before: User ID + Password) -->
   <div id="adminLoginBox" class="hidden">
     <div class="form-group">
       <label>User ID</label>
@@ -187,7 +175,7 @@ button{cursor:pointer;}
   </div>
 </header>
 
-<!-- Slide-out Drawer Menu (All sections are here) -->
+<!-- Slide-out Drawer Menu -->
 <div id="menuOverlay" onclick="toggleMenu(false)"></div>
 <div id="sideDrawer">
   <div class="drawer-header">
@@ -384,12 +372,20 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- Admin Central Hub -->
+  <!-- Central Admin Dashboard -->
   <section id="admin" class="page">
     <div class="hero">
       <h2>⚙️ ADMIN CONTROL DASHBOARD</h2>
       <span class="admin-badge">LOGGED IN AS ADMIN</span>
     </div>
+
+    <!-- Admin View for Registered Visitors -->
+    <div class="card" style="border:2px solid #075c39;">
+      <h3>👥 Logged-in Users (Website Visitors)</h3>
+      <p style="font-size:13px;color:#666;margin-bottom:10px;">Jin logo ne naam aur mobile number daal kar entry ki hai unka data:</p>
+      <div id="adminUserList">Loading...</div>
+    </div>
+
     <div class="grid-admin">
       <div class="card"><h3>📸 Photos</h3><p>Upload / Edit / Delete</p><button class="action" onclick="showPage('photos')">Manage Photos</button></div>
       <div class="card"><h3>🎥 Videos</h3><p>Upload / Edit / Delete</p><button class="action" onclick="showPage('videos')">Manage Videos</button></div>
@@ -431,10 +427,6 @@ import {
   getAuth, 
   onAuthStateChanged, 
   signInWithEmailAndPassword, 
-  createUserWithEmailAndPassword, 
-  sendPasswordResetEmail, 
-  signInWithPopup, 
-  GoogleAuthProvider, 
   signOut 
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 import { 
@@ -444,7 +436,6 @@ import {
   getDocs, 
   query, 
   where, 
-  orderBy, 
   deleteDoc, 
   updateDoc, 
   doc, 
@@ -469,6 +460,19 @@ const CLOUD_NAME = "cfadsjum";
 const UPLOAD_PRESET = "khadimin_preset";
 
 let CURRENT_IS_ADMIN = false;
+let currentGeneratedCaptcha = "";
+
+// Generate random 4-character Captcha
+window.generateCaptcha = function(){
+  const chars = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";
+  let code = "";
+  for(let i=0; i<4; i++){
+    code += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  currentGeneratedCaptcha = code;
+  const badge = document.getElementById("captchaText");
+  if(badge) badge.textContent = code;
+};
 
 window.toggleMenu = function(open){
   const drawer = document.getElementById("sideDrawer");
@@ -562,66 +566,76 @@ adminTab.onclick=()=>{
   userBox.classList.add("hidden");
 };
 
-const userSignInForm = document.getElementById("userSignInForm");
-const userRegisterBox = document.getElementById("userRegisterBox");
-document.getElementById("showRegisterBtn").onclick=()=>{
-  userSignInForm.classList.add("hidden");
-  userRegisterBox.classList.remove("hidden");
-};
-document.getElementById("backToUserLoginBtn").onclick=()=>{
-  userRegisterBox.classList.add("hidden");
-  userSignInForm.classList.remove("hidden");
-};
+// USER LOGIN WITH NAME + MOBILE + CAPTCHA
+document.getElementById("userEnterBtn").addEventListener("click", async()=>{
+  const name = document.getElementById("userNameInput").value.trim();
+  const phone = document.getElementById("userPhoneInput").value.trim();
+  const captcha = document.getElementById("userCaptchaInput").value.trim().toUpperCase();
 
-// User Email Login
-document.getElementById("userEmailLoginBtn").addEventListener("click", async()=>{
-  const email = document.getElementById("userEmail").value.trim();
-  const password = document.getElementById("userPassword").value;
-  if(!email || !password) return alert("Email aur Password dono bharein.");
-  try{
-    await signInWithEmailAndPassword(auth, email, password);
-  }catch(e){
-    alert("Login Error: " + e.message);
+  if(!name){
+    return alert("Kripya apna pura naam likhein.");
   }
-});
-
-// User Register
-document.getElementById("userRegisterBtn").addEventListener("click", async()=>{
-  const email = document.getElementById("regEmail").value.trim();
-  const password = document.getElementById("regPassword").value;
-  if(!email || !password) return alert("Email aur Password bharein.");
-  if(password.length < 6) return alert("Password kam se kam 6 characters ka hona chahiye.");
-  try{
-    await createUserWithEmailAndPassword(auth, email, password);
-    alert("✅ Account ban gaya! Aap login ho chuke hain.");
-  }catch(e){
-    alert("Registration Error: " + e.message);
+  if(!phone || phone.replace(/\D/g, "").length < 10){
+    return alert("Kripya sahi 10-digit mobile number likhein.");
   }
-});
+  if(captcha !== currentGeneratedCaptcha){
+    alert("Galat Captcha code! Kripya dubara sahi code daalein.");
+    generateCaptcha();
+    return;
+  }
 
-// User Forgot Password
-document.getElementById("forgotPassBtn").addEventListener("click", async()=>{
-  const email = prompt("Apna registered Email ID likhein jahan password reset link bhejna hai:");
-  if(!email) return;
   try{
-    await sendPasswordResetEmail(auth, email.trim());
-    alert("✅ Password reset link aapke email par bhej diya gaya hai!");
+    const btn = document.getElementById("userEnterBtn");
+    btn.disabled = true;
+    btn.textContent = "Connecting...";
+
+    const loginTime = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+
+    // Store visitor record into Firestore Database
+    await addDoc(collection(db, "website_users"), {
+      name: name,
+      phone: phone,
+      loginAt: loginTime,
+      timestamp: Date.now()
+    });
+
+    // Save session in local storage
+    localStorage.setItem("khadimin_user_session", JSON.stringify({ name, phone }));
+
+    CURRENT_IS_ADMIN = false;
+    document.getElementById("loginPage").classList.add("hidden");
+    document.getElementById("app").classList.remove("hidden");
+    document.getElementById("roleText").textContent = `👤 User: ${name}`;
+
+    // Hide admin options
+    const adminElements = [
+      "drawerAdminLink",
+      "adminPhotoUpload",
+      "adminVideoUpload",
+      "adminPaymentForm",
+      "adminRashidBox",
+      "adminRashidList",
+      "adminMemberForm",
+      "adminProgramForm",
+      "adminLangarForm",
+      "adminNoticeForm"
+    ];
+    adminElements.forEach(id => {
+      const el = document.getElementById(id);
+      if(el) el.classList.add("hidden");
+    });
+
+    await loadAllData();
   }catch(e){
     alert("Error: " + e.message);
+  }finally{
+    const btn = document.getElementById("userEnterBtn");
+    btn.disabled = false;
+    btn.textContent = "Website Me Dakhil Hon";
   }
 });
 
-// User Google Login
-document.getElementById("googleLogin").addEventListener("click",async()=>{
-  try{
-    const provider = new GoogleAuthProvider();
-    await signInWithPopup(auth, provider);
-  }catch(error){
-    alert("Google Login Error: " + error.message);
-  }
-});
-
-// Admin Login
+// ADMIN LOGIN (Original Firebase Auth)
 document.getElementById("adminLogin").addEventListener("click",async()=>{
   let email = document.getElementById("adminEmail").value.trim().toLowerCase();
   const password = document.getElementById("adminPassword").value;
@@ -634,50 +648,86 @@ document.getElementById("adminLogin").addEventListener("click",async()=>{
   try{
     await signInWithEmailAndPassword(auth, email, password);
   }catch(error){
-    alert("Login failed: " + error.message);
+    alert("Admin Login failed: " + error.message);
   }
 });
 
+// Check State
 onAuthStateChanged(auth, async(user)=>{
-  if(!user){
+  if(user){
+    const userEmail = (user.email || "").toLowerCase();
+    CURRENT_IS_ADMIN = ADMIN_EMAILS.includes(userEmail);
+
+    document.getElementById("loginPage").classList.add("hidden");
+    document.getElementById("app").classList.remove("hidden");
+    document.getElementById("roleText").textContent = CURRENT_IS_ADMIN ? "👑 Admin Account" : "👤 User Account";
+
+    const adminElements = [
+      "drawerAdminLink",
+      "adminPhotoUpload",
+      "adminVideoUpload",
+      "adminPaymentForm",
+      "adminRashidBox",
+      "adminRashidList",
+      "adminMemberForm",
+      "adminProgramForm",
+      "adminLangarForm",
+      "adminNoticeForm"
+    ];
+    adminElements.forEach(id => {
+      const el = document.getElementById(id);
+      if(el){
+        if(CURRENT_IS_ADMIN) el.classList.remove("hidden");
+        else el.classList.add("hidden");
+      }
+    });
+
+    await loadAllData();
+  }else{
+    // Check if normal user session exists
+    const localUser = localStorage.getItem("khadimin_user_session");
+    if(localUser){
+      try{
+        const u = JSON.parse(localUser);
+        CURRENT_IS_ADMIN = false;
+        document.getElementById("loginPage").classList.add("hidden");
+        document.getElementById("app").classList.remove("hidden");
+        document.getElementById("roleText").textContent = `👤 User: ${u.name}`;
+
+        const adminElements = [
+          "drawerAdminLink",
+          "adminPhotoUpload",
+          "adminVideoUpload",
+          "adminPaymentForm",
+          "adminRashidBox",
+          "adminRashidList",
+          "adminMemberForm",
+          "adminProgramForm",
+          "adminLangarForm",
+          "adminNoticeForm"
+        ];
+        adminElements.forEach(id => {
+          const el = document.getElementById(id);
+          if(el) el.classList.add("hidden");
+        });
+
+        await loadAllData();
+        return;
+      }catch(e){}
+    }
+
+    // No session: show login screen
     CURRENT_IS_ADMIN = false;
     document.getElementById("loginPage").classList.remove("hidden");
     document.getElementById("app").classList.add("hidden");
-    return;
+    generateCaptcha();
   }
-
-  const userEmail = (user.email || "").toLowerCase();
-  CURRENT_IS_ADMIN = ADMIN_EMAILS.includes(userEmail);
-
-  document.getElementById("loginPage").classList.add("hidden");
-  document.getElementById("app").classList.remove("hidden");
-  document.getElementById("roleText").textContent = CURRENT_IS_ADMIN ? "👑 Admin Account" : "👤 User Account";
-
-  const adminElements = [
-    "drawerAdminLink",
-    "adminPhotoUpload",
-    "adminVideoUpload",
-    "adminPaymentForm",
-    "adminRashidBox",
-    "adminRashidList",
-    "adminMemberForm",
-    "adminProgramForm",
-    "adminLangarForm",
-    "adminNoticeForm"
-  ];
-  adminElements.forEach(id => {
-    const el = document.getElementById(id);
-    if(el){
-      if(CURRENT_IS_ADMIN) el.classList.remove("hidden");
-      else el.classList.add("hidden");
-    }
-  });
-
-  await loadAllData();
 });
 
 document.getElementById("logout").addEventListener("click",async()=>{
-  await signOut(auth);
+  localStorage.removeItem("khadimin_user_session");
+  try{ await signOut(auth); }catch(e){}
+  location.reload();
 });
 
 window.showPage=function(page){
@@ -729,8 +779,41 @@ async function loadAllData(){
     loadMembers(),
     loadLangar(),
     loadNotices(),
-    loadRashids()
+    loadRashids(),
+    loadWebsiteUsersForAdmin()
   ]);
+}
+
+// Admin: Load all logged-in user names & phone numbers
+async function loadWebsiteUsersForAdmin(){
+  const box = document.getElementById("adminUserList");
+  if(!box || !CURRENT_IS_ADMIN) return;
+  try{
+    const snapshot = await getDocs(collection(db, "website_users"));
+    if(snapshot.empty){
+      box.innerHTML = "<p style='color:#666;'>Abhi tak kisi user ne login nahi kiya hai.</p>";
+      return;
+    }
+    const list = [];
+    snapshot.forEach(d => list.push({ id: d.id, ...d.data() }));
+    list.sort((a,b) => (b.timestamp || 0) - (a.timestamp || 0));
+
+    let html = "";
+    list.forEach(u => {
+      html += `
+        <div class="item" style="display:flex;justify-content:space-between;align-items:center;padding:10px;">
+          <div>
+            <strong>👤 ${escapeHTML(u.name || "-")}</strong><br>
+            <span style="font-size:13px;color:#555;">📞 ${escapeHTML(u.phone || "-")} | 🕒 ${escapeHTML(u.loginAt || "-")}</span>
+          </div>
+          ${u.phone ? `<a href="tel:${encodeURIComponent(u.phone)}"><button class="action" style="padding:6px 12px;font-size:13px;">📞 Call</button></a>` : ""}
+        </div>
+      `;
+    });
+    box.innerHTML = html;
+  }catch(e){
+    box.innerHTML = "<p>Data load nahi ho saka.</p>";
+  }
 }
 
 // HOME PAGE: Latest 1 Photo, 1 Video & Active Upcoming Programs
@@ -744,8 +827,7 @@ async function loadHomePageDynamic(){
     }else{
       const photos = [];
       pSnap.forEach(d => photos.push({ id: d.id, ...d.data() }));
-      // Sort to get newest
-      photos.sort((a,b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+      photos.sort((a,b) => (b.createdAt?.seconds || b.createdAt || 0) - (a.createdAt?.seconds || a.createdAt || 0));
       const latestPhoto = photos[0];
       photoBox.innerHTML = `
         <div class="item" style="margin:0;">
@@ -765,7 +847,7 @@ async function loadHomePageDynamic(){
     }else{
       const videos = [];
       vSnap.forEach(d => videos.push({ id: d.id, ...d.data() }));
-      videos.sort((a,b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+      videos.sort((a,b) => (b.createdAt?.seconds || b.createdAt || 0) - (a.createdAt?.seconds || a.createdAt || 0));
       const latestVideo = videos[0];
       const parsed = parseVideoSource(latestVideo.url);
       let mediaHtml = "";
@@ -790,13 +872,12 @@ async function loadHomePageDynamic(){
     if(progSnap.empty){
       progBox.innerHTML = "<p style='color:#666;'>Filhal koi upcoming program scheduled nahi hai.</p>";
     }else{
-      const todayStr = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
+      const todayStr = new Date().toISOString().split("T")[0];
       let html = "";
       let count = 0;
 
       progSnap.forEach(item => {
         const d = item.data();
-        // If program has date, check if date is today or future. If no date set, show it.
         const progDate = d.date || "";
         if(!progDate || progDate >= todayStr){
           count++;
@@ -831,9 +912,9 @@ window.uploadPhoto = async function(){
     btn.textContent = "Uploading Photo...";
 
     const url = await uploadToCloudinaryDirect(file, "image");
-    await addDoc(collection(db, "photos"), { title, url, createdAt: serverTimestamp() });
+    await addDoc(collection(db, "photos"), { title, url, createdAt: Date.now() });
 
-    alert("✅ Photo successfully upload ho gayi! Home page par update ho gayi.");
+    alert("✅ Photo upload ho gayi!");
     document.getElementById("photoFile").value = "";
     document.getElementById("photoTitle").value = "";
     await loadPhotos();
@@ -907,10 +988,10 @@ window.uploadVideo = async function(){
     await addDoc(collection(db, "videos"), { 
       title, 
       url: finalVideoUrl, 
-      createdAt: serverTimestamp() 
+      createdAt: Date.now() 
     });
 
-    alert("✅ Video successfully add ho gaya! Home page par update ho gaya.");
+    alert("✅ Video upload ho gaya!");
     document.getElementById("videoFile").value = "";
     document.getElementById("videoUrlInput").value = "";
     document.getElementById("videoTitle").value = "";
