@@ -250,23 +250,6 @@ button{cursor:pointer;}
       <p>Khidmat • Deen • Sufi Riwayat</p>
     </div>
 
-    <!-- Official Social Media Channels Box on Home -->
-    <div class="card" style="border: 2px solid #075c39;background:#fafefc;">
-      <span class="section-badge" style="background:#0b6b43;">🌐 Humse Judein (Official Channels)</span>
-      <p style="font-size:13px;color:#555;">Khadimin-E-Auliya ke official channels se judne ke liye click karein:</p>
-      <div class="social-grid">
-        <a id="homeWaBtn" href="https://whatsapp.com/channel/0029Vb6FQo8CHDyjzvdDsg26" target="_blank" class="social-btn btn-soc-whatsapp">
-          💬 WhatsApp
-        </a>
-        <a id="homeYtBtn" href="https://youtube.com/@shaneagraofficial?si=lev8qA9HhLxH0req" target="_blank" class="social-btn btn-soc-youtube">
-          ▶️ YouTube
-        </a>
-        <a id="homeIgBtn" href="https://www.instagram.com/khadimine_auliya_agra?stkn=ZnIyemU5cTY0NzFq" target="_blank" class="social-btn btn-soc-instagram">
-          📸 Instagram
-        </a>
-      </div>
-    </div>
-
     <!-- Latest Photo Section -->
     <div class="card">
       <span class="section-badge">📸 Taza Tasweer (Latest Photo)</span>
@@ -283,6 +266,23 @@ button{cursor:pointer;}
     <div class="card">
       <span class="section-badge">📅 Upcoming Programs</span>
       <div id="homeActivePrograms">Loading...</div>
+    </div>
+
+    <!-- Official Social Media Channels Box (Ab Sabse Niche) -->
+    <div class="card" style="border: 2px solid #075c39;background:#fafefc;margin-top:20px;">
+      <span class="section-badge" style="background:#0b6b43;">🌐 Humse Judein (Official Channels)</span>
+      <p style="font-size:13px;color:#555;">Khadimin-E-Auliya ke official channels se judne ke liye click karein:</p>
+      <div class="social-grid">
+        <a id="homeWaBtn" href="https://whatsapp.com/channel/0029Vb6FQo8CHDyjzvdDsg26" target="_blank" class="social-btn btn-soc-whatsapp">
+          💬 WhatsApp
+        </a>
+        <a id="homeYtBtn" href="https://youtube.com/@shaneagraofficial?si=lev8qA9HhLxH0req" target="_blank" class="social-btn btn-soc-youtube">
+          ▶️ YouTube
+        </a>
+        <a id="homeIgBtn" href="https://www.instagram.com/khadimine_auliya_agra?stkn=ZnIyemU5cTY0NzFq" target="_blank" class="social-btn btn-soc-instagram">
+          📸 Instagram
+        </a>
+      </div>
     </div>
   </section>
 
@@ -378,89 +378,44 @@ button{cursor:pointer;}
     </div>
 
     <div class="dashboard-grid">
-      <!-- 1. Photos Card -->
       <div class="dashboard-card">
-        <div>
-          <h3>📸 Photos</h3>
-          <p>Upload New Photos</p>
-        </div>
+        <div><h3>📸 Photos</h3><p>Upload New Photos</p></div>
         <button class="action" onclick="openAdminForm('adminPhotoFormBox')">Manage Photos</button>
       </div>
-
-      <!-- 2. Videos Card -->
       <div class="dashboard-card">
-        <div>
-          <h3>🎥 Videos</h3>
-          <p>Upload / Add Videos</p>
-        </div>
+        <div><h3>🎥 Videos</h3><p>Upload / Add Videos</p></div>
         <button class="action" onclick="openAdminForm('adminVideoFormBox')">Manage Videos</button>
       </div>
-
-      <!-- 3. Social Media Channels Card -->
       <div class="dashboard-card">
-        <div>
-          <h3>📱 Social Links</h3>
-          <p>WhatsApp, YT, Insta</p>
-        </div>
+        <div><h3>📱 Social Links</h3><p>WhatsApp, YT, Insta</p></div>
         <button class="action" onclick="openAdminForm('adminSocialFormBox')">Update Links</button>
       </div>
-
-      <!-- 4. Payment QR Card -->
       <div class="dashboard-card">
-        <div>
-          <h3>💳 Payment QR</h3>
-          <p>Update Payment Details</p>
-        </div>
+        <div><h3>💳 Payment QR</h3><p>Update Payment Details</p></div>
         <button class="action" onclick="openAdminForm('adminPaymentFormBox')">Update Payment</button>
       </div>
-
-      <!-- 5. Rashid Card -->
       <div class="dashboard-card">
-        <div>
-          <h3>📜 Rashid</h3>
-          <p>Create & WhatsApp</p>
-        </div>
+        <div><h3>📜 Rashid</h3><p>Create & WhatsApp</p></div>
         <button class="action" onclick="openAdminForm('adminRashidFormBox')">Manage Rashid</button>
       </div>
-
-      <!-- 6. Members Card -->
       <div class="dashboard-card">
-        <div>
-          <h3>👥 Members</h3>
-          <p>Add New Members</p>
-        </div>
+        <div><h3>👥 Members</h3><p>Add New Members</p></div>
         <button class="action" onclick="openAdminForm('adminMemberFormBox')">Manage Members</button>
       </div>
-
-      <!-- 7. Programs Card -->
       <div class="dashboard-card">
-        <div>
-          <h3>📅 Programs</h3>
-          <p>Add / Publish Event</p>
-        </div>
+        <div><h3>📅 Programs</h3><p>Add / Publish Event</p></div>
         <button class="action" onclick="openAdminForm('adminProgramFormBox')">Manage Programs</button>
       </div>
-
-      <!-- 8. Langar Card -->
       <div class="dashboard-card">
-        <div>
-          <h3>🍲 Langar</h3>
-          <p>Update Langar Info</p>
-        </div>
+        <div><h3>🍲 Langar</h3><p>Update Langar Info</p></div>
         <button class="action" onclick="openAdminForm('adminLangarFormBox')">Manage Langar</button>
       </div>
-
-      <!-- 9. Notices Card -->
       <div class="dashboard-card">
-        <div>
-          <h3>📢 Notices</h3>
-          <p>Publish Alert</p>
-        </div>
+        <div><h3>📢 Notices</h3><p>Publish Alert</p></div>
         <button class="action" onclick="openAdminForm('adminNoticeFormBox')">Manage Notices</button>
       </div>
     </div>
 
-    <!-- Upload & Input Forms -->
     <div style="margin-top:24px;">
       <!-- Social Links Update Box -->
       <div id="adminSocialFormBox" class="card admin-box hidden">
@@ -640,12 +595,14 @@ window.generateCaptcha = function(){
   if(badge) badge.textContent = code;
 };
 
+// SMART HISTORY / BACK NAVIGATION SYSTEM
 window.toggleMenu = function(open){
   const drawer = document.getElementById("sideDrawer");
   const overlay = document.getElementById("menuOverlay");
   if(open){
     drawer.classList.add("active");
     overlay.classList.add("active");
+    history.pushState({ modal: 'menu' }, "");
   }else{
     drawer.classList.remove("active");
     overlay.classList.remove("active");
@@ -653,9 +610,43 @@ window.toggleMenu = function(open){
 };
 
 window.menuNav = function(page){
-  window.toggleMenu(false);
+  const drawer = document.getElementById("sideDrawer");
+  const overlay = document.getElementById("menuOverlay");
+  drawer.classList.remove("active");
+  overlay.classList.remove("active");
   window.showPage(page);
 };
+
+window.showPage = function(page, pushHistory = true){
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  const selected = document.getElementById(page);
+  if(selected){
+    selected.classList.add("active");
+    window.scrollTo({top:0, behavior:"smooth"});
+    if(pushHistory){
+      history.pushState({ page: page }, "", "#" + page);
+    }
+  }
+};
+
+// Handle Browser / Mobile Hardware Back Button
+window.addEventListener("popstate", function(event){
+  const drawer = document.getElementById("sideDrawer");
+  if(drawer && drawer.classList.contains("active")){
+    drawer.classList.remove("active");
+    document.getElementById("menuOverlay").classList.remove("active");
+    return;
+  }
+
+  if(event.state && event.state.page){
+    window.showPage(event.state.page, false);
+  }else{
+    window.showPage("home", false);
+  }
+});
+
+// Set default initial state for Home page
+history.replaceState({ page: "home" }, "", "#home");
 
 window.openAdminForm = function(boxId){
   const formBoxes = [
@@ -767,12 +758,8 @@ document.getElementById("userEnterBtn").addEventListener("click", async()=>{
 
   const phone = rawPhone.replace(/\D/g, "");
 
-  if(!name){
-    return alert("Kripya apna pura naam likhein.");
-  }
-  if(phone.length < 10){
-    return alert("Kripya sahi 10-digit mobile number likhein.");
-  }
+  if(!name) return alert("Kripya apna pura naam likhein.");
+  if(phone.length < 10) return alert("Kripya sahi 10-digit mobile number likhein.");
   if(captcha !== currentGeneratedCaptcha){
     alert("Galat Captcha code! Kripya dubara sahi code daalein.");
     generateCaptcha();
@@ -829,9 +816,7 @@ document.getElementById("adminLogin").addEventListener("click",async()=>{
   const password = document.getElementById("adminPassword").value;
   if(!email || !password) return alert("User ID aur Password bharein.");
 
-  if(!email.includes("@")){
-    email = email + "@khadimin.com";
-  }
+  if(!email.includes("@")) email = email + "@khadimin.com";
 
   try{
     await signInWithEmailAndPassword(auth, email, password);
@@ -840,7 +825,6 @@ document.getElementById("adminLogin").addEventListener("click",async()=>{
   }
 });
 
-// Auth State Listener
 onAuthStateChanged(auth, async(user)=>{
   if(user){
     const userEmail = (user.email || "").toLowerCase();
@@ -902,15 +886,6 @@ document.getElementById("logout").addEventListener("click",async()=>{
   location.reload();
 });
 
-window.showPage=function(page){
-  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-  const selected = document.getElementById(page);
-  if(selected){
-    selected.classList.add("active");
-    window.scrollTo({top:0, behavior:"smooth"});
-  }
-};
-
 window.deleteItem = async function(collectionName, docId, reloadFunction){
   if(!CURRENT_IS_ADMIN) return alert("Sirf Admin delete kar sakta hai.");
   const confirmDelete = confirm("Kya aap isko sach me delete karna chahte hain?");
@@ -957,7 +932,7 @@ async function loadAllData(){
   ]);
 }
 
-// 0. Social Channels Management with provided Links
+// 0. Social Channels Management
 const DEFAULT_WHATSAPP = "https://whatsapp.com/channel/0029Vb6FQo8CHDyjzvdDsg26";
 const DEFAULT_YOUTUBE = "https://youtube.com/@shaneagraofficial?si=lev8qA9HhLxH0req";
 const DEFAULT_INSTAGRAM = "https://www.instagram.com/khadimine_auliya_agra?stkn=ZnIyemU5cTY0NzFq";
@@ -1004,24 +979,21 @@ async function loadSocialLinks(){
       }
     });
 
-    // Update Home Screen Buttons
     document.getElementById("homeWaBtn").href = links.whatsapp;
     document.getElementById("homeYtBtn").href = links.youtube;
     document.getElementById("homeIgBtn").href = links.instagram;
 
-    // Update Drawer Links
     document.getElementById("drawerWaLink").href = links.whatsapp;
     document.getElementById("drawerYtLink").href = links.youtube;
     document.getElementById("drawerIgLink").href = links.instagram;
 
-    // Prefill Admin Form Inputs
     if(document.getElementById("adminWaInput")) document.getElementById("adminWaInput").value = links.whatsapp;
     if(document.getElementById("adminYtInput")) document.getElementById("adminYtInput").value = links.youtube;
     if(document.getElementById("adminIgInput")) document.getElementById("adminIgInput").value = links.instagram;
   }catch(e){}
 }
 
-// Dedicated Website Visitors Section for Admin with Call & Delete
+// Visitors List
 async function loadWebsiteUsersForAdmin(){
   const box = document.getElementById("adminUserList");
   if(!box || !CURRENT_IS_ADMIN) return;
