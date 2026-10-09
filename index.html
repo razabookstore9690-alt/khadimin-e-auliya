@@ -229,7 +229,7 @@ button{cursor:pointer;}
     <li><a href="javascript:void(0)" onclick="menuNav('videos')">🎥 Videos Gallery</a></li>
     <li><a href="javascript:void(0)" onclick="menuNav('members')">👥 Members List</a></li>
     <li><a href="javascript:void(0)" onclick="menuNav('donation')">💰 Donation / Payment</a></li>
-    <li><a href="javascript:void(0)" onclick="menuNav('rashid')">📜 Rashid Check</a></li>
+    <li><a href="javascript:void(0)" onclick="menuNav('raseed')">📜 Raseed Check</a></li>
 
     <!-- Official Channels in Drawer Menu -->
     <li style="border-top:2px solid #eef5f1;padding-top:4px;"><a id="drawerWaLink" href="https://whatsapp.com/channel/0029Vb6FQo8CHDyjzvdDsg26" target="_blank" style="color:#25D366;">💬 WhatsApp Channel</a></li>
@@ -252,13 +252,13 @@ button{cursor:pointer;}
 
     <!-- Latest Photo Section -->
     <div class="card">
-      <span class="section-badge">New Photo</span>
+      <span class="section-badge">📸 Taza Tasweer (Latest Photo)</span>
       <div id="homeLatestPhoto">Loading...</div>
     </div>
 
     <!-- Latest Video Section -->
     <div class="card">
-      <span class="section-badge">New Video</span>
+      <span class="section-badge">🎥 Taza Video Bayan (Latest Video)</span>
       <div id="homeLatestVideo">Loading...</div>
     </div>
 
@@ -274,13 +274,13 @@ button{cursor:pointer;}
       <p style="font-size:13px;color:#555;">Khadimin-E-Auliya ke official channels se judne ke liye click karein:</p>
       <div class="social-grid">
         <a id="homeWaBtn" href="https://whatsapp.com/channel/0029Vb6FQo8CHDyjzvdDsg26" target="_blank" class="social-btn btn-soc-whatsapp">
-          WhatsApp
+          💬 WhatsApp
         </a>
         <a id="homeYtBtn" href="https://youtube.com/@shaneagraofficial?si=lev8qA9HhLxH0req" target="_blank" class="social-btn btn-soc-youtube">
-          YouTube
+          ▶️ YouTube
         </a>
         <a id="homeIgBtn" href="https://www.instagram.com/khadimine_auliya_agra?stkn=ZnIyemU5cTY0NzFq" target="_blank" class="social-btn btn-soc-instagram">
-          Instagram
+          📸 Instagram
         </a>
       </div>
     </div>
@@ -318,21 +318,21 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- Rashid Page with Verification Check and Admin Issued List -->
-  <section id="rashid" class="page">
+  <!-- Raseed Page with Verification Check and Admin Issued List -->
+  <section id="raseed" class="page">
     <div class="card">
-      <h2>Rashid Check</h2>
+      <h2>Raseed Check</h2>
       <div class="form-group">
-        <label>Rashid Number Check Karein</label>
-        <input id="rashidNumberCheck" placeholder="Jaise: KEA-123456">
+        <label>Raseed Number Check Karein</label>
+        <input id="raseedNumberCheck" placeholder="Jaise: KEA-123456">
       </div>
-      <button class="action" id="checkRashidBtn" onclick="checkRashid()">Check Rashid</button>
-      <div id="rashidResult"></div>
+      <button class="action" id="checkRaseedBtn" onclick="checkRaseed()">Check Raseed</button>
+      <div id="raseedResult"></div>
 
-      <!-- Admin Issued Rashids List -->
-      <div id="adminRashidList" class="hidden" style="margin-top:24px;">
-        <h3 style="color:#075c39;margin-bottom:12px;">📋 Issued Rashids (Admin List)</h3>
-        <div id="rashidList">Loading...</div>
+      <!-- Admin Issued Raseed List -->
+      <div id="adminRaseedList" class="hidden" style="margin-top:24px;">
+        <h3 style="color:#075c39;margin-bottom:12px;">📋 Issued Raseed (Admin List)</h3>
+        <div id="raseedList">Loading...</div>
       </div>
     </div>
   </section>
@@ -373,7 +373,7 @@ button{cursor:pointer;}
   <!-- Central Admin Control Dashboard -->
   <section id="admin" class="page">
     <div class="hero">
-      <h2>ADMIN CONTROL DASHBOARD</h2>
+      <h2>⚙️ ADMIN CONTROL DASHBOARD</h2>
       <span class="admin-badge">LOGGED IN AS ADMIN</span>
     </div>
 
@@ -396,7 +396,7 @@ button{cursor:pointer;}
       </div>
       <div class="dashboard-card">
         <div><h3>📜 Raseed</h3><p>Create & WhatsApp</p></div>
-        <button class="action" onclick="openAdminForm('adminRashidFormBox')">Manage Raseed</button>
+        <button class="action" onclick="openAdminForm('adminRaseedFormBox')">Manage Raseed</button>
       </div>
       <div class="dashboard-card">
         <div><h3>👥 Members</h3><p>Add New Members</p></div>
@@ -465,7 +465,7 @@ button{cursor:pointer;}
 
       <!-- 4. Raseed Create Box -->
       <div id="adminRaseedFormBox" class="card admin-box hidden">
-        <h3>📜 New Raseed Banayein</h3>
+        <h3>📜 Nayi Raseed Banayein</h3>
         <div class="form-group"><label>Donor Name</label><input id="donorName"></div>
         <div class="form-group"><label>Donor Mobile</label><input id="donorMobile" type="tel" placeholder="10-digit mobile number"></div>
         <div class="form-group"><label>Address</label><textarea id="donorAddress"></textarea></div>
@@ -479,12 +479,12 @@ button{cursor:pointer;}
             <option value="Imamo ki Tankha">Imamo ki Tankha</option>
           </select>
         </div>
-        <button class="action" id="createRaseedBtn" onclick="createRashid()">Create Raseed & Download Photo</button>
+        <button class="action" id="createRaseedBtn" onclick="createRaseed()">Create Raseed & Download Photo</button>
       </div>
 
       <!-- 5. Member Add Box -->
       <div id="adminMemberFormBox" class="card admin-box hidden">
-        <h3>👥 New Member Add Karein</h3>
+        <h3>👥 Naya Member Add Karein</h3>
         <div class="form-group"><label>Member Photo (Passport 3:4 Size)</label><input id="memberPhotoFile" type="file" accept="image/*"></div>
         <div class="form-group"><label>Member Name</label><input id="memberName" placeholder="Member Name"></div>
         <div class="form-group"><label>Mobile Number</label><input id="memberPhone" placeholder="Mobile Number"></div>
@@ -495,7 +495,7 @@ button{cursor:pointer;}
 
       <!-- 6. Program Publish Box -->
       <div id="adminProgramFormBox" class="card admin-box hidden">
-        <h3>📅 New Program Add Karein</h3>
+        <h3>📅 Naya Program Add Karein</h3>
         <div class="form-group"><label>Program Date (Is date ke baad Home page se auto hat jayega)</label><input id="programDate" type="date"></div>
         <div class="form-group"><label>Program Title</label><input id="programTitle" placeholder="Program Title"></div>
         <div class="form-group"><label>Program Details</label><textarea id="programDescription" placeholder="Program Details"></textarea></div>
@@ -511,7 +511,7 @@ button{cursor:pointer;}
 
       <!-- 8. Notice Publish Box -->
       <div id="adminNoticeFormBox" class="card admin-box hidden">
-        <h3>📢 New Notice Publish Karein</h3>
+        <h3>📢 Naya Notice Publish Karein</h3>
         <div class="form-group"><input id="noticeTitle" placeholder="Notice Title"></div>
         <div class="form-group"><textarea id="noticeText" placeholder="Notice Content"></textarea></div>
         <button class="action" onclick="addNotice()">Publish Notice</button>
@@ -526,9 +526,9 @@ button{cursor:pointer;}
   <div class="rc-header">
     <div class="rc-arabic">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
     <div class="rc-title">KHADIMIN-E-AULIYA</div>
-    <div style="font-size:12px;color:#075c39;font-weight:bold;">OFFICIAL DONATION RECEIPT</div>
+    <div style="font-size:12px;color:#075c39;font-weight:bold;">OFFICIAL DONATION RASEED</div>
   </div>
-  <div class="rc-row"><strong>Receipt No:</strong> <span id="r_num">-</span></div>
+  <div class="rc-row"><strong>Raseed No:</strong> <span id="r_num">-</span></div>
   <div class="rc-row"><strong>Date:</strong> <span id="r_date">-</span></div>
   <div class="rc-row"><strong>Donor Name:</strong> <span id="r_name">-</span></div>
   <div class="rc-row"><strong>Mobile No:</strong> <span id="r_mobile">-</span></div>
@@ -537,7 +537,7 @@ button{cursor:pointer;}
     <strong>Amount Received:</strong> <span>₹<span id="r_amount">0</span></span>
   </div>
   <div class="rc-footer">
-    JazakAllah Khair! Allah Aapka taawun qubool farmaye.<br>
+    JazakAllah Khair! Aapka taawun qubool farmaye.<br>
     Authorized Signature: KHADIMIN-E-AULIYA
   </div>
 </div>
@@ -559,7 +559,7 @@ import {
   where, 
   deleteDoc, 
   updateDoc, 
-  setDoc,
+  setDoc, 
   doc, 
   serverTimestamp 
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
@@ -652,9 +652,9 @@ window.openAdminForm = function(boxId){
   const formBoxes = [
     'adminPhotoFormBox', 
     'adminVideoFormBox', 
-    'adminSocialFormBox',
+    'adminSocialFormBox', 
     'adminPaymentFormBox', 
-    'adminRashidFormBox', 
+    'adminRaseedFormBox', 
     'adminMemberFormBox', 
     'adminProgramFormBox', 
     'adminLangarFormBox', 
@@ -794,7 +794,7 @@ document.getElementById("userEnterBtn").addEventListener("click", async()=>{
     const adminElements = [
       "drawerAdminLink",
       "drawerVisitorsLink",
-      "adminRashidList"
+      "adminRaseedList"
     ];
     adminElements.forEach(id => {
       const el = document.getElementById(id);
@@ -832,12 +832,12 @@ onAuthStateChanged(auth, async(user)=>{
 
     document.getElementById("loginPage").classList.add("hidden");
     document.getElementById("app").classList.remove("hidden");
-    document.getElementById("roleText").textContent = CURRENT_IS_ADMIN ? "Admin Account" : "👤 User Account";
+    document.getElementById("roleText").textContent = CURRENT_IS_ADMIN ? "👑 Admin Account" : "👤 User Account";
 
     const adminElements = [
       "drawerAdminLink",
       "drawerVisitorsLink",
-      "adminRashidList"
+      "adminRaseedList"
     ];
     adminElements.forEach(id => {
       const el = document.getElementById(id);
@@ -861,7 +861,7 @@ onAuthStateChanged(auth, async(user)=>{
         const adminElements = [
           "drawerAdminLink",
           "drawerVisitorsLink",
-          "adminRashidList"
+          "adminRaseedList"
         ];
         adminElements.forEach(id => {
           const el = document.getElementById(id);
@@ -927,7 +927,7 @@ async function loadAllData(){
     loadMembers(),
     loadLangar(),
     loadNotices(),
-    loadRashids(),
+    loadRaseeds(),
     loadWebsiteUsersForAdmin()
   ]);
 }
@@ -1162,8 +1162,8 @@ window.loadPhotos = async function(){
           ${d.url ? `<img src="${d.url}">` : ""}
           ${CURRENT_IS_ADMIN ? `
             <div class="action-box">
-              <button class="btn-edit" onclick="editPhoto('${id}', '${titleAttr}')">Edit</button>
-              <button class="btn-delete" onclick="deleteItem('photos', '${id}', 'loadPhotos')">Delete</button>
+              <button class="btn-edit" onclick="editPhoto('${id}', '${titleAttr}')">✏️ Edit</button>
+              <button class="btn-delete" onclick="deleteItem('photos', '${id}', 'loadPhotos')">🗑️ Delete</button>
             </div>
           ` : ""}
         </div>
@@ -1250,8 +1250,8 @@ window.loadVideos = async function(){
           ${mediaHtml}
           ${CURRENT_IS_ADMIN ? `
             <div class="action-box">
-              <button class="btn-edit" onclick="editVideo('${id}', '${titleAttr}')">Edit</button>
-              <button class="btn-delete" onclick="deleteItem('videos', '${id}', 'loadVideos')">Delete</button>
+              <button class="btn-edit" onclick="editVideo('${id}', '${titleAttr}')">✏️ Edit</button>
+              <button class="btn-delete" onclick="deleteItem('videos', '${id}', 'loadVideos')">🗑️ Delete</button>
             </div>
           ` : ""}
         </div>
@@ -1327,8 +1327,8 @@ window.loadPayment = async function(){
           ${data.qrUrl ? `<img src="${data.qrUrl}" style="max-width:240px;display:block;margin-top:10px;">` : ""}
           ${CURRENT_IS_ADMIN ? `
             <div class="action-box">
-              <button class="btn-edit" onclick="editPayment('${id}', '${holderAttr}', '${bankAttr}', '${upiAttr}')">Edit Details</button>
-              <button class="btn-delete" onclick="deleteItem('paymentMethods', '${id}', 'loadPayment')">Delete</button>
+              <button class="btn-edit" onclick="editPayment('${id}', '${holderAttr}', '${bankAttr}', '${upiAttr}')">✏️ Edit Details</button>
+              <button class="btn-delete" onclick="deleteItem('paymentMethods', '${id}', 'loadPayment')">🗑️ Delete</button>
             </div>
           ` : ""}
         </div>
@@ -1388,12 +1388,12 @@ window.loadPrograms = async function(){
       html += `
         <div class="item">
           <h3>${escapeHTML(d.title || "")}</h3>
-          ${d.date ? `<p style="font-size:13px;color:#075c39;font-weight:bold;margin:4px 0;">📅 Program Date: ${escapeHTML(d.date)}</p>` : ""}
+          ${d.date ? `<p style="font-size:13px;color:#075c39;font-weight:bold;margin-4px 0;">📅 Program Date: ${escapeHTML(d.date)}</p>` : ""}
           <p>${escapeHTML(d.description || "")}</p>
           ${CURRENT_IS_ADMIN ? `
             <div class="action-box">
-              <button class="btn-edit" onclick="editProgram('${id}', '${titleAttr}', '${descAttr}', '${dateAttr}')">Edit</button>
-              <button class="btn-delete" onclick="deleteItem('programs', '${id}', 'loadPrograms')">Delete</button>
+              <button class="btn-edit" onclick="editProgram('${id}', '${titleAttr}', '${descAttr}', '${dateAttr}')">✏️ Edit</button>
+              <button class="btn-delete" onclick="deleteItem('programs', '${id}', 'loadPrograms')">🗑️ Delete</button>
             </div>
           ` : ""}
         </div>
@@ -1490,8 +1490,8 @@ window.loadMembers = async function(){
           ${d.phone ? `<a href="tel:${encodeURIComponent(d.phone)}"><button class="action">📞 Call</button></a>` : ""}
           ${CURRENT_IS_ADMIN ? `
             <div class="action-box">
-              <button class="btn-edit" onclick="editMember('${id}', '${nameAttr}', '${phoneAttr}', '${addrAttr}', '${respAttr}')">Edit</button>
-              <button class="btn-delete" onclick="deleteItem('members', '${id}', 'loadMembers')">Delete</button>
+              <button class="btn-edit" onclick="editMember('${id}', '${nameAttr}', '${phoneAttr}', '${addrAttr}', '${respAttr}')">✏️ Edit</button>
+              <button class="btn-delete" onclick="deleteItem('members', '${id}', 'loadMembers')">🗑️ Delete</button>
             </div>
           ` : ""}
         </div>
@@ -1537,8 +1537,8 @@ window.loadLangar = async function(){
           <div>${escapeHTML(d.text || "")}</div>
           ${CURRENT_IS_ADMIN ? `
             <div class="action-box">
-              <button class="btn-edit" onclick="editLangar('${id}', '${textAttr}')">Edit</button>
-              <button class="btn-delete" onclick="deleteItem('langar', '${id}', 'loadLangar')">Delete</button>
+              <button class="btn-edit" onclick="editLangar('${id}', '${textAttr}')">✏️ Edit</button>
+              <button class="btn-delete" onclick="deleteItem('langar', '${id}', 'loadLangar')">🗑️ Delete</button>
             </div>
           ` : ""}
         </div>
@@ -1594,8 +1594,8 @@ window.loadNotices = async function(){
           <p>${escapeHTML(d.text || "")}</p>
           ${CURRENT_IS_ADMIN ? `
             <div class="action-box">
-              <button class="btn-edit" onclick="editNotice('${id}', '${titleAttr}', '${textAttr}')">Edit</button>
-              <button class="btn-delete" onclick="deleteItem('notices', '${id}', 'loadNotices')">Delete</button>
+              <button class="btn-edit" onclick="editNotice('${id}', '${titleAttr}', '${textAttr}')">✏️ Edit</button>
+              <button class="btn-delete" onclick="deleteItem('notices', '${id}', 'loadNotices')">🗑️ Delete</button>
             </div>
           ` : ""}
         </div>
@@ -1605,14 +1605,14 @@ window.loadNotices = async function(){
   }catch(e){}
 };
 
-// 8. REAL DATABASE RASHID VERIFICATION & ADMIN LIST WITH DELETE
-window.checkRashid = async function(){
-  const inputEl = document.getElementById("rashidNumberCheck");
-  const resultBox = document.getElementById("rashidResult");
-  const checkBtn = document.getElementById("checkRashidBtn");
+// 8. REAL DATABASE RASEED VERIFICATION & ADMIN LIST WITH DELETE
+window.checkRaseed = async function(){
+  const inputEl = document.getElementById("raseedNumberCheck");
+  const resultBox = document.getElementById("raseedResult");
+  const checkBtn = document.getElementById("checkRaseedBtn");
   const number = inputEl.value.trim().toUpperCase();
 
-  if(!number) return alert("Kripya Rashid Number enter karein.");
+  if(!number) return alert("Kripya Raseed Number enter karein.");
 
   checkBtn.disabled = true;
   checkBtn.textContent = "Checking...";
@@ -1625,34 +1625,34 @@ window.checkRashid = async function(){
     if(snapshot.empty){
       resultBox.innerHTML = `
         <div class="status-error">
-          ⚠️ Rashid Nahi Mili!<br>
+          ⚠️ Raseed Nahi Mili!<br>
           <span style="font-size:13px;font-weight:normal;color:#555;">Dala gaya number (${escapeHTML(number)}) galat hai ya abhi tak issue nahi kiya gaya hai.</span>
         </div>
       `;
     }else{
-      let rashidData = null;
+      let raseedData = null;
       snapshot.forEach(docSnap => {
-        rashidData = docSnap.data();
+        raseedData = docSnap.data();
       });
 
-      const rNum = escapeHTML(rashidData.rashidNumber);
-      const rName = escapeHTML(rashidData.donorName);
-      const rAmount = escapeHTML(rashidData.amount);
-      const rPurpose = escapeHTML(rashidData.purpose);
-      const rDate = escapeHTML(rashidData.dateStr || "Verified");
-      const rMobile = escapeHTML(rashidData.donorMobile || "-");
+      const rNum = escapeHTML(raseedData.rashidNumber);
+      const rName = escapeHTML(raseedData.donorName);
+      const rAmount = escapeHTML(raseedData.amount);
+      const rPurpose = escapeHTML(raseedData.purpose);
+      const rDate = escapeHTML(raseedData.dateStr || "Verified");
+      const rMobile = escapeHTML(raseedData.donorMobile || "-");
 
       resultBox.innerHTML = `
         <div class="status-success">
-          <div style="font-size:17px;font-weight:bold;margin-bottom:8px;">✅ Rashid Verified (Asli Raseed)</div>
+          <div style="font-size:17px;font-weight:bold;margin-bottom:8px;">✅ Raseed Verified (Asli Raseed)</div>
           <div style="line-height:1.7;font-size:14px;">
-            <strong>Rashid No:</strong> ${rNum}<br>
+            <strong>Raseed No:</strong> ${rNum}<br>
             <strong>Donor Name:</strong> ${rName}<br>
             <strong>Amount:</strong> ₹${rAmount}<br>
             <strong>Purpose:</strong> ${rPurpose}<br>
             <strong>Date:</strong> ${rDate}
           </div>
-          <button class="action" style="margin-top:12px;background:#075c39;" onclick="downloadReceiptImage('${rNum}', '${rName}', '${rMobile}', '${rPurpose}', '${rAmount}', '${rDate}')">📥 Download Receipt Card</button>
+          <button class="action" style="margin-top:12px;background:#075c39;" onclick="downloadReceiptImage('${rNum}', '${rName}', '${rMobile}', '${rPurpose}', '${rAmount}', '${rDate}')">📥 Download Raseed Card</button>
         </div>
       `;
     }
@@ -1660,7 +1660,7 @@ window.checkRashid = async function(){
     resultBox.innerHTML = `<div class="status-error">Error: ${e.message}</div>`;
   }finally{
     checkBtn.disabled = false;
-    checkBtn.textContent = "Check Rashid";
+    checkBtn.textContent = "Check Raseed";
   }
 };
 
@@ -1678,7 +1678,7 @@ window.downloadReceiptImage = async function(rNum, rName, rMobile, rPurpose, rAm
 
   const a = document.createElement("a");
   a.href = imgData;
-  a.download = `Rashid_${rNum}.png`;
+  a.download = `Raseed_${rNum}.png`;
   a.click();
 };
 
@@ -1686,7 +1686,7 @@ window.openWhatsApp = function(mobile, rNum, rName, rAmt, rPurpose){
   let cleanMobile = (mobile || "").replace(/\D/g, "");
   if(cleanMobile.length === 10) cleanMobile = "91" + cleanMobile;
 
-  const msg = `Assalamu Alaikum wa Rahmatullahi wa Barakatuh ${rName} Sahab,\n\n*KHADIMIN-E-AULIYA* ki taraf se aapki taawun raseed taiyar hai:\n\n📜 *Receipt No:* ${rNum}\n💰 *Amount:* ₹${rAmt}\n🎯 *Purpose:* ${rPurpose}\n\nAapki donation receipt ki photo sath me share ki ja rahi hai. JazakAllah Khair!`;
+  const msg = `Assalamu Alaikum wa Rahmatullahi wa Barakatuh ${rName} Sahab,\n\n*KHADIMIN-E-AULIYA* ki taraf se aapki taawun raseed taiyar hai:\n\n📜 *Raseed No:* ${rNum}\n💰 *Amount:* ₹${rAmt}\n🎯 *Purpose:* ${rPurpose}\n\nAapki donation raseed ki photo sath me share ki ja rahi hai. JazakAllah Khair!`;
 
   const appUrl = `whatsapp://send?phone=${cleanMobile}&text=${encodeURIComponent(msg)}`;
   window.location.href = appUrl;
@@ -1696,8 +1696,8 @@ window.openWhatsApp = function(mobile, rNum, rName, rAmt, rPurpose){
   }, 1200);
 };
 
-window.createRashid = async function(){
-  const btn = document.getElementById("createRashidBtn");
+window.createRaseed = async function(){
+  const btn = document.getElementById("createRaseedBtn");
   try{
     const donorName = document.getElementById("donorName").value.trim();
     const donorMobile = document.getElementById("donorMobile").value.trim();
@@ -1707,7 +1707,7 @@ window.createRashid = async function(){
     if(!donorName || !amount) return alert("Donor Name aur Amount zaroori hai.");
 
     btn.disabled = true;
-    btn.textContent = "Receipt Ban rahi hai...";
+    btn.textContent = "Raseed Ban rahi hai...";
 
     const rashidNumber = "KEA-" + Date.now().toString().slice(-6);
     const dateStr = new Date().toLocaleDateString("en-IN", { day: '2-digit', month: 'short', year: 'numeric' });
@@ -1718,7 +1718,7 @@ window.createRashid = async function(){
 
     await downloadReceiptImage(rashidNumber, donorName, donorMobile, purpose, amount, dateStr);
 
-    alert(`✅ Rashid ban gayi (${rashidNumber}) aur Photo phone me save ho gayi hai!`);
+    alert(`✅ Raseed ban gayi (${rashidNumber}) aur Photo phone me save ho gayi hai!`);
 
     if(donorMobile){
       const openNow = confirm("Kya aap abhi direct WhatsApp par bhejna chahte hain?");
@@ -1731,22 +1731,22 @@ window.createRashid = async function(){
     document.getElementById("donorMobile").value = "";
     document.getElementById("donorAddress").value = "";
     document.getElementById("donationAmount").value = "";
-    document.getElementById("adminRashidFormBox").classList.add("hidden");
-    await loadRashids();
+    document.getElementById("adminRaseedFormBox").classList.add("hidden");
+    await loadRaseeds();
   }catch(e){ 
     alert("Error: " + e.message); 
   }finally{
     btn.disabled = false;
-    btn.textContent = "Create Rashid & Download Photo";
+    btn.textContent = "Create Raseed & Download Photo";
   }
 };
 
-window.loadRashids = async function(){
-  const box = document.getElementById("rashidList");
+window.loadRaseeds = async function(){
+  const box = document.getElementById("raseedList");
   if(!box) return;
   try{
     const snapshot = await getDocs(collection(db,"rashid"));
-    if(snapshot.empty) return box.innerHTML = "<p>Koi Rashid nahi hai.</p>";
+    if(snapshot.empty) return box.innerHTML = "<p>Koi Raseed nahi hai.</p>";
     let html="";
     snapshot.forEach(item=>{
       const d=item.data();
@@ -1759,14 +1759,14 @@ window.loadRashids = async function(){
 
       html += `
         <div class="item">
-          <p><strong>Rashid No:</strong> ${escapeHTML(d.rashidNumber)}</p>
+          <p><strong>Raseed No:</strong> ${escapeHTML(d.rashidNumber)}</p>
           <p><strong>Donor:</strong> ${escapeHTML(d.donorName)} (₹${escapeHTML(d.amount)})</p>
           <p><strong>Mobile:</strong> ${escapeHTML(d.donorMobile || "-")}</p>
           <p><strong>Purpose:</strong> ${escapeHTML(d.purpose)}</p>
           ${CURRENT_IS_ADMIN ? `
             <div class="action-box">
               ${d.donorMobile ? `<button class="btn-whatsapp" onclick="openWhatsApp('${mobileAttr}', '${numAttr}', '${donorAttr}', '${amtAttr}', '${purpAttr}')">📲 WhatsApp Share</button>` : ""}
-              <button class="btn-delete" onclick="deleteItem('rashid', '${id}', 'loadRashids')">Delete Rashid</button>
+              <button class="btn-delete" onclick="deleteItem('rashid', '${id}', 'loadRaseeds')">🗑️ Delete Raseed</button>
             </div>
           ` : ""}
         </div>
