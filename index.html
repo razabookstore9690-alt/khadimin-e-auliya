@@ -75,6 +75,7 @@ button{cursor:pointer;}
 .item{border:1px solid #e1e8e4;border-radius:12px;padding:14px;margin:12px 0;background:#fafcfb;}
 .item img,.item video,.item iframe{width:100%;max-height:360px;border-radius:10px;margin-top:8px;display:block;}
 .item iframe{height:240px;border:0;}
+.member-avatar{width:90px;height:90px;border-radius:50%;object-fit:cover;border:3px solid #075c39;display:block;margin-bottom:10px;}
 .admin-badge{display:inline-block;background:#d6ad45;color:#063d28;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:bold;}
 .admin-box{background:#f0f8f4;border:2px dashed #075c39;border-radius:12px;padding:16px;margin-bottom:18px;}
 .status-success{margin-top:14px;padding:16px;border-radius:12px;background:#eef7f1;border:2px solid #075c39;color:#063d28;}
@@ -332,17 +333,21 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- Members Page -->
+  <!-- Members Page with Photo Support -->
   <section id="members" class="page">
     <div class="card">
       <h2>Members List</h2>
       <div id="adminMemberForm" class="admin-box hidden">
         <h3>👥 Admin: Naya Member Add Karein</h3>
-        <div class="form-group"><input id="memberName" placeholder="Member Name"></div>
-        <div class="form-group"><input id="memberPhone" placeholder="Mobile Number"></div>
-        <div class="form-group"><textarea id="memberAddress" placeholder="Address"></textarea></div>
-        <div class="form-group"><input id="memberResponsibility" placeholder="Zimmedari / Role"></div>
-        <button class="action" onclick="addMember()">Save Member</button>
+        <div class="form-group">
+          <label>Member Photo (Optional)</label>
+          <input id="memberPhotoFile" type="file" accept="image/*">
+        </div>
+        <div class="form-group"><label>Member Name</label><input id="memberName" placeholder="Member Name"></div>
+        <div class="form-group"><label>Mobile Number</label><input id="memberPhone" placeholder="Mobile Number"></div>
+        <div class="form-group"><label>Pata (Address)</label><textarea id="memberAddress" placeholder="Address"></textarea></div>
+        <div class="form-group"><label>Zimmedari / Role</label><input id="memberResponsibility" placeholder="Zimmedari / Role"></div>
+        <button class="action" id="saveMemberBtn" onclick="addMember()">Save Member</button>
       </div>
       <div id="memberList">Loading...</div>
     </div>
@@ -594,12 +599,10 @@ document.getElementById("userEnterBtn").addEventListener("click", async()=>{
   btn.textContent = "Connecting...";
 
   try{
-    // Check if phone number ALREADY exists in website_users collection
     const checkQuery = query(collection(db, "website_users"), where("phone", "==", phone));
     const querySnapshot = await getDocs(checkQuery);
 
     if(querySnapshot.empty){
-      // Naya number hai: Sirf first time ka record save hoga
       const loginTime = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
       await addDoc(collection(db, "website_users"), {
         name: name,
@@ -607,9 +610,6 @@ document.getElementById("userEnterBtn").addEventListener("click", async()=>{
         loginAt: loginTime,
         timestamp: Date.now()
       });
-    } else {
-      // Purana number hai: Dubara save nahi hoga, pehle wala date/time hi rahega
-      console.log("Existing user logged in. First-time data preserved.");
     }
 
     localStorage.setItem("khadimin_user_session", JSON.stringify({ name, phone }));
@@ -619,7 +619,6 @@ document.getElementById("userEnterBtn").addEventListener("click", async()=>{
     document.getElementById("app").classList.remove("hidden");
     document.getElementById("roleText").textContent = `👤 User: ${name}`;
 
-    // Hide admin elements
     const adminElements = [
       "drawerAdminLink",
       "drawerVisitorsLink",
@@ -796,7 +795,7 @@ async function loadAllData(){
   ]);
 }
 
-// Dedicated Website Visitors Section for Admin (De-duplicated & Clean view)
+// Dedicated Website Visitors Section for Admin
 async function loadWebsiteUsersForAdmin(){
   const box = document.getElementById("adminUserList");
   if(!box || !CURRENT_IS_ADMIN) return;
@@ -808,8 +807,6 @@ async function loadWebsiteUsersForAdmin(){
     }
     const list = [];
     snapshot.forEach(d => list.push({ id: d.id, ...d.data() }));
-    
-    // Sort oldest first or newest first
     list.sort((a,b) => (b.timestamp || 0) - (a.timestamp || 0));
 
     let html = "";
@@ -835,7 +832,6 @@ async function loadWebsiteUsersForAdmin(){
 
 // HOME PAGE: Latest 1 Photo, 1 Video & Active Upcoming Programs
 async function loadHomePageDynamic(){
-  // 1. Latest Photo only
   try{
     const pSnap = await getDocs(collection(db, "photos"));
     const photoBox = document.getElementById("homeLatestPhoto");
@@ -855,7 +851,6 @@ async function loadHomePageDynamic(){
     }
   }catch(e){}
 
-  // 2. Latest Video only
   try{
     const vSnap = await getDocs(collection(db, "videos"));
     const videoBox = document.getElementById("homeLatestVideo");
@@ -882,7 +877,6 @@ async function loadHomePageDynamic(){
     }
   }catch(e){}
 
-  // 3. Active Upcoming Programs
   try{
     const progBox = document.getElementById("homeActivePrograms");
     const progSnap = await getDocs(collection(db, "programs"));
@@ -1207,7 +1201,7 @@ window.addProgram = async function(){
   }catch(e){ alert(e.message); }
 };
 
-// 5. Members
+// 5. Members (With Photo Support)
 window.editMember = function(id, curName, curPhone, curAddress, curResp){
   if(!CURRENT_IS_ADMIN) return alert("Sirf Admin edit kar sakta hai.");
   const name = prompt("Member Name:", curName);
@@ -1243,6 +1237,7 @@ window.loadMembers = async function(){
       const respAttr = (d.responsibility || "").replace(/"/g, '&quot;');
       html += `
         <div class="item">
+          ${d.photoUrl ? `<img src="${d.photoUrl}" alt="${escapeHTML(d.name)}" class="member-avatar">` : ""}
           <h3>${escapeHTML(d.name || "")}</h3>
           <p><strong>Zimmedari:</strong> ${escapeHTML(d.responsibility || "-")}</p>
           <p><strong>Pata:</strong> ${escapeHTML(d.address || "-")}</p>
@@ -1261,20 +1256,46 @@ window.loadMembers = async function(){
 };
 
 window.addMember = async function(){
+  const btn = document.getElementById("saveMemberBtn");
   try{
     const name = document.getElementById("memberName").value.trim();
     const phone = document.getElementById("memberPhone").value.trim();
     const address = document.getElementById("memberAddress").value.trim();
     const responsibility = document.getElementById("memberResponsibility").value.trim();
+    const photoFile = document.getElementById("memberPhotoFile").files[0];
+
     if(!name) return alert("Member ka naam enter karein.");
-    await addDoc(collection(db,"members"),{ name, phone, address, responsibility, createdAt:serverTimestamp() });
-    alert("Member add ho gaya!");
+
+    btn.disabled = true;
+    btn.textContent = "Saving Member...";
+
+    let photoUrl = "";
+    if(photoFile){
+      photoUrl = await uploadToCloudinaryDirect(photoFile, "image");
+    }
+
+    await addDoc(collection(db,"members"),{ 
+      name, 
+      phone, 
+      address, 
+      responsibility, 
+      photoUrl, 
+      createdAt: serverTimestamp() 
+    });
+
+    alert("✅ Member add ho gaya!");
     document.getElementById("memberName").value = "";
     document.getElementById("memberPhone").value = "";
     document.getElementById("memberAddress").value = "";
     document.getElementById("memberResponsibility").value = "";
+    document.getElementById("memberPhotoFile").value = "";
     await loadMembers();
-  }catch(e){ alert(e.message); }
+  }catch(e){ 
+    alert("Error: " + e.message); 
+  }finally{
+    btn.disabled = false;
+    btn.textContent = "Save Member";
+  }
 };
 
 // 6. Langar
