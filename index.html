@@ -232,9 +232,9 @@ button{cursor:pointer;}
     <li><a href="javascript:void(0)" onclick="menuNav('rashid')">📜 Rashid Check</a></li>
 
     <!-- Official Channels in Drawer Menu -->
-    <li style="border-top:2px solid #eef5f1;padding-top:4px;"><a id="drawerWaLink" href="https://whatsapp.com" target="_blank" style="color:#25D366;">💬 WhatsApp Channel</a></li>
-    <li><a id="drawerYtLink" href="https://youtube.com" target="_blank" style="color:#FF0000;">▶️ YouTube Channel</a></li>
-    <li><a id="drawerIgLink" href="https://instagram.com" target="_blank" style="color:#E1306C;">📸 Instagram Page</a></li>
+    <li style="border-top:2px solid #eef5f1;padding-top:4px;"><a id="drawerWaLink" href="https://whatsapp.com/channel/0029Vb6FQo8CHDyjzvdDsg26" target="_blank" style="color:#25D366;">💬 WhatsApp Channel</a></li>
+    <li><a id="drawerYtLink" href="https://youtube.com/@shaneagraofficial?si=lev8qA9HhLxH0req" target="_blank" style="color:#FF0000;">▶️ YouTube Channel</a></li>
+    <li><a id="drawerIgLink" href="https://www.instagram.com/khadimine_auliya_agra?stkn=ZnIyemU5cTY0NzFq" target="_blank" style="color:#E1306C;">📸 Instagram Page</a></li>
     
     <!-- Admin Only Links inside Menu -->
     <li id="drawerVisitorsLink" class="hidden"><a href="javascript:void(0)" onclick="menuNav('visitors')" style="color:#075c39;background:#eef7f1;">👥 Website Visitors</a></li>
@@ -255,13 +255,13 @@ button{cursor:pointer;}
       <span class="section-badge" style="background:#0b6b43;">🌐 Humse Judein (Official Channels)</span>
       <p style="font-size:13px;color:#555;">Khadimin-E-Auliya ke official channels se judne ke liye click karein:</p>
       <div class="social-grid">
-        <a id="homeWaBtn" href="https://whatsapp.com" target="_blank" class="social-btn btn-soc-whatsapp">
+        <a id="homeWaBtn" href="https://whatsapp.com/channel/0029Vb6FQo8CHDyjzvdDsg26" target="_blank" class="social-btn btn-soc-whatsapp">
           💬 WhatsApp
         </a>
-        <a id="homeYtBtn" href="https://youtube.com" target="_blank" class="social-btn btn-soc-youtube">
+        <a id="homeYtBtn" href="https://youtube.com/@shaneagraofficial?si=lev8qA9HhLxH0req" target="_blank" class="social-btn btn-soc-youtube">
           ▶️ YouTube
         </a>
-        <a id="homeIgBtn" href="https://instagram.com" target="_blank" class="social-btn btn-soc-instagram">
+        <a id="homeIgBtn" href="https://www.instagram.com/khadimine_auliya_agra?stkn=ZnIyemU5cTY0NzFq" target="_blank" class="social-btn btn-soc-instagram">
           📸 Instagram
         </a>
       </div>
@@ -467,15 +467,15 @@ button{cursor:pointer;}
         <h3>📱 Official Channels Ke Links Badlein</h3>
         <div class="form-group">
           <label>WhatsApp Channel / Group Link</label>
-          <input id="adminWaInput" placeholder="https://whatsapp.com/channel/...">
+          <input id="adminWaInput" placeholder="https://whatsapp.com/channel/0029Vb6FQo8CHDyjzvdDsg26">
         </div>
         <div class="form-group">
           <label>YouTube Channel Link</label>
-          <input id="adminYtInput" placeholder="https://youtube.com/@...">
+          <input id="adminYtInput" placeholder="https://youtube.com/@shaneagraofficial?si=lev8qA9HhLxH0req">
         </div>
         <div class="form-group">
           <label>Instagram Page Link</label>
-          <input id="adminIgInput" placeholder="https://instagram.com/...">
+          <input id="adminIgInput" placeholder="https://www.instagram.com/khadimine_auliya_agra?stkn=ZnIyemU5cTY0NzFq">
         </div>
         <button class="action" id="saveSocialBtn" onclick="saveSocialLinks()">Save Channels Link</button>
       </div>
@@ -492,15 +492,9 @@ button{cursor:pointer;}
       <div id="adminVideoFormBox" class="card admin-box hidden">
         <h3>🎥 Video Upload / Add Karein</h3>
         <div class="form-group"><label>Video Title</label><input id="videoTitle" placeholder="Video Title"></div>
-        <div class="form-group">
-          <label>Tareeqa 1: Mobile se Video File Upload</label>
-          <input id="videoFile" type="file" accept="video/*">
-        </div>
+        <div class="form-group"><label>Tareeqa 1: Mobile se Video File Upload</label><input id="videoFile" type="file" accept="video/*"></div>
         <div class="divider-text">— YA —</div>
-        <div class="form-group">
-          <label>Tareeqa 2: YouTube / Online Link</label>
-          <input id="videoUrlInput" placeholder="https://youtu.be/... ya https://www.youtube.com/watch?v=...">
-        </div>
+        <div class="form-group"><label>Tareeqa 2: YouTube / Online Link</label><input id="videoUrlInput" placeholder="https://youtu.be/... ya https://www.youtube.com/watch?v=..."></div>
         <button class="action" id="videoUploadBtn" onclick="uploadVideo()">Save / Upload Video</button>
       </div>
 
@@ -536,10 +530,7 @@ button{cursor:pointer;}
       <!-- 5. Member Add Box -->
       <div id="adminMemberFormBox" class="card admin-box hidden">
         <h3>👥 Naya Member Add Karein</h3>
-        <div class="form-group">
-          <label>Member Photo (Passport 3:4 Size)</label>
-          <input id="memberPhotoFile" type="file" accept="image/*">
-        </div>
+        <div class="form-group"><label>Member Photo (Passport 3:4 Size)</label><input id="memberPhotoFile" type="file" accept="image/*"></div>
         <div class="form-group"><label>Member Name</label><input id="memberName" placeholder="Member Name"></div>
         <div class="form-group"><label>Mobile Number</label><input id="memberPhone" placeholder="Mobile Number"></div>
         <div class="form-group"><label>Pata (Address)</label><textarea id="memberAddress" placeholder="Address"></textarea></div>
@@ -550,10 +541,7 @@ button{cursor:pointer;}
       <!-- 6. Program Publish Box -->
       <div id="adminProgramFormBox" class="card admin-box hidden">
         <h3>📅 Naya Program Add Karein</h3>
-        <div class="form-group">
-          <label>Program Date (Is date ke baad Home page se auto hat jayega)</label>
-          <input id="programDate" type="date">
-        </div>
+        <div class="form-group"><label>Program Date (Is date ke baad Home page se auto hat jayega)</label><input id="programDate" type="date"></div>
         <div class="form-group"><label>Program Title</label><input id="programTitle" placeholder="Program Title"></div>
         <div class="form-group"><label>Program Details</label><textarea id="programDescription" placeholder="Program Details"></textarea></div>
         <button class="action" onclick="addProgram()">Publish Program</button>
@@ -969,7 +957,11 @@ async function loadAllData(){
   ]);
 }
 
-// 0. Social Channels Management
+// 0. Social Channels Management with provided Links
+const DEFAULT_WHATSAPP = "https://whatsapp.com/channel/0029Vb6FQo8CHDyjzvdDsg26";
+const DEFAULT_YOUTUBE = "https://youtube.com/@shaneagraofficial?si=lev8qA9HhLxH0req";
+const DEFAULT_INSTAGRAM = "https://www.instagram.com/khadimine_auliya_agra?stkn=ZnIyemU5cTY0NzFq";
+
 window.saveSocialLinks = async function(){
   const btn = document.getElementById("saveSocialBtn");
   try{
@@ -981,9 +973,9 @@ window.saveSocialLinks = async function(){
     btn.textContent = "Saving...";
 
     await setDoc(doc(db, "settings", "social_links"), {
-      whatsapp: whatsapp || "https://whatsapp.com",
-      youtube: youtube || "https://youtube.com",
-      instagram: instagram || "https://instagram.com",
+      whatsapp: whatsapp || DEFAULT_WHATSAPP,
+      youtube: youtube || DEFAULT_YOUTUBE,
+      instagram: instagram || DEFAULT_INSTAGRAM,
       updatedAt: serverTimestamp()
     }, { merge: true });
 
@@ -1002,9 +994,9 @@ async function loadSocialLinks(){
   try{
     const snap = await getDocs(collection(db, "settings"));
     let links = {
-      whatsapp: "https://whatsapp.com",
-      youtube: "https://youtube.com",
-      instagram: "https://instagram.com"
+      whatsapp: DEFAULT_WHATSAPP,
+      youtube: DEFAULT_YOUTUBE,
+      instagram: DEFAULT_INSTAGRAM
     };
     snap.forEach(d => {
       if(d.id === "social_links"){
