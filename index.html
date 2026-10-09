@@ -70,8 +70,6 @@ button{cursor:pointer;}
 .section-badge{display:inline-block;background:#075c39;color:white;padding:4px 10px;border-radius:14px;font-size:12px;font-weight:bold;margin-bottom:10px;}
 .action{border:0;background:#075c39;color:white;padding:10px 14px;border-radius:8px;margin-top:8px;font-weight:bold;}
 .btn-whatsapp{border:0;background:#25d366;color:white;padding:8px 14px;border-radius:8px;margin-top:10px;margin-right:6px;font-weight:bold;display:inline-block;text-decoration:none;}
-.btn-edit{border:0;background:#f39c12;color:white;padding:8px 14px;border-radius:8px;margin-top:10px;margin-right:6px;font-weight:bold;display:inline-block;}
-.btn-delete{border:0;background:#d32f2f;color:white;padding:8px 14px;border-radius:8px;margin-top:10px;font-weight:bold;display:inline-block;}
 .item{border:1px solid #e1e8e4;border-radius:12px;padding:14px;margin:12px 0;background:#fafcfb;}
 .item img,.item video,.item iframe{width:100%;max-height:360px;border-radius:10px;margin-top:8px;display:block;}
 .item iframe{height:240px;border:0;}
@@ -81,8 +79,13 @@ button{cursor:pointer;}
 .status-success{margin-top:14px;padding:16px;border-radius:12px;background:#eef7f1;border:2px solid #075c39;color:#063d28;}
 .status-error{margin-top:14px;padding:14px;border-radius:12px;background:#fde8e8;border:2px solid #d32f2f;color:#b71c1c;font-weight:bold;}
 .divider-text{text-align:center;font-size:13px;color:#888;margin:12px 0;font-weight:bold;}
-.action-box{margin-top:10px;}
-.grid-admin{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;}
+
+/* Dashboard Grid */
+.dashboard-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;}
+.dashboard-card{background:white;padding:16px;border-radius:14px;box-shadow:0 3px 12px rgba(0,0,0,.06);display:flex;flex-direction:column;justify-content:space-between;}
+.dashboard-card h3{color:#075c39;font-size:16px;margin-bottom:6px;}
+.dashboard-card p{font-size:13px;color:#666;margin-bottom:12px;}
+.dashboard-card .action{margin-top:auto;}
 
 /* Printable receipt */
 #printableReceipt{
@@ -231,12 +234,6 @@ button{cursor:pointer;}
   <section id="photos" class="page">
     <div class="card">
       <h2>Photos Gallery</h2>
-      <div id="adminPhotoUpload" class="admin-box hidden">
-        <h3>📸 Admin: Photo Upload Karein</h3>
-        <div class="form-group"><label>Photo File Chunein</label><input id="photoFile" type="file" accept="image/*"></div>
-        <div class="form-group"><label>Photo Title / Caption</label><input id="photoTitle" placeholder="Photo Title"></div>
-        <button class="action" id="photoUploadBtn" onclick="uploadPhoto()">Upload Photo</button>
-      </div>
       <div id="photoList">Loading...</div>
     </div>
   </section>
@@ -245,20 +242,6 @@ button{cursor:pointer;}
   <section id="videos" class="page">
     <div class="card">
       <h2>Videos Gallery</h2>
-      <div id="adminVideoUpload" class="admin-box hidden">
-        <h3>🎥 Admin: Video Add / Upload Karein</h3>
-        <div class="form-group"><label>Video Title</label><input id="videoTitle" placeholder="Video Title"></div>
-        <div class="form-group">
-          <label>Tareeqa 1: Mobile se Video File Upload</label>
-          <input id="videoFile" type="file" accept="video/*">
-        </div>
-        <div class="divider-text">— YA —</div>
-        <div class="form-group">
-          <label>Tareeqa 2: YouTube / Online Link</label>
-          <input id="videoUrlInput" placeholder="https://youtu.be/... ya https://www.youtube.com/watch?v=...">
-        </div>
-        <button class="action" id="videoUploadBtn" onclick="uploadVideo()">Save / Upload Video</button>
-      </div>
       <div id="videoList">Loading...</div>
     </div>
   </section>
@@ -267,16 +250,6 @@ button{cursor:pointer;}
   <section id="programs" class="page">
     <div class="card">
       <h2>Programs</h2>
-      <div id="adminProgramForm" class="admin-box hidden">
-        <h3>📅 Admin: Naya Program Add Karein</h3>
-        <div class="form-group">
-          <label>Program Date (Is date ke baad Home page se auto hat jayega)</label>
-          <input id="programDate" type="date">
-        </div>
-        <div class="form-group"><input id="programTitle" placeholder="Program Title"></div>
-        <div class="form-group"><textarea id="programDescription" placeholder="Program Details"></textarea></div>
-        <button class="action" onclick="addProgram()">Publish Program</button>
-      </div>
       <div id="programList">Loading...</div>
     </div>
   </section>
@@ -285,14 +258,6 @@ button{cursor:pointer;}
   <section id="donation" class="page">
     <div class="card">
       <h2>Donation / Payment Details</h2>
-      <div id="adminPaymentForm" class="admin-box hidden">
-        <h3>💳 Admin: Payment Details & QR Code Badalna</h3>
-        <div class="form-group"><label>Bank Details</label><textarea id="bankDetails"></textarea></div>
-        <div class="form-group"><label>Account Holder Name</label><input id="accountHolder"></div>
-        <div class="form-group"><label>UPI ID</label><input id="upiId"></div>
-        <div class="form-group"><label>Payment QR Image</label><input id="qrFile" type="file" accept="image/*"></div>
-        <button class="action" id="payUpdateBtn" onclick="savePaymentDetails()">Save & Update Details</button>
-      </div>
       <div id="paymentDetails">Loading...</div>
     </div>
   </section>
@@ -307,9 +272,162 @@ button{cursor:pointer;}
       </div>
       <button class="action" id="checkRashidBtn" onclick="checkRashid()">Check Rashid</button>
       <div id="rashidResult"></div>
+    </div>
+  </section>
 
-      <div id="adminRashidBox" class="admin-box hidden" style="margin-top:20px;">
-        <h3>📜 Admin: Nayi Rashid Banayein</h3>
+  <!-- Members Page -->
+  <section id="members" class="page">
+    <div class="card">
+      <h2>Members List</h2>
+      <div id="memberList">Loading...</div>
+    </div>
+  </section>
+
+  <!-- Langar Page -->
+  <section id="langar" class="page">
+    <div class="card">
+      <h2>🍲 Langar-e-Gausiya</h2>
+      <div id="langarContent">Loading...</div>
+    </div>
+  </section>
+
+  <!-- Notices Page -->
+  <section id="notices" class="page">
+    <div class="card">
+      <h2>📢 Notices & Announcements</h2>
+      <div id="noticeList">Loading...</div>
+    </div>
+  </section>
+
+  <!-- Dedicated Website Visitors Page -->
+  <section id="visitors" class="page">
+    <div class="card">
+      <h2>👥 Logged-in Users (Website Visitors)</h2>
+      <p style="font-size:13px;color:#666;margin-bottom:14px;">Har unique number ka sirf pehla login record mahfooz hota hai:</p>
+      <div id="adminUserList">Loading...</div>
+    </div>
+  </section>
+
+  <!-- Central Admin Control Dashboard (Clean View without "Edit / Delete" options) -->
+  <section id="admin" class="page">
+    <div class="hero">
+      <h2>⚙️ ADMIN CONTROL DASHBOARD</h2>
+      <span class="admin-badge">LOGGED IN AS ADMIN</span>
+    </div>
+
+    <div class="dashboard-grid">
+      <!-- 1. Photos Card -->
+      <div class="dashboard-card">
+        <div>
+          <h3>📸 Photos</h3>
+          <p>Upload New Photos</p>
+        </div>
+        <button class="action" onclick="openAdminForm('adminPhotoFormBox')">Manage Photos</button>
+      </div>
+
+      <!-- 2. Videos Card -->
+      <div class="dashboard-card">
+        <div>
+          <h3>🎥 Videos</h3>
+          <p>Upload / Add Videos</p>
+        </div>
+        <button class="action" onclick="openAdminForm('adminVideoFormBox')">Manage Videos</button>
+      </div>
+
+      <!-- 3. Payment QR Card -->
+      <div class="dashboard-card">
+        <div>
+          <h3>💳 Payment QR</h3>
+          <p>Update Payment Details</p>
+        </div>
+        <button class="action" onclick="openAdminForm('adminPaymentFormBox')">Update Payment</button>
+      </div>
+
+      <!-- 4. Rashid Card -->
+      <div class="dashboard-card">
+        <div>
+          <h3>📜 Rashid</h3>
+          <p>Create & WhatsApp</p>
+        </div>
+        <button class="action" onclick="openAdminForm('adminRashidFormBox')">Manage Rashid</button>
+      </div>
+
+      <!-- 5. Members Card -->
+      <div class="dashboard-card">
+        <div>
+          <h3>👥 Members</h3>
+          <p>Add New Members</p>
+        </div>
+        <button class="action" onclick="openAdminForm('adminMemberFormBox')">Manage Members</button>
+      </div>
+
+      <!-- 6. Programs Card -->
+      <div class="dashboard-card">
+        <div>
+          <h3>📅 Programs</h3>
+          <p>Add / Publish Event</p>
+        </div>
+        <button class="action" onclick="openAdminForm('adminProgramFormBox')">Manage Programs</button>
+      </div>
+
+      <!-- 7. Langar Card -->
+      <div class="dashboard-card">
+        <div>
+          <h3>🍲 Langar</h3>
+          <p>Update Langar Info</p>
+        </div>
+        <button class="action" onclick="openAdminForm('adminLangarFormBox')">Manage Langar</button>
+      </div>
+
+      <!-- 8. Notices Card -->
+      <div class="dashboard-card">
+        <div>
+          <h3>📢 Notices</h3>
+          <p>Publish Alert</p>
+        </div>
+        <button class="action" onclick="openAdminForm('adminNoticeFormBox')">Manage Notices</button>
+      </div>
+    </div>
+
+    <!-- Upload & Input Forms (Opens when respective Manage button is clicked) -->
+    <div style="margin-top:24px;">
+      <!-- 1. Photo Upload Box -->
+      <div id="adminPhotoFormBox" class="card admin-box hidden">
+        <h3>📸 Photo Upload Karein</h3>
+        <div class="form-group"><label>Photo File Chunein</label><input id="photoFile" type="file" accept="image/*"></div>
+        <div class="form-group"><label>Photo Title / Caption</label><input id="photoTitle" placeholder="Photo Title"></div>
+        <button class="action" id="photoUploadBtn" onclick="uploadPhoto()">Upload Photo</button>
+      </div>
+
+      <!-- 2. Video Upload Box -->
+      <div id="adminVideoFormBox" class="card admin-box hidden">
+        <h3>🎥 Video Upload / Add Karein</h3>
+        <div class="form-group"><label>Video Title</label><input id="videoTitle" placeholder="Video Title"></div>
+        <div class="form-group">
+          <label>Tareeqa 1: Mobile se Video File Upload</label>
+          <input id="videoFile" type="file" accept="video/*">
+        </div>
+        <div class="divider-text">— YA —</div>
+        <div class="form-group">
+          <label>Tareeqa 2: YouTube / Online Link</label>
+          <input id="videoUrlInput" placeholder="https://youtu.be/... ya https://www.youtube.com/watch?v=...">
+        </div>
+        <button class="action" id="videoUploadBtn" onclick="uploadVideo()">Save / Upload Video</button>
+      </div>
+
+      <!-- 3. Payment Update Box -->
+      <div id="adminPaymentFormBox" class="card admin-box hidden">
+        <h3>💳 Payment Details & QR Code Update</h3>
+        <div class="form-group"><label>Bank Details</label><textarea id="bankDetails"></textarea></div>
+        <div class="form-group"><label>Account Holder Name</label><input id="accountHolder"></div>
+        <div class="form-group"><label>UPI ID</label><input id="upiId"></div>
+        <div class="form-group"><label>Payment QR Image</label><input id="qrFile" type="file" accept="image/*"></div>
+        <button class="action" id="payUpdateBtn" onclick="savePaymentDetails()">Save & Update Details</button>
+      </div>
+
+      <!-- 4. Rashid Create Box -->
+      <div id="adminRashidFormBox" class="card admin-box hidden">
+        <h3>📜 Nayi Rashid Banayein</h3>
         <div class="form-group"><label>Donor Name</label><input id="donorName"></div>
         <div class="form-group"><label>Donor Mobile</label><input id="donorMobile" type="tel" placeholder="10-digit mobile number"></div>
         <div class="form-group"><label>Address</label><textarea id="donorAddress"></textarea></div>
@@ -326,19 +444,9 @@ button{cursor:pointer;}
         <button class="action" id="createRashidBtn" onclick="createRashid()">Create Rashid & Download Photo</button>
       </div>
 
-      <div id="adminRashidList" class="hidden" style="margin-top:20px;">
-        <h3 style="color:#075c39;margin-bottom:10px;">📋 Issued Rashids</h3>
-        <div id="rashidList">Loading...</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Members Page with Photo Support -->
-  <section id="members" class="page">
-    <div class="card">
-      <h2>Members List</h2>
-      <div id="adminMemberForm" class="admin-box hidden">
-        <h3>👥 Admin: Naya Member Add Karein</h3>
+      <!-- 5. Member Add Box -->
+      <div id="adminMemberFormBox" class="card admin-box hidden">
+        <h3>👥 Naya Member Add Karein</h3>
         <div class="form-group">
           <label>Member Photo (Optional)</label>
           <input id="memberPhotoFile" type="file" accept="image/*">
@@ -349,61 +457,33 @@ button{cursor:pointer;}
         <div class="form-group"><label>Zimmedari / Role</label><input id="memberResponsibility" placeholder="Zimmedari / Role"></div>
         <button class="action" id="saveMemberBtn" onclick="addMember()">Save Member</button>
       </div>
-      <div id="memberList">Loading...</div>
-    </div>
-  </section>
 
-  <!-- Langar Page -->
-  <section id="langar" class="page">
-    <div class="card">
-      <h2>🍲 Langar-e-Gausiya</h2>
-      <div id="adminLangarForm" class="admin-box hidden">
-        <h3>Admin: Langar Information Update</h3>
+      <!-- 6. Program Publish Box -->
+      <div id="adminProgramFormBox" class="card admin-box hidden">
+        <h3>📅 Naya Program Add Karein</h3>
+        <div class="form-group">
+          <label>Program Date (Is date ke baad Home page se auto hat jayega)</label>
+          <input id="programDate" type="date">
+        </div>
+        <div class="form-group"><label>Program Title</label><input id="programTitle" placeholder="Program Title"></div>
+        <div class="form-group"><label>Program Details</label><textarea id="programDescription" placeholder="Program Details"></textarea></div>
+        <button class="action" onclick="addProgram()">Publish Program</button>
+      </div>
+
+      <!-- 7. Langar Update Box -->
+      <div id="adminLangarFormBox" class="card admin-box hidden">
+        <h3>🍲 Langar Information Update</h3>
         <textarea id="langarText" placeholder="Langar timings & information" style="width:100%;height:90px;"></textarea>
         <button class="action" onclick="saveLangar()">Save Details</button>
       </div>
-      <div id="langarContent">Loading...</div>
-    </div>
-  </section>
 
-  <!-- Notices Page -->
-  <section id="notices" class="page">
-    <div class="card">
-      <h2>📢 Notices & Announcements</h2>
-      <div id="adminNoticeForm" class="admin-box hidden">
-        <h3>Admin: Naya Notice Publish Karein</h3>
+      <!-- 8. Notice Publish Box -->
+      <div id="adminNoticeFormBox" class="card admin-box hidden">
+        <h3>📢 Naya Notice Publish Karein</h3>
         <div class="form-group"><input id="noticeTitle" placeholder="Notice Title"></div>
         <div class="form-group"><textarea id="noticeText" placeholder="Notice Content"></textarea></div>
         <button class="action" onclick="addNotice()">Publish Notice</button>
       </div>
-      <div id="noticeList">Loading...</div>
-    </div>
-  </section>
-
-  <!-- Dedicated Website Visitors Page (Only accessible from Menu) -->
-  <section id="visitors" class="page">
-    <div class="card">
-      <h2>👥 Logged-in Users (Website Visitors)</h2>
-      <p style="font-size:13px;color:#666;margin-bottom:14px;">Har unique number ka sirf pehla login record mahfooz hota hai:</p>
-      <div id="adminUserList">Loading...</div>
-    </div>
-  </section>
-
-  <!-- Admin Central Hub -->
-  <section id="admin" class="page">
-    <div class="hero">
-      <h2>⚙️ ADMIN CONTROL DASHBOARD</h2>
-      <span class="admin-badge">LOGGED IN AS ADMIN</span>
-    </div>
-    <div class="grid-admin">
-      <div class="card"><h3>📸 Photos</h3><p>Upload / Edit / Delete</p><button class="action" onclick="showPage('photos')">Manage Photos</button></div>
-      <div class="card"><h3>🎥 Videos</h3><p>Upload / Edit / Delete</p><button class="action" onclick="showPage('videos')">Manage Videos</button></div>
-      <div class="card"><h3>💳 Payment QR</h3><p>Edit / Delete</p><button class="action" onclick="showPage('donation')">Update Payment</button></div>
-      <div class="card"><h3>📜 Rashid</h3><p>Edit / Delete / WhatsApp</p><button class="action" onclick="showPage('rashid')">Manage Rashid</button></div>
-      <div class="card"><h3>👥 Members</h3><p>Edit / Delete</p><button class="action" onclick="showPage('members')">Manage Members</button></div>
-      <div class="card"><h3>📅 Programs</h3><p>Edit / Delete</p><button class="action" onclick="showPage('programs')">Manage Programs</button></div>
-      <div class="card"><h3>🍲 Langar</h3><p>Edit / Delete</p><button class="action" onclick="showPage('langar')">Manage Langar</button></div>
-      <div class="card"><h3>📢 Notices</h3><p>Edit / Delete</p><button class="action" onclick="showPage('notices')">Manage Notices</button></div>
     </div>
   </section>
 </main>
@@ -445,8 +525,6 @@ import {
   getDocs, 
   query, 
   where, 
-  deleteDoc, 
-  updateDoc, 
   doc, 
   serverTimestamp 
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
@@ -497,6 +575,33 @@ window.toggleMenu = function(open){
 window.menuNav = function(page){
   window.toggleMenu(false);
   window.showPage(page);
+};
+
+// Toggle form display inside Admin Control Dashboard
+window.openAdminForm = function(boxId){
+  const formBoxes = [
+    'adminPhotoFormBox', 
+    'adminVideoFormBox', 
+    'adminPaymentFormBox', 
+    'adminRashidFormBox', 
+    'adminMemberFormBox', 
+    'adminProgramFormBox', 
+    'adminLangarFormBox', 
+    'adminNoticeFormBox'
+  ];
+  formBoxes.forEach(id => {
+    const el = document.getElementById(id);
+    if(el){
+      if(id === boxId){
+        el.classList.toggle("hidden");
+        if(!el.classList.contains("hidden")){
+          el.scrollIntoView({ behavior: 'smooth' });
+        }
+      } else {
+        el.classList.add("hidden");
+      }
+    }
+  });
 };
 
 function uploadToCloudinaryDirect(file, type = "auto"){
@@ -621,16 +726,7 @@ document.getElementById("userEnterBtn").addEventListener("click", async()=>{
 
     const adminElements = [
       "drawerAdminLink",
-      "drawerVisitorsLink",
-      "adminPhotoUpload",
-      "adminVideoUpload",
-      "adminPaymentForm",
-      "adminRashidBox",
-      "adminRashidList",
-      "adminMemberForm",
-      "adminProgramForm",
-      "adminLangarForm",
-      "adminNoticeForm"
+      "drawerVisitorsLink"
     ];
     adminElements.forEach(id => {
       const el = document.getElementById(id);
@@ -675,16 +771,7 @@ onAuthStateChanged(auth, async(user)=>{
 
     const adminElements = [
       "drawerAdminLink",
-      "drawerVisitorsLink",
-      "adminPhotoUpload",
-      "adminVideoUpload",
-      "adminPaymentForm",
-      "adminRashidBox",
-      "adminRashidList",
-      "adminMemberForm",
-      "adminProgramForm",
-      "adminLangarForm",
-      "adminNoticeForm"
+      "drawerVisitorsLink"
     ];
     adminElements.forEach(id => {
       const el = document.getElementById(id);
@@ -707,16 +794,7 @@ onAuthStateChanged(auth, async(user)=>{
 
         const adminElements = [
           "drawerAdminLink",
-          "drawerVisitorsLink",
-          "adminPhotoUpload",
-          "adminVideoUpload",
-          "adminPaymentForm",
-          "adminRashidBox",
-          "adminRashidList",
-          "adminMemberForm",
-          "adminProgramForm",
-          "adminLangarForm",
-          "adminNoticeForm"
+          "drawerVisitorsLink"
         ];
         adminElements.forEach(id => {
           const el = document.getElementById(id);
@@ -750,36 +828,6 @@ window.showPage=function(page){
   }
 };
 
-window.deleteItem = async function(collectionName, docId, reloadFunction){
-  if(!CURRENT_IS_ADMIN) return alert("Sirf Admin delete kar sakta hai.");
-  const confirmDelete = confirm("Kya aap isko sach me delete karna chahte hain?");
-  if(!confirmDelete) return;
-
-  try{
-    await deleteDoc(doc(db, collectionName, docId));
-    alert("✅ Delete ho gaya!");
-    if(typeof window[reloadFunction] === "function"){
-      await window[reloadFunction]();
-    }
-    await loadHomePageDynamic();
-  }catch(e){
-    alert("Delete error: " + e.message);
-  }
-};
-
-async function updateFirestoreFields(collectionName, docId, updateData, reloadFunction){
-  try{
-    await updateDoc(doc(db, collectionName, docId), updateData);
-    alert("✅ Update ho gaya!");
-    if(typeof window[reloadFunction] === "function"){
-      await window[reloadFunction]();
-    }
-    await loadHomePageDynamic();
-  }catch(e){
-    alert("Update error: " + e.message);
-  }
-}
-
 async function loadAllData(){
   await Promise.allSettled([
     loadHomePageDynamic(),
@@ -790,7 +838,6 @@ async function loadAllData(){
     loadMembers(),
     loadLangar(),
     loadNotices(),
-    loadRashids(),
     loadWebsiteUsersForAdmin()
   ]);
 }
@@ -817,9 +864,8 @@ async function loadWebsiteUsersForAdmin(){
             <strong style="font-size:16px;">👤 ${escapeHTML(u.name || "-")}</strong><br>
             <span style="font-size:13px;color:#555;">📞 ${escapeHTML(u.phone || "-")} | 🕒 Pehla Login: ${escapeHTML(u.loginAt || "-")}</span>
           </div>
-          <div style="display:flex;gap:6px;">
+          <div>
             ${u.phone ? `<a href="tel:${encodeURIComponent(u.phone)}"><button class="action" style="padding:6px 14px;font-size:13px;">📞 Call</button></a>` : ""}
-            <button class="btn-delete" style="padding:6px 12px;margin:0;font-size:13px;" onclick="deleteItem('website_users', '${u.id}', 'loadWebsiteUsersForAdmin')">🗑️</button>
           </div>
         </div>
       `;
@@ -928,6 +974,7 @@ window.uploadPhoto = async function(){
     alert("✅ Photo upload ho gayi!");
     document.getElementById("photoFile").value = "";
     document.getElementById("photoTitle").value = "";
+    document.getElementById("adminPhotoFormBox").classList.add("hidden");
     await loadPhotos();
     await loadHomePageDynamic();
   }catch(e){
@@ -938,14 +985,6 @@ window.uploadPhoto = async function(){
   }
 };
 
-window.editPhoto = function(id, currentTitle){
-  if(!CURRENT_IS_ADMIN) return alert("Sirf Admin edit kar sakta hai.");
-  const newTitle = prompt("Naya photo title enter karein:", currentTitle);
-  if(newTitle === null) return;
-  if(!newTitle.trim()) return alert("Title khali nahi ho sakta.");
-  updateFirestoreFields("photos", id, { title: newTitle.trim() }, "loadPhotos");
-};
-
 window.loadPhotos = async function(){
   const box = document.getElementById("photoList");
   try{
@@ -954,19 +993,11 @@ window.loadPhotos = async function(){
     let html="";
     snapshot.forEach(item=>{
       const d=item.data();
-      const id=item.id;
       const titleSafe = escapeHTML(d.title || "Photo");
-      const titleAttr = (d.title || "Photo").replace(/"/g, '&quot;');
       html += `
         <div class="item">
           <h3>${titleSafe}</h3>
           ${d.url ? `<img src="${d.url}">` : ""}
-          ${CURRENT_IS_ADMIN ? `
-            <div class="action-box">
-              <button class="btn-edit" onclick="editPhoto('${id}', '${titleAttr}')">Edit</button>
-              <button class="btn-delete" onclick="deleteItem('photos', '${id}', 'loadPhotos')">Delete</button>
-            </div>
-          ` : ""}
         </div>
       `;
     });
@@ -1006,6 +1037,7 @@ window.uploadVideo = async function(){
     document.getElementById("videoFile").value = "";
     document.getElementById("videoUrlInput").value = "";
     document.getElementById("videoTitle").value = "";
+    document.getElementById("adminVideoFormBox").classList.add("hidden");
     await loadVideos();
     await loadHomePageDynamic();
   }catch(e){
@@ -1016,14 +1048,6 @@ window.uploadVideo = async function(){
   }
 };
 
-window.editVideo = function(id, currentTitle){
-  if(!CURRENT_IS_ADMIN) return alert("Sirf Admin edit kar sakta hai.");
-  const newTitle = prompt("Naya video title enter karein:", currentTitle);
-  if(newTitle === null) return;
-  if(!newTitle.trim()) return alert("Title khali nahi ho sakta.");
-  updateFirestoreFields("videos", id, { title: newTitle.trim() }, "loadVideos");
-};
-
 window.loadVideos = async function(){
   const box = document.getElementById("videoList");
   try{
@@ -1032,9 +1056,7 @@ window.loadVideos = async function(){
     let html="";
     snapshot.forEach(item=>{
       const d=item.data();
-      const id=item.id;
       const titleSafe = escapeHTML(d.title || "Video");
-      const titleAttr = (d.title || "Video").replace(/"/g, '&quot;');
       const parsed = parseVideoSource(d.url);
 
       let mediaHtml = "";
@@ -1048,12 +1070,6 @@ window.loadVideos = async function(){
         <div class="item">
           <h3>${titleSafe}</h3>
           ${mediaHtml}
-          ${CURRENT_IS_ADMIN ? `
-            <div class="action-box">
-              <button class="btn-edit" onclick="editVideo('${id}', '${titleAttr}')">Edit</button>
-              <button class="btn-delete" onclick="deleteItem('videos', '${id}', 'loadVideos')">Delete</button>
-            </div>
-          ` : ""}
         </div>
       `;
     });
@@ -1062,53 +1078,6 @@ window.loadVideos = async function(){
 };
 
 // 3. Payment Details
-window.editPayment = function(id, curHolder, curBank, curUpi){
-  if(!CURRENT_IS_ADMIN) return alert("Sirf Admin edit kar sakta hai.");
-  const holder = prompt("Account Holder Name:", curHolder);
-  if(holder === null) return;
-  const bank = prompt("Bank Details:", curBank);
-  if(bank === null) return;
-  const upi = prompt("UPI ID:", curUpi);
-  if(upi === null) return;
-
-  updateFirestoreFields("paymentMethods", id, {
-    accountHolder: holder.trim(),
-    bankDetails: bank.trim(),
-    upiId: upi.trim()
-  }, "loadPayment");
-};
-
-window.loadPayment = async function(){
-  const box = document.getElementById("paymentDetails");
-  try{
-    const snapshot = await getDocs(collection(db,"paymentMethods"));
-    if(snapshot.empty) return box.innerHTML = "<p>Payment details add nahi hain.</p>";
-    let html="";
-    snapshot.forEach(item=>{
-      const data=item.data();
-      const id=item.id;
-      const holderAttr = (data.accountHolder || "").replace(/"/g, '&quot;');
-      const bankAttr = (data.bankDetails || "").replace(/"/g, '&quot;');
-      const upiAttr = (data.upiId || "").replace(/"/g, '&quot;');
-      html += `
-        <div class="item">
-          <p><strong>Account Holder:</strong> ${escapeHTML(data.accountHolder || "-")}</p>
-          <p><strong>Bank Details:</strong> ${escapeHTML(data.bankDetails || "-")}</p>
-          <p><strong>UPI ID:</strong> ${escapeHTML(data.upiId || "-")}</p>
-          ${data.qrUrl ? `<img src="${data.qrUrl}" style="max-width:240px;display:block;margin-top:10px;">` : ""}
-          ${CURRENT_IS_ADMIN ? `
-            <div class="action-box">
-              <button class="btn-edit" onclick="editPayment('${id}', '${holderAttr}', '${bankAttr}', '${upiAttr}')">Edit Details</button>
-              <button class="btn-delete" onclick="deleteItem('paymentMethods', '${id}', 'loadPayment')">Delete Payment Info</button>
-            </div>
-          ` : ""}
-        </div>
-      `;
-    });
-    box.innerHTML=html;
-  }catch(e){ box.innerHTML = "<p>Error loading payment details.</p>"; }
-};
-
 window.savePaymentDetails = async function(){
   const btn = document.getElementById("payUpdateBtn");
   try{
@@ -1128,6 +1097,7 @@ window.savePaymentDetails = async function(){
       bankDetails, accountHolder, upiId, qrUrl, updatedAt:serverTimestamp()
     });
     alert("✅ Payment details update ho gaye!");
+    document.getElementById("adminPaymentFormBox").classList.add("hidden");
     await loadPayment();
   }catch(e){
     alert("Error: " + e.message);
@@ -1137,54 +1107,28 @@ window.savePaymentDetails = async function(){
   }
 };
 
-// 4. Programs with Date Expiry Logic
-window.editProgram = function(id, curTitle, curDesc, curDate){
-  if(!CURRENT_IS_ADMIN) return alert("Sirf Admin edit kar sakta hai.");
-  const newDate = prompt("Program Date (YYYY-MM-DD):", curDate || "");
-  if(newDate === null) return;
-  const newTitle = prompt("Naya Program Title:", curTitle);
-  if(newTitle === null) return;
-  const newDesc = prompt("Naya Program Description:", curDesc);
-  if(newDesc === null) return;
-  if(!newTitle.trim()) return alert("Title zaroori hai.");
-
-  updateFirestoreFields("programs", id, {
-    date: newDate.trim(),
-    title: newTitle.trim(),
-    description: newDesc.trim()
-  }, "loadPrograms");
-};
-
-window.loadPrograms = async function(){
-  const box = document.getElementById("programList");
+window.loadPayment = async function(){
+  const box = document.getElementById("paymentDetails");
   try{
-    const snapshot = await getDocs(collection(db,"programs"));
-    if(snapshot.empty) return box.innerHTML = "<p>Abhi koi program nahi hai.</p>";
+    const snapshot = await getDocs(collection(db,"paymentMethods"));
+    if(snapshot.empty) return box.innerHTML = "<p>Payment details add nahi hain.</p>";
     let html="";
     snapshot.forEach(item=>{
-      const d=item.data();
-      const id=item.id;
-      const titleAttr = (d.title || "").replace(/"/g, '&quot;');
-      const descAttr = (d.description || "").replace(/"/g, '&quot;');
-      const dateAttr = (d.date || "").replace(/"/g, '&quot;');
+      const data=item.data();
       html += `
         <div class="item">
-          <h3>${escapeHTML(d.title || "")}</h3>
-          ${d.date ? `<p style="font-size:13px;color:#075c39;font-weight:bold;margin:4px 0;">📅 Program Date: ${escapeHTML(d.date)}</p>` : ""}
-          <p>${escapeHTML(d.description || "")}</p>
-          ${CURRENT_IS_ADMIN ? `
-            <div class="action-box">
-              <button class="btn-edit" onclick="editProgram('${id}', '${titleAttr}', '${descAttr}', '${dateAttr}')">Edit</button>
-              <button class="btn-delete" onclick="deleteItem('programs', '${id}', 'loadPrograms')">Delete Program</button>
-            </div>
-          ` : ""}
+          <p><strong>Account Holder:</strong> ${escapeHTML(data.accountHolder || "-")}</p>
+          <p><strong>Bank Details:</strong> ${escapeHTML(data.bankDetails || "-")}</p>
+          <p><strong>UPI ID:</strong> ${escapeHTML(data.upiId || "-")}</p>
+          ${data.qrUrl ? `<img src="${data.qrUrl}" style="max-width:240px;display:block;margin-top:10px;">` : ""}
         </div>
       `;
     });
     box.innerHTML=html;
-  }catch(e){}
+  }catch(e){ box.innerHTML = "<p>Error loading payment details.</p>"; }
 };
 
+// 4. Programs
 window.addProgram = async function(){
   try{
     const date = document.getElementById("programDate").value;
@@ -1196,65 +1140,33 @@ window.addProgram = async function(){
     document.getElementById("programDate").value = "";
     document.getElementById("programTitle").value = "";
     document.getElementById("programDescription").value = "";
+    document.getElementById("adminProgramFormBox").classList.add("hidden");
     await loadPrograms();
     await loadHomePageDynamic();
   }catch(e){ alert(e.message); }
 };
 
-// 5. Members (With Photo Support)
-window.editMember = function(id, curName, curPhone, curAddress, curResp){
-  if(!CURRENT_IS_ADMIN) return alert("Sirf Admin edit kar sakta hai.");
-  const name = prompt("Member Name:", curName);
-  if(name === null) return;
-  const phone = prompt("Mobile Number:", curPhone);
-  if(phone === null) return;
-  const address = prompt("Address:", curAddress);
-  if(address === null) return;
-  const resp = prompt("Zimmedari / Role:", curResp);
-  if(resp === null) return;
-  if(!name.trim()) return alert("Naam zaroori hai.");
-
-  updateFirestoreFields("members", id, {
-    name: name.trim(),
-    phone: phone.trim(),
-    address: address.trim(),
-    responsibility: resp.trim()
-  }, "loadMembers");
-};
-
-window.loadMembers = async function(){
-  const box = document.getElementById("memberList");
+window.loadPrograms = async function(){
+  const box = document.getElementById("programList");
   try{
-    const snapshot = await getDocs(collection(db,"members"));
-    if(snapshot.empty) return box.innerHTML = "<p>Members list khali hai.</p>";
+    const snapshot = await getDocs(collection(db,"programs"));
+    if(snapshot.empty) return box.innerHTML = "<p>Abhi koi program nahi hai.</p>";
     let html="";
     snapshot.forEach(item=>{
       const d=item.data();
-      const id=item.id;
-      const nameAttr = (d.name || "").replace(/"/g, '&quot;');
-      const phoneAttr = (d.phone || "").replace(/"/g, '&quot;');
-      const addrAttr = (d.address || "").replace(/"/g, '&quot;');
-      const respAttr = (d.responsibility || "").replace(/"/g, '&quot;');
       html += `
         <div class="item">
-          ${d.photoUrl ? `<img src="${d.photoUrl}" alt="${escapeHTML(d.name)}" class="member-avatar">` : ""}
-          <h3>${escapeHTML(d.name || "")}</h3>
-          <p><strong>Zimmedari:</strong> ${escapeHTML(d.responsibility || "-")}</p>
-          <p><strong>Pata:</strong> ${escapeHTML(d.address || "-")}</p>
-          ${d.phone ? `<a href="tel:${encodeURIComponent(d.phone)}"><button class="action">📞 Call</button></a>` : ""}
-          ${CURRENT_IS_ADMIN ? `
-            <div class="action-box">
-              <button class="btn-edit" onclick="editMember('${id}', '${nameAttr}', '${phoneAttr}', '${addrAttr}', '${respAttr}')">Edit</button>
-              <button class="btn-delete" onclick="deleteItem('members', '${id}', 'loadMembers')">Delete</button>
-            </div>
-          ` : ""}
+          <h3>${escapeHTML(d.title || "")}</h3>
+          ${d.date ? `<p style="font-size:13px;color:#075c39;font-weight:bold;margin:4px 0;">📅 Program Date: ${escapeHTML(d.date)}</p>` : ""}
+          <p>${escapeHTML(d.description || "")}</p>
         </div>
       `;
     });
-    box.innerHTML = html;
+    box.innerHTML=html;
   }catch(e){}
 };
 
+// 5. Members
 window.addMember = async function(){
   const btn = document.getElementById("saveMemberBtn");
   try{
@@ -1289,6 +1201,7 @@ window.addMember = async function(){
     document.getElementById("memberAddress").value = "";
     document.getElementById("memberResponsibility").value = "";
     document.getElementById("memberPhotoFile").value = "";
+    document.getElementById("adminMemberFormBox").classList.add("hidden");
     await loadMembers();
   }catch(e){ 
     alert("Error: " + e.message); 
@@ -1298,13 +1211,39 @@ window.addMember = async function(){
   }
 };
 
+window.loadMembers = async function(){
+  const box = document.getElementById("memberList");
+  try{
+    const snapshot = await getDocs(collection(db,"members"));
+    if(snapshot.empty) return box.innerHTML = "<p>Members list khali hai.</p>";
+    let html="";
+    snapshot.forEach(item=>{
+      const d=item.data();
+      html += `
+        <div class="item">
+          ${d.photoUrl ? `<img src="${d.photoUrl}" alt="${escapeHTML(d.name)}" class="member-avatar">` : ""}
+          <h3>${escapeHTML(d.name || "")}</h3>
+          <p><strong>Zimmedari:</strong> ${escapeHTML(d.responsibility || "-")}</p>
+          <p><strong>Pata:</strong> ${escapeHTML(d.address || "-")}</p>
+          ${d.phone ? `<a href="tel:${encodeURIComponent(d.phone)}"><button class="action">📞 Call</button></a>` : ""}
+        </div>
+      `;
+    });
+    box.innerHTML = html;
+  }catch(e){}
+};
+
 // 6. Langar
-window.editLangar = function(id, curText){
-  if(!CURRENT_IS_ADMIN) return alert("Sirf Admin edit kar sakta hai.");
-  const newText = prompt("Langar details update karein:", curText);
-  if(newText === null) return;
-  if(!newText.trim()) return alert("Details khali nahi ho sakti.");
-  updateFirestoreFields("langar", id, { text: newText.trim() }, "loadLangar");
+window.saveLangar = async function(){
+  try{
+    const text = document.getElementById("langarText").value.trim();
+    if(!text) return alert("Langar details likhein.");
+    await addDoc(collection(db,"langar"),{ text, updatedAt:serverTimestamp() });
+    alert("Langar details update ho gayi!");
+    document.getElementById("langarText").value = "";
+    document.getElementById("adminLangarFormBox").classList.add("hidden");
+    await loadLangar();
+  }catch(e){ alert(e.message); }
 };
 
 window.loadLangar = async function(){
@@ -1315,17 +1254,9 @@ window.loadLangar = async function(){
     let html="";
     snapshot.forEach(item=>{
       const d=item.data();
-      const id=item.id;
-      const textAttr = (d.text || "").replace(/"/g, '&quot;');
       html += `
         <div class="item">
           <div>${escapeHTML(d.text || "")}</div>
-          ${CURRENT_IS_ADMIN ? `
-            <div class="action-box">
-              <button class="btn-edit" onclick="editLangar('${id}', '${textAttr}')">Edit</button>
-              <button class="btn-delete" onclick="deleteItem('langar', '${id}', 'loadLangar')">Delete</button>
-            </div>
-          ` : ""}
         </div>
       `;
     });
@@ -1333,30 +1264,19 @@ window.loadLangar = async function(){
   }catch(e){}
 };
 
-window.saveLangar = async function(){
-  try{
-    const text = document.getElementById("langarText").value.trim();
-    if(!text) return alert("Langar details likhein.");
-    await addDoc(collection(db,"langar"),{ text, updatedAt:serverTimestamp() });
-    alert("Langar details update ho gayi!");
-    document.getElementById("langarText").value = "";
-    await loadLangar();
-  }catch(e){ alert(e.message); }
-};
-
 // 7. Notices
-window.editNotice = function(id, curTitle, curText){
-  if(!CURRENT_IS_ADMIN) return alert("Sirf Admin edit kar sakta hai.");
-  const title = prompt("Naya Notice Title:", curTitle);
-  if(title === null) return;
-  const text = prompt("Naya Notice Content:", curText);
-  if(text === null) return;
-  if(!title.trim()) return alert("Title zaroori hai.");
-
-  updateFirestoreFields("notices", id, {
-    title: title.trim(),
-    text: text.trim()
-  }, "loadNotices");
+window.addNotice = async function(){
+  try{
+    const title = document.getElementById("noticeTitle").value.trim();
+    const text = document.getElementById("noticeText").value.trim();
+    if(!title || !text) return alert("Notice details bharein.");
+    await addDoc(collection(db,"notices"),{ title, text, createdAt:serverTimestamp() });
+    alert("Notice publish ho gaya!");
+    document.getElementById("noticeTitle").value = "";
+    document.getElementById("noticeText").value = "";
+    document.getElementById("adminNoticeFormBox").classList.add("hidden");
+    await loadNotices();
+  }catch(e){ alert(e.message); }
 };
 
 window.loadNotices = async function(){
@@ -1367,37 +1287,15 @@ window.loadNotices = async function(){
     let html="";
     snapshot.forEach(item=>{
       const d=item.data();
-      const id=item.id;
-      const titleAttr = (d.title || "").replace(/"/g, '&quot;');
-      const textAttr = (d.text || "").replace(/"/g, '&quot;');
       html += `
         <div class="item">
           <h3>${escapeHTML(d.title || "")}</h3>
           <p>${escapeHTML(d.text || "")}</p>
-          ${CURRENT_IS_ADMIN ? `
-            <div class="action-box">
-              <button class="btn-edit" onclick="editNotice('${id}', '${titleAttr}', '${textAttr}')">Edit</button>
-              <button class="btn-delete" onclick="deleteItem('notices', '${id}', 'loadNotices')">Delete</button>
-            </div>
-          ` : ""}
         </div>
       `;
     });
     box.innerHTML = html;
   }catch(e){}
-};
-
-window.addNotice = async function(){
-  try{
-    const title = document.getElementById("noticeTitle").value.trim();
-    const text = document.getElementById("noticeText").value.trim();
-    if(!title || !text) return alert("Notice details bharein.");
-    await addDoc(collection(db,"notices"),{ title, text, createdAt:serverTimestamp() });
-    alert("Notice publish ho gaya!");
-    document.getElementById("noticeTitle").value = "";
-    document.getElementById("noticeText").value = "";
-    await loadNotices();
-  }catch(e){ alert(e.message); }
 };
 
 // 8. REAL DATABASE RASHID VERIFICATION
@@ -1493,22 +1391,6 @@ window.openWhatsApp = function(mobile, rNum, rName, rAmt, rPurpose){
   }, 1200);
 };
 
-window.editRashid = function(id, curDonor, curAmount, curPurpose){
-  if(!CURRENT_IS_ADMIN) return alert("Sirf Admin edit kar sakta hai.");
-  const donor = prompt("Donor Name:", curDonor);
-  if(donor === null) return;
-  const amt = prompt("Amount (₹):", curAmount);
-  if(amt === null) return;
-  const purp = prompt("Purpose (All Purpose / Langar-e-Gausiya / Mazarat Ki Tameer / Imamo ki Tankha):", curPurpose);
-  if(purp === null) return;
-
-  updateFirestoreFields("rashid", id, {
-    donorName: donor.trim(),
-    amount: Number(amt),
-    purpose: purp.trim()
-  }, "loadRashids");
-};
-
 window.createRashid = async function(){
   const btn = document.getElementById("createRashidBtn");
   try{
@@ -1544,49 +1426,13 @@ window.createRashid = async function(){
     document.getElementById("donorMobile").value = "";
     document.getElementById("donorAddress").value = "";
     document.getElementById("donationAmount").value = "";
-    await loadRashids();
+    document.getElementById("adminRashidFormBox").classList.add("hidden");
   }catch(e){ 
     alert("Error: " + e.message); 
   }finally{
     btn.disabled = false;
     btn.textContent = "Create Rashid & Download Photo";
   }
-};
-
-window.loadRashids = async function(){
-  const box = document.getElementById("rashidList");
-  if(!box) return;
-  try{
-    const snapshot = await getDocs(collection(db,"rashid"));
-    if(snapshot.empty) return box.innerHTML = "<p>Koi Rashid nahi hai.</p>";
-    let html="";
-    snapshot.forEach(item=>{
-      const d=item.data();
-      const id=item.id;
-      const donorAttr = (d.donorName || "").replace(/"/g, '&quot;');
-      const amtAttr = (d.amount || 0).toString();
-      const purpAttr = (d.purpose || "").replace(/"/g, '&quot;');
-      const mobileAttr = (d.donorMobile || "").replace(/"/g, '&quot;');
-      const numAttr = (d.rashidNumber || "").replace(/"/g, '&quot;');
-
-      html += `
-        <div class="item">
-          <p><strong>Rashid No:</strong> ${escapeHTML(d.rashidNumber)}</p>
-          <p><strong>Donor:</strong> ${escapeHTML(d.donorName)} (₹${escapeHTML(d.amount)})</p>
-          <p><strong>Mobile:</strong> ${escapeHTML(d.donorMobile || "-")}</p>
-          <p><strong>Purpose:</strong> ${escapeHTML(d.purpose)}</p>
-          ${CURRENT_IS_ADMIN ? `
-            <div class="action-box">
-              ${d.donorMobile ? `<button class="btn-whatsapp" onclick="openWhatsApp('${mobileAttr}', '${numAttr}', '${donorAttr}', '${amtAttr}', '${purpAttr}')">📲 WhatsApp Share</button>` : ""}
-              <button class="btn-edit" onclick="editRashid('${id}', '${donorAttr}', '${amtAttr}', '${purpAttr}')">Edit</button>
-              <button class="btn-delete" onclick="deleteItem('rashid', '${id}', 'loadRashids')">Delete</button>
-            </div>
-          ` : ""}
-        </div>
-      `;
-    });
-    box.innerHTML = html;
-  }catch(e){}
 };
 
 function escapeHTML(value){
