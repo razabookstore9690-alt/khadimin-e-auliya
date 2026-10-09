@@ -252,13 +252,13 @@ button{cursor:pointer;}
 
     <!-- Latest Photo Section -->
     <div class="card">
-      <span class="section-badge">📸 Taza Tasweer (Latest Photo)</span>
+      <span class="section-badge">New Photo</span>
       <div id="homeLatestPhoto">Loading...</div>
     </div>
 
     <!-- Latest Video Section -->
     <div class="card">
-      <span class="section-badge">🎥 Taza Video Bayan (Latest Video)</span>
+      <span class="section-badge">New Video</span>
       <div id="homeLatestVideo">Loading...</div>
     </div>
 
@@ -274,13 +274,13 @@ button{cursor:pointer;}
       <p style="font-size:13px;color:#555;">Khadimin-E-Auliya ke official channels se judne ke liye click karein:</p>
       <div class="social-grid">
         <a id="homeWaBtn" href="https://whatsapp.com/channel/0029Vb6FQo8CHDyjzvdDsg26" target="_blank" class="social-btn btn-soc-whatsapp">
-          💬 WhatsApp
+          WhatsApp
         </a>
         <a id="homeYtBtn" href="https://youtube.com/@shaneagraofficial?si=lev8qA9HhLxH0req" target="_blank" class="social-btn btn-soc-youtube">
-          ▶️ YouTube
+          YouTube
         </a>
         <a id="homeIgBtn" href="https://www.instagram.com/khadimine_auliya_agra?stkn=ZnIyemU5cTY0NzFq" target="_blank" class="social-btn btn-soc-instagram">
-          📸 Instagram
+          Instagram
         </a>
       </div>
     </div>
@@ -373,7 +373,7 @@ button{cursor:pointer;}
   <!-- Central Admin Control Dashboard -->
   <section id="admin" class="page">
     <div class="hero">
-      <h2>⚙️ ADMIN CONTROL DASHBOARD</h2>
+      <h2>ADMIN CONTROL DASHBOARD</h2>
       <span class="admin-badge">LOGGED IN AS ADMIN</span>
     </div>
 
@@ -832,7 +832,7 @@ onAuthStateChanged(auth, async(user)=>{
 
     document.getElementById("loginPage").classList.add("hidden");
     document.getElementById("app").classList.remove("hidden");
-    document.getElementById("roleText").textContent = CURRENT_IS_ADMIN ? "👑 Admin Account" : "👤 User Account";
+    document.getElementById("roleText").textContent = CURRENT_IS_ADMIN ? "Admin Account" : "👤 User Account";
 
     const adminElements = [
       "drawerAdminLink",
@@ -1162,8 +1162,8 @@ window.loadPhotos = async function(){
           ${d.url ? `<img src="${d.url}">` : ""}
           ${CURRENT_IS_ADMIN ? `
             <div class="action-box">
-              <button class="btn-edit" onclick="editPhoto('${id}', '${titleAttr}')">✏️ Edit</button>
-              <button class="btn-delete" onclick="deleteItem('photos', '${id}', 'loadPhotos')">🗑️ Delete</button>
+              <button class="btn-edit" onclick="editPhoto('${id}', '${titleAttr}')">Edit</button>
+              <button class="btn-delete" onclick="deleteItem('photos', '${id}', 'loadPhotos')">Delete</button>
             </div>
           ` : ""}
         </div>
@@ -1250,8 +1250,8 @@ window.loadVideos = async function(){
           ${mediaHtml}
           ${CURRENT_IS_ADMIN ? `
             <div class="action-box">
-              <button class="btn-edit" onclick="editVideo('${id}', '${titleAttr}')">✏️ Edit</button>
-              <button class="btn-delete" onclick="deleteItem('videos', '${id}', 'loadVideos')">🗑️ Delete</button>
+              <button class="btn-edit" onclick="editVideo('${id}', '${titleAttr}')">Edit</button>
+              <button class="btn-delete" onclick="deleteItem('videos', '${id}', 'loadVideos')">Delete</button>
             </div>
           ` : ""}
         </div>
@@ -1327,8 +1327,8 @@ window.loadPayment = async function(){
           ${data.qrUrl ? `<img src="${data.qrUrl}" style="max-width:240px;display:block;margin-top:10px;">` : ""}
           ${CURRENT_IS_ADMIN ? `
             <div class="action-box">
-              <button class="btn-edit" onclick="editPayment('${id}', '${holderAttr}', '${bankAttr}', '${upiAttr}')">✏️ Edit Details</button>
-              <button class="btn-delete" onclick="deleteItem('paymentMethods', '${id}', 'loadPayment')">🗑️ Delete</button>
+              <button class="btn-edit" onclick="editPayment('${id}', '${holderAttr}', '${bankAttr}', '${upiAttr}')">Edit Details</button>
+              <button class="btn-delete" onclick="deleteItem('paymentMethods', '${id}', 'loadPayment')">Delete</button>
             </div>
           ` : ""}
         </div>
@@ -1392,8 +1392,8 @@ window.loadPrograms = async function(){
           <p>${escapeHTML(d.description || "")}</p>
           ${CURRENT_IS_ADMIN ? `
             <div class="action-box">
-              <button class="btn-edit" onclick="editProgram('${id}', '${titleAttr}', '${descAttr}', '${dateAttr}')">✏️ Edit</button>
-              <button class="btn-delete" onclick="deleteItem('programs', '${id}', 'loadPrograms')">🗑️ Delete</button>
+              <button class="btn-edit" onclick="editProgram('${id}', '${titleAttr}', '${descAttr}', '${dateAttr}')">Edit</button>
+              <button class="btn-delete" onclick="deleteItem('programs', '${id}', 'loadPrograms')">Delete</button>
             </div>
           ` : ""}
         </div>
@@ -1490,8 +1490,8 @@ window.loadMembers = async function(){
           ${d.phone ? `<a href="tel:${encodeURIComponent(d.phone)}"><button class="action">📞 Call</button></a>` : ""}
           ${CURRENT_IS_ADMIN ? `
             <div class="action-box">
-              <button class="btn-edit" onclick="editMember('${id}', '${nameAttr}', '${phoneAttr}', '${addrAttr}', '${respAttr}')">✏️ Edit</button>
-              <button class="btn-delete" onclick="deleteItem('members', '${id}', 'loadMembers')">🗑️ Delete</button>
+              <button class="btn-edit" onclick="editMember('${id}', '${nameAttr}', '${phoneAttr}', '${addrAttr}', '${respAttr}')">Edit</button>
+              <button class="btn-delete" onclick="deleteItem('members', '${id}', 'loadMembers')">Delete</button>
             </div>
           ` : ""}
         </div>
@@ -1537,8 +1537,8 @@ window.loadLangar = async function(){
           <div>${escapeHTML(d.text || "")}</div>
           ${CURRENT_IS_ADMIN ? `
             <div class="action-box">
-              <button class="btn-edit" onclick="editLangar('${id}', '${textAttr}')">✏️ Edit</button>
-              <button class="btn-delete" onclick="deleteItem('langar', '${id}', 'loadLangar')">🗑️ Delete</button>
+              <button class="btn-edit" onclick="editLangar('${id}', '${textAttr}')">Edit</button>
+              <button class="btn-delete" onclick="deleteItem('langar', '${id}', 'loadLangar')">Delete</button>
             </div>
           ` : ""}
         </div>
@@ -1594,8 +1594,8 @@ window.loadNotices = async function(){
           <p>${escapeHTML(d.text || "")}</p>
           ${CURRENT_IS_ADMIN ? `
             <div class="action-box">
-              <button class="btn-edit" onclick="editNotice('${id}', '${titleAttr}', '${textAttr}')">✏️ Edit</button>
-              <button class="btn-delete" onclick="deleteItem('notices', '${id}', 'loadNotices')">🗑️ Delete</button>
+              <button class="btn-edit" onclick="editNotice('${id}', '${titleAttr}', '${textAttr}')">Edit</button>
+              <button class="btn-delete" onclick="deleteItem('notices', '${id}', 'loadNotices')">Delete</button>
             </div>
           ` : ""}
         </div>
@@ -1766,7 +1766,7 @@ window.loadRashids = async function(){
           ${CURRENT_IS_ADMIN ? `
             <div class="action-box">
               ${d.donorMobile ? `<button class="btn-whatsapp" onclick="openWhatsApp('${mobileAttr}', '${numAttr}', '${donorAttr}', '${amtAttr}', '${purpAttr}')">📲 WhatsApp Share</button>` : ""}
-              <button class="btn-delete" onclick="deleteItem('rashid', '${id}', 'loadRashids')">🗑️ Delete Rashid</button>
+              <button class="btn-delete" onclick="deleteItem('rashid', '${id}', 'loadRashids')">Delete Rashid</button>
             </div>
           ` : ""}
         </div>
