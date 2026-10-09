@@ -70,6 +70,7 @@ button{cursor:pointer;}
 .section-badge{display:inline-block;background:#075c39;color:white;padding:4px 10px;border-radius:14px;font-size:12px;font-weight:bold;margin-bottom:10px;}
 .action{border:0;background:#075c39;color:white;padding:10px 14px;border-radius:8px;margin-top:8px;font-weight:bold;}
 .btn-whatsapp{border:0;background:#25d366;color:white;padding:8px 14px;border-radius:8px;margin-top:10px;margin-right:6px;font-weight:bold;display:inline-block;text-decoration:none;}
+.btn-delete{border:0;background:#d32f2f;color:white;padding:8px 14px;border-radius:8px;margin-top:10px;font-weight:bold;display:inline-block;}
 .item{border:1px solid #e1e8e4;border-radius:12px;padding:14px;margin:12px 0;background:#fafcfb;}
 .item img,.item video,.item iframe{width:100%;max-height:360px;border-radius:10px;margin-top:8px;display:block;}
 .item iframe{height:240px;border:0;}
@@ -79,6 +80,7 @@ button{cursor:pointer;}
 .status-success{margin-top:14px;padding:16px;border-radius:12px;background:#eef7f1;border:2px solid #075c39;color:#063d28;}
 .status-error{margin-top:14px;padding:14px;border-radius:12px;background:#fde8e8;border:2px solid #d32f2f;color:#b71c1c;font-weight:bold;}
 .divider-text{text-align:center;font-size:13px;color:#888;margin:12px 0;font-weight:bold;}
+.action-box{margin-top:10px;}
 
 /* Dashboard Grid */
 .dashboard-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;}
@@ -262,7 +264,7 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- Rashid Page -->
+  <!-- Rashid Page with Verification Check and Admin Issued List -->
   <section id="rashid" class="page">
     <div class="card">
       <h2>Rashid Check</h2>
@@ -272,6 +274,12 @@ button{cursor:pointer;}
       </div>
       <button class="action" id="checkRashidBtn" onclick="checkRashid()">Check Rashid</button>
       <div id="rashidResult"></div>
+
+      <!-- Admin Issued Rashids List -->
+      <div id="adminRashidList" class="hidden" style="margin-top:24px;">
+        <h3 style="color:#075c39;margin-bottom:12px;">📋 Issued Rashids (Admin List)</h3>
+        <div id="rashidList">Loading...</div>
+      </div>
     </div>
   </section>
 
@@ -308,7 +316,7 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- Central Admin Control Dashboard (Clean View without "Edit / Delete" options) -->
+  <!-- Central Admin Control Dashboard -->
   <section id="admin" class="page">
     <div class="hero">
       <h2>⚙️ ADMIN CONTROL DASHBOARD</h2>
@@ -389,7 +397,7 @@ button{cursor:pointer;}
       </div>
     </div>
 
-    <!-- Upload & Input Forms (Opens when respective Manage button is clicked) -->
+    <!-- Upload & Input Forms -->
     <div style="margin-top:24px;">
       <!-- 1. Photo Upload Box -->
       <div id="adminPhotoFormBox" class="card admin-box hidden">
@@ -525,6 +533,7 @@ import {
   getDocs, 
   query, 
   where, 
+  deleteDoc, 
   doc, 
   serverTimestamp 
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
@@ -577,7 +586,6 @@ window.menuNav = function(page){
   window.showPage(page);
 };
 
-// Toggle form display inside Admin Control Dashboard
 window.openAdminForm = function(boxId){
   const formBoxes = [
     'adminPhotoFormBox', 
@@ -679,7 +687,7 @@ adminTab.onclick=()=>{
   userBox.classList.add("hidden");
 };
 
-// USER LOGIN (First-Time Only Saving Logic)
+// USER LOGIN
 document.getElementById("userEnterBtn").addEventListener("click", async()=>{
   const name = document.getElementById("userNameInput").value.trim();
   const rawPhone = document.getElementById("userPhoneInput").value.trim();
@@ -726,7 +734,8 @@ document.getElementById("userEnterBtn").addEventListener("click", async()=>{
 
     const adminElements = [
       "drawerAdminLink",
-      "drawerVisitorsLink"
+      "drawerVisitorsLink",
+      "adminRashidList"
     ];
     adminElements.forEach(id => {
       const el = document.getElementById(id);
@@ -771,7 +780,8 @@ onAuthStateChanged(auth, async(user)=>{
 
     const adminElements = [
       "drawerAdminLink",
-      "drawerVisitorsLink"
+      "drawerVisitorsLink",
+      "adminRashidList"
     ];
     adminElements.forEach(id => {
       const el = document.getElementById(id);
@@ -794,7 +804,8 @@ onAuthStateChanged(auth, async(user)=>{
 
         const adminElements = [
           "drawerAdminLink",
-          "drawerVisitorsLink"
+          "drawerVisitorsLink",
+          "adminRashidList"
         ];
         adminElements.forEach(id => {
           const el = document.getElementById(id);
@@ -828,6 +839,22 @@ window.showPage=function(page){
   }
 };
 
+window.deleteItem = async function(collectionName, docId, reloadFunction){
+  if(!CURRENT_IS_ADMIN) return alert("Sirf Admin delete kar sakta hai.");
+  const confirmDelete = confirm("Kya aap isko sach me delete karna chahte hain?");
+  if(!confirmDelete) return;
+
+  try{
+    await deleteDoc(doc(db, collectionName, docId));
+    alert("✅ Delete ho gaya!");
+    if(typeof window[reloadFunction] === "function"){
+      await window[reloadFunction]();
+    }
+  }catch(e){
+    alert("Delete error: " + e.message);
+  }
+};
+
 async function loadAllData(){
   await Promise.allSettled([
     loadHomePageDynamic(),
@@ -838,11 +865,12 @@ async function loadAllData(){
     loadMembers(),
     loadLangar(),
     loadNotices(),
+    loadRashids(),
     loadWebsiteUsersForAdmin()
   ]);
 }
 
-// Dedicated Website Visitors Section for Admin
+// Dedicated Website Visitors Section for Admin with Call & Delete
 async function loadWebsiteUsersForAdmin(){
   const box = document.getElementById("adminUserList");
   if(!box || !CURRENT_IS_ADMIN) return;
@@ -864,8 +892,9 @@ async function loadWebsiteUsersForAdmin(){
             <strong style="font-size:16px;">👤 ${escapeHTML(u.name || "-")}</strong><br>
             <span style="font-size:13px;color:#555;">📞 ${escapeHTML(u.phone || "-")} | 🕒 Pehla Login: ${escapeHTML(u.loginAt || "-")}</span>
           </div>
-          <div>
-            ${u.phone ? `<a href="tel:${encodeURIComponent(u.phone)}"><button class="action" style="padding:6px 14px;font-size:13px;">📞 Call</button></a>` : ""}
+          <div style="display:flex;gap:8px;align-items:center;">
+            ${u.phone ? `<a href="tel:${encodeURIComponent(u.phone)}"><button class="action" style="padding:6px 14px;font-size:13px;margin:0;">📞 Call</button></a>` : ""}
+            <button class="btn-delete" style="padding:6px 12px;margin:0;font-size:13px;" onclick="deleteItem('website_users', '${u.id}', 'loadWebsiteUsersForAdmin')">🗑️ Delete</button>
           </div>
         </div>
       `;
@@ -876,7 +905,7 @@ async function loadWebsiteUsersForAdmin(){
   }
 }
 
-// HOME PAGE: Latest 1 Photo, 1 Video & Active Upcoming Programs
+// HOME PAGE
 async function loadHomePageDynamic(){
   try{
     const pSnap = await getDocs(collection(db, "photos"));
@@ -1298,7 +1327,7 @@ window.loadNotices = async function(){
   }catch(e){}
 };
 
-// 8. REAL DATABASE RASHID VERIFICATION
+// 8. REAL DATABASE RASHID VERIFICATION & ADMIN LIST
 window.checkRashid = async function(){
   const inputEl = document.getElementById("rashidNumberCheck");
   const resultBox = document.getElementById("rashidResult");
@@ -1427,12 +1456,48 @@ window.createRashid = async function(){
     document.getElementById("donorAddress").value = "";
     document.getElementById("donationAmount").value = "";
     document.getElementById("adminRashidFormBox").classList.add("hidden");
+    await loadRashids();
   }catch(e){ 
     alert("Error: " + e.message); 
   }finally{
     btn.disabled = false;
     btn.textContent = "Create Rashid & Download Photo";
   }
+};
+
+window.loadRashids = async function(){
+  const box = document.getElementById("rashidList");
+  if(!box) return;
+  try{
+    const snapshot = await getDocs(collection(db,"rashid"));
+    if(snapshot.empty) return box.innerHTML = "<p>Koi Rashid nahi hai.</p>";
+    let html="";
+    snapshot.forEach(item=>{
+      const d=item.data();
+      const id=item.id;
+      const donorAttr = (d.donorName || "").replace(/"/g, '&quot;');
+      const amtAttr = (d.amount || 0).toString();
+      const purpAttr = (d.purpose || "").replace(/"/g, '&quot;');
+      const mobileAttr = (d.donorMobile || "").replace(/"/g, '&quot;');
+      const numAttr = (d.rashidNumber || "").replace(/"/g, '&quot;');
+
+      html += `
+        <div class="item">
+          <p><strong>Rashid No:</strong> ${escapeHTML(d.rashidNumber)}</p>
+          <p><strong>Donor:</strong> ${escapeHTML(d.donorName)} (₹${escapeHTML(d.amount)})</p>
+          <p><strong>Mobile:</strong> ${escapeHTML(d.donorMobile || "-")}</p>
+          <p><strong>Purpose:</strong> ${escapeHTML(d.purpose)}</p>
+          ${CURRENT_IS_ADMIN ? `
+            <div class="action-box">
+              ${d.donorMobile ? `<button class="btn-whatsapp" onclick="openWhatsApp('${mobileAttr}', '${numAttr}', '${donorAttr}', '${amtAttr}', '${purpAttr}')">📲 WhatsApp Share</button>` : ""}
+              <button class="btn-delete" onclick="deleteItem('rashid', '${id}', 'loadRashids')">🗑️ Delete Rashid</button>
+            </div>
+          ` : ""}
+        </div>
+      `;
+    });
+    box.innerHTML = html;
+  }catch(e){}
 };
 
 function escapeHTML(value){
