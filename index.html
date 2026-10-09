@@ -72,10 +72,34 @@ button{cursor:pointer;}
 .btn-whatsapp{border:0;background:#25d366;color:white;padding:8px 14px;border-radius:8px;margin-top:10px;margin-right:6px;font-weight:bold;display:inline-block;text-decoration:none;}
 .btn-edit{border:0;background:#f39c12;color:white;padding:8px 14px;border-radius:8px;margin-top:10px;margin-right:6px;font-weight:bold;display:inline-block;}
 .btn-delete{border:0;background:#d32f2f;color:white;padding:8px 14px;border-radius:8px;margin-top:10px;font-weight:bold;display:inline-block;}
+
 .item{border:1px solid #e1e8e4;border-radius:12px;padding:14px;margin:12px 0;background:#fafcfb;}
-.item img,.item video,.item iframe{width:100%;max-height:360px;border-radius:10px;margin-top:8px;display:block;}
+.item video,.item iframe{width:100%;max-height:360px;border-radius:10px;margin-top:8px;display:block;}
 .item iframe{height:240px;border:0;}
-.member-avatar{width:90px;height:90px;border-radius:50%;object-fit:cover;border:3px solid #075c39;display:block;margin-bottom:10px;}
+
+/* General gallery images */
+.item > img:not(.member-avatar){
+  width:100%;
+  max-height:360px;
+  border-radius:10px;
+  margin-top:8px;
+  display:block;
+  object-fit:cover;
+}
+
+/* 3:4 Aspect Ratio Passport Profile Photo for Members */
+.member-avatar{
+  width:150px !important;
+  height:200px !important;
+  aspect-ratio:3/4;
+  border-radius:12px !important;
+  object-fit:cover !important;
+  border:3px solid #075c39 !important;
+  display:block !important;
+  margin-bottom:12px !important;
+  box-shadow:0 4px 10px rgba(0,0,0,0.12);
+}
+
 .admin-badge{display:inline-block;background:#d6ad45;color:#063d28;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:bold;}
 .admin-box{background:#f0f8f4;border:2px dashed #075c39;border-radius:12px;padding:16px;margin-bottom:18px;}
 .status-success{margin-top:14px;padding:16px;border-radius:12px;background:#eef7f1;border:2px solid #075c39;color:#063d28;}
@@ -233,7 +257,7 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- Photos Page (With Edit & Delete for Admin) -->
+  <!-- Photos Page -->
   <section id="photos" class="page">
     <div class="card">
       <h2>Photos Gallery</h2>
@@ -241,7 +265,7 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- Videos Page (With Edit & Delete for Admin) -->
+  <!-- Videos Page -->
   <section id="videos" class="page">
     <div class="card">
       <h2>Videos Gallery</h2>
@@ -249,7 +273,7 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- Programs Page (With Edit & Delete for Admin) -->
+  <!-- Programs Page -->
   <section id="programs" class="page">
     <div class="card">
       <h2>Programs</h2>
@@ -265,7 +289,7 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- Rashid Page with Verification Check and Admin Issued List with Delete -->
+  <!-- Rashid Page with Verification Check and Admin Issued List -->
   <section id="rashid" class="page">
     <div class="card">
       <h2>Rashid Check</h2>
@@ -284,7 +308,7 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- Members Page (With Edit & Delete for Admin) -->
+  <!-- Members Page with 3:4 Photo Display -->
   <section id="members" class="page">
     <div class="card">
       <h2>Members List</h2>
@@ -292,7 +316,7 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- Langar Page (With Edit & Delete for Admin) -->
+  <!-- Langar Page -->
   <section id="langar" class="page">
     <div class="card">
       <h2>🍲 Langar-e-Gausiya</h2>
@@ -300,7 +324,7 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- Notices Page (With Edit & Delete for Admin) -->
+  <!-- Notices Page -->
   <section id="notices" class="page">
     <div class="card">
       <h2>📢 Notices & Announcements</h2>
@@ -308,7 +332,7 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- Dedicated Website Visitors Page (With Call & Delete) -->
+  <!-- Dedicated Website Visitors Page -->
   <section id="visitors" class="page">
     <div class="card">
       <h2>👥 Logged-in Users (Website Visitors)</h2>
@@ -317,7 +341,7 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- Central Admin Control Dashboard (Upload & Input Forms Only) -->
+  <!-- Central Admin Control Dashboard -->
   <section id="admin" class="page">
     <div class="hero">
       <h2>⚙️ ADMIN CONTROL DASHBOARD</h2>
@@ -457,7 +481,7 @@ button{cursor:pointer;}
       <div id="adminMemberFormBox" class="card admin-box hidden">
         <h3>👥 Naya Member Add Karein</h3>
         <div class="form-group">
-          <label>Member Photo (Optional)</label>
+          <label>Member Photo (Passport 3:4 Size)</label>
           <input id="memberPhotoFile" type="file" accept="image/*">
         </div>
         <div class="form-group"><label>Member Name</label><input id="memberName" placeholder="Member Name"></div>
@@ -1296,7 +1320,7 @@ window.loadPrograms = async function(){
   }catch(e){}
 };
 
-// 5. Members
+// 5. Members (With 3:4 Passport Photo Display)
 window.editMember = function(id, curName, curPhone, curAddress, curResp){
   if(!CURRENT_IS_ADMIN) return alert("Sirf Admin edit kar sakta hai.");
   const name = prompt("Member Name:", curName);
@@ -1591,22 +1615,6 @@ window.openWhatsApp = function(mobile, rNum, rName, rAmt, rPurpose){
   }, 1200);
 };
 
-window.editRashid = function(id, curDonor, curAmount, curPurpose){
-  if(!CURRENT_IS_ADMIN) return alert("Sirf Admin edit kar sakta hai.");
-  const donor = prompt("Donor Name:", curDonor);
-  if(donor === null) return;
-  const amt = prompt("Amount (₹):", curAmount);
-  if(amt === null) return;
-  const purp = prompt("Purpose (All Purpose / Langar-e-Gausiya / Mazarat Ki Tameer / Imamo ki Tankha):", curPurpose);
-  if(purp === null) return;
-
-  updateFirestoreFields("rashid", id, {
-    donorName: donor.trim(),
-    amount: Number(amt),
-    purpose: purp.trim()
-  }, "loadRashids");
-};
-
 window.createRashid = async function(){
   const btn = document.getElementById("createRashidBtn");
   try{
@@ -1677,8 +1685,7 @@ window.loadRashids = async function(){
           ${CURRENT_IS_ADMIN ? `
             <div class="action-box">
               ${d.donorMobile ? `<button class="btn-whatsapp" onclick="openWhatsApp('${mobileAttr}', '${numAttr}', '${donorAttr}', '${amtAttr}', '${purpAttr}')">📲 WhatsApp Share</button>` : ""}
-              <button class="btn-edit" onclick="editRashid('${id}', '${donorAttr}', '${amtAttr}', '${purpAttr}')">✏️ Edit</button>
-              <button class="btn-delete" onclick="deleteItem('rashid', '${id}', 'loadRashids')">🗑️ Delete</button>
+              <button class="btn-delete" onclick="deleteItem('rashid', '${id}', 'loadRashids')">🗑️ Delete Rashid</button>
             </div>
           ` : ""}
         </div>
