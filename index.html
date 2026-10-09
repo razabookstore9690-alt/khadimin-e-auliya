@@ -379,7 +379,7 @@ button{cursor:pointer;}
   <section id="visitors" class="page">
     <div class="card">
       <h2>👥 Logged-in Users (Website Visitors)</h2>
-      <p style="font-size:13px;color:#666;margin-bottom:14px;">Jin logo ne naam aur mobile number daal kar entry ki hai unka record:</p>
+      <p style="font-size:13px;color:#666;margin-bottom:14px;">Har unique number ka sirf pehla login record mahfooz hota hai:</p>
       <div id="adminUserList">Loading...</div>
     </div>
   </section>
@@ -569,16 +569,18 @@ adminTab.onclick=()=>{
   userBox.classList.add("hidden");
 };
 
-// USER LOGIN (Name + Phone + Captcha)
+// USER LOGIN (First-Time Only Saving Logic)
 document.getElementById("userEnterBtn").addEventListener("click", async()=>{
   const name = document.getElementById("userNameInput").value.trim();
-  const phone = document.getElementById("userPhoneInput").value.trim();
+  const rawPhone = document.getElementById("userPhoneInput").value.trim();
   const captcha = document.getElementById("userCaptchaInput").value.trim().toUpperCase();
+
+  const phone = rawPhone.replace(/\D/g, "");
 
   if(!name){
     return alert("Kripya apna pura naam likhein.");
   }
-  if(!phone || phone.replace(/\D/g, "").length < 10){
+  if(phone.length < 10){
     return alert("Kripya sahi 10-digit mobile number likhein.");
   }
   if(captcha !== currentGeneratedCaptcha){
@@ -587,20 +589,28 @@ document.getElementById("userEnterBtn").addEventListener("click", async()=>{
     return;
   }
 
+  const btn = document.getElementById("userEnterBtn");
+  btn.disabled = true;
+  btn.textContent = "Connecting...";
+
   try{
-    const btn = document.getElementById("userEnterBtn");
-    btn.disabled = true;
-    btn.textContent = "Connecting...";
+    // Check if phone number ALREADY exists in website_users collection
+    const checkQuery = query(collection(db, "website_users"), where("phone", "==", phone));
+    const querySnapshot = await getDocs(checkQuery);
 
-    const loginTime = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
-
-    // Store visitor record into Firestore
-    await addDoc(collection(db, "website_users"), {
-      name: name,
-      phone: phone,
-      loginAt: loginTime,
-      timestamp: Date.now()
-    });
+    if(querySnapshot.empty){
+      // Naya number hai: Sirf first time ka record save hoga
+      const loginTime = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+      await addDoc(collection(db, "website_users"), {
+        name: name,
+        phone: phone,
+        loginAt: loginTime,
+        timestamp: Date.now()
+      });
+    } else {
+      // Purana number hai: Dubara save nahi hoga, pehle wala date/time hi rahega
+      console.log("Existing user logged in. First-time data preserved.");
+    }
 
     localStorage.setItem("khadimin_user_session", JSON.stringify({ name, phone }));
 
@@ -632,7 +642,6 @@ document.getElementById("userEnterBtn").addEventListener("click", async()=>{
   }catch(e){
     alert("Error: " + e.message);
   }finally{
-    const btn = document.getElementById("userEnterBtn");
     btn.disabled = false;
     btn.textContent = "Website Me Dakhil Hon";
   }
@@ -787,7 +796,7 @@ async function loadAllData(){
   ]);
 }
 
-// Dedicated Website Visitors Section for Admin
+// Dedicated Website Visitors Section for Admin (De-duplicated & Clean view)
 async function loadWebsiteUsersForAdmin(){
   const box = document.getElementById("adminUserList");
   if(!box || !CURRENT_IS_ADMIN) return;
@@ -799,6 +808,8 @@ async function loadWebsiteUsersForAdmin(){
     }
     const list = [];
     snapshot.forEach(d => list.push({ id: d.id, ...d.data() }));
+    
+    // Sort oldest first or newest first
     list.sort((a,b) => (b.timestamp || 0) - (a.timestamp || 0));
 
     let html = "";
@@ -807,9 +818,12 @@ async function loadWebsiteUsersForAdmin(){
         <div class="item" style="display:flex;justify-content:space-between;align-items:center;padding:12px;">
           <div>
             <strong style="font-size:16px;">👤 ${escapeHTML(u.name || "-")}</strong><br>
-            <span style="font-size:13px;color:#555;">📞 ${escapeHTML(u.phone || "-")} | 🕒 ${escapeHTML(u.loginAt || "-")}</span>
+            <span style="font-size:13px;color:#555;">📞 ${escapeHTML(u.phone || "-")} | 🕒 Pehla Login: ${escapeHTML(u.loginAt || "-")}</span>
           </div>
-          ${u.phone ? `<a href="tel:${encodeURIComponent(u.phone)}"><button class="action" style="padding:6px 14px;font-size:13px;">📞 Call</button></a>` : ""}
+          <div style="display:flex;gap:6px;">
+            ${u.phone ? `<a href="tel:${encodeURIComponent(u.phone)}"><button class="action" style="padding:6px 14px;font-size:13px;">📞 Call</button></a>` : ""}
+            <button class="btn-delete" style="padding:6px 12px;margin:0;font-size:13px;" onclick="deleteItem('website_users', '${u.id}', 'loadWebsiteUsersForAdmin')">🗑️</button>
+          </div>
         </div>
       `;
     });
