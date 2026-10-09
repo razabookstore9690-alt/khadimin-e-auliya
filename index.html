@@ -145,7 +145,7 @@ button{cursor:pointer;}
     <button class="primary" id="userEnterBtn">Website Me Dakhil Hon</button>
   </div>
 
-  <!-- Admin Login (Same as before: User ID + Password) -->
+  <!-- Admin Login -->
   <div id="adminLoginBox" class="hidden">
     <div class="form-group">
       <label>User ID</label>
@@ -192,7 +192,10 @@ button{cursor:pointer;}
     <li><a href="javascript:void(0)" onclick="menuNav('members')">👥 Members List</a></li>
     <li><a href="javascript:void(0)" onclick="menuNav('donation')">💰 Donation / Payment</a></li>
     <li><a href="javascript:void(0)" onclick="menuNav('rashid')">📜 Rashid Check</a></li>
-    <li id="drawerAdminLink" class="hidden"><a href="javascript:void(0)" onclick="menuNav('admin')" style="color:#075c39;background:#eef7f1;">⚙️ Admin Dashboard</a></li>
+    
+    <!-- Admin Only Links inside Menu -->
+    <li id="drawerVisitorsLink" class="hidden"><a href="javascript:void(0)" onclick="menuNav('visitors')" style="color:#075c39;background:#eef7f1;">👥 Website Visitors</a></li>
+    <li id="drawerAdminLink" class="hidden"><a href="javascript:void(0)" onclick="menuNav('admin')" style="color:#d6ad45;background:#fdf9ed;">⚙️ Admin Dashboard</a></li>
   </ul>
 </div>
 
@@ -216,14 +219,14 @@ button{cursor:pointer;}
       <div id="homeLatestVideo">Loading...</div>
     </div>
 
-    <!-- Active Programs Section (Auto expires after date passes) -->
+    <!-- Active Programs Section -->
     <div class="card">
       <span class="section-badge">📅 Upcoming Programs</span>
       <div id="homeActivePrograms">Loading...</div>
     </div>
   </section>
 
-  <!-- Photos Page (Full Gallery) -->
+  <!-- Photos Page -->
   <section id="photos" class="page">
     <div class="card">
       <h2>Photos Gallery</h2>
@@ -237,7 +240,7 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- Videos Page (Full Gallery) -->
+  <!-- Videos Page -->
   <section id="videos" class="page">
     <div class="card">
       <h2>Videos Gallery</h2>
@@ -259,7 +262,7 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- Programs Page (With Expiry Date Selector) -->
+  <!-- Programs Page -->
   <section id="programs" class="page">
     <div class="card">
       <h2>Programs</h2>
@@ -372,20 +375,21 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- Central Admin Dashboard -->
+  <!-- Dedicated Website Visitors Page (Only accessible from Menu) -->
+  <section id="visitors" class="page">
+    <div class="card">
+      <h2>👥 Logged-in Users (Website Visitors)</h2>
+      <p style="font-size:13px;color:#666;margin-bottom:14px;">Jin logo ne naam aur mobile number daal kar entry ki hai unka record:</p>
+      <div id="adminUserList">Loading...</div>
+    </div>
+  </section>
+
+  <!-- Admin Central Hub -->
   <section id="admin" class="page">
     <div class="hero">
       <h2>⚙️ ADMIN CONTROL DASHBOARD</h2>
       <span class="admin-badge">LOGGED IN AS ADMIN</span>
     </div>
-
-    <!-- Admin View for Registered Visitors -->
-    <div class="card" style="border:2px solid #075c39;">
-      <h3>👥 Logged-in Users (Website Visitors)</h3>
-      <p style="font-size:13px;color:#666;margin-bottom:10px;">Jin logo ne naam aur mobile number daal kar entry ki hai unka data:</p>
-      <div id="adminUserList">Loading...</div>
-    </div>
-
     <div class="grid-admin">
       <div class="card"><h3>📸 Photos</h3><p>Upload / Edit / Delete</p><button class="action" onclick="showPage('photos')">Manage Photos</button></div>
       <div class="card"><h3>🎥 Videos</h3><p>Upload / Edit / Delete</p><button class="action" onclick="showPage('videos')">Manage Videos</button></div>
@@ -462,7 +466,6 @@ const UPLOAD_PRESET = "khadimin_preset";
 let CURRENT_IS_ADMIN = false;
 let currentGeneratedCaptcha = "";
 
-// Generate random 4-character Captcha
 window.generateCaptcha = function(){
   const chars = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";
   let code = "";
@@ -566,7 +569,7 @@ adminTab.onclick=()=>{
   userBox.classList.add("hidden");
 };
 
-// USER LOGIN WITH NAME + MOBILE + CAPTCHA
+// USER LOGIN (Name + Phone + Captcha)
 document.getElementById("userEnterBtn").addEventListener("click", async()=>{
   const name = document.getElementById("userNameInput").value.trim();
   const phone = document.getElementById("userPhoneInput").value.trim();
@@ -591,7 +594,7 @@ document.getElementById("userEnterBtn").addEventListener("click", async()=>{
 
     const loginTime = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
 
-    // Store visitor record into Firestore Database
+    // Store visitor record into Firestore
     await addDoc(collection(db, "website_users"), {
       name: name,
       phone: phone,
@@ -599,7 +602,6 @@ document.getElementById("userEnterBtn").addEventListener("click", async()=>{
       timestamp: Date.now()
     });
 
-    // Save session in local storage
     localStorage.setItem("khadimin_user_session", JSON.stringify({ name, phone }));
 
     CURRENT_IS_ADMIN = false;
@@ -607,9 +609,10 @@ document.getElementById("userEnterBtn").addEventListener("click", async()=>{
     document.getElementById("app").classList.remove("hidden");
     document.getElementById("roleText").textContent = `👤 User: ${name}`;
 
-    // Hide admin options
+    // Hide admin elements
     const adminElements = [
       "drawerAdminLink",
+      "drawerVisitorsLink",
       "adminPhotoUpload",
       "adminVideoUpload",
       "adminPaymentForm",
@@ -635,7 +638,7 @@ document.getElementById("userEnterBtn").addEventListener("click", async()=>{
   }
 });
 
-// ADMIN LOGIN (Original Firebase Auth)
+// ADMIN LOGIN
 document.getElementById("adminLogin").addEventListener("click",async()=>{
   let email = document.getElementById("adminEmail").value.trim().toLowerCase();
   const password = document.getElementById("adminPassword").value;
@@ -652,7 +655,7 @@ document.getElementById("adminLogin").addEventListener("click",async()=>{
   }
 });
 
-// Check State
+// Auth State Listener
 onAuthStateChanged(auth, async(user)=>{
   if(user){
     const userEmail = (user.email || "").toLowerCase();
@@ -664,6 +667,7 @@ onAuthStateChanged(auth, async(user)=>{
 
     const adminElements = [
       "drawerAdminLink",
+      "drawerVisitorsLink",
       "adminPhotoUpload",
       "adminVideoUpload",
       "adminPaymentForm",
@@ -684,7 +688,6 @@ onAuthStateChanged(auth, async(user)=>{
 
     await loadAllData();
   }else{
-    // Check if normal user session exists
     const localUser = localStorage.getItem("khadimin_user_session");
     if(localUser){
       try{
@@ -696,6 +699,7 @@ onAuthStateChanged(auth, async(user)=>{
 
         const adminElements = [
           "drawerAdminLink",
+          "drawerVisitorsLink",
           "adminPhotoUpload",
           "adminVideoUpload",
           "adminPaymentForm",
@@ -716,7 +720,6 @@ onAuthStateChanged(auth, async(user)=>{
       }catch(e){}
     }
 
-    // No session: show login screen
     CURRENT_IS_ADMIN = false;
     document.getElementById("loginPage").classList.remove("hidden");
     document.getElementById("app").classList.add("hidden");
@@ -784,7 +787,7 @@ async function loadAllData(){
   ]);
 }
 
-// Admin: Load all logged-in user names & phone numbers
+// Dedicated Website Visitors Section for Admin
 async function loadWebsiteUsersForAdmin(){
   const box = document.getElementById("adminUserList");
   if(!box || !CURRENT_IS_ADMIN) return;
@@ -801,12 +804,12 @@ async function loadWebsiteUsersForAdmin(){
     let html = "";
     list.forEach(u => {
       html += `
-        <div class="item" style="display:flex;justify-content:space-between;align-items:center;padding:10px;">
+        <div class="item" style="display:flex;justify-content:space-between;align-items:center;padding:12px;">
           <div>
-            <strong>👤 ${escapeHTML(u.name || "-")}</strong><br>
+            <strong style="font-size:16px;">👤 ${escapeHTML(u.name || "-")}</strong><br>
             <span style="font-size:13px;color:#555;">📞 ${escapeHTML(u.phone || "-")} | 🕒 ${escapeHTML(u.loginAt || "-")}</span>
           </div>
-          ${u.phone ? `<a href="tel:${encodeURIComponent(u.phone)}"><button class="action" style="padding:6px 12px;font-size:13px;">📞 Call</button></a>` : ""}
+          ${u.phone ? `<a href="tel:${encodeURIComponent(u.phone)}"><button class="action" style="padding:6px 14px;font-size:13px;">📞 Call</button></a>` : ""}
         </div>
       `;
     });
@@ -865,7 +868,7 @@ async function loadHomePageDynamic(){
     }
   }catch(e){}
 
-  // 3. Active Upcoming Programs (Date >= Today)
+  // 3. Active Upcoming Programs
   try{
     const progBox = document.getElementById("homeActivePrograms");
     const progSnap = await getDocs(collection(db, "programs"));
