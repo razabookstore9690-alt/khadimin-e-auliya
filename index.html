@@ -82,6 +82,7 @@ button{cursor:pointer;}
 .status-error{margin-top:14px;padding:14px;border-radius:12px;background:#fde8e8;border:2px solid #d32f2f;color:#b71c1c;font-weight:bold;}
 .divider-text{text-align:center;font-size:13px;color:#888;margin:12px 0;font-weight:bold;}
 .action-box{margin-top:10px;}
+.grid-admin{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;}
 
 /* Printable receipt */
 #printableReceipt{
@@ -195,7 +196,7 @@ button{cursor:pointer;}
     
     <!-- Admin Only Links inside Menu -->
     <li id="drawerVisitorsLink" class="hidden"><a href="javascript:void(0)" onclick="menuNav('visitors')" style="color:#075c39;background:#eef7f1;">👥 Website Visitors</a></li>
-    <li id="drawerAdminLink" class="hidden"><a href="javascript:void(0)" onclick="menuNav('admin')" style="color:#d6ad45;background:#fdf9ed;">⚙️ Admin Dashboard (Upload Center)</a></li>
+    <li id="drawerAdminLink" class="hidden"><a href="javascript:void(0)" onclick="menuNav('admin')" style="color:#d6ad45;background:#fdf9ed;">⚙️ Admin Dashboard</a></li>
   </ul>
 </div>
 
@@ -226,39 +227,77 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- Photos Page (Sirf Gallery & Delete/Edit ke liye - No Upload Form) -->
+  <!-- Photos Page -->
   <section id="photos" class="page">
     <div class="card">
       <h2>Photos Gallery</h2>
+      <div id="adminPhotoUpload" class="admin-box hidden">
+        <h3>📸 Admin: Photo Upload Karein</h3>
+        <div class="form-group"><label>Photo File Chunein</label><input id="photoFile" type="file" accept="image/*"></div>
+        <div class="form-group"><label>Photo Title / Caption</label><input id="photoTitle" placeholder="Photo Title"></div>
+        <button class="action" id="photoUploadBtn" onclick="uploadPhoto()">Upload Photo</button>
+      </div>
       <div id="photoList">Loading...</div>
     </div>
   </section>
 
-  <!-- Videos Page (Sirf Gallery & Delete/Edit ke liye - No Upload Form) -->
+  <!-- Videos Page -->
   <section id="videos" class="page">
     <div class="card">
       <h2>Videos Gallery</h2>
+      <div id="adminVideoUpload" class="admin-box hidden">
+        <h3>🎥 Admin: Video Add / Upload Karein</h3>
+        <div class="form-group"><label>Video Title</label><input id="videoTitle" placeholder="Video Title"></div>
+        <div class="form-group">
+          <label>Tareeqa 1: Mobile se Video File Upload</label>
+          <input id="videoFile" type="file" accept="video/*">
+        </div>
+        <div class="divider-text">— YA —</div>
+        <div class="form-group">
+          <label>Tareeqa 2: YouTube / Online Link</label>
+          <input id="videoUrlInput" placeholder="https://youtu.be/... ya https://www.youtube.com/watch?v=...">
+        </div>
+        <button class="action" id="videoUploadBtn" onclick="uploadVideo()">Save / Upload Video</button>
+      </div>
       <div id="videoList">Loading...</div>
     </div>
   </section>
 
-  <!-- Programs Page (Sirf Programs List & Delete/Edit ke liye - No Upload Form) -->
+  <!-- Programs Page -->
   <section id="programs" class="page">
     <div class="card">
       <h2>Programs</h2>
+      <div id="adminProgramForm" class="admin-box hidden">
+        <h3>📅 Admin: Naya Program Add Karein</h3>
+        <div class="form-group">
+          <label>Program Date (Is date ke baad Home page se auto hat jayega)</label>
+          <input id="programDate" type="date">
+        </div>
+        <div class="form-group"><input id="programTitle" placeholder="Program Title"></div>
+        <div class="form-group"><textarea id="programDescription" placeholder="Program Details"></textarea></div>
+        <button class="action" onclick="addProgram()">Publish Program</button>
+      </div>
       <div id="programList">Loading...</div>
     </div>
   </section>
 
-  <!-- Donation Page (Sirf Payment Details Display ke liye) -->
+  <!-- Donation Page -->
   <section id="donation" class="page">
     <div class="card">
       <h2>Donation / Payment Details</h2>
+      <div id="adminPaymentForm" class="admin-box hidden">
+        <h3>💳 Admin: Payment Details & QR Code Badalna</h3>
+        <div class="form-group"><label>Bank Details</label><textarea id="bankDetails"></textarea></div>
+        <div class="form-group"><label>Account Holder Name</label><input id="accountHolder"></div>
+        <div class="form-group"><label>UPI ID</label><input id="upiId"></div>
+        <div class="form-group"><label>Payment QR Image</label><input id="qrFile" type="file" accept="image/*"></div>
+        <button class="action" id="payUpdateBtn" onclick="savePaymentDetails()">Save & Update Details</button>
+      </div>
       <div id="paymentDetails">Loading...</div>
     </div>
   </section>
 
-  <!-- Rashid Page (Sirf Rashid Verification Check ke liye) -->
+  <!-- Rashid Page -->
   <section id="rashid" class="page">
     <div class="card">
       <h2>Rashid Check</h2>
@@ -268,29 +307,75 @@ button{cursor:pointer;}
       </div>
       <button class="action" id="checkRashidBtn" onclick="checkRashid()">Check Rashid</button>
       <div id="rashidResult"></div>
+
+      <div id="adminRashidBox" class="admin-box hidden" style="margin-top:20px;">
+        <h3>📜 Admin: Nayi Rashid Banayein</h3>
+        <div class="form-group"><label>Donor Name</label><input id="donorName"></div>
+        <div class="form-group"><label>Donor Mobile</label><input id="donorMobile" type="tel" placeholder="10-digit mobile number"></div>
+        <div class="form-group"><label>Address</label><textarea id="donorAddress"></textarea></div>
+        <div class="form-group"><label>Amount ₹</label><input id="donationAmount" type="number"></div>
+        <div class="form-group">
+          <label>Purpose</label>
+          <select id="donationPurpose">
+            <option value="All Purpose">All Purpose</option>
+            <option value="Langar-e-Gausiya">Langar-e-Gausiya</option>
+            <option value="Mazarat Ki Tameer">Mazarat Ki Tameer</option>
+            <option value="Imamo ki Tankha">Imamo ki Tankha</option>
+          </select>
+        </div>
+        <button class="action" id="createRashidBtn" onclick="createRashid()">Create Rashid & Download Photo</button>
+      </div>
+
+      <div id="adminRashidList" class="hidden" style="margin-top:20px;">
+        <h3 style="color:#075c39;margin-bottom:10px;">📋 Issued Rashids</h3>
+        <div id="rashidList">Loading...</div>
+      </div>
     </div>
   </section>
 
-  <!-- Members Page (Sirf Members Display & Edit/Delete ke liye - No Upload Form) -->
+  <!-- Members Page with Photo Support -->
   <section id="members" class="page">
     <div class="card">
       <h2>Members List</h2>
+      <div id="adminMemberForm" class="admin-box hidden">
+        <h3>👥 Admin: Naya Member Add Karein</h3>
+        <div class="form-group">
+          <label>Member Photo (Optional)</label>
+          <input id="memberPhotoFile" type="file" accept="image/*">
+        </div>
+        <div class="form-group"><label>Member Name</label><input id="memberName" placeholder="Member Name"></div>
+        <div class="form-group"><label>Mobile Number</label><input id="memberPhone" placeholder="Mobile Number"></div>
+        <div class="form-group"><label>Pata (Address)</label><textarea id="memberAddress" placeholder="Address"></textarea></div>
+        <div class="form-group"><label>Zimmedari / Role</label><input id="memberResponsibility" placeholder="Zimmedari / Role"></div>
+        <button class="action" id="saveMemberBtn" onclick="addMember()">Save Member</button>
+      </div>
       <div id="memberList">Loading...</div>
     </div>
   </section>
 
-  <!-- Langar Page (Sirf Langar Content Display ke liye - No Upload Form) -->
+  <!-- Langar Page -->
   <section id="langar" class="page">
     <div class="card">
       <h2>🍲 Langar-e-Gausiya</h2>
+      <div id="adminLangarForm" class="admin-box hidden">
+        <h3>Admin: Langar Information Update</h3>
+        <textarea id="langarText" placeholder="Langar timings & information" style="width:100%;height:90px;"></textarea>
+        <button class="action" onclick="saveLangar()">Save Details</button>
+      </div>
       <div id="langarContent">Loading...</div>
     </div>
   </section>
 
-  <!-- Notices Page (Sirf Notices List ke liye - No Upload Form) -->
+  <!-- Notices Page -->
   <section id="notices" class="page">
     <div class="card">
       <h2>📢 Notices & Announcements</h2>
+      <div id="adminNoticeForm" class="admin-box hidden">
+        <h3>Admin: Naya Notice Publish Karein</h3>
+        <div class="form-group"><input id="noticeTitle" placeholder="Notice Title"></div>
+        <div class="form-group"><textarea id="noticeText" placeholder="Notice Content"></textarea></div>
+        <button class="action" onclick="addNotice()">Publish Notice</button>
+      </div>
       <div id="noticeList">Loading...</div>
     </div>
   </section>
@@ -304,105 +389,21 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- Central Admin Control Dashboard (YAHAN SIRF UPLOAD & ADD KARNE KE FORMS HAIN - KOI LIST YA DISPLAY NAHI) -->
+  <!-- Admin Central Hub -->
   <section id="admin" class="page">
     <div class="hero">
-      <h2>⚙️ ADMIN UPLOAD & CONTROL CENTER</h2>
+      <h2>⚙️ ADMIN CONTROL DASHBOARD</h2>
       <span class="admin-badge">LOGGED IN AS ADMIN</span>
     </div>
-
-    <!-- 1. Photo Upload Form -->
-    <div class="card admin-box">
-      <h3>📸 Photo Upload Karein</h3>
-      <div class="form-group"><label>Photo File Chunein</label><input id="photoFile" type="file" accept="image/*"></div>
-      <div class="form-group"><label>Photo Title / Caption</label><input id="photoTitle" placeholder="Photo Title"></div>
-      <button class="action" id="photoUploadBtn" onclick="uploadPhoto()">Upload Photo</button>
-    </div>
-
-    <!-- 2. Video Upload Form -->
-    <div class="card admin-box">
-      <h3>🎥 Video Upload / Add Karein</h3>
-      <div class="form-group"><label>Video Title</label><input id="videoTitle" placeholder="Video Title"></div>
-      <div class="form-group">
-        <label>Tareeqa 1: Mobile se Video File Upload</label>
-        <input id="videoFile" type="file" accept="video/*">
-      </div>
-      <div class="divider-text">— YA —</div>
-      <div class="form-group">
-        <label>Tareeqa 2: YouTube / Online Link</label>
-        <input id="videoUrlInput" placeholder="https://youtu.be/... ya https://www.youtube.com/watch?v=...">
-      </div>
-      <button class="action" id="videoUploadBtn" onclick="uploadVideo()">Save / Upload Video</button>
-    </div>
-
-    <!-- 3. Program Publish Form -->
-    <div class="card admin-box">
-      <h3>📅 Naya Program Add Karein</h3>
-      <div class="form-group">
-        <label>Program Date (Is date ke baad Home page se auto hat jayega)</label>
-        <input id="programDate" type="date">
-      </div>
-      <div class="form-group"><label>Program Title</label><input id="programTitle" placeholder="Program Title"></div>
-      <div class="form-group"><label>Program Details</label><textarea id="programDescription" placeholder="Program Details"></textarea></div>
-      <button class="action" onclick="addProgram()">Publish Program</button>
-    </div>
-
-    <!-- 4. Member Add Form -->
-    <div class="card admin-box">
-      <h3>👥 Naya Member Add Karein</h3>
-      <div class="form-group">
-        <label>Member Photo (Optional)</label>
-        <input id="memberPhotoFile" type="file" accept="image/*">
-      </div>
-      <div class="form-group"><label>Member Name</label><input id="memberName" placeholder="Member Name"></div>
-      <div class="form-group"><label>Mobile Number</label><input id="memberPhone" placeholder="Mobile Number"></div>
-      <div class="form-group"><label>Pata (Address)</label><textarea id="memberAddress" placeholder="Address"></textarea></div>
-      <div class="form-group"><label>Zimmedari / Role</label><input id="memberResponsibility" placeholder="Zimmedari / Role"></div>
-      <button class="action" id="saveMemberBtn" onclick="addMember()">Save Member</button>
-    </div>
-
-    <!-- 5. Payment QR & Details Update Form -->
-    <div class="card admin-box">
-      <h3>💳 Payment Details & QR Code Badalna</h3>
-      <div class="form-group"><label>Bank Details</label><textarea id="bankDetails"></textarea></div>
-      <div class="form-group"><label>Account Holder Name</label><input id="accountHolder"></div>
-      <div class="form-group"><label>UPI ID</label><input id="upiId"></div>
-      <div class="form-group"><label>Payment QR Image</label><input id="qrFile" type="file" accept="image/*"></div>
-      <button class="action" id="payUpdateBtn" onclick="savePaymentDetails()">Save & Update Details</button>
-    </div>
-
-    <!-- 6. Rashid Create Form -->
-    <div class="card admin-box">
-      <h3>📜 Nayi Rashid Banayein</h3>
-      <div class="form-group"><label>Donor Name</label><input id="donorName"></div>
-      <div class="form-group"><label>Donor Mobile</label><input id="donorMobile" type="tel" placeholder="10-digit mobile number"></div>
-      <div class="form-group"><label>Address</label><textarea id="donorAddress"></textarea></div>
-      <div class="form-group"><label>Amount ₹</label><input id="donationAmount" type="number"></div>
-      <div class="form-group">
-        <label>Purpose</label>
-        <select id="donationPurpose">
-          <option value="All Purpose">All Purpose</option>
-          <option value="Langar-e-Gausiya">Langar-e-Gausiya</option>
-          <option value="Mazarat Ki Tameer">Mazarat Ki Tameer</option>
-          <option value="Imamo ki Tankha">Imamo ki Tankha</option>
-        </select>
-      </div>
-      <button class="action" id="createRashidBtn" onclick="createRashid()">Create Rashid & Download Photo</button>
-    </div>
-
-    <!-- 7. Langar Information Update Form -->
-    <div class="card admin-box">
-      <h3>🍲 Langar Information Update</h3>
-      <textarea id="langarText" placeholder="Langar timings & information" style="width:100%;height:90px;"></textarea>
-      <button class="action" onclick="saveLangar()">Save Details</button>
-    </div>
-
-    <!-- 8. Notice Publish Form -->
-    <div class="card admin-box">
-      <h3>📢 Naya Notice Publish Karein</h3>
-      <div class="form-group"><input id="noticeTitle" placeholder="Notice Title"></div>
-      <div class="form-group"><textarea id="noticeText" placeholder="Notice Content"></textarea></div>
-      <button class="action" onclick="addNotice()">Publish Notice</button>
+    <div class="grid-admin">
+      <div class="card"><h3>📸 Photos</h3><p>Upload / Edit / Delete</p><button class="action" onclick="showPage('photos')">Manage Photos</button></div>
+      <div class="card"><h3>🎥 Videos</h3><p>Upload / Edit / Delete</p><button class="action" onclick="showPage('videos')">Manage Videos</button></div>
+      <div class="card"><h3>💳 Payment QR</h3><p>Edit / Delete</p><button class="action" onclick="showPage('donation')">Update Payment</button></div>
+      <div class="card"><h3>📜 Rashid</h3><p>Edit / Delete / WhatsApp</p><button class="action" onclick="showPage('rashid')">Manage Rashid</button></div>
+      <div class="card"><h3>👥 Members</h3><p>Edit / Delete</p><button class="action" onclick="showPage('members')">Manage Members</button></div>
+      <div class="card"><h3>📅 Programs</h3><p>Edit / Delete</p><button class="action" onclick="showPage('programs')">Manage Programs</button></div>
+      <div class="card"><h3>🍲 Langar</h3><p>Edit / Delete</p><button class="action" onclick="showPage('langar')">Manage Langar</button></div>
+      <div class="card"><h3>📢 Notices</h3><p>Edit / Delete</p><button class="action" onclick="showPage('notices')">Manage Notices</button></div>
     </div>
   </section>
 </main>
@@ -620,7 +621,16 @@ document.getElementById("userEnterBtn").addEventListener("click", async()=>{
 
     const adminElements = [
       "drawerAdminLink",
-      "drawerVisitorsLink"
+      "drawerVisitorsLink",
+      "adminPhotoUpload",
+      "adminVideoUpload",
+      "adminPaymentForm",
+      "adminRashidBox",
+      "adminRashidList",
+      "adminMemberForm",
+      "adminProgramForm",
+      "adminLangarForm",
+      "adminNoticeForm"
     ];
     adminElements.forEach(id => {
       const el = document.getElementById(id);
@@ -665,7 +675,16 @@ onAuthStateChanged(auth, async(user)=>{
 
     const adminElements = [
       "drawerAdminLink",
-      "drawerVisitorsLink"
+      "drawerVisitorsLink",
+      "adminPhotoUpload",
+      "adminVideoUpload",
+      "adminPaymentForm",
+      "adminRashidBox",
+      "adminRashidList",
+      "adminMemberForm",
+      "adminProgramForm",
+      "adminLangarForm",
+      "adminNoticeForm"
     ];
     adminElements.forEach(id => {
       const el = document.getElementById(id);
@@ -688,7 +707,16 @@ onAuthStateChanged(auth, async(user)=>{
 
         const adminElements = [
           "drawerAdminLink",
-          "drawerVisitorsLink"
+          "drawerVisitorsLink",
+          "adminPhotoUpload",
+          "adminVideoUpload",
+          "adminPaymentForm",
+          "adminRashidBox",
+          "adminRashidList",
+          "adminMemberForm",
+          "adminProgramForm",
+          "adminLangarForm",
+          "adminNoticeForm"
         ];
         adminElements.forEach(id => {
           const el = document.getElementById(id);
@@ -762,6 +790,7 @@ async function loadAllData(){
     loadMembers(),
     loadLangar(),
     loadNotices(),
+    loadRashids(),
     loadWebsiteUsersForAdmin()
   ]);
 }
@@ -1464,6 +1493,22 @@ window.openWhatsApp = function(mobile, rNum, rName, rAmt, rPurpose){
   }, 1200);
 };
 
+window.editRashid = function(id, curDonor, curAmount, curPurpose){
+  if(!CURRENT_IS_ADMIN) return alert("Sirf Admin edit kar sakta hai.");
+  const donor = prompt("Donor Name:", curDonor);
+  if(donor === null) return;
+  const amt = prompt("Amount (₹):", curAmount);
+  if(amt === null) return;
+  const purp = prompt("Purpose (All Purpose / Langar-e-Gausiya / Mazarat Ki Tameer / Imamo ki Tankha):", curPurpose);
+  if(purp === null) return;
+
+  updateFirestoreFields("rashid", id, {
+    donorName: donor.trim(),
+    amount: Number(amt),
+    purpose: purp.trim()
+  }, "loadRashids");
+};
+
 window.createRashid = async function(){
   const btn = document.getElementById("createRashidBtn");
   try{
@@ -1499,12 +1544,49 @@ window.createRashid = async function(){
     document.getElementById("donorMobile").value = "";
     document.getElementById("donorAddress").value = "";
     document.getElementById("donationAmount").value = "";
+    await loadRashids();
   }catch(e){ 
     alert("Error: " + e.message); 
   }finally{
     btn.disabled = false;
     btn.textContent = "Create Rashid & Download Photo";
   }
+};
+
+window.loadRashids = async function(){
+  const box = document.getElementById("rashidList");
+  if(!box) return;
+  try{
+    const snapshot = await getDocs(collection(db,"rashid"));
+    if(snapshot.empty) return box.innerHTML = "<p>Koi Rashid nahi hai.</p>";
+    let html="";
+    snapshot.forEach(item=>{
+      const d=item.data();
+      const id=item.id;
+      const donorAttr = (d.donorName || "").replace(/"/g, '&quot;');
+      const amtAttr = (d.amount || 0).toString();
+      const purpAttr = (d.purpose || "").replace(/"/g, '&quot;');
+      const mobileAttr = (d.donorMobile || "").replace(/"/g, '&quot;');
+      const numAttr = (d.rashidNumber || "").replace(/"/g, '&quot;');
+
+      html += `
+        <div class="item">
+          <p><strong>Rashid No:</strong> ${escapeHTML(d.rashidNumber)}</p>
+          <p><strong>Donor:</strong> ${escapeHTML(d.donorName)} (₹${escapeHTML(d.amount)})</p>
+          <p><strong>Mobile:</strong> ${escapeHTML(d.donorMobile || "-")}</p>
+          <p><strong>Purpose:</strong> ${escapeHTML(d.purpose)}</p>
+          ${CURRENT_IS_ADMIN ? `
+            <div class="action-box">
+              ${d.donorMobile ? `<button class="btn-whatsapp" onclick="openWhatsApp('${mobileAttr}', '${numAttr}', '${donorAttr}', '${amtAttr}', '${purpAttr}')">📲 WhatsApp Share</button>` : ""}
+              <button class="btn-edit" onclick="editRashid('${id}', '${donorAttr}', '${amtAttr}', '${purpAttr}')">Edit</button>
+              <button class="btn-delete" onclick="deleteItem('rashid', '${id}', 'loadRashids')">Delete</button>
+            </div>
+          ` : ""}
+        </div>
+      `;
+    });
+    box.innerHTML = html;
+  }catch(e){}
 };
 
 function escapeHTML(value){
