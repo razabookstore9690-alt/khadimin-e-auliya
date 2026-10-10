@@ -305,25 +305,22 @@ button{cursor:pointer;}
   color:#13895a;
   letter-spacing:0.5px;
 }
-.donor-badge-btn{
-  background:#3b82f6;
+
+/* Donor Action View Button */
+.donor-view-btn{
+  background:#075c39;
   color:#ffffff;
   padding:6px 14px;
   border-radius:20px;
-  font-size:12px;
+  font-size:13px;
   font-weight:bold;
   text-decoration:none;
   display:inline-flex;
   align-items:center;
   gap:5px;
   border:0;
-}
-.donor-icon-btn{
-  background:none;
-  border:0;
-  font-size:18px;
   cursor:pointer;
-  padding:2px 4px;
+  box-shadow:0 2px 6px rgba(7,92,57,0.2);
 }
 
 /* Modal Windows */
@@ -590,7 +587,7 @@ button{cursor:pointer;}
     <div class="card">
       <h2 id="raseedPageHeader">📜 Raseed Check</h2>
       
-      <!-- User View: Search via Raseed Number OR Mobile Number -->
+      <!-- User View: Search via Raseed Number OR Mobile Number (No Donor List displayed to user) -->
       <div id="userRaseedSearchBox">
         <div class="form-group">
           <label>Raseed Number ya Mobile Number Daalein</label>
@@ -2111,12 +2108,10 @@ window.openViewRaseedModal = async function(rNum, rName, rMobile, rPurpose, rAmt
 
     container.innerHTML = `<img src="${imgData}" style="max-width:100%;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.15);">`;
 
-    // Setup direct share action
     const shareBtn = document.getElementById("modalShareBtn");
     shareBtn.onclick = async function(){
       const shareText = `*KHADIMIN-E-AULIYA OFFICIAL RASEED*\n\n📜 Raseed No: ${rNum}\n👤 Donor Name: ${rName}\n💰 Amount: ₹${rAmt}\n🎯 Purpose: ${rPurpose}\n📅 Date: ${rDate}\n\nJazakAllah Khair!`;
       
-      // Try native mobile sharing first
       try{
         const blob = await (await fetch(imgData)).blob();
         const file = new File([blob], `Raseed_${rNum}.png`, { type: "image/png" });
@@ -2130,7 +2125,6 @@ window.openViewRaseedModal = async function(rNum, rName, rMobile, rPurpose, rAmt
         }
       }catch(err){}
 
-      // Fallback: WhatsApp text & number sharing
       let phone = (rMobile || "").replace(/\D/g, "");
       if(phone.length === 10) phone = "91" + phone;
       const waUrl = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(shareText)}`;
@@ -2196,9 +2190,6 @@ window.checkRaseed = async function(){
               <button class="action" style="margin:0;background:#075c39;" onclick="openViewRaseedModal('${rNum}', '${rName}', '${rMobile}', '${rPurpose}', '${rAmount}', '${rDate}')">
                 👁️ View Raseed
               </button>
-              <button class="action" style="margin:0;background:#25d366;" onclick="openWhatsApp('${rMobile}', '${rNum}', '${rName}', '${rAmount}', '${rPurpose}')">
-                📲 WhatsApp Share
-              </button>
             </div>
           </div>
         `;
@@ -2231,20 +2222,6 @@ window.downloadReceiptImage = async function(rNum, rName, rMobile, rPurpose, rAm
   a.click();
 };
 
-window.openWhatsApp = function(mobile, rNum, rName, rAmt, rPurpose){
-  let cleanMobile = (mobile || "").replace(/\D/g, "");
-  if(cleanMobile.length === 10) cleanMobile = "91" + cleanMobile;
-
-  const msg = `Assalamu Alaikum wa Rahmatullahi wa Barakatuh ${rName} Sahab,\n\n*KHADIMIN-E-AULIYA* ki taraf se aapki taawun raseed taiyar hai:\n\n📜 *Raseed No:* ${rNum}\n💰 *Amount:* ₹${rAmt}\n🎯 *Purpose:* ${rPurpose}\n\nAapki donation raseed ki photo sath me share ki ja rahi hai. JazakAllah Khair!`;
-
-  const appUrl = `whatsapp://send?phone=${cleanMobile}&text=${encodeURIComponent(msg)}`;
-  window.location.href = appUrl;
-
-  setTimeout(() => {
-    window.open(`https://api.whatsapp.com/send?phone=${cleanMobile}&text=${encodeURIComponent(msg)}`, '_blank');
-  }, 1200);
-};
-
 window.createRaseed = async function(){
   const btn = document.getElementById("createRaseedBtn");
   try{
@@ -2269,13 +2246,6 @@ window.createRaseed = async function(){
     await downloadReceiptImage(rashidNumber, donorName, donorMobile, purpose, amount, dateStr);
 
     alert(`✅ Raseed ban gayi (${rashidNumber}) aur Photo phone me save ho gayi hai!`);
-
-    if(donorMobile){
-      const openNow = confirm("Kya aap abhi direct WhatsApp par bhejna chahte hain?");
-      if(openNow){
-        openWhatsApp(donorMobile, rashidNumber, donorName, amount, purpose);
-      }
-    }
 
     document.getElementById("donorName").value = "";
     document.getElementById("donorMobile").value = "";
@@ -2321,14 +2291,13 @@ window.renderDonorCards = function(list){
         </div>
 
         <div class="donor-card-right">
-          <div style="display:flex;align-items:center;gap:6px;">
-            <button class="donor-icon-btn" title="View Receipt" onclick="openViewRaseedModal('${numAttr}', '${donorAttr}', '${mobileAttr}', '${purpAttr}', '${amtAttr}', '${dateAttr}')">👁️</button>
-            <span class="donor-rnum-tag">${escapeHTML(d.rashidNumber || "-")}</span>
-          </div>
+          <span class="donor-rnum-tag">${escapeHTML(d.rashidNumber || "-")}</span>
           
-          <div style="display:flex;gap:6px;align-items:center;margin-top:2px;">
-            ${d.donorMobile ? `<button class="donor-badge-btn" onclick="openWhatsApp('${mobileAttr}', '${numAttr}', '${donorAttr}', '${amtAttr}', '${purpAttr}')">📲 WhatsApp</button>` : ""}
-            ${CURRENT_IS_ADMIN ? `<button class="btn-delete" style="margin:0;padding:4px 8px;font-size:12px;" onclick="deleteItem('rashid', '${id}', 'loadRaseeds')" title="Delete Raseed">🗑️</button>` : ""}
+          <div style="display:flex;gap:8px;align-items:center;margin-top:4px;">
+            <button class="donor-view-btn" onclick="openViewRaseedModal('${numAttr}', '${donorAttr}', '${mobileAttr}', '${purpAttr}', '${amtAttr}', '${dateAttr}')">
+              👁️ View
+            </button>
+            ${CURRENT_IS_ADMIN ? `<button class="btn-delete" style="margin:0;padding:5px 9px;font-size:13px;" onclick="deleteItem('rashid', '${id}', 'loadRaseeds')" title="Delete Raseed">🗑️</button>` : ""}
           </div>
         </div>
       </div>
