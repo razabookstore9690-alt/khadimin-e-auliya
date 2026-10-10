@@ -257,7 +257,7 @@ button{cursor:pointer;}
 }
 
 /* ========================================================
-   DONOR LIST CARDS (SCREENSHOT 2 STYLE)
+   DONOR LIST CARDS (ADMIN VIEW)
    ======================================================== */
 .donor-card-item{
   background:#ffffff;
@@ -330,7 +330,7 @@ button{cursor:pointer;}
   padding:2px 4px;
 }
 
-/* Modal for Editing Member with Photo Update */
+/* Modal for Editing Member */
 #editMemberModal{
   position:fixed;
   inset:0;
@@ -540,7 +540,7 @@ button{cursor:pointer;}
       <div id="homeActivePrograms">Loading...</div>
     </div>
 
-    <!-- Official Social Media Channels Box (India Post Round Icons Style) -->
+    <!-- Official Social Media Channels Box -->
     <div class="social-round-card">
       <div class="social-round-title">Stay Connected with KHADIMIN-E-AULIYA</div>
       <div class="social-circles-container">
@@ -589,38 +589,38 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- Raseed / Donor List Page (Clean Search & Screenshot Style Cards) -->
+  <!-- Raseed (User) / Donor List (Admin) Page -->
   <section id="raseed" class="page">
     <div class="card">
       <h2 id="raseedPageHeader">📜 Raseed Check</h2>
       
-      <!-- User View: Single Raseed Verification Search -->
+      <!-- User View: Search via Raseed Number OR Mobile Number -->
       <div id="userRaseedSearchBox">
         <div class="form-group">
-          <label>Raseed Number Check Karein</label>
-          <input id="raseedNumberCheck" placeholder="Jaise: KEA-123456">
+          <label>Raseed Number ya Mobile Number Daalein</label>
+          <input id="raseedNumberCheck" placeholder="Jaise: KEA-123456 ya 9534646778">
         </div>
         <button class="action" id="checkRaseedBtn" onclick="checkRaseed()">Check Raseed</button>
         <div id="raseedResult"></div>
       </div>
 
-      <!-- Admin View: Instant Live Donor List Search -->
+      <!-- Admin View: Live Search for Donors List -->
       <div id="adminDonorSearchBox" class="hidden" style="margin-bottom:16px;">
         <div class="form-group">
-          <label>🔍 Search Donor / Raseed</label>
-          <input id="adminDonorSearchInput" placeholder="Raseed number, naam ya mobile number daalein..." oninput="filterDonorList()">
+          <label>🔍 Search Raseed / Donor List</label>
+          <input id="adminDonorSearchInput" placeholder="Raseed number, naam ya mobile number..." oninput="filterDonorList()">
         </div>
       </div>
 
-      <!-- Donor Cards List (Shown to both User & Admin) -->
-      <div style="margin-top:20px;">
-        <h3 id="donorListHeading" style="color:#075c39;margin-bottom:12px;">📋 Donor List (Taawun Karnewale)</h3>
+      <!-- Admin Only Donor List Container (Users ke liye bilkul hidden) -->
+      <div id="adminDonorListContainer" class="hidden" style="margin-top:20px;">
+        <h3 style="color:#075c39;margin-bottom:12px;">📋 Donor List (Taawun Karnewale)</h3>
         <div id="raseedList">Loading...</div>
       </div>
     </div>
   </section>
 
-  <!-- Members Page With Official Identity Cards Structure -->
+  <!-- Members Page -->
   <section id="members" class="page">
     <div class="card">
       <h2>👥 Members List (Official Identity Cards)</h2>
@@ -805,7 +805,7 @@ button{cursor:pointer;}
 </main>
 </section>
 
-<!-- EDIT MEMBER POPUP MODAL (WITH PHOTO UPDATE) -->
+<!-- EDIT MEMBER POPUP MODAL -->
 <div id="editMemberModal" class="hidden">
   <div class="modal-box">
     <h3 style="color:#075c39;margin-bottom:12px;">✏️ Member Detail & Photo Badalna</h3>
@@ -1114,11 +1114,12 @@ document.getElementById("userEnterBtn").addEventListener("click", async()=>{
     document.getElementById("app").classList.remove("hidden");
     document.getElementById("roleText").textContent = `👤 User: ${name}`;
 
-    // Adjust user-specific texts
+    // User View Set: Donor List bilkul hide, sirf Raseed Check rahega
     document.getElementById("drawerRaseedText").textContent = "📜 Raseed Check";
     document.getElementById("raseedPageHeader").textContent = "📜 Raseed Check";
     document.getElementById("userRaseedSearchBox").classList.remove("hidden");
     document.getElementById("adminDonorSearchBox").classList.add("hidden");
+    document.getElementById("adminDonorListContainer").classList.add("hidden");
 
     const adminElements = [
       "drawerAdminLink",
@@ -1163,15 +1164,19 @@ onAuthStateChanged(auth, async(user)=>{
     document.getElementById("roleText").textContent = CURRENT_IS_ADMIN ? "👑 Admin Account" : "👤 User Account";
 
     if(CURRENT_IS_ADMIN){
+      // Admin View: Donor List dikhega
       document.getElementById("drawerRaseedText").textContent = "📜 Donor List";
       document.getElementById("raseedPageHeader").textContent = "📜 Donor List";
       document.getElementById("userRaseedSearchBox").classList.add("hidden");
       document.getElementById("adminDonorSearchBox").classList.remove("hidden");
+      document.getElementById("adminDonorListContainer").classList.remove("hidden");
     }else{
+      // User View: Donor List HIDE, sirf Raseed Check
       document.getElementById("drawerRaseedText").textContent = "📜 Raseed Check";
       document.getElementById("raseedPageHeader").textContent = "📜 Raseed Check";
       document.getElementById("userRaseedSearchBox").classList.remove("hidden");
       document.getElementById("adminDonorSearchBox").classList.add("hidden");
+      document.getElementById("adminDonorListContainer").classList.add("hidden");
     }
 
     const adminElements = [
@@ -1197,10 +1202,12 @@ onAuthStateChanged(auth, async(user)=>{
         document.getElementById("app").classList.remove("hidden");
         document.getElementById("roleText").textContent = `👤 User: ${u.name}`;
 
+        // Normal User State: Donor List HIDE
         document.getElementById("drawerRaseedText").textContent = "📜 Raseed Check";
         document.getElementById("raseedPageHeader").textContent = "📜 Raseed Check";
         document.getElementById("userRaseedSearchBox").classList.remove("hidden");
         document.getElementById("adminDonorSearchBox").classList.add("hidden");
+        document.getElementById("adminDonorListContainer").classList.add("hidden");
 
         const adminElements = [
           "drawerAdminLink",
@@ -1414,6 +1421,7 @@ async function loadHomePageDynamic(){
     }
   }catch(e){}
 
+  // Strictly Active Upcoming Programs
   try{
     const progBox = document.getElementById("homeActivePrograms");
     const progSnap = await getDocs(collection(db, "programs"));
@@ -2064,56 +2072,63 @@ window.loadNotices = async function(){
   }catch(e){}
 };
 
-// 8. RASEED / DONOR LIST (SCREENSHOT 2 STYLE WITH LIVE ADMIN SEARCH)
+// 8. RASEED CHECK (USER: SEARCH BY NUMBER OR MOBILE) & DONOR LIST (ADMIN)
 window.checkRaseed = async function(){
   const inputEl = document.getElementById("raseedNumberCheck");
   const resultBox = document.getElementById("raseedResult");
   const checkBtn = document.getElementById("checkRaseedBtn");
-  const number = inputEl.value.trim().toUpperCase();
+  const queryTerm = inputEl.value.trim().toUpperCase();
 
-  if(!number) return alert("Kripya Raseed Number enter karein.");
+  if(!queryTerm) return alert("Kripya Raseed Number ya Mobile Number enter karein.");
 
   checkBtn.disabled = true;
   checkBtn.textContent = "Checking...";
   resultBox.innerHTML = "<p style='margin-top:10px;color:#666;'>Database mein check kiya ja raha hai...</p>";
 
   try{
-    const q = query(collection(db, "rashid"), where("rashidNumber", "==", number));
-    const snapshot = await getDocs(q);
+    // Search both ways: By Raseed Number or by Mobile Number
+    let snapshot = await getDocs(query(collection(db, "rashid"), where("rashidNumber", "==", queryTerm)));
+    
+    if(snapshot.empty){
+      const cleanPhone = queryTerm.replace(/\D/g, "");
+      if(cleanPhone.length >= 10){
+        snapshot = await getDocs(query(collection(db, "rashid"), where("donorMobile", "==", cleanPhone)));
+      }
+    }
 
     if(snapshot.empty){
       resultBox.innerHTML = `
         <div class="status-error">
           ⚠️ Raseed Nahi Mili!<br>
-          <span style="font-size:13px;font-weight:normal;color:#555;">Dala gaya number (${escapeHTML(number)}) galat hai ya abhi tak issue nahi kiya gaya hai.</span>
+          <span style="font-size:13px;font-weight:normal;color:#555;">Dala gaya number (${escapeHTML(queryTerm)}) galat hai ya abhi issue nahi hua hai.</span>
         </div>
       `;
     }else{
-      let raseedData = null;
+      let htmlResults = "";
       snapshot.forEach(docSnap => {
-        raseedData = docSnap.data();
-      });
+        const raseedData = docSnap.data();
+        const rNum = escapeHTML(raseedData.rashidNumber);
+        const rName = escapeHTML(raseedData.donorName);
+        const rAmount = escapeHTML(raseedData.amount);
+        const rPurpose = escapeHTML(raseedData.purpose);
+        const rDate = escapeHTML(raseedData.dateStr || "Verified");
+        const rMobile = escapeHTML(raseedData.donorMobile || "-");
 
-      const rNum = escapeHTML(raseedData.rashidNumber);
-      const rName = escapeHTML(raseedData.donorName);
-      const rAmount = escapeHTML(raseedData.amount);
-      const rPurpose = escapeHTML(raseedData.purpose);
-      const rDate = escapeHTML(raseedData.dateStr || "Verified");
-      const rMobile = escapeHTML(raseedData.donorMobile || "-");
-
-      resultBox.innerHTML = `
-        <div class="status-success">
-          <div style="font-size:17px;font-weight:bold;margin-bottom:8px;">✅ Raseed Verified (Asli Raseed)</div>
-          <div style="line-height:1.7;font-size:14px;">
-            <strong>Raseed No:</strong> ${rNum}<br>
-            <strong>Donor Name:</strong> ${rName}<br>
-            <strong>Amount:</strong> ₹${rAmount}<br>
-            <strong>Purpose:</strong> ${rPurpose}<br>
-            <strong>Date:</strong> ${rDate}
+        htmlResults += `
+          <div class="status-success" style="margin-top:12px;">
+            <div style="font-size:17px;font-weight:bold;margin-bottom:8px;">✅ Raseed Verified (Asli Raseed)</div>
+            <div style="line-height:1.7;font-size:14px;">
+              <strong>Raseed No:</strong> ${rNum}<br>
+              <strong>Donor Name:</strong> ${rName}<br>
+              <strong>Amount:</strong> ₹${rAmount}<br>
+              <strong>Purpose:</strong> ${rPurpose}<br>
+              <strong>Date:</strong> ${rDate}
+            </div>
+            <button class="action" style="margin-top:12px;background:#075c39;" onclick="downloadReceiptImage('${rNum}', '${rName}', '${rMobile}', '${rPurpose}', '${rAmount}', '${rDate}')">📥 Download Raseed Card</button>
           </div>
-          <button class="action" style="margin-top:12px;background:#075c39;" onclick="downloadReceiptImage('${rNum}', '${rName}', '${rMobile}', '${rPurpose}', '${rAmount}', '${rDate}')">📥 Download Raseed Card</button>
-        </div>
-      `;
+        `;
+      });
+      resultBox.innerHTML = htmlResults;
     }
   }catch(e){
     resultBox.innerHTML = `<div class="status-error">Error: ${e.message}</div>`;
@@ -2207,7 +2222,7 @@ window.renderDonorCards = function(list){
   const box = document.getElementById("raseedList");
   if(!box) return;
   if(list.length === 0){
-    box.innerHTML = "<p style='color:#666;'>Koi Raseed / Donor record nahi mila.</p>";
+    box.innerHTML = "<p style='color:#666;'>Koi Donor record nahi mila.</p>";
     return;
   }
 
@@ -2271,7 +2286,7 @@ window.loadRaseeds = async function(){
     const snapshot = await getDocs(collection(db,"rashid"));
     if(snapshot.empty){
       ALL_DONOR_LIST = [];
-      box.innerHTML = "<p style='color:#666;'>Koi Raseed / Donor nahi hai.</p>";
+      box.innerHTML = "<p style='color:#666;'>Koi Record nahi hai.</p>";
       return;
     }
     
@@ -2280,7 +2295,6 @@ window.loadRaseeds = async function(){
       list.push({ id: item.id, ...item.data() });
     });
 
-    // Newest first
     list.sort((a,b) => (b.createdAt?.seconds || b.createdAt || 0) - (a.createdAt?.seconds || a.createdAt || 0));
     ALL_DONOR_LIST = list;
     window.renderDonorCards(list);
