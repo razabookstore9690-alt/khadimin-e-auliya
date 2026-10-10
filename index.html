@@ -245,7 +245,7 @@ button{cursor:pointer;}
   </div>
 </header>
 
-<!-- Slide-out Drawer Menu (Channels Removed from Here) -->
+<!-- Slide-out Drawer Menu -->
 <div id="menuOverlay" onclick="toggleMenu(false)"></div>
 <div id="sideDrawer">
   <div class="drawer-header">
@@ -289,13 +289,13 @@ button{cursor:pointer;}
       <div id="homeLatestVideo">Loading...</div>
     </div>
 
-    <!-- Active Programs Section -->
+    <!-- Active Programs Section (Strict Today or Future Only) -->
     <div class="card">
       <span class="section-badge">📅 Upcoming Programs</span>
       <div id="homeActivePrograms">Loading...</div>
     </div>
 
-    <!-- Official Social Media Channels Box (Sabse Neeche - India Post Style Round Icons) -->
+    <!-- Official Social Media Channels Box (India Post Round Icons Style) -->
     <div class="social-round-card">
       <div class="social-round-title">Stay Connected with KHADIMIN-E-AULIYA</div>
       <div class="social-circles-container">
@@ -625,6 +625,15 @@ window.generateCaptcha = function(){
   const badge = document.getElementById("captchaText");
   if(badge) badge.textContent = code;
 };
+
+// Helper: Aaj ki local Indian tareeq nikalna (YYYY-MM-DD format me)
+function getTodayDateStringIST(){
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
 
 // SMART HISTORY / BACK NAVIGATION SYSTEM
 window.toggleMenu = function(open){
@@ -962,7 +971,7 @@ async function loadAllData(){
   ]);
 }
 
-// 0. Social Channels Management (Default Links Set)
+// 0. Social Channels Management
 const DEFAULT_WHATSAPP = "https://whatsapp.com/channel/0029Vb6FQo8CHDyjzvdDsg26";
 const DEFAULT_YOUTUBE = "https://youtube.com/@shaneagraofficial?si=lev8qA9HhLxH0req";
 const DEFAULT_INSTAGRAM = "https://www.instagram.com/khadimine_auliya_agra?stkn=ZnIyemU5cTY0NzFq";
@@ -1054,7 +1063,7 @@ async function loadWebsiteUsersForAdmin(){
   }
 }
 
-// HOME PAGE
+// HOME PAGE: Strictly Today or Future Programs Only
 async function loadHomePageDynamic(){
   try{
     const pSnap = await getDocs(collection(db, "photos"));
@@ -1101,25 +1110,28 @@ async function loadHomePageDynamic(){
     }
   }catch(e){}
 
+  // Strictly Active Upcoming Programs: Past date programs will NOT show on Home
   try{
     const progBox = document.getElementById("homeActivePrograms");
     const progSnap = await getDocs(collection(db, "programs"));
     if(progSnap.empty){
       progBox.innerHTML = "<p style='color:#666;'>Filhal koi upcoming program scheduled nahi hai.</p>";
     }else{
-      const todayStr = new Date().toISOString().split("T")[0];
+      const todayStr = getTodayDateStringIST();
       let html = "";
       let count = 0;
 
       progSnap.forEach(item => {
         const d = item.data();
-        const progDate = d.date || "";
-        if(!progDate || progDate >= todayStr){
+        const progDate = (d.date || "").trim();
+
+        // Shart: Program me date honi chahiye aur wo aaj ya aane wale din (>= todayStr) ki honi chahiye
+        if(progDate && progDate >= todayStr){
           count++;
           html += `
             <div class="item" style="margin:8px 0;">
               <h3 style="color:#075c39;">${escapeHTML(d.title || "")}</h3>
-              ${progDate ? `<p style="font-size:13px;color:#d6ad45;font-weight:bold;margin-bottom:6px;">📅 Date: ${progDate}</p>` : ""}
+              <p style="font-size:13px;color:#d6ad45;font-weight:bold;margin-bottom:6px;">📅 Date: ${escapeHTML(progDate)}</p>
               <p>${escapeHTML(d.description || "")}</p>
             </div>
           `;
@@ -1127,7 +1139,7 @@ async function loadHomePageDynamic(){
       });
 
       if(count === 0){
-        progBox.innerHTML = "<p style='color:#666;'>Pichle saare programs guzar chuke hain. Naya elan jald hoga.</p>";
+        progBox.innerHTML = "<p style='color:#666;'>Pichle saare programs guzar chuke hain. Naye program ka elan jald hoga.</p>";
       }else{
         progBox.innerHTML = html;
       }
@@ -1429,7 +1441,7 @@ window.loadPrograms = async function(){
   }catch(e){}
 };
 
-// 5. Members (With 3:4 Passport Photo Display)
+// 5. Members
 window.editMember = function(id, curName, curPhone, curAddress, curResp){
   if(!CURRENT_IS_ADMIN) return alert("Sirf Admin edit kar sakta hai.");
   const name = prompt("Member Name:", curName);
