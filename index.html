@@ -78,9 +78,7 @@ button{cursor:pointer;}
 .item iframe{height:240px;border:0;}
 .item > img:not(.idcard-photo-img){width:100%;max-height:360px;border-radius:10px;margin-top:8px;display:block;object-fit:cover;}
 
-/* ========================================================
-   OFFICIAL IDENTITY CARD (CLEAN WITHOUT ROUND SEAL)
-   ======================================================== */
+/* ID Card Layout */
 .member-cards-wrapper{
   display:grid;
   grid-template-columns:repeat(auto-fill, minmax(360px, 1fr));
@@ -256,9 +254,7 @@ button{cursor:pointer;}
   gap:6px;
 }
 
-/* ========================================================
-   DONOR LIST CARDS (ADMIN VIEW)
-   ======================================================== */
+/* Donor List Cards */
 .donor-card-item{
   background:#ffffff;
   border-radius:12px;
@@ -330,11 +326,11 @@ button{cursor:pointer;}
   padding:2px 4px;
 }
 
-/* Modal for Editing Member */
-#editMemberModal{
+/* Modal Windows */
+.custom-modal-backdrop{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,0.6);
+  background:rgba(0,0,0,0.7);
   z-index:99999;
   display:flex;
   justify-content:center;
@@ -612,7 +608,7 @@ button{cursor:pointer;}
         </div>
       </div>
 
-      <!-- Admin Only Donor List Container (Users ke liye bilkul hidden) -->
+      <!-- Admin Only Donor List Container -->
       <div id="adminDonorListContainer" class="hidden" style="margin-top:20px;">
         <h3 style="color:#075c39;margin-bottom:12px;">📋 Donor List (Taawun Karnewale)</h3>
         <div id="raseedList">Loading...</div>
@@ -834,6 +830,29 @@ button{cursor:pointer;}
     <div style="display:flex;gap:8px;margin-top:14px;">
       <button class="action" id="editModalSaveBtn" style="flex:1;" onclick="saveEditedMemberModal()">Save & Update Card</button>
       <button type="button" style="padding:10px 16px;border-radius:8px;border:1px solid #ccc;background:#f5f5f5;" onclick="closeEditMemberModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- USER VIEW RASEED PHOTO POPUP MODAL -->
+<div id="viewRaseedModal" class="custom-modal-backdrop hidden">
+  <div class="modal-box" style="text-align:center;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+      <h3 style="color:#075c39;font-size:18px;">📜 Aapki Raseed</h3>
+      <button onclick="closeViewRaseedModal()" style="background:none;border:0;font-size:22px;color:#555;">✕</button>
+    </div>
+    
+    <div id="modalRaseedImageContainer" style="min-height:220px;display:flex;justify-content:center;align-items:center;background:#f9fbf9;border-radius:10px;padding:6px;border:1px solid #ddd;">
+      <p style="color:#666;">Raseed photo generate ho rahi hai...</p>
+    </div>
+
+    <div style="display:flex;gap:10px;margin-top:16px;">
+      <button id="modalShareBtn" class="action" style="flex:1;background:#25d366;display:inline-flex;justify-content:center;align-items:center;gap:6px;">
+        📲 Share Raseed
+      </button>
+      <button onclick="closeViewRaseedModal()" style="padding:10px 18px;border-radius:8px;border:1px solid #ccc;background:#f5f5f5;font-weight:bold;">
+        Close
+      </button>
     </div>
   </div>
 </div>
@@ -1164,14 +1183,12 @@ onAuthStateChanged(auth, async(user)=>{
     document.getElementById("roleText").textContent = CURRENT_IS_ADMIN ? "👑 Admin Account" : "👤 User Account";
 
     if(CURRENT_IS_ADMIN){
-      // Admin View: Donor List dikhega
       document.getElementById("drawerRaseedText").textContent = "📜 Donor List";
       document.getElementById("raseedPageHeader").textContent = "📜 Donor List";
       document.getElementById("userRaseedSearchBox").classList.add("hidden");
       document.getElementById("adminDonorSearchBox").classList.remove("hidden");
       document.getElementById("adminDonorListContainer").classList.remove("hidden");
     }else{
-      // User View: Donor List HIDE, sirf Raseed Check
       document.getElementById("drawerRaseedText").textContent = "📜 Raseed Check";
       document.getElementById("raseedPageHeader").textContent = "📜 Raseed Check";
       document.getElementById("userRaseedSearchBox").classList.remove("hidden");
@@ -1202,7 +1219,6 @@ onAuthStateChanged(auth, async(user)=>{
         document.getElementById("app").classList.remove("hidden");
         document.getElementById("roleText").textContent = `👤 User: ${u.name}`;
 
-        // Normal User State: Donor List HIDE
         document.getElementById("drawerRaseedText").textContent = "📜 Raseed Check";
         document.getElementById("raseedPageHeader").textContent = "📜 Raseed Check";
         document.getElementById("userRaseedSearchBox").classList.remove("hidden");
@@ -1906,7 +1922,6 @@ window.loadMembers = async function(){
 
       html += `
         <div class="official-idcard-outer">
-          <!-- The Printable Card Box (Clean without circular seal overlay) -->
           <div id="${cardUniqueId}" class="official-idcard">
             <div class="idcard-topbar">
               <div class="idcard-bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
@@ -1946,7 +1961,6 @@ window.loadMembers = async function(){
             </div>
           </div>
 
-          <!-- Action & Download Buttons -->
           <div class="idcard-btn-panel">
             <button class="idcard-download-btn" onclick="downloadMemberIdCard('${cardUniqueId}', '${nameAttr}')">
               📥 Download Card
@@ -2072,7 +2086,62 @@ window.loadNotices = async function(){
   }catch(e){}
 };
 
-// 8. RASEED CHECK (USER: SEARCH BY NUMBER OR MOBILE) & DONOR LIST (ADMIN)
+// 8. RASEED CHECK & MODAL VIEW WITH SHARE
+window.closeViewRaseedModal = function(){
+  document.getElementById("viewRaseedModal").classList.add("hidden");
+};
+
+window.openViewRaseedModal = async function(rNum, rName, rMobile, rPurpose, rAmt, rDate){
+  document.getElementById("r_num").textContent = rNum;
+  document.getElementById("r_date").textContent = rDate;
+  document.getElementById("r_name").textContent = rName;
+  document.getElementById("r_mobile").textContent = rMobile || "-";
+  document.getElementById("r_purpose").textContent = rPurpose;
+  document.getElementById("r_amount").textContent = rAmt;
+
+  const modal = document.getElementById("viewRaseedModal");
+  const container = document.getElementById("modalRaseedImageContainer");
+  modal.classList.remove("hidden");
+  container.innerHTML = "<p style='color:#666;'>Raseed photo generate ho rahi hai...</p>";
+
+  try{
+    const receiptCard = document.getElementById("printableReceipt");
+    const canvas = await html2canvas(receiptCard, { scale: 2 });
+    const imgData = canvas.toDataURL("image/png");
+
+    container.innerHTML = `<img src="${imgData}" style="max-width:100%;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.15);">`;
+
+    // Setup direct share action
+    const shareBtn = document.getElementById("modalShareBtn");
+    shareBtn.onclick = async function(){
+      const shareText = `*KHADIMIN-E-AULIYA OFFICIAL RASEED*\n\n📜 Raseed No: ${rNum}\n👤 Donor Name: ${rName}\n💰 Amount: ₹${rAmt}\n🎯 Purpose: ${rPurpose}\n📅 Date: ${rDate}\n\nJazakAllah Khair!`;
+      
+      // Try native mobile sharing first
+      try{
+        const blob = await (await fetch(imgData)).blob();
+        const file = new File([blob], `Raseed_${rNum}.png`, { type: "image/png" });
+        if(navigator.canShare && navigator.canShare({ files: [file] })){
+          await navigator.share({
+            title: `Raseed ${rNum}`,
+            text: shareText,
+            files: [file]
+          });
+          return;
+        }
+      }catch(err){}
+
+      // Fallback: WhatsApp text & number sharing
+      let phone = (rMobile || "").replace(/\D/g, "");
+      if(phone.length === 10) phone = "91" + phone;
+      const waUrl = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(shareText)}`;
+      window.open(waUrl, "_blank");
+    };
+
+  }catch(e){
+    container.innerHTML = `<p style="color:red;">Photo load error: ${e.message}</p>`;
+  }
+};
+
 window.checkRaseed = async function(){
   const inputEl = document.getElementById("raseedNumberCheck");
   const resultBox = document.getElementById("raseedResult");
@@ -2086,7 +2155,6 @@ window.checkRaseed = async function(){
   resultBox.innerHTML = "<p style='margin-top:10px;color:#666;'>Database mein check kiya ja raha hai...</p>";
 
   try{
-    // Search both ways: By Raseed Number or by Mobile Number
     let snapshot = await getDocs(query(collection(db, "rashid"), where("rashidNumber", "==", queryTerm)));
     
     if(snapshot.empty){
@@ -2124,7 +2192,14 @@ window.checkRaseed = async function(){
               <strong>Purpose:</strong> ${rPurpose}<br>
               <strong>Date:</strong> ${rDate}
             </div>
-            <button class="action" style="margin-top:12px;background:#075c39;" onclick="downloadReceiptImage('${rNum}', '${rName}', '${rMobile}', '${rPurpose}', '${rAmount}', '${rDate}')">📥 Download Raseed Card</button>
+            <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;">
+              <button class="action" style="margin:0;background:#075c39;" onclick="openViewRaseedModal('${rNum}', '${rName}', '${rMobile}', '${rPurpose}', '${rAmount}', '${rDate}')">
+                👁️ View Raseed
+              </button>
+              <button class="action" style="margin:0;background:#25d366;" onclick="openWhatsApp('${rMobile}', '${rNum}', '${rName}', '${rAmount}', '${rPurpose}')">
+                📲 WhatsApp Share
+              </button>
+            </div>
           </div>
         `;
       });
@@ -2184,8 +2259,6 @@ window.createRaseed = async function(){
     btn.textContent = "Raseed Ban rahi hai...";
 
     const rashidNumber = "KEA-" + Date.now().toString().slice(-6);
-    
-    // Format: DD-MM-YYYY
     const now = new Date();
     const dateStr = String(now.getDate()).padStart(2,'0') + "-" + String(now.getMonth()+1).padStart(2,'0') + "-" + now.getFullYear();
 
@@ -2249,7 +2322,7 @@ window.renderDonorCards = function(list){
 
         <div class="donor-card-right">
           <div style="display:flex;align-items:center;gap:6px;">
-            <button class="donor-icon-btn" title="Download Receipt Card" onclick="downloadReceiptImage('${numAttr}', '${donorAttr}', '${mobileAttr}', '${purpAttr}', '${amtAttr}', '${dateAttr}')">🖼️</button>
+            <button class="donor-icon-btn" title="View Receipt" onclick="openViewRaseedModal('${numAttr}', '${donorAttr}', '${mobileAttr}', '${purpAttr}', '${amtAttr}', '${dateAttr}')">👁️</button>
             <span class="donor-rnum-tag">${escapeHTML(d.rashidNumber || "-")}</span>
           </div>
           
