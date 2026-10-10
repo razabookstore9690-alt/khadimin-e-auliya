@@ -76,31 +76,129 @@ button{cursor:pointer;}
 .item{border:1px solid #e1e8e4;border-radius:12px;padding:14px;margin:12px 0;background:#fafcfb;}
 .item video,.item iframe{width:100%;max-height:360px;border-radius:10px;margin-top:8px;display:block;}
 .item iframe{height:240px;border:0;}
+.item > img:not(.ai-id-photo){width:100%;max-height:360px;border-radius:10px;margin-top:8px;display:block;object-fit:cover;}
 
-/* General gallery images */
-.item > img:not(.member-avatar){
+/* AI MEMBER ID CARD STYLING */
+.member-cards-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(290px,1fr));
+  gap:18px;
+  margin-top:10px;
+}
+.ai-member-card{
+  background:#ffffff;
+  border-radius:18px;
+  border:2px solid #075c39;
+  box-shadow:0 10px 24px rgba(7,92,57,0.12);
+  overflow:hidden;
+  position:relative;
+  display:flex;
+  flex-direction:column;
+}
+.ai-card-banner{
+  background:linear-gradient(135deg,#063d28,#0b6b43,#d6ad45);
+  color:#ffffff;
+  padding:12px 14px;
+  text-align:center;
+}
+.ai-card-org{
+  font-size:15px;
+  font-weight:bold;
+  letter-spacing:1px;
+}
+.ai-card-type{
+  font-size:10px;
+  color:#fef8e7;
+  letter-spacing:2px;
+  margin-top:2px;
+  text-transform:uppercase;
+  font-weight:bold;
+}
+.ai-card-body{
+  padding:16px;
+  display:flex;
+  gap:16px;
+  align-items:flex-start;
+  flex:1;
+}
+.ai-card-photo-box{
+  flex-shrink:0;
+  width:105px;
+  height:140px;
+  border-radius:12px;
+  border:3px solid #075c39;
+  box-shadow:0 4px 10px rgba(0,0,0,0.15);
+  overflow:hidden;
+  background:#f0f8f4;
+  position:relative;
+}
+.ai-id-photo{
   width:100%;
-  max-height:360px;
-  border-radius:10px;
-  margin-top:8px;
-  display:block;
+  height:100%;
   object-fit:cover;
+  display:block;
+}
+.ai-card-info{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+.ai-card-name{
+  font-size:18px;
+  font-weight:bold;
+  color:#063d28;
+  line-height:1.2;
+}
+.ai-card-role-badge{
+  display:inline-block;
+  background:#eef7f1;
+  color:#075c39;
+  border:1px solid #075c39;
+  padding:3px 10px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:bold;
+  align-self:flex-start;
+}
+.ai-card-meta{
+  font-size:13px;
+  color:#444;
+  line-height:1.4;
+  margin-top:4px;
+}
+.ai-card-meta strong{
+  color:#111;
+}
+.ai-card-actions{
+  padding:10px 16px 14px 16px;
+  background:#fafcfb;
+  border-top:1px dashed #e1e8e4;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.ai-call-btn{
+  background:#075c39;
+  color:white;
+  border:0;
+  padding:7px 16px;
+  border-radius:8px;
+  font-size:13px;
+  font-weight:bold;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+}
+.ai-admin-actions{
+  display:flex;
+  gap:6px;
 }
 
-/* 3:4 Aspect Ratio Passport Profile Photo for Members */
-.member-avatar{
-  width:150px !important;
-  height:200px !important;
-  aspect-ratio:3/4;
-  border-radius:12px !important;
-  object-fit:cover !important;
-  border:3px solid #075c39 !important;
-  display:block !important;
-  margin-bottom:12px !important;
-  box-shadow:0 4px 10px rgba(0,0,0,0.12);
-}
-
-/* Circular Round Social Media Icons (India Post Style) */
+/* Social Round Icons */
 .social-round-card{
   background:transparent;
   box-shadow:none;
@@ -132,9 +230,7 @@ button{cursor:pointer;}
   box-shadow:0 4px 12px rgba(0,0,0,0.15);
   transition:transform 0.2s ease;
 }
-.social-round-btn:active{
-  transform:scale(0.92);
-}
+.social-round-btn:active{transform:scale(0.92);}
 .soc-btn-wa{ background:#25D366; }
 .soc-btn-yt{ background:#FF0000; }
 .soc-btn-ig{ background:radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
@@ -146,7 +242,6 @@ button{cursor:pointer;}
 .divider-text{text-align:center;font-size:13px;color:#888;margin:12px 0;font-weight:bold;}
 .action-box{margin-top:10px;}
 
-/* Dashboard Grid */
 .dashboard-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;}
 .dashboard-card{background:white;padding:16px;border-radius:14px;box-shadow:0 3px 12px rgba(0,0,0,.06);display:flex;flex-direction:column;justify-content:space-between;}
 .dashboard-card h3{color:#075c39;font-size:16px;margin-bottom:6px;}
@@ -194,7 +289,6 @@ button{cursor:pointer;}
     <button id="adminLoginTab">Admin Login</button>
   </div>
 
-  <!-- User Login via Name + Mobile + Captcha -->
   <div id="userLoginBox">
     <div class="form-group">
       <label>Apna Naam (Full Name)</label>
@@ -215,7 +309,6 @@ button{cursor:pointer;}
     <button class="primary" id="userEnterBtn">Website Me Dakhil Hon</button>
   </div>
 
-  <!-- Admin Login -->
   <div id="adminLoginBox" class="hidden">
     <div class="form-group">
       <label>User ID</label>
@@ -231,7 +324,6 @@ button{cursor:pointer;}
 </section>
 
 <section id="app" class="hidden">
-<!-- Topbar Header -->
 <header class="topbar">
   <div class="topbar-inner">
     <div class="top-left">
@@ -245,7 +337,6 @@ button{cursor:pointer;}
   </div>
 </header>
 
-<!-- Slide-out Drawer Menu -->
 <div id="menuOverlay" onclick="toggleMenu(false)"></div>
 <div id="sideDrawer">
   <div class="drawer-header">
@@ -259,18 +350,17 @@ button{cursor:pointer;}
     <li><a href="javascript:void(0)" onclick="menuNav('notices')">📢 Notices & Elan</a></li>
     <li><a href="javascript:void(0)" onclick="menuNav('photos')">📷 Photos Gallery</a></li>
     <li><a href="javascript:void(0)" onclick="menuNav('videos')">🎥 Videos Gallery</a></li>
-    <li><a href="javascript:void(0)" onclick="menuNav('members')">👥 Members List</a></li>
+    <li><a href="javascript:void(0)" onclick="menuNav('members')">👥 Members (Official ID Cards)</a></li>
     <li><a href="javascript:void(0)" onclick="menuNav('donation')">💰 Donation / Payment</a></li>
     <li><a href="javascript:void(0)" onclick="menuNav('raseed')">📜 Raseed Check</a></li>
     
-    <!-- Admin Only Links inside Menu -->
     <li id="drawerVisitorsLink" class="hidden"><a href="javascript:void(0)" onclick="menuNav('visitors')" style="color:#075c39;background:#eef7f1;">👥 Website Visitors</a></li>
     <li id="drawerAdminLink" class="hidden"><a href="javascript:void(0)" onclick="menuNav('admin')" style="color:#d6ad45;background:#fdf9ed;">⚙️ Admin Dashboard</a></li>
   </ul>
 </div>
 
 <main class="container">
-  <!-- Dynamic Clean Home Page for Users -->
+  <!-- Dynamic Clean Home Page -->
   <section id="home" class="page active">
     <div class="hero">
       <h1>KHADIMIN-E-AULIYA</h1>
@@ -289,7 +379,7 @@ button{cursor:pointer;}
       <div id="homeLatestVideo">Loading...</div>
     </div>
 
-    <!-- Active Programs Section (Strict Today or Future Only) -->
+    <!-- Active Programs Section -->
     <div class="card">
       <span class="section-badge">📅 Upcoming Programs</span>
       <div id="homeActivePrograms">Loading...</div>
@@ -299,17 +389,12 @@ button{cursor:pointer;}
     <div class="social-round-card">
       <div class="social-round-title">Stay Connected with KHADIMIN-E-AULIYA</div>
       <div class="social-circles-container">
-        <!-- WhatsApp Round Icon -->
         <a id="homeWaBtn" href="https://whatsapp.com/channel/0029Vb6FQo8CHDyjzvdDsg26" target="_blank" class="social-round-btn soc-btn-wa" title="WhatsApp Channel">
           <svg viewBox="0 0 24 24" width="28" height="28" fill="white"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm.01 1.67c4.54 0 8.24 3.7 8.24 8.24 0 2.2-.86 4.28-2.42 5.83a8.18 8.18 0 0 1-5.82 2.41c-1.45 0-2.88-.38-4.14-1.11l-.3-.17-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.43c0-4.54 3.7-8.24 8.25-8.24zm-3.53 4.28c-.19 0-.49.07-.75.35-.26.27-1 1-1 2.42s1.02 2.8 1.16 2.99c.15.19 2 3.07 4.86 4.31.68.29 1.21.47 1.63.6.68.22 1.3.19 1.79.11.55-.08 1.69-.69 1.93-1.36.24-.66.24-1.23.17-1.35-.07-.12-.26-.19-.55-.33s-1.69-.83-1.95-.93c-.26-.1-.45-.15-.64.15s-.74.93-.9 1.12c-.17.19-.34.21-.63.07-.29-.14-1.22-.45-2.33-1.44-.86-.77-1.44-1.72-1.61-2.01-.17-.29-.02-.45.13-.59.13-.13.29-.34.43-.51.15-.17.19-.29.29-.48.1-.19.05-.36-.02-.5s-.64-1.54-.88-2.11c-.23-.55-.47-.48-.64-.49-.17-.01-.36-.01-.55-.01z"/></svg>
         </a>
-
-        <!-- YouTube Round Icon -->
         <a id="homeYtBtn" href="https://youtube.com/@shaneagraofficial?si=lev8qA9HhLxH0req" target="_blank" class="social-round-btn soc-btn-yt" title="YouTube Channel">
           <svg viewBox="0 0 24 24" width="28" height="28" fill="white"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1c.4-1.8.5-3.8.5-5.8 0-2-.1-4-.5-5.8zM9.5 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>
         </a>
-
-        <!-- Instagram Round Icon -->
         <a id="homeIgBtn" href="https://www.instagram.com/khadimine_auliya_agra?stkn=ZnIyemU5cTY0NzFq" target="_blank" class="social-round-btn soc-btn-ig" title="Instagram Page">
           <svg viewBox="0 0 24 24" width="26" height="26" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
         </a>
@@ -360,7 +445,6 @@ button{cursor:pointer;}
       <button class="action" id="checkRaseedBtn" onclick="checkRaseed()">Check Raseed</button>
       <div id="raseedResult"></div>
 
-      <!-- Admin Issued Raseed List -->
       <div id="adminRaseedList" class="hidden" style="margin-top:24px;">
         <h3 style="color:#075c39;margin-bottom:12px;">📋 Issued Raseed (Admin List)</h3>
         <div id="raseedList">Loading...</div>
@@ -368,10 +452,11 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- Members Page with 3:4 Photo Display -->
+  <!-- Members Page With AI Member ID Card Structure -->
   <section id="members" class="page">
     <div class="card">
-      <h2>Members List</h2>
+      <h2>👥 Members List (Official Member ID Cards)</h2>
+      <p style="font-size:13px;color:#666;margin-bottom:14px;">Khadimin-E-Auliya Ke Tasdeeq-Shuda (Verified) Arkaan:</p>
       <div id="memberList">Loading...</div>
     </div>
   </section>
@@ -626,7 +711,6 @@ window.generateCaptcha = function(){
   if(badge) badge.textContent = code;
 };
 
-// Helper: Aaj ki local Indian tareeq nikalna (YYYY-MM-DD format me)
 function getTodayDateStringIST(){
   const now = new Date();
   const year = now.getFullYear();
@@ -635,7 +719,6 @@ function getTodayDateStringIST(){
   return `${year}-${month}-${day}`;
 }
 
-// SMART HISTORY / BACK NAVIGATION SYSTEM
 window.toggleMenu = function(open){
   const drawer = document.getElementById("sideDrawer");
   const overlay = document.getElementById("menuOverlay");
@@ -669,7 +752,6 @@ window.showPage = function(page, pushHistory = true){
   }
 };
 
-// Handle Browser / Mobile Hardware Back Button
 window.addEventListener("popstate", function(event){
   const drawer = document.getElementById("sideDrawer");
   if(drawer && drawer.classList.contains("active")){
@@ -1063,7 +1145,7 @@ async function loadWebsiteUsersForAdmin(){
   }
 }
 
-// HOME PAGE: Strictly Today or Future Programs Only
+// HOME PAGE
 async function loadHomePageDynamic(){
   try{
     const pSnap = await getDocs(collection(db, "photos"));
@@ -1110,7 +1192,7 @@ async function loadHomePageDynamic(){
     }
   }catch(e){}
 
-  // Strictly Active Upcoming Programs: Past date programs will NOT show on Home
+  // Strictly Active Upcoming Programs
   try{
     const progBox = document.getElementById("homeActivePrograms");
     const progSnap = await getDocs(collection(db, "programs"));
@@ -1125,7 +1207,6 @@ async function loadHomePageDynamic(){
         const d = item.data();
         const progDate = (d.date || "").trim();
 
-        // Shart: Program me date honi chahiye aur wo aaj ya aane wale din (>= todayStr) ki honi chahiye
         if(progDate && progDate >= todayStr){
           count++;
           html += `
@@ -1441,7 +1522,7 @@ window.loadPrograms = async function(){
   }catch(e){}
 };
 
-// 5. Members
+// 5. Members (AI MEMBER ID CARD GENERATOR)
 window.editMember = function(id, curName, curPhone, curAddress, curResp){
   if(!CURRENT_IS_ADMIN) return alert("Sirf Admin edit kar sakta hai.");
   const name = prompt("Member Name:", curName);
@@ -1474,7 +1555,7 @@ window.addMember = async function(){
     if(!name) return alert("Member ka naam enter karein.");
 
     btn.disabled = true;
-    btn.textContent = "Saving Member...";
+    btn.textContent = "Card Ban Raha Hai...";
 
     let photoUrl = "";
     if(photoFile){
@@ -1490,7 +1571,7 @@ window.addMember = async function(){
       createdAt: serverTimestamp() 
     });
 
-    alert("✅ Member add ho gaya!");
+    alert("✅ Member ID Card ban gaya!");
     document.getElementById("memberName").value = "";
     document.getElementById("memberPhone").value = "";
     document.getElementById("memberAddress").value = "";
@@ -1511,30 +1592,54 @@ window.loadMembers = async function(){
   try{
     const snapshot = await getDocs(collection(db,"members"));
     if(snapshot.empty) return box.innerHTML = "<p>Members list khali hai.</p>";
-    let html="";
+    
+    let html = `<div class="member-cards-grid">`;
     snapshot.forEach(item=>{
-      const d=item.data();
-      const id=item.id;
+      const d = item.data();
+      const id = item.id;
       const nameAttr = (d.name || "").replace(/"/g, '&quot;');
       const phoneAttr = (d.phone || "").replace(/"/g, '&quot;');
       const addrAttr = (d.address || "").replace(/"/g, '&quot;');
       const respAttr = (d.responsibility || "").replace(/"/g, '&quot;');
+      
+      const defaultAvatar = "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=300&q=80";
+
       html += `
-        <div class="item">
-          ${d.photoUrl ? `<img src="${d.photoUrl}" alt="${escapeHTML(d.name)}" class="member-avatar">` : ""}
-          <h3>${escapeHTML(d.name || "")}</h3>
-          <p><strong>Zimmedari:</strong> ${escapeHTML(d.responsibility || "-")}</p>
-          <p><strong>Pata:</strong> ${escapeHTML(d.address || "-")}</p>
-          ${d.phone ? `<a href="tel:${encodeURIComponent(d.phone)}"><button class="action">📞 Call</button></a>` : ""}
-          ${CURRENT_IS_ADMIN ? `
-            <div class="action-box">
-              <button class="btn-edit" onclick="editMember('${id}', '${nameAttr}', '${phoneAttr}', '${addrAttr}', '${respAttr}')">✏️ Edit</button>
-              <button class="btn-delete" onclick="deleteItem('members', '${id}', 'loadMembers')">🗑️ Delete</button>
+        <div class="ai-member-card">
+          <div class="ai-card-banner">
+            <div class="ai-card-org">KHADIMIN-E-AULIYA</div>
+            <div class="ai-card-type">★ OFFICIAL MEMBER ID CARD ★</div>
+          </div>
+          
+          <div class="ai-card-body">
+            <div class="ai-card-photo-box">
+              <img src="${d.photoUrl || defaultAvatar}" alt="${escapeHTML(d.name)}" class="ai-id-photo">
             </div>
-          ` : ""}
+            
+            <div class="ai-card-info">
+              <div class="ai-card-name">${escapeHTML(d.name || "-")}</div>
+              <div class="ai-card-role-badge">✓ ${escapeHTML(d.responsibility || "Rukn / Member")}</div>
+              <div class="ai-card-meta">
+                <strong>Pata:</strong> ${escapeHTML(d.address || "-")}<br>
+                ${d.phone ? `<strong>Rabta:</strong> ${escapeHTML(d.phone)}` : ""}
+              </div>
+            </div>
+          </div>
+          
+          <div class="ai-card-actions">
+            ${d.phone ? `<a href="tel:${encodeURIComponent(d.phone)}" class="ai-call-btn">📞 Sampark Karein</a>` : "<span></span>"}
+            
+            ${CURRENT_IS_ADMIN ? `
+              <div class="ai-admin-actions">
+                <button class="btn-edit" style="margin:0;padding:6px 12px;font-size:12px;" onclick="editMember('${id}', '${nameAttr}', '${phoneAttr}', '${addrAttr}', '${respAttr}')">✏️ Edit</button>
+                <button class="btn-delete" style="margin:0;padding:6px 12px;font-size:12px;" onclick="deleteItem('members', '${id}', 'loadMembers')">🗑️ Delete</button>
+              </div>
+            ` : ""}
+          </div>
         </div>
       `;
     });
+    html += `</div>`;
     box.innerHTML = html;
   }catch(e){}
 };
