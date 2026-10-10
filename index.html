@@ -100,12 +100,44 @@ button{cursor:pointer;}
   box-shadow:0 4px 10px rgba(0,0,0,0.12);
 }
 
-/* Social Media Channels Button Grid */
-.social-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:12px;}
-.social-btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 14px;border-radius:10px;color:white;text-decoration:none;font-weight:bold;font-size:14px;text-align:center;}
-.btn-soc-whatsapp{background:#25D366;}
-.btn-soc-youtube{background:#FF0000;}
-.btn-soc-instagram{background:linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);}
+/* Circular Round Social Media Icons (India Post Style) */
+.social-round-card{
+  background:transparent;
+  box-shadow:none;
+  text-align:center;
+  padding:25px 12px 10px 12px;
+  margin-top:20px;
+}
+.social-round-title{
+  font-size:18px;
+  color:#2c3e50;
+  font-weight:600;
+  margin-bottom:16px;
+  letter-spacing:0.3px;
+}
+.social-circles-container{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:18px;
+}
+.social-round-btn{
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-decoration:none;
+  box-shadow:0 4px 12px rgba(0,0,0,0.15);
+  transition:transform 0.2s ease;
+}
+.social-round-btn:active{
+  transform:scale(0.92);
+}
+.soc-btn-wa{ background:#25D366; }
+.soc-btn-yt{ background:#FF0000; }
+.soc-btn-ig{ background:radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
 
 .admin-badge{display:inline-block;background:#d6ad45;color:#063d28;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:bold;}
 .admin-box{background:#f0f8f4;border:2px dashed #075c39;border-radius:12px;padding:16px;margin-bottom:18px;}
@@ -213,7 +245,7 @@ button{cursor:pointer;}
   </div>
 </header>
 
-<!-- Slide-out Drawer Menu -->
+<!-- Slide-out Drawer Menu (Channels Removed from Here) -->
 <div id="menuOverlay" onclick="toggleMenu(false)"></div>
 <div id="sideDrawer">
   <div class="drawer-header">
@@ -230,11 +262,6 @@ button{cursor:pointer;}
     <li><a href="javascript:void(0)" onclick="menuNav('members')">👥 Members List</a></li>
     <li><a href="javascript:void(0)" onclick="menuNav('donation')">💰 Donation / Payment</a></li>
     <li><a href="javascript:void(0)" onclick="menuNav('raseed')">📜 Raseed Check</a></li>
-
-    <!-- Official Channels in Drawer Menu -->
-    <li style="border-top:2px solid #eef5f1;padding-top:4px;"><a id="drawerWaLink" href="https://whatsapp.com/channel/0029Vb6FQo8CHDyjzvdDsg26" target="_blank" style="color:#25D366;">💬 WhatsApp Channel</a></li>
-    <li><a id="drawerYtLink" href="https://youtube.com/@shaneagraofficial?si=lev8qA9HhLxH0req" target="_blank" style="color:#FF0000;">▶️ YouTube Channel</a></li>
-    <li><a id="drawerIgLink" href="https://www.instagram.com/khadimine_auliya_agra?stkn=ZnIyemU5cTY0NzFq" target="_blank" style="color:#E1306C;">📸 Instagram Page</a></li>
     
     <!-- Admin Only Links inside Menu -->
     <li id="drawerVisitorsLink" class="hidden"><a href="javascript:void(0)" onclick="menuNav('visitors')" style="color:#075c39;background:#eef7f1;">👥 Website Visitors</a></li>
@@ -268,19 +295,23 @@ button{cursor:pointer;}
       <div id="homeActivePrograms">Loading...</div>
     </div>
 
-    <!-- Official Social Media Channels Box (Ab Sabse Niche) -->
-    <div class="card" style="border: 2px solid #075c39;background:#fafefc;margin-top:20px;">
-      <span class="section-badge" style="background:#0b6b43;">🌐 Humse Judein (Official Channels)</span>
-      <p style="font-size:13px;color:#555;">Khadimin-E-Auliya ke official channels se judne ke liye click karein:</p>
-      <div class="social-grid">
-        <a id="homeWaBtn" href="https://whatsapp.com/channel/0029Vb6FQo8CHDyjzvdDsg26" target="_blank" class="social-btn btn-soc-whatsapp">
-          💬 WhatsApp
+    <!-- Official Social Media Channels Box (Sabse Neeche - India Post Style Round Icons) -->
+    <div class="social-round-card">
+      <div class="social-round-title">Stay Connected with KHADIMIN-E-AULIYA</div>
+      <div class="social-circles-container">
+        <!-- WhatsApp Round Icon -->
+        <a id="homeWaBtn" href="https://whatsapp.com/channel/0029Vb6FQo8CHDyjzvdDsg26" target="_blank" class="social-round-btn soc-btn-wa" title="WhatsApp Channel">
+          <svg viewBox="0 0 24 24" width="28" height="28" fill="white"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm.01 1.67c4.54 0 8.24 3.7 8.24 8.24 0 2.2-.86 4.28-2.42 5.83a8.18 8.18 0 0 1-5.82 2.41c-1.45 0-2.88-.38-4.14-1.11l-.3-.17-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.43c0-4.54 3.7-8.24 8.25-8.24zm-3.53 4.28c-.19 0-.49.07-.75.35-.26.27-1 1-1 2.42s1.02 2.8 1.16 2.99c.15.19 2 3.07 4.86 4.31.68.29 1.21.47 1.63.6.68.22 1.3.19 1.79.11.55-.08 1.69-.69 1.93-1.36.24-.66.24-1.23.17-1.35-.07-.12-.26-.19-.55-.33s-1.69-.83-1.95-.93c-.26-.1-.45-.15-.64.15s-.74.93-.9 1.12c-.17.19-.34.21-.63.07-.29-.14-1.22-.45-2.33-1.44-.86-.77-1.44-1.72-1.61-2.01-.17-.29-.02-.45.13-.59.13-.13.29-.34.43-.51.15-.17.19-.29.29-.48.1-.19.05-.36-.02-.5s-.64-1.54-.88-2.11c-.23-.55-.47-.48-.64-.49-.17-.01-.36-.01-.55-.01z"/></svg>
         </a>
-        <a id="homeYtBtn" href="https://youtube.com/@shaneagraofficial?si=lev8qA9HhLxH0req" target="_blank" class="social-btn btn-soc-youtube">
-          ▶️ YouTube
+
+        <!-- YouTube Round Icon -->
+        <a id="homeYtBtn" href="https://youtube.com/@shaneagraofficial?si=lev8qA9HhLxH0req" target="_blank" class="social-round-btn soc-btn-yt" title="YouTube Channel">
+          <svg viewBox="0 0 24 24" width="28" height="28" fill="white"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1c.4-1.8.5-3.8.5-5.8 0-2-.1-4-.5-5.8zM9.5 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>
         </a>
-        <a id="homeIgBtn" href="https://www.instagram.com/khadimine_auliya_agra?stkn=ZnIyemU5cTY0NzFq" target="_blank" class="social-btn btn-soc-instagram">
-          📸 Instagram
+
+        <!-- Instagram Round Icon -->
+        <a id="homeIgBtn" href="https://www.instagram.com/khadimine_auliya_agra?stkn=ZnIyemU5cTY0NzFq" target="_blank" class="social-round-btn soc-btn-ig" title="Instagram Page">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
         </a>
       </div>
     </div>
@@ -645,7 +676,6 @@ window.addEventListener("popstate", function(event){
   }
 });
 
-// Set default initial state for Home page
 history.replaceState({ page: "home" }, "", "#home");
 
 window.openAdminForm = function(boxId){
@@ -932,7 +962,7 @@ async function loadAllData(){
   ]);
 }
 
-// 0. Social Channels Management
+// 0. Social Channels Management (Default Links Set)
 const DEFAULT_WHATSAPP = "https://whatsapp.com/channel/0029Vb6FQo8CHDyjzvdDsg26";
 const DEFAULT_YOUTUBE = "https://youtube.com/@shaneagraofficial?si=lev8qA9HhLxH0req";
 const DEFAULT_INSTAGRAM = "https://www.instagram.com/khadimine_auliya_agra?stkn=ZnIyemU5cTY0NzFq";
@@ -982,10 +1012,6 @@ async function loadSocialLinks(){
     document.getElementById("homeWaBtn").href = links.whatsapp;
     document.getElementById("homeYtBtn").href = links.youtube;
     document.getElementById("homeIgBtn").href = links.instagram;
-
-    document.getElementById("drawerWaLink").href = links.whatsapp;
-    document.getElementById("drawerYtLink").href = links.youtube;
-    document.getElementById("drawerIgLink").href = links.instagram;
 
     if(document.getElementById("adminWaInput")) document.getElementById("adminWaInput").value = links.whatsapp;
     if(document.getElementById("adminYtInput")) document.getElementById("adminYtInput").value = links.youtube;
@@ -1388,7 +1414,7 @@ window.loadPrograms = async function(){
       html += `
         <div class="item">
           <h3>${escapeHTML(d.title || "")}</h3>
-          ${d.date ? `<p style="font-size:13px;color:#075c39;font-weight:bold;margin-4px 0;">📅 Program Date: ${escapeHTML(d.date)}</p>` : ""}
+          ${d.date ? `<p style="font-size:13px;color:#075c39;font-weight:bold;margin:4px 0;">📅 Program Date: ${escapeHTML(d.date)}</p>` : ""}
           <p>${escapeHTML(d.description || "")}</p>
           ${CURRENT_IS_ADMIN ? `
             <div class="action-box">
