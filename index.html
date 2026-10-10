@@ -42,7 +42,7 @@ button{cursor:pointer;}
 
 #app{min-height:100vh;padding-bottom:30px;}
 .topbar{background:#075c39;color:white;padding:12px 16px;position:sticky;top:0;z-index:1000;}
-.topbar-inner{max-width:1100px;margin:auto;display:flex;justify-content:space-between;align-items:center;}
+.topbar-inner{max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center;}
 .top-left{display:flex;align-items:center;gap:12px;}
 .menu-btn{background:none;border:0;color:white;font-size:26px;display:flex;align-items:center;padding:4px;}
 .top-title{font-weight:bold;font-size:17px;}
@@ -60,7 +60,7 @@ button{cursor:pointer;}
 .drawer-links a{display:flex;align-items:center;gap:12px;padding:14px 20px;color:#222;text-decoration:none;font-weight:bold;font-size:15px;}
 .drawer-links a:hover{background:#f0f8f4;color:#075c39;}
 
-.container{max-width:1100px;margin:auto;padding:16px;}
+.container{max-width:1200px;margin:auto;padding:16px;}
 .page{display:none;}
 .page.active{display:block;}
 .hero{background:linear-gradient(135deg,#075c39,#13895a);color:white;padding:22px;border-radius:16px;margin-bottom:18px;}
@@ -79,32 +79,33 @@ button{cursor:pointer;}
 .item > img:not(.idcard-photo-img){width:100%;max-height:360px;border-radius:10px;margin-top:8px;display:block;object-fit:cover;}
 
 /* ========================================================
-   OFFICIAL PLASTIC ID CARD (PAN / AADHAAR STYLE BADGE)
+   MULTI-CARD RESPONSIVE GRID (2-3 CARDS PER ROW)
    ======================================================== */
 .member-cards-wrapper{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(330px,1fr));
+  grid-template-columns:repeat(auto-fill, minmax(360px, 1fr));
   gap:20px;
   margin-top:14px;
+  width:100%;
 }
 .official-idcard-outer{
   background:#ffffff;
   border-radius:16px;
   border:1px solid #dcdcdc;
-  box-shadow:0 8px 24px rgba(0,0,0,0.08);
+  box-shadow:0 6px 18px rgba(0,0,0,0.06);
   padding:14px;
   display:flex;
   flex-direction:column;
-  align-items:center;
+  align-items:stretch;
+  width:100%;
 }
 .official-idcard{
   width:100%;
-  max-width:390px;
   background:linear-gradient(145deg, #ffffff 0%, #f4fbf7 50%, #ffffff 100%);
   border:2px solid #075c39;
   border-radius:14px;
   overflow:hidden;
-  box-shadow:0 4px 14px rgba(7,92,57,0.15);
+  box-shadow:0 3px 10px rgba(7,92,57,0.12);
   position:relative;
   font-family:Arial, Helvetica, sans-serif;
 }
@@ -183,7 +184,7 @@ button{cursor:pointer;}
   z-index:2;
 }
 .idcard-id-num{
-  font-size:12px;
+  font-size:11px;
   font-weight:bold;
   color:#063d28;
   background:#fff8e1;
@@ -194,12 +195,6 @@ button{cursor:pointer;}
   border:1px solid #d4af37;
   letter-spacing:0.5px;
 }
-.idcard-member-name{
-  font-size:16px;
-  font-weight:900;
-  color:#063d28;
-  margin-bottom:6px;
-}
 .idcard-info-row{
   margin-bottom:4px;
   word-break:break-word;
@@ -207,18 +202,20 @@ button{cursor:pointer;}
 .idcard-info-row strong{
   color:#075c39;
   font-weight:bold;
+  display:inline-block;
+  min-width:65px;
 }
 
-/* Round Emblem Seal Logo on the right side */
+/* Round Seal Logo Emblem */
 .idcard-seal-logo{
   position:absolute;
   right:12px;
   bottom:10px;
-  width:72px;
-  height:72px;
+  width:70px;
+  height:70px;
   border:2px dashed #075c39;
   border-radius:50%;
-  background:rgba(255, 255, 255, 0.85);
+  background:rgba(255, 255, 255, 0.88);
   display:flex;
   flex-direction:column;
   align-items:center;
@@ -229,7 +226,7 @@ button{cursor:pointer;}
   z-index:1;
 }
 .seal-crescent{
-  font-size:16px;
+  font-size:15px;
   color:#d4af37;
   line-height:1;
 }
@@ -237,7 +234,7 @@ button{cursor:pointer;}
   font-size:6px;
   font-weight:900;
   color:#075c39;
-  letter-spacing:0.4px;
+  letter-spacing:0.3px;
   line-height:1.1;
   padding:0 2px;
 }
@@ -266,12 +263,11 @@ button{cursor:pointer;}
 }
 .idcard-btn-panel{
   width:100%;
-  max-width:390px;
   display:flex;
   justify-content:space-between;
   align-items:center;
   gap:8px;
-  margin-top:10px;
+  margin-top:12px;
   flex-wrap:wrap;
 }
 .idcard-download-btn{
@@ -298,6 +294,27 @@ button{cursor:pointer;}
   display:inline-flex;
   align-items:center;
   gap:6px;
+}
+
+/* Modal for Editing Member with Photo Update */
+#editMemberModal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.6);
+  z-index:99999;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:16px;
+}
+.modal-box{
+  background:#ffffff;
+  border-radius:16px;
+  width:100%;
+  max-width:440px;
+  padding:20px;
+  max-height:90vh;
+  overflow-y:auto;
 }
 
 /* Social Round Icons */
@@ -738,6 +755,39 @@ button{cursor:pointer;}
   </section>
 </main>
 </section>
+
+<!-- EDIT MEMBER POPUP MODAL (WITH PHOTO UPDATE) -->
+<div id="editMemberModal" class="hidden">
+  <div class="modal-box">
+    <h3 style="color:#075c39;margin-bottom:12px;">✏️ Member Detail & Photo Badalna</h3>
+    <input type="hidden" id="editModalMemberId">
+    <input type="hidden" id="editModalOldPhotoUrl">
+    <div class="form-group">
+      <label>Nayi Photo Upload Karein (Agar badalna ho)</label>
+      <input type="file" id="editModalPhotoFile" accept="image/*">
+    </div>
+    <div class="form-group">
+      <label>Member Name</label>
+      <input type="text" id="editModalName">
+    </div>
+    <div class="form-group">
+      <label>Zimmedari</label>
+      <input type="text" id="editModalResp">
+    </div>
+    <div class="form-group">
+      <label>Contact Number</label>
+      <input type="text" id="editModalPhone">
+    </div>
+    <div class="form-group">
+      <label>Address</label>
+      <textarea id="editModalAddress"></textarea>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:14px;">
+      <button class="action" id="editModalSaveBtn" style="flex:1;" onclick="saveEditedMemberModal()">Save & Update Card</button>
+      <button type="button" style="padding:10px 16px;border-radius:8px;border:1px solid #ccc;background:#f5f5f5;" onclick="closeEditMemberModal()">Cancel</button>
+    </div>
+  </div>
+</div>
 
 <!-- HIDDEN RECEIPT CARD TEMPLATE FOR SCREENSHOT PHOTO -->
 <div id="printableReceipt">
@@ -1624,25 +1674,62 @@ window.loadPrograms = async function(){
   }catch(e){}
 };
 
-// 5. Members (OFFICIAL CR-80 IDENTITY CARD WITH SEAL LOGO & DIRECT PNG DOWNLOAD)
-window.editMember = function(id, curName, curPhone, curAddress, curResp){
+// 5. Members: Add & Modal Edit with Photo Update
+window.openEditMemberModal = function(id, name, resp, phone, addr, photoUrl){
   if(!CURRENT_IS_ADMIN) return alert("Sirf Admin edit kar sakta hai.");
-  const name = prompt("Member Name:", curName);
-  if(name === null) return;
-  const phone = prompt("Mobile Number:", curPhone);
-  if(phone === null) return;
-  const address = prompt("Address:", curAddress);
-  if(address === null) return;
-  const resp = prompt("Zimmedari / Role:", curResp);
-  if(resp === null) return;
-  if(!name.trim()) return alert("Naam zaroori hai.");
+  document.getElementById("editModalMemberId").value = id;
+  document.getElementById("editModalOldPhotoUrl").value = photoUrl || "";
+  document.getElementById("editModalName").value = name || "";
+  document.getElementById("editModalResp").value = resp || "";
+  document.getElementById("editModalPhone").value = phone || "";
+  document.getElementById("editModalAddress").value = addr || "";
+  document.getElementById("editModalPhotoFile").value = "";
+  document.getElementById("editMemberModal").classList.remove("hidden");
+};
 
-  updateFirestoreFields("members", id, {
-    name: name.trim(),
-    phone: phone.trim(),
-    address: address.trim(),
-    responsibility: resp.trim()
-  }, "loadMembers");
+window.closeEditMemberModal = function(){
+  document.getElementById("editMemberModal").classList.add("hidden");
+};
+
+window.saveEditedMemberModal = async function(){
+  const id = document.getElementById("editModalMemberId").value;
+  const name = document.getElementById("editModalName").value.trim();
+  const resp = document.getElementById("editModalResp").value.trim();
+  const phone = document.getElementById("editModalPhone").value.trim();
+  const addr = document.getElementById("editModalAddress").value.trim();
+  const file = document.getElementById("editModalPhotoFile").files[0];
+  const oldPhotoUrl = document.getElementById("editModalOldPhotoUrl").value;
+
+  if(!name) return alert("Member name khali nahi ho sakta.");
+
+  const btn = document.getElementById("editModalSaveBtn");
+  btn.disabled = true;
+  btn.textContent = "Updating...";
+
+  try{
+    let finalPhotoUrl = oldPhotoUrl;
+    if(file){
+      btn.textContent = "Uploading new photo...";
+      finalPhotoUrl = await uploadToCloudinaryDirect(file, "image");
+    }
+
+    await updateDoc(doc(db, "members", id), {
+      name: name,
+      responsibility: resp,
+      phone: phone,
+      address: addr,
+      photoUrl: finalPhotoUrl
+    });
+
+    alert("✅ Member Card update ho gaya!");
+    window.closeEditMemberModal();
+    await loadMembers();
+  }catch(e){
+    alert("Update Error: " + e.message);
+  }finally{
+    btn.disabled = false;
+    btn.textContent = "Save & Update Card";
+  }
 };
 
 window.addMember = async function(){
@@ -1664,7 +1751,6 @@ window.addMember = async function(){
       photoUrl = await uploadToCloudinaryDirect(photoFile, "image");
     }
 
-    // Pure 6-digit number ID code (e.g. KEA-842915)
     const memberIdCode = "KEA-" + Math.floor(100000 + Math.random() * 900000);
 
     await addDoc(collection(db,"members"),{ 
@@ -1693,7 +1779,6 @@ window.addMember = async function(){
   }
 };
 
-// Download Official Member ID Card as High Quality PNG
 window.downloadMemberIdCard = async function(cardElementId, memberName){
   const cardElement = document.getElementById(cardElementId);
   if(!cardElement) return alert("Card nahi mila.");
@@ -1731,8 +1816,8 @@ window.loadMembers = async function(){
       const phoneAttr = (d.phone || "").replace(/"/g, '&quot;');
       const addrAttr = (d.address || "").replace(/"/g, '&quot;');
       const respAttr = (d.responsibility || "").replace(/"/g, '&quot;');
+      const photoAttr = (d.photoUrl || "").replace(/"/g, '&quot;');
       
-      // Numeric ID number format
       let memberCode = d.memberIdCode;
       if(!memberCode || !/\d/.test(memberCode)){
         let numHash = 0;
@@ -1762,8 +1847,10 @@ window.loadMembers = async function(){
 
               <div class="idcard-details-column">
                 <div class="idcard-id-num">ID: ${escapeHTML(memberCode)}</div>
-                <div class="idcard-member-name">${escapeHTML(d.name || "-")}</div>
                 
+                <div class="idcard-info-row">
+                  <strong>Name:</strong> <span style="font-weight:900;font-size:15px;color:#063d28;">${escapeHTML(d.name || "-")}</span>
+                </div>
                 <div class="idcard-info-row">
                   <strong>Zimmedari:</strong> ${escapeHTML(d.responsibility || "Active Member")}
                 </div>
@@ -1775,7 +1862,7 @@ window.loadMembers = async function(){
                 </div>
               </div>
 
-              <!-- Round Seal Logo Emblem on the empty side -->
+              <!-- Round Seal Logo Emblem on right side -->
               <div class="idcard-seal-logo">
                 <div class="seal-crescent">☪</div>
                 <div class="seal-text">KHADIMIN-E-AULIYA</div>
@@ -1798,8 +1885,8 @@ window.loadMembers = async function(){
 
             ${CURRENT_IS_ADMIN ? `
               <div style="display:flex;gap:4px;margin-left:auto;">
-                <button class="btn-edit" style="margin:0;padding:6px 10px;font-size:12px;" onclick="editMember('${id}', '${nameAttr}', '${phoneAttr}', '${addrAttr}', '${respAttr}')">✏️</button>
-                <button class="btn-delete" style="margin:0;padding:6px 10px;font-size:12px;" onclick="deleteItem('members', '${id}', 'loadMembers')">🗑️</button>
+                <button class="btn-edit" style="margin:0;padding:6px 10px;font-size:13px;" onclick="openEditMemberModal('${id}', '${nameAttr}', '${respAttr}', '${phoneAttr}', '${addrAttr}', '${photoAttr}')" title="Edit Member & Photo">✏️</button>
+                <button class="btn-delete" style="margin:0;padding:6px 10px;font-size:13px;" onclick="deleteItem('members', '${id}', 'loadMembers')" title="Delete Member">🗑️</button>
               </div>
             ` : ""}
           </div>
