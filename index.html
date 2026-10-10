@@ -79,7 +79,7 @@ button{cursor:pointer;}
 .item > img:not(.idcard-photo-img){width:100%;max-height:360px;border-radius:10px;margin-top:8px;display:block;object-fit:cover;}
 
 /* ========================================================
-   MULTI-CARD RESPONSIVE GRID (2-3 CARDS PER ROW)
+   OFFICIAL IDENTITY CARD (CLEAN WITHOUT ROUND SEAL)
    ======================================================== */
 .member-cards-wrapper{
   display:grid;
@@ -136,9 +136,9 @@ button{cursor:pointer;}
   opacity:0.95;
 }
 .idcard-content{
-  padding:12px 14px;
+  padding:14px;
   display:flex;
-  gap:12px;
+  gap:14px;
   align-items:center;
   position:relative;
 }
@@ -180,11 +180,11 @@ button{cursor:pointer;}
   flex:1;
   font-size:12px;
   color:#333;
-  line-height:1.45;
+  line-height:1.5;
   z-index:2;
 }
 .idcard-id-num{
-  font-size:11px;
+  font-size:12px;
   font-weight:bold;
   color:#063d28;
   background:#fff8e1;
@@ -203,48 +203,8 @@ button{cursor:pointer;}
   color:#075c39;
   font-weight:bold;
   display:inline-block;
-  min-width:65px;
+  min-width:70px;
 }
-
-/* Round Seal Logo Emblem */
-.idcard-seal-logo{
-  position:absolute;
-  right:12px;
-  bottom:10px;
-  width:70px;
-  height:70px;
-  border:2px dashed #075c39;
-  border-radius:50%;
-  background:rgba(255, 255, 255, 0.88);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  box-shadow:0 2px 6px rgba(7,92,57,0.15);
-  pointer-events:none;
-  z-index:1;
-}
-.seal-crescent{
-  font-size:15px;
-  color:#d4af37;
-  line-height:1;
-}
-.seal-text{
-  font-size:6px;
-  font-weight:900;
-  color:#075c39;
-  letter-spacing:0.3px;
-  line-height:1.1;
-  padding:0 2px;
-}
-.seal-badge-sub{
-  font-size:6px;
-  font-weight:bold;
-  color:#8a6d1c;
-  letter-spacing:0.5px;
-}
-
 .idcard-bottombar{
   background:#f0f8f4;
   border-top:1px dashed #075c39;
@@ -294,6 +254,80 @@ button{cursor:pointer;}
   display:inline-flex;
   align-items:center;
   gap:6px;
+}
+
+/* ========================================================
+   DONOR LIST CARDS (SCREENSHOT 2 STYLE)
+   ======================================================== */
+.donor-card-item{
+  background:#ffffff;
+  border-radius:12px;
+  border:1px solid #e1e8e4;
+  padding:14px 16px;
+  margin:10px 0;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-shadow:0 3px 8px rgba(0,0,0,0.04);
+}
+.donor-card-left{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+.donor-name-title{
+  font-size:17px;
+  font-weight:bold;
+  color:#13895a;
+}
+.donor-phone-num{
+  font-size:14px;
+  color:#444;
+}
+.donor-date-amt{
+  display:flex;
+  align-items:center;
+  gap:20px;
+  font-size:13px;
+  color:#555;
+  margin-top:3px;
+}
+.donor-amt-text{
+  font-size:15px;
+  font-weight:bold;
+  color:#111;
+}
+.donor-card-right{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:6px;
+}
+.donor-rnum-tag{
+  font-size:13px;
+  font-weight:bold;
+  color:#13895a;
+  letter-spacing:0.5px;
+}
+.donor-badge-btn{
+  background:#3b82f6;
+  color:#ffffff;
+  padding:6px 14px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:bold;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  border:0;
+}
+.donor-icon-btn{
+  background:none;
+  border:0;
+  font-size:18px;
+  cursor:pointer;
+  padding:2px 4px;
 }
 
 /* Modal for Editing Member with Photo Update */
@@ -471,7 +505,9 @@ button{cursor:pointer;}
     <li><a href="javascript:void(0)" onclick="menuNav('videos')">🎥 Videos Gallery</a></li>
     <li><a href="javascript:void(0)" onclick="menuNav('members')">👥 Members (Official ID Cards)</a></li>
     <li><a href="javascript:void(0)" onclick="menuNav('donation')">💰 Donation / Payment</a></li>
-    <li><a href="javascript:void(0)" onclick="menuNav('raseed')">📜 Raseed Check</a></li>
+    
+    <!-- User: Raseed Check | Admin: Donor List -->
+    <li><a href="javascript:void(0)" onclick="menuNav('raseed')" id="drawerRaseedText">📜 Raseed Check</a></li>
     
     <li id="drawerVisitorsLink" class="hidden"><a href="javascript:void(0)" onclick="menuNav('visitors')" style="color:#075c39;background:#eef7f1;">👥 Website Visitors</a></li>
     <li id="drawerAdminLink" class="hidden"><a href="javascript:void(0)" onclick="menuNav('admin')" style="color:#d6ad45;background:#fdf9ed;">⚙️ Admin Dashboard</a></li>
@@ -553,19 +589,32 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- Raseed Page with Verification Check and Admin Issued List -->
+  <!-- Raseed / Donor List Page (Clean Search & Screenshot Style Cards) -->
   <section id="raseed" class="page">
     <div class="card">
-      <h2>Raseed Check</h2>
-      <div class="form-group">
-        <label>Raseed Number Check Karein</label>
-        <input id="raseedNumberCheck" placeholder="Jaise: KEA-123456">
+      <h2 id="raseedPageHeader">📜 Raseed Check</h2>
+      
+      <!-- User View: Single Raseed Verification Search -->
+      <div id="userRaseedSearchBox">
+        <div class="form-group">
+          <label>Raseed Number Check Karein</label>
+          <input id="raseedNumberCheck" placeholder="Jaise: KEA-123456">
+        </div>
+        <button class="action" id="checkRaseedBtn" onclick="checkRaseed()">Check Raseed</button>
+        <div id="raseedResult"></div>
       </div>
-      <button class="action" id="checkRaseedBtn" onclick="checkRaseed()">Check Raseed</button>
-      <div id="raseedResult"></div>
 
-      <div id="adminRaseedList" class="hidden" style="margin-top:24px;">
-        <h3 style="color:#075c39;margin-bottom:12px;">📋 Issued Raseed (Admin List)</h3>
+      <!-- Admin View: Instant Live Donor List Search -->
+      <div id="adminDonorSearchBox" class="hidden" style="margin-bottom:16px;">
+        <div class="form-group">
+          <label>🔍 Search Donor / Raseed</label>
+          <input id="adminDonorSearchInput" placeholder="Raseed number, naam ya mobile number daalein..." oninput="filterDonorList()">
+        </div>
+      </div>
+
+      <!-- Donor Cards List (Shown to both User & Admin) -->
+      <div style="margin-top:20px;">
+        <h3 id="donorListHeading" style="color:#075c39;margin-bottom:12px;">📋 Donor List (Taawun Karnewale)</h3>
         <div id="raseedList">Loading...</div>
       </div>
     </div>
@@ -851,6 +900,7 @@ const UPLOAD_PRESET = "khadimin_preset";
 
 let CURRENT_IS_ADMIN = false;
 let currentGeneratedCaptcha = "";
+let ALL_DONOR_LIST = [];
 
 window.generateCaptcha = function(){
   const chars = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";
@@ -1064,10 +1114,15 @@ document.getElementById("userEnterBtn").addEventListener("click", async()=>{
     document.getElementById("app").classList.remove("hidden");
     document.getElementById("roleText").textContent = `👤 User: ${name}`;
 
+    // Adjust user-specific texts
+    document.getElementById("drawerRaseedText").textContent = "📜 Raseed Check";
+    document.getElementById("raseedPageHeader").textContent = "📜 Raseed Check";
+    document.getElementById("userRaseedSearchBox").classList.remove("hidden");
+    document.getElementById("adminDonorSearchBox").classList.add("hidden");
+
     const adminElements = [
       "drawerAdminLink",
-      "drawerVisitorsLink",
-      "adminRaseedList"
+      "drawerVisitorsLink"
     ];
     adminElements.forEach(id => {
       const el = document.getElementById(id);
@@ -1107,10 +1162,21 @@ onAuthStateChanged(auth, async(user)=>{
     document.getElementById("app").classList.remove("hidden");
     document.getElementById("roleText").textContent = CURRENT_IS_ADMIN ? "👑 Admin Account" : "👤 User Account";
 
+    if(CURRENT_IS_ADMIN){
+      document.getElementById("drawerRaseedText").textContent = "📜 Donor List";
+      document.getElementById("raseedPageHeader").textContent = "📜 Donor List";
+      document.getElementById("userRaseedSearchBox").classList.add("hidden");
+      document.getElementById("adminDonorSearchBox").classList.remove("hidden");
+    }else{
+      document.getElementById("drawerRaseedText").textContent = "📜 Raseed Check";
+      document.getElementById("raseedPageHeader").textContent = "📜 Raseed Check";
+      document.getElementById("userRaseedSearchBox").classList.remove("hidden");
+      document.getElementById("adminDonorSearchBox").classList.add("hidden");
+    }
+
     const adminElements = [
       "drawerAdminLink",
-      "drawerVisitorsLink",
-      "adminRaseedList"
+      "drawerVisitorsLink"
     ];
     adminElements.forEach(id => {
       const el = document.getElementById(id);
@@ -1131,10 +1197,14 @@ onAuthStateChanged(auth, async(user)=>{
         document.getElementById("app").classList.remove("hidden");
         document.getElementById("roleText").textContent = `👤 User: ${u.name}`;
 
+        document.getElementById("drawerRaseedText").textContent = "📜 Raseed Check";
+        document.getElementById("raseedPageHeader").textContent = "📜 Raseed Check";
+        document.getElementById("userRaseedSearchBox").classList.remove("hidden");
+        document.getElementById("adminDonorSearchBox").classList.add("hidden");
+
         const adminElements = [
           "drawerAdminLink",
-          "drawerVisitorsLink",
-          "adminRaseedList"
+          "drawerVisitorsLink"
         ];
         adminElements.forEach(id => {
           const el = document.getElementById(id);
@@ -1344,7 +1414,6 @@ async function loadHomePageDynamic(){
     }
   }catch(e){}
 
-  // Strictly Active Upcoming Programs
   try{
     const progBox = document.getElementById("homeActivePrograms");
     const progSnap = await getDocs(collection(db, "programs"));
@@ -1829,7 +1898,7 @@ window.loadMembers = async function(){
 
       html += `
         <div class="official-idcard-outer">
-          <!-- The Printable Card Box -->
+          <!-- The Printable Card Box (Clean without circular seal overlay) -->
           <div id="${cardUniqueId}" class="official-idcard">
             <div class="idcard-topbar">
               <div class="idcard-bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
@@ -1860,13 +1929,6 @@ window.loadMembers = async function(){
                 <div class="idcard-info-row">
                   <strong>Address:</strong> ${escapeHTML(d.address || "-")}
                 </div>
-              </div>
-
-              <!-- Round Seal Logo Emblem on right side -->
-              <div class="idcard-seal-logo">
-                <div class="seal-crescent">☪</div>
-                <div class="seal-text">KHADIMIN-E-AULIYA</div>
-                <div class="seal-badge-sub">OFFICIAL</div>
               </div>
             </div>
 
@@ -2002,7 +2064,7 @@ window.loadNotices = async function(){
   }catch(e){}
 };
 
-// 8. REAL DATABASE RASEED VERIFICATION & ADMIN LIST WITH DELETE
+// 8. RASEED / DONOR LIST (SCREENSHOT 2 STYLE WITH LIVE ADMIN SEARCH)
 window.checkRaseed = async function(){
   const inputEl = document.getElementById("raseedNumberCheck");
   const resultBox = document.getElementById("raseedResult");
@@ -2107,7 +2169,10 @@ window.createRaseed = async function(){
     btn.textContent = "Raseed Ban rahi hai...";
 
     const rashidNumber = "KEA-" + Date.now().toString().slice(-6);
-    const dateStr = new Date().toLocaleDateString("en-IN", { day: '2-digit', month: 'short', year: 'numeric' });
+    
+    // Format: DD-MM-YYYY
+    const now = new Date();
+    const dateStr = String(now.getDate()).padStart(2,'0') + "-" + String(now.getMonth()+1).padStart(2,'0') + "-" + now.getFullYear();
 
     await addDoc(collection(db,"rashid"),{
       rashidNumber, donorName, donorMobile, donorAddress, amount, purpose, dateStr, createdAt:serverTimestamp()
@@ -2138,39 +2203,90 @@ window.createRaseed = async function(){
   }
 };
 
+window.renderDonorCards = function(list){
+  const box = document.getElementById("raseedList");
+  if(!box) return;
+  if(list.length === 0){
+    box.innerHTML = "<p style='color:#666;'>Koi Raseed / Donor record nahi mila.</p>";
+    return;
+  }
+
+  let html = "";
+  list.forEach(d => {
+    const id = d.id;
+    const donorAttr = (d.donorName || "").replace(/"/g, '&quot;');
+    const amtAttr = (d.amount || 0).toString();
+    const purpAttr = (d.purpose || "Donation").replace(/"/g, '&quot;');
+    const mobileAttr = (d.donorMobile || "").replace(/"/g, '&quot;');
+    const numAttr = (d.rashidNumber || "").replace(/"/g, '&quot;');
+    const dateAttr = (d.dateStr || "-").replace(/"/g, '&quot;');
+
+    html += `
+      <div class="donor-card-item">
+        <div class="donor-card-left">
+          <div class="donor-name-title">${escapeHTML(d.donorName || "-")}</div>
+          <div class="donor-phone-num">${escapeHTML(d.donorMobile || "-")}</div>
+          <div class="donor-date-amt">
+            <span>📅 ${escapeHTML(d.dateStr || "-")}</span>
+            <span class="donor-amt-text">₹ ${escapeHTML(d.amount || "0")}</span>
+          </div>
+        </div>
+
+        <div class="donor-card-right">
+          <div style="display:flex;align-items:center;gap:6px;">
+            <button class="donor-icon-btn" title="Download Receipt Card" onclick="downloadReceiptImage('${numAttr}', '${donorAttr}', '${mobileAttr}', '${purpAttr}', '${amtAttr}', '${dateAttr}')">🖼️</button>
+            <span class="donor-rnum-tag">${escapeHTML(d.rashidNumber || "-")}</span>
+          </div>
+          
+          <div style="display:flex;gap:6px;align-items:center;margin-top:2px;">
+            ${d.donorMobile ? `<button class="donor-badge-btn" onclick="openWhatsApp('${mobileAttr}', '${numAttr}', '${donorAttr}', '${amtAttr}', '${purpAttr}')">📲 WhatsApp</button>` : ""}
+            ${CURRENT_IS_ADMIN ? `<button class="btn-delete" style="margin:0;padding:4px 8px;font-size:12px;" onclick="deleteItem('rashid', '${id}', 'loadRaseeds')" title="Delete Raseed">🗑️</button>` : ""}
+          </div>
+        </div>
+      </div>
+    `;
+  });
+  box.innerHTML = html;
+};
+
+window.filterDonorList = function(){
+  const search = (document.getElementById("adminDonorSearchInput").value || "").trim().toLowerCase();
+  if(!search){
+    window.renderDonorCards(ALL_DONOR_LIST);
+    return;
+  }
+  const filtered = ALL_DONOR_LIST.filter(item => {
+    const name = (item.donorName || "").toLowerCase();
+    const phone = (item.donorMobile || "").toLowerCase();
+    const rnum = (item.rashidNumber || "").toLowerCase();
+    return name.includes(search) || phone.includes(search) || rnum.includes(search);
+  });
+  window.renderDonorCards(filtered);
+};
+
 window.loadRaseeds = async function(){
   const box = document.getElementById("raseedList");
   if(!box) return;
   try{
     const snapshot = await getDocs(collection(db,"rashid"));
-    if(snapshot.empty) return box.innerHTML = "<p>Koi Raseed nahi hai.</p>";
-    let html="";
-    snapshot.forEach(item=>{
-      const d=item.data();
-      const id=item.id;
-      const donorAttr = (d.donorName || "").replace(/"/g, '&quot;');
-      const amtAttr = (d.amount || 0).toString();
-      const purpAttr = (d.purpose || "").replace(/"/g, '&quot;');
-      const mobileAttr = (d.donorMobile || "").replace(/"/g, '&quot;');
-      const numAttr = (d.rashidNumber || "").replace(/"/g, '&quot;');
-
-      html += `
-        <div class="item">
-          <p><strong>Raseed No:</strong> ${escapeHTML(d.rashidNumber)}</p>
-          <p><strong>Donor:</strong> ${escapeHTML(d.donorName)} (₹${escapeHTML(d.amount)})</p>
-          <p><strong>Mobile:</strong> ${escapeHTML(d.donorMobile || "-")}</p>
-          <p><strong>Purpose:</strong> ${escapeHTML(d.purpose)}</p>
-          ${CURRENT_IS_ADMIN ? `
-            <div class="action-box">
-              ${d.donorMobile ? `<button class="btn-whatsapp" onclick="openWhatsApp('${mobileAttr}', '${numAttr}', '${donorAttr}', '${amtAttr}', '${purpAttr}')">📲 WhatsApp Share</button>` : ""}
-              <button class="btn-delete" onclick="deleteItem('rashid', '${id}', 'loadRaseeds')">🗑️ Delete Raseed</button>
-            </div>
-          ` : ""}
-        </div>
-      `;
+    if(snapshot.empty){
+      ALL_DONOR_LIST = [];
+      box.innerHTML = "<p style='color:#666;'>Koi Raseed / Donor nahi hai.</p>";
+      return;
+    }
+    
+    const list = [];
+    snapshot.forEach(item => {
+      list.push({ id: item.id, ...item.data() });
     });
-    box.innerHTML = html;
-  }catch(e){}
+
+    // Newest first
+    list.sort((a,b) => (b.createdAt?.seconds || b.createdAt || 0) - (a.createdAt?.seconds || a.createdAt || 0));
+    ALL_DONOR_LIST = list;
+    window.renderDonorCards(list);
+  }catch(e){
+    box.innerHTML = "<p>Data load nahi ho saka.</p>";
+  }
 };
 
 function escapeHTML(value){
