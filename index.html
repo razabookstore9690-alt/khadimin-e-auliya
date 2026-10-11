@@ -746,7 +746,7 @@ button{cursor:pointer;}
 
       <!-- 4. Raseed Create Box -->
       <div id="adminRaseedFormBox" class="card admin-box hidden">
-        <h3>📜 Nayi Raseed Banayein</h3>
+        <h3>📜 Raseed Banayein</h3>
         <div class="form-group"><label>Donor Name</label><input id="donorName"></div>
         <div class="form-group"><label>Donor Mobile</label><input id="donorMobile" type="tel" placeholder="10-digit mobile number"></div>
         <div class="form-group"><label>Address</label><textarea id="donorAddress"></textarea></div>
@@ -765,7 +765,7 @@ button{cursor:pointer;}
 
       <!-- 5. Member Add Box -->
       <div id="adminMemberFormBox" class="card admin-box hidden">
-        <h3>👥 Naya Member Add Karein</h3>
+        <h3>👥 Member Add Karein</h3>
         <div class="form-group"><label>Member Photo (Passport 3:4 Size)</label><input id="memberPhotoFile" type="file" accept="image/*"></div>
         <div class="form-group"><label>Member Name</label><input id="memberName" placeholder="Member Name"></div>
         <div class="form-group"><label>Mobile Number</label><input id="memberPhone" placeholder="Mobile Number"></div>
@@ -776,7 +776,7 @@ button{cursor:pointer;}
 
       <!-- 6. Program Publish Box -->
       <div id="adminProgramFormBox" class="card admin-box hidden">
-        <h3>📅 Naya Program Add Karein</h3>
+        <h3>📅 Program Add Karein</h3>
         <div class="form-group"><label>Program Date (Is date ke baad Home page se auto hat jayega)</label><input id="programDate" type="date"></div>
         <div class="form-group"><label>Program Title</label><input id="programTitle" placeholder="Program Title"></div>
         <div class="form-group"><label>Program Details</label><textarea id="programDescription" placeholder="Program Details"></textarea></div>
@@ -806,7 +806,7 @@ button{cursor:pointer;}
 <div id="editMemberModal" class="custom-modal-backdrop hidden">
   <div class="modal-box">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
-      <h3 style="color:#075c39;font-size:18px;">✏️ Member Detail & Photo Badalna</h3>
+      <h3 style="color:#075c39;font-size:18px;">Member Detail & Photo Badalna</h3>
       <button type="button" onclick="closeEditMemberModal()" style="background:none;border:0;font-size:22px;color:#555;">✕</button>
     </div>
     
@@ -1536,8 +1536,8 @@ window.loadPhotos = async function(){
           ${d.url ? `<img src="${d.url}">` : ""}
           ${CURRENT_IS_ADMIN ? `
             <div class="action-box">
-              <button class="btn-edit" onclick="editPhoto('${id}', '${titleAttr}')">✏️ Edit</button>
-              <button class="btn-delete" onclick="deleteItem('photos', '${id}', 'loadPhotos')">🗑️ Delete</button>
+              <button class="btn-edit" onclick="editPhoto('${id}', '${titleAttr}')">Edit</button>
+              <button class="btn-delete" onclick="deleteItem('photos', '${id}', 'loadPhotos')">Delete</button>
             </div>
           ` : ""}
         </div>
@@ -1624,8 +1624,8 @@ window.loadVideos = async function(){
           ${mediaHtml}
           ${CURRENT_IS_ADMIN ? `
             <div class="action-box">
-              <button class="btn-edit" onclick="editVideo('${id}', '${titleAttr}')">✏️ Edit</button>
-              <button class="btn-delete" onclick="deleteItem('videos', '${id}', 'loadVideos')">🗑️ Delete</button>
+              <button class="btn-edit" onclick="editVideo('${id}', '${titleAttr}')">Edit</button>
+              <button class="btn-delete" onclick="deleteItem('videos', '${id}', 'loadVideos')">Delete</button>
             </div>
           ` : ""}
         </div>
@@ -1701,8 +1701,8 @@ window.loadPayment = async function(){
           ${data.qrUrl ? `<img src="${data.qrUrl}" style="max-width:240px;display:block;margin-top:10px;">` : ""}
           ${CURRENT_IS_ADMIN ? `
             <div class="action-box">
-              <button class="btn-edit" onclick="editPayment('${id}', '${holderAttr}', '${bankAttr}', '${upiAttr}')">✏️ Edit Details</button>
-              <button class="btn-delete" onclick="deleteItem('paymentMethods', '${id}', 'loadPayment')">🗑️ Delete</button>
+              <button class="btn-edit" onclick="editPayment('${id}', '${holderAttr}', '${bankAttr}', '${upiAttr}')">Edit Details</button>
+              <button class="btn-delete" onclick="deleteItem('paymentMethods', '${id}', 'loadPayment')">Delete</button>
             </div>
           ` : ""}
         </div>
@@ -1766,8 +1766,8 @@ window.loadPrograms = async function(){
           <p>${escapeHTML(d.description || "")}</p>
           ${CURRENT_IS_ADMIN ? `
             <div class="action-box">
-              <button class="btn-edit" onclick="editProgram('${id}', '${titleAttr}', '${descAttr}', '${dateAttr}')">✏️ Edit</button>
-              <button class="btn-delete" onclick="deleteItem('programs', '${id}', 'loadPrograms')">🗑️ Delete</button>
+              <button class="btn-edit" onclick="editProgram('${id}', '${titleAttr}', '${descAttr}', '${dateAttr}')">Edit</button>
+              <button class="btn-delete" onclick="deleteItem('programs', '${id}', 'loadPrograms')">Delete</button>
             </div>
           ` : ""}
         </div>
@@ -1982,7 +1982,7 @@ window.loadMembers = async function(){
 
           <div class="idcard-btn-panel">
             <button class="idcard-download-btn" onclick="downloadMemberIdCard('${cardUniqueId}', '${nameAttr}')">
-              📥 Download Card
+              Download Card
             </button>
             ${d.phone ? `<a href="tel:${encodeURIComponent(d.phone)}" class="idcard-call-btn">📞 Call</a>` : ""}
 
@@ -2037,8 +2037,8 @@ window.loadLangar = async function(){
           <div>${escapeHTML(d.text || "")}</div>
           ${CURRENT_IS_ADMIN ? `
             <div class="action-box">
-              <button class="btn-edit" onclick="editLangar('${id}', '${textAttr}')">✏️ Edit</button>
-              <button class="btn-delete" onclick="deleteItem('langar', '${id}', 'loadLangar')">🗑️ Delete</button>
+              <button class="btn-edit" onclick="editLangar('${id}', '${textAttr}')">Edit</button>
+              <button class="btn-delete" onclick="deleteItem('langar', '${id}', 'loadLangar')">Delete</button>
             </div>
           ` : ""}
         </div>
@@ -2094,8 +2094,8 @@ window.loadNotices = async function(){
           <p>${escapeHTML(d.text || "")}</p>
           ${CURRENT_IS_ADMIN ? `
             <div class="action-box">
-              <button class="btn-edit" onclick="editNotice('${id}', '${titleAttr}', '${textAttr}')">✏️ Edit</button>
-              <button class="btn-delete" onclick="deleteItem('notices', '${id}', 'loadNotices')">🗑️ Delete</button>
+              <button class="btn-edit" onclick="editNotice('${id}', '${titleAttr}', '${textAttr}')">Edit</button>
+              <button class="btn-delete" onclick="deleteItem('notices', '${id}', 'loadNotices')">Delete</button>
             </div>
           ` : ""}
         </div>
