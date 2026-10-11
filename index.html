@@ -331,7 +331,7 @@ button{cursor:pointer;}
   cursor:pointer;
 }
 
-/* FIXED FULL-SCREEN POPUP OVERLAYS */
+/* Modals */
 .custom-modal-backdrop{
   position:fixed;
   inset:0;
@@ -406,7 +406,7 @@ button{cursor:pointer;}
 .dashboard-card p{font-size:13px;color:#666;margin-bottom:12px;}
 .dashboard-card .action{margin-top:auto;}
 
-/* Printable receipt template */
+/* Printable receipt */
 #printableReceipt{
   position:fixed;
   left:-9999px;
@@ -599,7 +599,7 @@ button{cursor:pointer;}
     <div class="card">
       <h2 id="raseedPageHeader">📜 Raseed Check</h2>
       
-      <!-- User View: Search via Raseed Number OR Mobile Number (No Donor List displayed to user) -->
+      <!-- User View: Search via Raseed Number OR Mobile Number -->
       <div id="userRaseedSearchBox">
         <div class="form-group">
           <label>Raseed Number ya Mobile Number Daalein</label>
@@ -2114,7 +2114,7 @@ window.loadNotices = async function(){
   }catch(e){}
 };
 
-// 8. RASEED CHECK, LIVE PREVIEW MODAL & WHATSAPP SHARE
+// 8. RASEED CHECK & DIRECT PHOTO SHARE
 window.closeViewRaseedModal = function(){
   const modal = document.getElementById("viewRaseedModal");
   if(modal) modal.classList.add("hidden");
@@ -2154,7 +2154,7 @@ window.openViewRaseedModal = function(rNum, rName, rMobile, rPurpose, rAmt, rDat
     </div>
   `;
 
-  // Direct Download Button inside modal
+  // Download Action
   const dlBtn = document.getElementById("modalDownloadBtn");
   dlBtn.onclick = function(){
     window.downloadReceiptImage(rNum, rName, rMobile, rPurpose, rAmt, rDate);
@@ -2163,30 +2163,41 @@ window.openViewRaseedModal = function(rNum, rName, rMobile, rPurpose, rAmt, rDat
   // WhatsApp Photo Share Action
   const shareBtn = document.getElementById("modalShareBtn");
   shareBtn.onclick = async function(){
+    const originalText = shareBtn.innerHTML;
+    shareBtn.disabled = true;
+    shareBtn.innerHTML = "Sharing...";
+
+    const cardEl = document.getElementById("modalRaseedCardBox");
     const shareText = `*KHADIMIN-E-AULIYA OFFICIAL RASEED*\n\n📜 Raseed No: ${rNum}\n👤 Donor Name: ${rName}\n💰 Amount: ₹${rAmt}\n🎯 Purpose: ${rPurpose}\n📅 Date: ${rDate}\n\nJazakAllah Khair!`;
 
-    // Attempt direct image file share to WhatsApp
     try{
-      const cardEl = document.getElementById("modalRaseedCardBox");
-      const canvas = await html2canvas(cardEl, { scale: 2 });
-      const blob = await new Promise(res => canvas.toBlob(res, "image/png"));
+      const canvas = await html2canvas(cardEl, { scale: 2, useCORS: true });
+      const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/png"));
       const file = new File([blob], `Raseed_${rNum}.png`, { type: "image/png" });
 
       if(navigator.canShare && navigator.canShare({ files: [file] })){
         await navigator.share({
-          title: `Raseed ${rNum}`,
-          text: shareText,
-          files: [file]
+          files: [file],
+          title: `Raseed_${rNum}`,
+          text: shareText
         });
+        shareBtn.disabled = false;
+        shareBtn.innerHTML = originalText;
         return;
       }
-    }catch(e){}
+    }catch(err){
+      // continue to fallback
+    }
 
-    // Fallback: direct WhatsApp URL
+    // Fallback: Automatic download PNG & redirect to WhatsApp chat
+    window.downloadReceiptImage(rNum, rName, rMobile, rPurpose, rAmt, rDate);
     let phone = (rMobile || "").replace(/\D/g, "");
     if(phone.length === 10) phone = "91" + phone;
     const waUrl = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(shareText)}`;
     window.open(waUrl, "_blank");
+
+    shareBtn.disabled = false;
+    shareBtn.innerHTML = originalText;
   };
 };
 
