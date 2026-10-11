@@ -1389,7 +1389,7 @@ async function loadWebsiteUsersForAdmin(){
           </div>
           <div style="display:flex;gap:8px;align-items:center;">
             ${u.phone ? `<a href="tel:${encodeURIComponent(u.phone)}"><button class="action" style="padding:6px 14px;font-size:13px;margin:0;">📞 Call</button></a>` : ""}
-            <button class="btn-delete" style="padding:6px 12px;margin:0;font-size:13px;" onclick="deleteItem('website_users', '${u.id}', 'loadWebsiteUsersForAdmin')">🗑️ Delete</button>
+            <button class="btn-delete" style="padding:6px 12px;margin:0;font-size:13px;" onclick="deleteItem('website_users', '${u.id}', 'loadWebsiteUsersForAdmin')">Delete</button>
           </div>
         </div>
       `;
@@ -1988,8 +1988,8 @@ window.loadMembers = async function(){
 
             ${CURRENT_IS_ADMIN ? `
               <div style="display:flex;gap:4px;margin-left:auto;">
-                <button class="btn-edit" style="margin:0;padding:6px 10px;font-size:13px;" onclick="openEditMemberModal('${id}', '${nameAttr}', '${respAttr}', '${phoneAttr}', '${addrAttr}', '${photoAttr}')" title="Edit Member & Photo">✏️</button>
-                <button class="btn-delete" style="margin:0;padding:6px 10px;font-size:13px;" onclick="deleteItem('members', '${id}', 'loadMembers')" title="Delete Member">🗑️</button>
+                <button class="btn-edit" style="margin:0;padding:6px 10px;font-size:13px;" onclick="openEditMemberModal('${id}', '${nameAttr}', '${respAttr}', '${phoneAttr}', '${addrAttr}', '${photoAttr}')" title="Edit Member & Photo">Edit</button>
+                <button class="btn-delete" style="margin:0;padding:6px 10px;font-size:13px;" onclick="deleteItem('members', '${id}', 'loadMembers')" title="Delete Member">Delete</button>
               </div>
             ` : ""}
           </div>
