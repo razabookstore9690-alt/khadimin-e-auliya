@@ -221,21 +221,20 @@ button{cursor:pointer;}
     <li><a href="javascript:void(0)" onclick="menuNav('paymentPage')">💰 Donation / Payment</a></li>
     <li><a href="javascript:void(0)" onclick="menuNav('donorListPage')">📜 Donor List</a></li>
     
-    <!-- Sabse neeche Visitors aur uske theek neeche DASHBOARD -->
     <li><a href="javascript:void(0)" onclick="menuNav('visitorsPage')" style="color:#075c39;background:#eef7f1;">👥 Website Visitors</a></li>
     <li><a href="javascript:void(0)" onclick="menuNav('adminDashboard')" style="color:#063d28;background:#fdf9ed;font-weight:900;">⚙️ DASHBOARD</a></li>
   </ul>
 </div>
 
 <main class="container">
-  <!-- 1. Central Admin Dashboard (The 9-Grid Cards & Forms) -->
+  <!-- Central Admin Dashboard -->
   <section id="adminDashboard" class="page active">
     <div class="hero">
       <h2>⚙️ ADMIN CONTROL DASHBOARD</h2>
       <span class="admin-badge">LOGGED IN AS ADMIN</span>
     </div>
 
-    <!-- Original 9 Dashboard Grid Cards -->
+    <!-- 9 Dashboard Grid Cards -->
     <div class="dashboard-grid">
       <div class="dashboard-card"><div><h3>📸 Photos</h3><p>Upload Photos</p></div><button class="action" onclick="openAdminForm('adminPhotoFormBox')">Manage Photos</button></div>
       <div class="dashboard-card"><div><h3>🎥 Videos</h3><p>Upload Videos</p></div><button class="action" onclick="openAdminForm('adminVideoFormBox')">Manage Videos</button></div>
@@ -341,7 +340,7 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- 2. Home Page View -->
+  <!-- Home Page View -->
   <section id="homePage" class="page">
     <div class="hero"><h1>KHADIMIN-E-AULIYA</h1><p>Khidmat • Deen • Sufi Riwayat</p></div>
     <div class="card"><span class="section-badge">📸 Latest Photo</span><div id="homeLatestPhoto">Loading...</div></div>
@@ -349,7 +348,7 @@ button{cursor:pointer;}
     <div class="card"><span class="section-badge">📅 Upcoming Programs</span><div id="homeActivePrograms">Loading...</div></div>
   </section>
 
-  <!-- 3. Donor List Page -->
+  <!-- Donor List Page -->
   <section id="donorListPage" class="page">
     <div class="card">
       <h2>📋 Donor List (Taawun Karnewale)</h2>
@@ -361,7 +360,7 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- 4. Members List Page -->
+  <!-- Members List Page -->
   <section id="membersPage" class="page">
     <div class="card">
       <h2>👥 Members List (Official Identity Cards)</h2>
@@ -369,7 +368,7 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- 5. Visitors Page -->
+  <!-- Visitors Page -->
   <section id="visitorsPage" class="page">
     <div class="card">
       <h2>👥 Logged-in Users (Website Visitors)</h2>
@@ -377,7 +376,7 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- 6. Programs Page -->
+  <!-- Programs Page -->
   <section id="programsPage" class="page">
     <div class="card">
       <h2>📅 Programs</h2>
@@ -385,7 +384,7 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- 7. Photos Page -->
+  <!-- Photos Page -->
   <section id="photosPage" class="page">
     <div class="card">
       <h2>📷 Photos Gallery</h2>
@@ -393,7 +392,7 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- 8. Videos Page -->
+  <!-- Videos Page -->
   <section id="videosPage" class="page">
     <div class="card">
       <h2>🎥 Videos Gallery</h2>
@@ -401,7 +400,7 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- 9. Payment Page -->
+  <!-- Payment Page -->
   <section id="paymentPage" class="page">
     <div class="card">
       <h2>💰 Donation / Payment Details</h2>
@@ -409,7 +408,7 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- 10. Langar Page -->
+  <!-- Langar Page -->
   <section id="langarPage" class="page">
     <div class="card">
       <h2>🍲 Langar Information</h2>
@@ -417,7 +416,7 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- 11. Notices Page -->
+  <!-- Notices Page -->
   <section id="noticesPage" class="page">
     <div class="card">
       <h2>📢 Notices</h2>
@@ -427,7 +426,7 @@ button{cursor:pointer;}
 </main>
 </section>
 
-<!-- EDIT MEMBER POPUP MODAL (FRONT & CENTER OVERLAY) -->
+<!-- EDIT MEMBER POPUP MODAL -->
 <div id="editMemberModal" class="custom-modal-backdrop hidden">
   <div class="modal-box">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
@@ -466,7 +465,7 @@ button{cursor:pointer;}
   </div>
 </div>
 
-<!-- VIEW RASEED POPUP MODAL (WITH DOWNLOAD & SHARE) -->
+<!-- VIEW RASEED POPUP MODAL (WITH DOWNLOAD & DIRECT NUMBER SHARE) -->
 <div id="viewRaseedModal" class="custom-modal-backdrop hidden">
   <div class="modal-box" style="text-align:center;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
@@ -481,7 +480,7 @@ button{cursor:pointer;}
         📥 Download Raseed
       </button>
       <button id="modalShareBtn" class="action" style="flex:1;background:#25d366;display:inline-flex;justify-content:center;align-items:center;gap:6px;">
-        📲 Share Raseed
+        📲 Share to Donor WhatsApp
       </button>
       <button type="button" onclick="closeViewRaseedModal()" style="padding:10px 18px;border-radius:8px;border:1px solid #ccc;background:#f5f5f5;font-weight:bold;">
         Close
@@ -566,6 +565,23 @@ function uploadToCloudinaryDirect(file, type = "auto"){
     xhr.onerror = () => reject(new Error("Network Error"));
     const formData = new FormData();
     formData.append("file", file);
+    formData.append("upload_preset", UPLOAD_PRESET);
+    xhr.send(formData);
+  });
+}
+
+function uploadBlobToCloudinary(blob){
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    const url = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
+    xhr.open("POST", url, true);
+    xhr.onload = function(){
+      if(xhr.status >= 200 && xhr.status < 300) resolve(JSON.parse(xhr.responseText).secure_url);
+      else reject(new Error("Upload failed"));
+    };
+    xhr.onerror = () => reject(new Error("Network Error"));
+    const formData = new FormData();
+    formData.append("file", blob, "raseed.png");
     formData.append("upload_preset", UPLOAD_PRESET);
     xhr.send(formData);
   });
@@ -876,33 +892,49 @@ window.openViewRaseedModal = function(rNum, rName, rMobile, rPurpose, rAmt, rDat
     a.click();
   };
 
-  // Direct WhatsApp / Native Share Button
+  // Direct WhatsApp Share (Photo Link + Details) to donor's exact number
   document.getElementById("modalShareBtn").onclick = async function(){
-    const shareText = `*KHADIMIN-E-AULIYA OFFICIAL RASEED*\n\n📜 Raseed No: ${rNum}\n👤 Donor Name: ${rName}\n💰 Amount: ₹${rAmt}\n🎯 Purpose: ${rPurpose}\n📅 Date: ${rDate}\n\nJazakAllah Khair!`;
-    const cardEl = document.getElementById("modalPrintableCard");
+    let rawPhone = (rMobile || "").toString().replace(/\D/g, "");
+    if(!rawPhone){
+      return alert("Is raseed me donor ka mobile number mojood nahi hai!");
+    }
+    if(rawPhone.length === 10) rawPhone = "91" + rawPhone;
+    else if(rawPhone.length === 11 && rawPhone.startsWith("0")) rawPhone = "91" + rawPhone.slice(1);
+
+    const shareBtn = document.getElementById("modalShareBtn");
+    const origHtml = shareBtn.innerHTML;
+    shareBtn.disabled = true;
+    shareBtn.innerHTML = "⏳ Sending to WhatsApp...";
 
     try{
-      const canvas = await html2canvas(cardEl, { scale: 2, backgroundColor: "#ffffff" });
-      canvas.toBlob(async (blob) => {
-        if(blob && navigator.canShare){
-          const file = new File([blob], `Raseed_${rNum}.png`, { type: "image/png" });
-          if(navigator.canShare({ files: [file] })){
-            await navigator.share({
-              title: `Raseed ${rNum}`,
-              text: shareText,
-              files: [file]
-            });
-            return;
-          }
-        }
-        let phone = (rMobile || "").replace(/\D/g, "");
-        if(phone.length === 10) phone = "91" + phone;
-        window.open(`https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(shareText)}`, "_blank");
-      }, "image/png");
+      const cardEl = document.getElementById("modalPrintableCard");
+      const canvas = await html2canvas(cardEl, { scale: 3, backgroundColor: "#ffffff" });
+
+      const blob = await new Promise(res => canvas.toBlob(res, "image/png"));
+      const raseedImageUrl = await uploadBlobToCloudinary(blob);
+
+      const shareText = 
+`*KHADIMIN-E-AULIYA OFFICIAL RASEED*
+
+📜 *Raseed No:* ${rNum}
+👤 *Donor Name:* ${rName}
+💰 *Amount:* ₹${rAmt}
+🎯 *Purpose:* ${rPurpose || "All Purpose"}
+📅 *Date:* ${rDate}
+
+🖼️ *Raseed Photo Dekhein / Download Karein:*
+${raseedImageUrl}
+
+_JazakAllah Khair! Khadimin-e-Auliya Authorized Seal_`;
+
+      const waUrl = `https://api.whatsapp.com/send?phone=${rawPhone}&text=${encodeURIComponent(shareText)}`;
+      window.open(waUrl, "_blank");
+
     }catch(err){
-      let phone = (rMobile || "").replace(/\D/g, "");
-      if(phone.length === 10) phone = "91" + phone;
-      window.open(`https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(shareText)}`, "_blank");
+      alert("Share error: " + err.message);
+    }finally{
+      shareBtn.disabled = false;
+      shareBtn.innerHTML = origHtml;
     }
   };
 };
