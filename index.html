@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#0b5d3b">
 <title>KHADIMIN-E-AULIYA</title>
 
-<!-- html2canvas for ID Card & Receipt Image Generation -->
+<!-- html2canvas for Receipt Image Generation -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <style>
@@ -406,25 +406,78 @@ button{cursor:pointer;}
 .dashboard-card p{font-size:13px;color:#666;margin-bottom:12px;}
 .dashboard-card .action{margin-top:auto;}
 
-/* Printable receipt */
+/* EXACT OFFICIAL DONATION RASEED (GREEN & DOUBLE BORDER) */
 #printableReceipt{
   position:fixed;
   left:-9999px;
   top:0;
-  width:420px;
+  width:440px;
   background:#ffffff;
   border:4px double #075c39;
-  border-radius:12px;
-  padding:20px;
+  border-radius:18px;
+  padding:24px 22px;
   color:#111;
   box-shadow:none;
+  font-family:Arial, Helvetica, sans-serif;
 }
-.rc-header{text-align:center;border-bottom:2px solid #075c39;padding-bottom:10px;margin-bottom:12px;}
-.rc-arabic{font-size:18px;color:#075c39;font-weight:bold;direction:rtl;}
-.rc-title{font-size:22px;color:#075c39;font-weight:bold;margin-top:4px;}
-.rc-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dashed #ddd;font-size:14px;}
-.rc-row strong{color:#333;}
-.rc-footer{text-align:center;margin-top:14px;font-size:12px;color:#666;font-style:italic;}
+.rc-header{
+  text-align:center;
+  border-bottom:2px solid #075c39;
+  padding-bottom:12px;
+  margin-bottom:14px;
+}
+.rc-arabic{
+  font-size:18px;
+  color:#075c39;
+  font-weight:bold;
+  direction:rtl;
+  margin-bottom:4px;
+}
+.rc-title{
+  font-size:24px;
+  color:#075c39;
+  font-weight:900;
+  letter-spacing:1px;
+}
+.rc-subtitle{
+  font-size:12px;
+  color:#075c39;
+  font-weight:bold;
+  letter-spacing:1.5px;
+  margin-top:2px;
+}
+.rc-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:8px 0;
+  border-bottom:1px dashed #dcdcdc;
+  font-size:15px;
+}
+.rc-row strong{
+  color:#222;
+  font-size:15px;
+}
+.rc-amount-box{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:18px;
+  font-weight:900;
+  color:#075c39;
+  border-top:2px solid #075c39;
+  border-bottom:2px solid #075c39;
+  padding:10px 0;
+  margin-top:10px;
+}
+.rc-footer{
+  text-align:center;
+  margin-top:16px;
+  font-size:12px;
+  color:#555;
+  font-style:italic;
+  line-height:1.5;
+}
 </style>
 </head>
 <body>
@@ -510,8 +563,6 @@ button{cursor:pointer;}
     <li><a href="javascript:void(0)" onclick="menuNav('videos')">🎥 Videos Gallery</a></li>
     <li><a href="javascript:void(0)" onclick="menuNav('members')">👥 Members (Official ID Cards)</a></li>
     <li><a href="javascript:void(0)" onclick="menuNav('donation')">💰 Donation / Payment</a></li>
-    
-    <!-- User: Raseed Check | Admin: Donor List -->
     <li><a href="javascript:void(0)" onclick="menuNav('raseed')" id="drawerRaseedText">📜 Raseed Check</a></li>
     
     <li id="drawerVisitorsLink" class="hidden"><a href="javascript:void(0)" onclick="menuNav('visitors')" style="color:#075c39;background:#eef7f1;">👥 Website Visitors</a></li>
@@ -857,6 +908,7 @@ button{cursor:pointer;}
       <button type="button" onclick="closeViewRaseedModal()" style="background:none;border:0;font-size:22px;color:#555;">✕</button>
     </div>
     
+    <!-- Render Container for Live View -->
     <div id="modalRaseedImageContainer" style="display:flex;justify-content:center;align-items:center;background:#f9fbf9;border-radius:10px;padding:6px;border:1px solid #ddd;overflow:hidden;">
       <!-- Realtime clean receipt card rendered here -->
     </div>
@@ -875,20 +927,20 @@ button{cursor:pointer;}
   </div>
 </div>
 
-<!-- HIDDEN RECEIPT CARD TEMPLATE FOR SCREENSHOT PHOTO -->
+<!-- EXACT PHOTO TEMPLATE MATCHING SCREENSHOT -->
 <div id="printableReceipt">
   <div class="rc-header">
     <div class="rc-arabic">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
     <div class="rc-title">KHADIMIN-E-AULIYA</div>
-    <div style="font-size:12px;color:#075c39;font-weight:bold;">OFFICIAL DONATION RASEED</div>
+    <div class="rc-subtitle">OFFICIAL DONATION RASEED</div>
   </div>
   <div class="rc-row"><strong>Raseed No:</strong> <span id="r_num">-</span></div>
   <div class="rc-row"><strong>Date:</strong> <span id="r_date">-</span></div>
   <div class="rc-row"><strong>Donor Name:</strong> <span id="r_name">-</span></div>
   <div class="rc-row"><strong>Mobile No:</strong> <span id="r_mobile">-</span></div>
   <div class="rc-row"><strong>Purpose:</strong> <span id="r_purpose">-</span></div>
-  <div class="rc-row" style="font-size:16px;font-weight:bold;color:#075c39;border-top:2px solid #075c39;border-bottom:2px solid #075c39;margin-top:8px;">
-    <strong>Amount Received:</strong> <span>₹<span id="r_amount">0</span></span>
+  <div class="rc-amount-box">
+    <span>Amount Received:</span> <span id="r_amount">₹0</span>
   </div>
   <div class="rc-footer">
     JazakAllah Khair! Aapka taawun qubool farmaye.<br>
@@ -2114,14 +2166,34 @@ window.loadNotices = async function(){
   }catch(e){}
 };
 
-// 8. RASEED CHECK & DIRECT PHOTO SHARE
+// 8. RASEED CHECK, DIRECT PHOTO PREVIEW & 100% RELIABLE WHATSAPP PHOTO SHARE
 window.closeViewRaseedModal = function(){
   const modal = document.getElementById("viewRaseedModal");
   if(modal) modal.classList.add("hidden");
   document.body.style.overflow = "auto";
 };
 
-window.openViewRaseedModal = function(rNum, rName, rMobile, rPurpose, rAmt, rDate){
+// Helper: Fast and clean receipt image generator
+async function generateReceiptBlob(rNum, rName, rMobile, rPurpose, rAmt, rDate){
+  document.getElementById("r_num").textContent = rNum;
+  document.getElementById("r_date").textContent = rDate;
+  document.getElementById("r_name").textContent = rName;
+  document.getElementById("r_mobile").textContent = rMobile || "-";
+  document.getElementById("r_purpose").textContent = rPurpose || "All Purpose";
+  document.getElementById("r_amount").textContent = "₹" + rAmt;
+
+  const cardElement = document.getElementById("printableReceipt");
+  const canvas = await html2canvas(cardElement, {
+    scale: 2.5,
+    useCORS: true,
+    backgroundColor: "#ffffff"
+  });
+  const dataUrl = canvas.toDataURL("image/png");
+  const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/png"));
+  return { dataUrl, blob };
+}
+
+window.openViewRaseedModal = async function(rNum, rName, rMobile, rPurpose, rAmt, rDate){
   window.closeEditMemberModal();
 
   const modal = document.getElementById("viewRaseedModal");
@@ -2129,76 +2201,71 @@ window.openViewRaseedModal = function(rNum, rName, rMobile, rPurpose, rAmt, rDat
   
   modal.classList.remove("hidden");
   document.body.style.overflow = "hidden";
+  container.innerHTML = "<p style='color:#075c39;padding:25px;font-weight:bold;'>⌛ Raseed Photo Taiyar Ho Rahi Hai...</p>";
 
-  // Fast direct visual rendering inside modal
-  container.innerHTML = `
-    <div id="modalRaseedCardBox" style="background:#ffffff;border:3px double #075c39;border-radius:10px;padding:16px;width:100%;max-width:340px;text-align:left;color:#111;">
-      <div style="text-align:center;border-bottom:2px solid #075c39;padding-bottom:8px;margin-bottom:10px;">
-        <div style="font-size:15px;color:#075c39;font-weight:bold;direction:rtl;">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
-        <div style="font-size:18px;font-weight:900;color:#075c39;letter-spacing:1px;margin-top:2px;">KHADIMIN-E-AULIYA</div>
-        <div style="font-size:11px;font-weight:bold;color:#d4af37;">OFFICIAL DONATION RASEED</div>
-      </div>
-      <div style="font-size:13px;line-height:1.7;">
-        <div><strong>Raseed No:</strong> <span style="color:#075c39;font-weight:bold;">${escapeHTML(rNum)}</span></div>
-        <div><strong>Date:</strong> ${escapeHTML(rDate)}</div>
-        <div><strong>Donor Name:</strong> ${escapeHTML(rName)}</div>
-        <div><strong>Mobile:</strong> ${escapeHTML(rMobile || "-")}</div>
-        <div><strong>Purpose:</strong> ${escapeHTML(rPurpose || "All Purpose")}</div>
-        <div style="border-top:1px dashed #075c39;border-bottom:1px dashed #075c39;padding:4px 0;margin-top:6px;font-size:15px;font-weight:bold;color:#075c39;">
-          Amount: ₹ ${escapeHTML(rAmt)}
-        </div>
-      </div>
-      <div style="text-align:center;margin-top:10px;font-size:10px;color:#666;font-style:italic;">
-        JazakAllah Khair! Khadimin Auth. Seal
-      </div>
-    </div>
-  `;
+  try{
+    const { dataUrl, blob } = await generateReceiptBlob(rNum, rName, rMobile, rPurpose, rAmt, rDate);
+    
+    // Display the exact generated image cleanly in modal
+    container.innerHTML = `<img src="${dataUrl}" alt="Raseed" style="width:100%;max-width:360px;border-radius:12px;display:block;box-shadow:0 4px 14px rgba(7,92,57,0.15);">`;
 
-  // Download Action
-  const dlBtn = document.getElementById("modalDownloadBtn");
-  dlBtn.onclick = function(){
-    window.downloadReceiptImage(rNum, rName, rMobile, rPurpose, rAmt, rDate);
-  };
+    // Download Action Button
+    const dlBtn = document.getElementById("modalDownloadBtn");
+    dlBtn.onclick = function(){
+      const a = document.createElement("a");
+      a.href = dataUrl;
+      a.download = `Raseed_${rNum}.png`;
+      a.click();
+    };
 
-  // WhatsApp Photo Share Action
-  const shareBtn = document.getElementById("modalShareBtn");
-  shareBtn.onclick = async function(){
-    const originalText = shareBtn.innerHTML;
-    shareBtn.disabled = true;
-    shareBtn.innerHTML = "Sharing...";
+    // WhatsApp Photo Share Action Button
+    const shareBtn = document.getElementById("modalShareBtn");
+    shareBtn.onclick = async function(){
+      const origText = shareBtn.innerHTML;
+      shareBtn.disabled = true;
+      shareBtn.innerHTML = "Sharing...";
 
-    const cardEl = document.getElementById("modalRaseedCardBox");
-    const shareText = `*KHADIMIN-E-AULIYA OFFICIAL RASEED*\n\n📜 Raseed No: ${rNum}\n👤 Donor Name: ${rName}\n💰 Amount: ₹${rAmt}\n🎯 Purpose: ${rPurpose}\n📅 Date: ${rDate}\n\nJazakAllah Khair!`;
+      const shareMsg = `*KHADIMIN-E-AULIYA OFFICIAL RASEED*\n\n📜 Raseed No: ${rNum}\n👤 Donor Name: ${rName}\n💰 Amount: ₹${rAmt}\n🎯 Purpose: ${rPurpose}\n📅 Date: ${rDate}\n\nJazakAllah Khair! Aapka taawun qubool farmaye.`;
 
-    try{
-      const canvas = await html2canvas(cardEl, { scale: 2, useCORS: true });
-      const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/png"));
       const file = new File([blob], `Raseed_${rNum}.png`, { type: "image/png" });
 
+      // Direct Image File Share via Web Share API
+      let sharedSuccessfully = false;
       if(navigator.canShare && navigator.canShare({ files: [file] })){
-        await navigator.share({
-          files: [file],
-          title: `Raseed_${rNum}`,
-          text: shareText
-        });
-        shareBtn.disabled = false;
-        shareBtn.innerHTML = originalText;
-        return;
+        try{
+          await navigator.share({
+            files: [file],
+            title: `Raseed ${rNum}`,
+            text: shareMsg
+          });
+          sharedSuccessfully = true;
+        }catch(e){
+          sharedSuccessfully = false;
+        }
       }
-    }catch(err){
-      // continue to fallback
-    }
 
-    // Fallback: Automatic download PNG & redirect to WhatsApp chat
-    window.downloadReceiptImage(rNum, rName, rMobile, rPurpose, rAmt, rDate);
-    let phone = (rMobile || "").replace(/\D/g, "");
-    if(phone.length === 10) phone = "91" + phone;
-    const waUrl = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(shareText)}`;
-    window.open(waUrl, "_blank");
+      // If browser blocks direct background file share to WhatsApp
+      if(!sharedSuccessfully){
+        // Auto-save photo to device
+        const a = document.createElement("a");
+        a.href = dataUrl;
+        a.download = `Raseed_${rNum}.png`;
+        a.click();
 
-    shareBtn.disabled = false;
-    shareBtn.innerHTML = originalText;
-  };
+        // Open WhatsApp chat directly
+        let phone = (rMobile || "").replace(/\D/g, "");
+        if(phone.length === 10) phone = "91" + phone;
+        const waUrl = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(shareMsg)}`;
+        window.open(waUrl, "_blank");
+      }
+
+      shareBtn.disabled = false;
+      shareBtn.innerHTML = origText;
+    };
+
+  }catch(e){
+    container.innerHTML = `<p style="color:red;padding:15px;">Photo preview load nahi ho saki: ${e.message}</p>`;
+  }
 };
 
 window.checkRaseed = async function(){
@@ -2273,21 +2340,15 @@ window.checkRaseed = async function(){
 };
 
 window.downloadReceiptImage = async function(rNum, rName, rMobile, rPurpose, rAmt, rDate){
-  document.getElementById("r_num").textContent = rNum;
-  document.getElementById("r_date").textContent = rDate;
-  document.getElementById("r_name").textContent = rName;
-  document.getElementById("r_mobile").textContent = rMobile || "-";
-  document.getElementById("r_purpose").textContent = rPurpose;
-  document.getElementById("r_amount").textContent = rAmt;
-
-  const receiptCard = document.getElementById("printableReceipt");
-  const canvas = await html2canvas(receiptCard, { scale: 2 });
-  const imgData = canvas.toDataURL("image/png");
-
-  const a = document.createElement("a");
-  a.href = imgData;
-  a.download = `Raseed_${rNum}.png`;
-  a.click();
+  try{
+    const { dataUrl } = await generateReceiptBlob(rNum, rName, rMobile, rPurpose, rAmt, rDate);
+    const a = document.createElement("a");
+    a.href = dataUrl;
+    a.download = `Raseed_${rNum}.png`;
+    a.click();
+  }catch(e){
+    alert("Download error: " + e.message);
+  }
 };
 
 window.createRaseed = async function(){
