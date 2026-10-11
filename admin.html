@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#063d28">
+<title>Admin Portal - KHADIMIN-E-AULIYA</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial, sans-serif;}
+body{background:#f0f4f2;color:#222;}
+button,input,select,textarea{font-size:16px;}
+button{cursor:pointer;}
+.hidden{display:none !important;}
+
+#adminLoginPage{min-height:100vh;display:flex;justify-content:center;align-items:center;padding:20px;background:#063d28;}
+.admin-card{width:100%;max-width:400px;background:#ffffff;padding:26px;border-radius:18px;box-shadow:0 10px 30px rgba(0,0,0,0.3);}
+.form-group{margin-bottom:14px;}
+.form-group label{display:block;margin-bottom:6px;font-weight:bold;font-size:14px;}
+.form-group input,.form-group textarea,.form-group select{width:100%;padding:12px;border:1px solid #ccc;border-radius:10px;outline:none;}
+.primary{width:100%;border:0;padding:13px;border-radius:10px;background:#075c39;color:white;font-weight:bold;}
+
+.topbar{background:#063d28;color:white;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;}
+.container{max-width:1100px;margin:auto;padding:16px;}
+.card{background:white;padding:20px;border-radius:16px;box-shadow:0 4px 14px rgba(0,0,0,.06);margin-bottom:20px;}
+.action{border:0;background:#075c39;color:white;padding:10px 16px;border-radius:8px;font-weight:bold;cursor:pointer;}
+.btn-delete{border:0;background:#d32f2f;color:white;padding:6px 12px;border-radius:8px;font-size:13px;font-weight:bold;}
+.btn-edit{border:0;background:#f39c12;color:white;padding:6px 12px;border-radius:8px;font-size:13px;font-weight:bold;}
+
+/* Dashboard Cards */
+.dashboard-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px;}
+.dash-btn{background:white;border:2px solid #075c39;color:#075c39;padding:14px;border-radius:12px;font-weight:bold;text-align:center;}
+.dash-btn.active{background:#075c39;color:white;}
+
+/* Donor item */
+.donor-item{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #eee;padding:12px 0;}
+
+/* Modal Backdrop */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:99999;display:flex;justify-content:center;align-items:center;padding:16px;}
+.modal-content{background:white;padding:22px;border-radius:16px;width:100%;max-width:440px;max-height:90vh;overflow-y:auto;}
+</style>
+</head>
+<body>
+
+<!-- ADMIN LOGIN SECTION -->
+<div id="adminLoginPage">
+  <div class="admin-card">
+    <h2 style="color:#075c39;text-align:center;margin-bottom:18px;">👑 Admin Portal Login</h2>
+    <div class="form-group">
+      <label>User ID</label>
+      <input id="adminEmail" placeholder="Enter User ID" autocomplete="off">
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input id="adminPassword" type="password" placeholder="Enter Password" autocomplete="off">
+    </div>
+    <button class="primary" id="adminLoginBtn">Login as Admin</button>
+  </div>
+</div>
+
+<!-- ADMIN CONTROL PANEL -->
+<div id="adminPanel" class="hidden">
+  <header class="topbar">
+    <div>
+      <div style="font-weight:bold;font-size:18px;">KHADIMIN-E-AULIYA (Admin Panel)</div>
+      <div style="font-size:11px;color:#d6ad45;">👑 Super Admin Active</div>
+    </div>
+    <button id="adminLogoutBtn" style="background:#fff;color:#d32f2f;border:0;padding:6px 14px;border-radius:20px;font-weight:bold;">Logout</button>
+  </header>
+
+  <main class="container">
+    <!-- Quick Navigation Tabs -->
+    <div class="dashboard-grid">
+      <button class="dash-btn active" onclick="switchSection('secRaseed')">📜 Raseed & Donors</button>
+      <button class="dash-btn" onclick="switchSection('secMembers')">👥 Members</button>
+      <button class="dash-btn" onclick="switchSection('secVisitors')">👁️ Visitors</button>
+      <button class="dash-btn" onclick="switchSection('secUploads')">📤 Content Upload</button>
+    </div>
+
+    <!-- 1. RASEED & DONORS MANAGEMENT -->
+    <div id="secRaseed" class="admin-sec">
+      <div class="card">
+        <h3>📜 Nayi Raseed Banayein</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:10px;">
+          <div class="form-group"><label>Donor Name</label><input id="donorName"></div>
+          <div class="form-group"><label>Donor Mobile</label><input id="donorMobile" type="tel"></div>
+          <div class="form-group"><label>Amount ₹</label><input id="donationAmount" type="number"></div>
+          <div class="form-group">
+            <label>Purpose</label>
+            <select id="donationPurpose">
+              <option value="All Purpose">All Purpose</option>
+              <option value="Langar-e-Gausiya">Langar-e-Gausiya</option>
+              <option value="Mazarat Ki Tameer">Mazarat Ki Tameer</option>
+              <option value="Imamo ki Tankha">Imamo ki Tankha</option>
+            </select>
+          </div>
+        </div>
+        <button class="action" id="createRaseedBtn" onclick="createRaseed()">Raseed Banayein</button>
+      </div>
+
+      <div class="card">
+        <h3>📋 Issued Raseed / Donor List</h3>
+        <input id="donorSearchInput" placeholder="🔍 Search Donor by Name, Mobile, ya Raseed Number..." style="width:100%;padding:10px;margin:12px 0;border:1px solid #ccc;border-radius:8px;" oninput="filterDonors()">
+        <div id="donorListContainer">Loading...</div>
+      </div>
+    </div>
+
+    <!-- 2. MEMBERS MANAGEMENT -->
+    <div id="secMembers" class="admin-sec hidden">
+      <div class="card">
+        <h3>👥 Naya Member Add Karein</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:10px;">
+          <div class="form-group"><label>Member Photo</label><input type="file" id="memberPhotoFile" accept="image/*"></div>
+          <div class="form-group"><label>Member Name</label><input id="memberName"></div>
+          <div class="form-group"><label>Mobile Number</label><input id="memberPhone"></div>
+          <div class="form-group"><label>Zimmedari</label><input id="memberResp"></div>
+          <div class="form-group"><label>Address</label><input id="memberAddress"></div>
+        </div>
+        <button class="action" id="saveMemberBtn" onclick="addMember()">Save Member</button>
+      </div>
+
+      <div class="card">
+        <h3>👥 Registered Members</h3>
+        <div id="memberListContainer">Loading...</div>
+      </div>
+    </div>
+
+    <!-- 3. VISITORS LIST -->
+    <div id="secVisitors" class="admin-sec hidden">
+      <div class="card">
+        <h3>👥 Website Logged-in Visitors</h3>
+        <div id="visitorsListContainer">Loading...</div>
+      </div>
+    </div>
+
+    <!-- 4. GENERAL CONTENT UPLOADS -->
+    <div id="secUploads" class="admin-sec hidden">
+      <div class="card">
+        <h3>📸 Photo Gallery Upload</h3>
+        <div class="form-group"><label>Title</label><input id="photoTitle"></div>
+        <div class="form-group"><label>File</label><input type="file" id="photoFile" accept="image/*"></div>
+        <button class="action" onclick="uploadPhoto()">Upload Photo</button>
+      </div>
+
+      <div class="card">
+        <h3>🎥 Video Upload / Link</h3>
+        <div class="form-group"><label>Title</label><input id="videoTitle"></div>
+        <div class="form-group"><label>YouTube URL / Video Link</label><input id="videoUrl"></div>
+        <button class="action" onclick="uploadVideo()">Save Video</button>
+      </div>
+
+      <div class="card">
+        <h3>📅 Add Program</h3>
+        <div class="form-group"><label>Date (YYYY-MM-DD)</label><input type="date" id="progDate"></div>
+        <div class="form-group"><label>Title</label><input id="progTitle"></div>
+        <div class="form-group"><label>Details</label><textarea id="progDesc"></textarea></div>
+        <button class="action" onclick="addProgram()">Publish Program</button>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- MEMBER EDIT MODAL -->
+<div id="editMemberModal" class="modal-overlay hidden">
+  <div class="modal-content">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+      <h3 style="color:#075c39;">✏️ Edit Member & Photo</h3>
+      <button onclick="closeEditModal()" style="border:0;background:none;font-size:20px;">✕</button>
+    </div>
+    <input type="hidden" id="editMemberId">
+    <input type="hidden" id="editOldPhoto">
+    <div class="form-group"><label>Nayi Photo (Optional)</label><input type="file" id="editPhotoFile" accept="image/*"></div>
+    <div class="form-group"><label>Name</label><input id="editName"></div>
+    <div class="form-group"><label>Zimmedari</label><input id="editResp"></div>
+    <div class="form-group"><label>Contact</label><input id="editPhone"></div>
+    <div class="form-group"><label>Address</label><input id="editAddress"></div>
+    <div style="display:flex;gap:10px;margin-top:16px;">
+      <button class="action" style="flex:1;" onclick="saveEditedMember()">Save Update</button>
+      <button onclick="closeEditModal()" style="padding:10px 16px;border:1px solid #ccc;border-radius:8px;background:#f5f5f5;">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+import { getFirestore, collection, addDoc, getDocs, updateDoc, deleteDoc, doc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAEcw0NtlOl9egPuU9EkEWp4nkhrxKw2iY",
+  authDomain: "khadimin-e-auliya-7d27b.firebaseapp.com",
+  projectId: "khadimin-e-auliya-7d27b",
+  storageBucket: "khadimin-e-auliya-7d27b.firebasestorage.app",
+  messagingSenderId: "912949528966",
+  appId: "1:912949528966:web:72af53c7977fa09ba18407",
+  measurementId: "G-8HF0ZV0H77"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const CLOUD_NAME = "cfadsjum";
+const UPLOAD_PRESET = "khadimin_preset";
+
+const ADMIN_EMAILS = ["razabookstore9690@gmail.com", "admin@khadimin.com"];
+let ALL_DONORS = [];
+
+window.switchSection = function(secId){
+  document.querySelectorAll(".admin-sec").forEach(el => el.classList.add("hidden"));
+  document.querySelectorAll(".dash-btn").forEach(el => el.classList.remove("active"));
+  document.getElementById(secId).classList.remove("hidden");
+  event.target.classList.add("active");
+};
+
+// Cloudinary Upload
+function uploadDirect(file, type = "image"){
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/${type}/upload`, true);
+    xhr.onload = () => {
+      if(xhr.status >= 200 && xhr.status < 300) resolve(JSON.parse(xhr.responseText).secure_url);
+      else reject(new Error("Upload failed"));
+    };
+    xhr.onerror = () => reject(new Error("Network Error"));
+    const fd = new FormData();
+    fd.append("file", file);
+    fd.append("upload_preset", UPLOAD_PRESET);
+    xhr.send(fd);
+  });
+}
+
+// Login Listener
+onAuthStateChanged(auth, user => {
+  if(user && ADMIN_EMAILS.includes((user.email || "").toLowerCase())){
+    document.getElementById("adminLoginPage").classList.add("hidden");
+    document.getElementById("adminPanel").classList.remove("hidden");
+    loadAllAdminData();
+  } else {
+    document.getElementById("adminLoginPage").classList.remove("hidden");
+    document.getElementById("adminPanel").classList.add("hidden");
+  }
+});
+
+document.getElementById("adminLoginBtn").onclick = async () => {
+  let email = document.getElementById("adminEmail").value.trim().toLowerCase();
+  const pass = document.getElementById("adminPassword").value;
+  if(!email || !pass) return alert("Email & Password daalein.");
+  if(!email.includes("@")) email += "@khadimin.com";
+
+  try {
+    await signInWithEmailAndPassword(auth, email, pass);
+  } catch(e) {
+    alert("Login failed: " + e.message);
+  }
+};
+
+document.getElementById("adminLogoutBtn").onclick = async () => {
+  await signOut(auth);
+  location.reload();
+};
+
+function loadAllAdminData(){
+  loadDonors();
+  loadMembers();
+  loadVisitors();
+}
+
+// 1. Raseed
+window.createRaseed = async function(){
+  const name = document.getElementById("donorName").value.trim();
+  const phone = document.getElementById("donorMobile").value.trim();
+  const amount = Number(document.getElementById("donationAmount").value);
+  const purpose = document.getElementById("donationPurpose").value;
+
+  if(!name || !amount) return alert("Donor Name aur Amount zaroori hai.");
+
+  const now = new Date();
+  const dateStr = String(now.getDate()).padStart(2,'0') + "-" + String(now.getMonth()+1).padStart(2,'0') + "-" + now.getFullYear();
+  const rashidNumber = "KEA-" + Date.now().toString().slice(-6);
+
+  await addDoc(collection(db, "rashid"), {
+    rashidNumber, donorName: name, donorMobile: phone, amount, purpose, dateStr, createdAt: serverTimestamp()
+  });
+
+  alert("✅ Raseed ban gayi: " + rashidNumber);
+  document.getElementById("donorName").value = "";
+  document.getElementById("donorMobile").value = "";
+  document.getElementById("donationAmount").value = "";
+  loadDonors();
+};
+
+async function loadDonors(){
+  const box = document.getElementById("donorListContainer");
+  const snap = await getDocs(collection(db, "rashid"));
+  const list = [];
+  snap.forEach(d => list.push({ id: d.id, ...d.data() }));
+  list.sort((a,b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+  ALL_DONORS = list;
+  renderDonors(list);
+}
+
+function renderDonors(list){
+  const box = document.getElementById("donorListContainer");
+  if(!list.length) return box.innerHTML = "<p>Koi donor record nahi mila.</p>";
+  let html = "";
+  list.forEach(d => {
+    html += `
+      <div class="donor-item">
+        <div>
+          <strong style="color:#075c39;">${d.donorName || "-"}</strong> (₹${d.amount})<br>
+          <span style="font-size:12px;color:#555;">📞 ${d.donorMobile || "-"} | 📅 ${d.dateStr || "-"} | ID: ${d.rashidNumber}</span>
+        </div>
+        <div>
+          <button class="btn-delete" onclick="deleteItem('rashid', '${d.id}', loadDonors)">🗑️ Delete</button>
+        </div>
+      </div>
+    `;
+  });
+  box.innerHTML = html;
+}
+
+window.filterDonors = function(){
+  const val = (document.getElementById("donorSearchInput").value || "").toLowerCase();
+  const res = ALL_DONORS.filter(d => 
+    (d.donorName || "").toLowerCase().includes(val) ||
+    (d.donorMobile || "").includes(val) ||
+    (d.rashidNumber || "").toLowerCase().includes(val)
+  );
+  renderDonors(res);
+};
+
+// 2. Members
+window.addMember = async function(){
+  const name = document.getElementById("memberName").value.trim();
+  const phone = document.getElementById("memberPhone").value.trim();
+  const resp = document.getElementById("memberResp").value.trim();
+  const addr = document.getElementById("memberAddress").value.trim();
+  const file = document.getElementById("memberPhotoFile").files[0];
+
+  if(!name) return alert("Member name zaroori hai.");
+  const btn = document.getElementById("saveMemberBtn");
+  btn.disabled = true;
+  btn.textContent = "Uploading...";
+
+  try{
+    let photoUrl = "";
+    if(file) photoUrl = await uploadDirect(file, "image");
+    const memberIdCode = "KEA-" + Math.floor(100000 + Math.random() * 900000);
+
+    await addDoc(collection(db, "members"), {
+      memberIdCode, name, phone, responsibility: resp, address: addr, photoUrl, createdAt: serverTimestamp()
+    });
+
+    alert("✅ Member ID Card ban gaya!");
+    document.getElementById("memberName").value = "";
+    document.getElementById("memberPhone").value = "";
+    document.getElementById("memberResp").value = "";
+    document.getElementById("memberAddress").value = "";
+    document.getElementById("memberPhotoFile").value = "";
+    loadMembers();
+  }catch(e){
+    alert("Error: " + e.message);
+  }finally{
+    btn.disabled = false;
+    btn.textContent = "Save Member";
+  }
+};
+
+async function loadMembers(){
+  const box = document.getElementById("memberListContainer");
+  const snap = await getDocs(collection(db, "members"));
+  if(snap.empty) return box.innerHTML = "<p>Koi member nahi hai.</p>";
+  let html = "";
+  snap.forEach(d => {
+    const m = d.data();
+    html += `
+      <div class="donor-item">
+        <div style="display:flex;align-items:center;gap:12px;">
+          ${m.photoUrl ? `<img src="${m.photoUrl}" style="width:45px;height:55px;object-fit:cover;border-radius:6px;">` : ""}
+          <div>
+            <strong>${m.name}</strong> (${m.responsibility || "Member"})<br>
+            <span style="font-size:12px;color:#555;">📞 ${m.phone || "-"} | 📍 ${m.address || "-"}</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:6px;">
+          <button class="btn-edit" onclick="openEditModal('${d.id}', '${m.name}', '${m.responsibility||""}', '${m.phone||""}', '${m.address||""}', '${m.photoUrl||""}')">✏️ Edit</button>
+          <button class="btn-delete" onclick="deleteItem('members', '${d.id}', loadMembers)">🗑️ Delete</button>
+        </div>
+      </div>
+    `;
+  });
+  box.innerHTML = html;
+}
+
+window.openEditModal = function(id, name, resp, phone, addr, photo){
+  document.getElementById("editMemberId").value = id;
+  document.getElementById("editOldPhoto").value = photo || "";
+  document.getElementById("editName").value = name;
+  document.getElementById("editResp").value = resp;
+  document.getElementById("editPhone").value = phone;
+  document.getElementById("editAddress").value = addr;
+  document.getElementById("editPhotoFile").value = "";
+  document.getElementById("editMemberModal").classList.remove("hidden");
+};
+window.closeEditModal = function(){
+  document.getElementById("editMemberModal").classList.add("hidden");
+};
+
+window.saveEditedMember = async function(){
+  const id = document.getElementById("editMemberId").value;
+  const name = document.getElementById("editName").value.trim();
+  const resp = document.getElementById("editResp").value.trim();
+  const phone = document.getElementById("editPhone").value.trim();
+  const addr = document.getElementById("editAddress").value.trim();
+  const file = document.getElementById("editPhotoFile").files[0];
+  let photoUrl = document.getElementById("editOldPhoto").value;
+
+  if(!name) return alert("Name zaroori hai.");
+  try{
+    if(file) photoUrl = await uploadDirect(file, "image");
+    await updateDoc(doc(db, "members", id), {
+      name, responsibility: resp, phone, address: addr, photoUrl
+    });
+    alert("✅ Member update ho gaya!");
+    closeEditModal();
+    loadMembers();
+  }catch(e){ alert(e.message); }
+};
+
+// 3. Visitors
+async function loadVisitors(){
+  const box = document.getElementById("visitorsListContainer");
+  const snap = await getDocs(collection(db, "website_users"));
+  if(snap.empty) return box.innerHTML = "<p>Koi visitor record nahi hai.</p>";
+  let html = "";
+  snap.forEach(d => {
+    const v = d.data();
+    html += `
+      <div class="donor-item">
+        <div><strong>👤 ${v.name}</strong> (📞 ${v.phone})<br><span style="font-size:12px;color:#555;">🕒 First Login: ${v.loginAt || "-"}</span></div>
+        <button class="btn-delete" onclick="deleteItem('website_users', '${d.id}', loadVisitors)">🗑️ Delete</button>
+      </div>
+    `;
+  });
+  box.innerHTML = html;
+}
+
+// 4. Uploads
+window.uploadPhoto = async function(){
+  const title = document.getElementById("photoTitle").value.trim();
+  const file = document.getElementById("photoFile").files[0];
+  if(!file) return alert("Photo chunein.");
+  const url = await uploadDirect(file, "image");
+  await addDoc(collection(db, "photos"), { title, url, createdAt: Date.now() });
+  alert("Photo Uploaded!");
+  document.getElementById("photoTitle").value = "";
+  document.getElementById("photoFile").value = "";
+};
+
+window.uploadVideo = async function(){
+  const title = document.getElementById("videoTitle").value.trim();
+  const url = document.getElementById("videoUrl").value.trim();
+  if(!url) return alert("Video link daalein.");
+  await addDoc(collection(db, "videos"), { title, url, createdAt: Date.now() });
+  alert("Video Saved!");
+  document.getElementById("videoTitle").value = "";
+  document.getElementById("videoUrl").value = "";
+};
+
+window.addProgram = async function(){
+  const date = document.getElementById("progDate").value;
+  const title = document.getElementById("progTitle").value.trim();
+  const description = document.getElementById("progDesc").value.trim();
+  if(!title) return alert("Title daalein.");
+  await addDoc(collection(db, "programs"), { date, title, description, createdAt: serverTimestamp() });
+  alert("Program Published!");
+  document.getElementById("progDate").value = "";
+  document.getElementById("progTitle").value = "";
+  document.getElementById("progDesc").value = "";
+};
+
+window.deleteItem = async function(coll, id, callback){
+  if(!confirm("Kya aap delete karna chahte hain?")) return;
+  await deleteDoc(doc(db, coll, id));
+  alert("Delete ho gaya!");
+  callback();
+};
+</script>
+</body>
+</html>
