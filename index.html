@@ -626,6 +626,7 @@ import {
   collection, 
   addDoc, 
   getDocs, 
+  onSnapshot,
   query, 
   where 
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
@@ -739,7 +740,7 @@ if(localUser){
     document.getElementById("loginPage").classList.add("hidden");
     document.getElementById("app").classList.remove("hidden");
     document.getElementById("roleText").textContent = `👤 User: ${u.name}`;
-    loadAllData();
+    startLiveListeners();
   }catch(e){
     initLoginState();
   }
@@ -794,7 +795,7 @@ document.getElementById("userEnterBtn").addEventListener("click", async()=>{
     document.getElementById("app").classList.remove("hidden");
     document.getElementById("roleText").textContent = `👤 User: ${name}`;
 
-    await loadAllData();
+    startLiveListeners();
   }catch(e){
     alert("Error: " + e.message);
   }finally{
@@ -808,27 +809,24 @@ document.getElementById("logout").addEventListener("click",async()=>{
   location.reload();
 });
 
-async function loadAllData(){
-  await Promise.allSettled([
-    loadSocialLinks(),
-    loadHomePageDynamic(),
-    loadPayment(),
-    loadPrograms(),
-    loadPhotos(),
-    loadVideos(),
-    loadMembers(),
-    loadLangar(),
-    loadNotices()
-  ]);
+// REAL-TIME AUTO SYNC (KABHI RE-LOGIN KI ZAROORAT NAHI)
+function startLiveListeners(){
+  listenSocialLinks();
+  listenPhotos();
+  listenVideos();
+  listenPrograms();
+  listenPayment();
+  listenMembers();
+  listenLangar();
+  listenNotices();
 }
 
 const DEFAULT_WHATSAPP = "https://whatsapp.com/channel/0029Vb6FQo8CHDyjzvdDsg26";
 const DEFAULT_YOUTUBE = "https://youtube.com/@shaneagraofficial?si=lev8qA9HhLxH0req";
 const DEFAULT_INSTAGRAM = "https://www.instagram.com/khadimine_auliya_agra?stkn=ZnIyemU5cTY0NzFq";
 
-async function loadSocialLinks(){
-  try{
-    const snap = await getDocs(collection(db, "settings"));
+function listenSocialLinks(){
+  onSnapshot(collection(db, "settings"), (snap)=>{
     let links = { whatsapp: DEFAULT_WHATSAPP, youtube: DEFAULT_YOUTUBE, instagram: DEFAULT_INSTAGRAM };
     snap.forEach(d => {
       if(d.id === "social_links"){ links = { ...links, ...d.data() }; }
@@ -836,150 +834,162 @@ async function loadSocialLinks(){
     document.getElementById("homeWaBtn").href = links.whatsapp;
     document.getElementById("homeYtBtn").href = links.youtube;
     document.getElementById("homeIgBtn").href = links.instagram;
-  }catch(e){}
+  }, ()=>{});
 }
 
-async function loadHomePageDynamic(){
-  const photoBox = document.getElementById("homeLatestPhoto");
-  try{
-    const pSnap = await getDocs(collection(db, "photos"));
-    if(pSnap.empty){
-      photoBox.innerHTML = "<p style='color:#666;'>Abhi koi photo upload nahi hai.</p>";
-    }else{
-      const photos = [];
-      pSnap.forEach(d => photos.push({ id: d.id, ...d.data() }));
-      photos.sort((a,b) => (b.createdAt?.seconds || b.createdAt || 0) - (a.createdAt?.seconds || a.createdAt || 0));
-      const latestPhoto = photos[0];
-      photoBox.innerHTML = `
-        <div class="item" style="margin:0;">
-          <h3 style="font-size:16px;">${escapeHTML(latestPhoto.title || "Photo")}</h3>
-          <img src="${latestPhoto.url}" alt="${escapeHTML(latestPhoto.title)}">
-        </div>
-      `;
-    }
-  }catch(e){
-    photoBox.innerHTML = "<p style='color:#666;'>Abhi koi photo uplabdh nahi hai.</p>";
-  }
+function listenPhotos(){
+  const homeBox = document.getElementById("homeLatestPhoto");
+  const galleryBox = document.getElementById("photoList");
 
-  const videoBox = document.getElementById("homeLatestVideo");
-  try{
-    const vSnap = await getDocs(collection(db, "videos"));
-    if(vSnap.empty){
-      videoBox.innerHTML = "<p style='color:#666;'>Abhi koi video upload nahi hai.</p>";
-    }else{
-      const videos = [];
-      vSnap.forEach(d => videos.push({ id: d.id, ...d.data() }));
-      videos.sort((a,b) => (b.createdAt?.seconds || b.createdAt || 0) - (a.createdAt?.seconds || a.createdAt || 0));
-      const latestVideo = videos[0];
-      const parsed = parseVideoSource(latestVideo.url);
-      let mediaHtml = "";
-      if(parsed.type === "youtube"){
-        mediaHtml = `<iframe src="${parsed.url}" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>`;
-      }else if(latestVideo.url){
-        mediaHtml = `<video controls playsinline><source src="${latestVideo.url}"></video>`;
-      }
-      videoBox.innerHTML = `
-        <div class="item" style="margin:0;">
-          <h3 style="font-size:16px;">${escapeHTML(latestVideo.title || "Video")}</h3>
-          ${mediaHtml}
-        </div>
-      `;
+  onSnapshot(collection(db, "photos"), (snapshot)=>{
+    if(snapshot.empty){
+      homeBox.innerHTML = "<p style='color:#666;'>Abhi koi photo upload nahi hai.</p>";
+      galleryBox.innerHTML = "<p>Photos abhi nahi hain.</p>";
+      return;
     }
-  }catch(e){
-    videoBox.innerHTML = "<p style='color:#666;'>Abhi koi video uplabdh nahi hai.</p>";
-  }
+    const photos = [];
+    snapshot.forEach(d => photos.push({ id: d.id, ...d.data() }));
+    photos.sort((a,b) => (b.createdAt?.seconds || b.createdAt || 0) - (a.createdAt?.seconds || a.createdAt || 0));
 
-  const progBox = document.getElementById("homeActivePrograms");
-  try{
-    const progSnap = await getDocs(collection(db, "programs"));
-    if(progSnap.empty){
-      progBox.innerHTML = "<p style='color:#666;'>Filhal koi upcoming program scheduled nahi hai.</p>";
-    }else{
-      const todayStr = getTodayDateStringIST();
-      let html = "";
-      let count = 0;
-      progSnap.forEach(item => {
-        const d = item.data();
-        const progDate = (d.date || "").trim();
-        if(progDate && progDate >= todayStr){
-          count++;
-          html += `
-            <div class="item" style="margin:8px 0;">
-              <h3 style="color:#075c39;">${escapeHTML(d.title || "")}</h3>
-              <p style="font-size:13px;color:#d6ad45;font-weight:bold;margin-bottom:6px;">📅 Date: ${escapeHTML(progDate)}</p>
-              <p>${escapeHTML(d.description || "")}</p>
-            </div>
-          `;
-        }
-      });
-      if(count === 0){
-        progBox.innerHTML = "<p style='color:#666;'>Pichle saare programs guzar chuke hain. Naye program ka elan jald hoga.</p>";
-      }else{
-        progBox.innerHTML = html;
-      }
-    }
-  }catch(e){
-    progBox.innerHTML = "<p style='color:#666;'>Filhal koi program uplabdh nahi hai.</p>";
-  }
-}
+    // Home latest photo
+    const latestPhoto = photos[0];
+    homeBox.innerHTML = `
+      <div class="item" style="margin:0;">
+        <h3 style="font-size:16px;">${escapeHTML(latestPhoto.title || "Photo")}</h3>
+        <img src="${latestPhoto.url}" alt="${escapeHTML(latestPhoto.title)}">
+      </div>
+    `;
 
-window.loadPhotos = async function(){
-  const box = document.getElementById("photoList");
-  try{
-    const snapshot = await getDocs(collection(db,"photos"));
-    if(snapshot.empty) return box.innerHTML = "<p>Photos abhi nahi hain.</p>";
-    let html="";
-    snapshot.forEach(item=>{
-      const d=item.data();
-      html += `
+    // Photos Page
+    let galleryHtml = "";
+    photos.forEach(d => {
+      galleryHtml += `
         <div class="item">
           <h3>${escapeHTML(d.title || "Photo")}</h3>
           ${d.url ? `<img src="${d.url}">` : ""}
         </div>
       `;
     });
-    box.innerHTML = html;
-  }catch(e){
-    box.innerHTML = "<p>Photos abhi nahi hain.</p>";
-  }
-};
+    galleryBox.innerHTML = galleryHtml;
+  }, ()=>{
+    homeBox.innerHTML = "<p style='color:#666;'>Abhi koi photo uplabdh nahi hai.</p>";
+    galleryBox.innerHTML = "<p>Photos uplabdh nahi hain.</p>";
+  });
+}
 
-window.loadVideos = async function(){
-  const box = document.getElementById("videoList");
-  try{
-    const snapshot = await getDocs(collection(db,"videos"));
-    if(snapshot.empty) return box.innerHTML = "<p>Videos abhi nahi hain.</p>";
-    let html="";
-    snapshot.forEach(item=>{
-      const d=item.data();
-      const parsed = parseVideoSource(d.url);
-      let mediaHtml = "";
-      if(parsed.type === "youtube"){
-        mediaHtml = `<iframe src="${parsed.url}" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>`;
+function listenVideos(){
+  const homeBox = document.getElementById("homeLatestVideo");
+  const galleryBox = document.getElementById("videoList");
+
+  onSnapshot(collection(db, "videos"), (snapshot)=>{
+    if(snapshot.empty){
+      homeBox.innerHTML = "<p style='color:#666;'>Abhi koi video upload nahi hai.</p>";
+      galleryBox.innerHTML = "<p>Videos abhi nahi hain.</p>";
+      return;
+    }
+    const videos = [];
+    snapshot.forEach(d => videos.push({ id: d.id, ...d.data() }));
+    videos.sort((a,b) => (b.createdAt?.seconds || b.createdAt || 0) - (a.createdAt?.seconds || a.createdAt || 0));
+
+    // Home latest video
+    const latestVideo = videos[0];
+    const parsed = parseVideoSource(latestVideo.url);
+    let mediaHtml = "";
+    if(parsed.type === "youtube"){
+      mediaHtml = `<iframe src="${parsed.url}" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>`;
+    }else if(latestVideo.url){
+      mediaHtml = `<video controls playsinline><source src="${latestVideo.url}"></video>`;
+    }
+    homeBox.innerHTML = `
+      <div class="item" style="margin:0;">
+        <h3 style="font-size:16px;">${escapeHTML(latestVideo.title || "Video")}</h3>
+        ${mediaHtml}
+      </div>
+    `;
+
+    // Videos Page
+    let listHtml = "";
+    videos.forEach(d => {
+      const p = parseVideoSource(d.url);
+      let mHtml = "";
+      if(p.type === "youtube"){
+        mHtml = `<iframe src="${p.url}" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>`;
       }else if(d.url){
-        mediaHtml = `<video controls playsinline><source src="${d.url}"></video>`;
+        mHtml = `<video controls playsinline><source src="${d.url}"></video>`;
       }
-      html += `
+      listHtml += `
         <div class="item">
           <h3>${escapeHTML(d.title || "Video")}</h3>
-          ${mediaHtml}
+          ${mHtml}
         </div>
       `;
     });
-    box.innerHTML = html;
-  }catch(e){
-    box.innerHTML = "<p>Videos abhi nahi hain.</p>";
-  }
-};
+    galleryBox.innerHTML = listHtml;
+  }, ()=>{
+    homeBox.innerHTML = "<p style='color:#666;'>Abhi koi video uplabdh nahi hai.</p>";
+    galleryBox.innerHTML = "<p>Videos uplabdh nahi hain.</p>";
+  });
+}
 
-window.loadPayment = async function(){
+function listenPrograms(){
+  const homeBox = document.getElementById("homeActivePrograms");
+  const listPageBox = document.getElementById("programList");
+
+  onSnapshot(collection(db, "programs"), (snapshot)=>{
+    if(snapshot.empty){
+      homeBox.innerHTML = "<p style='color:#666;'>Filhal koi upcoming program scheduled nahi hai.</p>";
+      listPageBox.innerHTML = "<p>Abhi koi program nahi hai.</p>";
+      return;
+    }
+    const todayStr = getTodayDateStringIST();
+    let homeHtml = "";
+    let pageHtml = "";
+    let upcomingCount = 0;
+
+    snapshot.forEach(item => {
+      const d = item.data();
+      const progDate = (d.date || "").trim();
+
+      // Home Page Filter
+      if(progDate && progDate >= todayStr){
+        upcomingCount++;
+        homeHtml += `
+          <div class="item" style="margin:8px 0;">
+            <h3 style="color:#075c39;">${escapeHTML(d.title || "")}</h3>
+            <p style="font-size:13px;color:#d6ad45;font-weight:bold;margin-bottom:6px;">📅 Date: ${escapeHTML(progDate)}</p>
+            <p>${escapeHTML(d.description || "")}</p>
+          </div>
+        `;
+      }
+
+      // Programs Page
+      pageHtml += `
+        <div class="item">
+          <h3>${escapeHTML(d.title || "")}</h3>
+          ${d.date ? `<p style="font-size:13px;color:#075c39;font-weight:bold;margin:4px 0;">📅 Program Date: ${escapeHTML(d.date)}</p>` : ""}
+          <p>${escapeHTML(d.description || "")}</p>
+        </div>
+      `;
+    });
+
+    homeBox.innerHTML = (upcomingCount === 0) ? "<p style='color:#666;'>Pichle saare programs guzar chuke hain. Naye program ka elan jald hoga.</p>" : homeHtml;
+    listPageBox.innerHTML = pageHtml;
+  }, ()=>{
+    homeBox.innerHTML = "<p style='color:#666;'>Filhal koi program uplabdh nahi hai.</p>";
+    listPageBox.innerHTML = "<p>Abhi koi program nahi hai.</p>";
+  });
+}
+
+function listenPayment(){
   const box = document.getElementById("paymentDetails");
-  try{
-    const snapshot = await getDocs(collection(db,"paymentMethods"));
-    if(snapshot.empty) return box.innerHTML = "<p>Payment details add nahi hain.</p>";
-    let html="";
-    snapshot.forEach(item=>{
-      const data=item.data();
+  onSnapshot(collection(db, "paymentMethods"), (snapshot)=>{
+    if(snapshot.empty){
+      box.innerHTML = "<p>Payment details add nahi hain.</p>";
+      return;
+    }
+    let html = "";
+    snapshot.forEach(item => {
+      const data = item.data();
       html += `
         <div class="item">
           <p><strong>Account Holder:</strong> ${escapeHTML(data.accountHolder || "-")}</p>
@@ -989,63 +999,26 @@ window.loadPayment = async function(){
         </div>
       `;
     });
-    box.innerHTML=html;
-  }catch(e){ 
-    box.innerHTML = "<p>Payment details uplabdh nahi hain.</p>"; 
-  }
-};
+    box.innerHTML = html;
+  }, ()=>{
+    box.innerHTML = "<p>Payment details uplabdh nahi hain.</p>";
+  });
+}
 
-window.loadPrograms = async function(){
-  const box = document.getElementById("programList");
-  try{
-    const snapshot = await getDocs(collection(db,"programs"));
-    if(snapshot.empty) return box.innerHTML = "<p>Abhi koi program nahi hai.</p>";
-    let html="";
-    snapshot.forEach(item=>{
-      const d=item.data();
-      html += `
-        <div class="item">
-          <h3>${escapeHTML(d.title || "")}</h3>
-          ${d.date ? `<p style="font-size:13px;color:#075c39;font-weight:bold;margin:4px 0;">📅 Program Date: ${escapeHTML(d.date)}</p>` : ""}
-          <p>${escapeHTML(d.description || "")}</p>
-        </div>
-      `;
-    });
-    box.innerHTML=html;
-  }catch(e){
-    box.innerHTML = "<p>Abhi koi program nahi hai.</p>";
-  }
-};
-
-window.downloadMemberIdCard = async function(cardElementId, memberName){
-  const cardElement = document.getElementById(cardElementId);
-  if(!cardElement) return alert("Card nahi mila.");
-  try{
-    const canvas = await html2canvas(cardElement, { scale: 3, useCORS: true, backgroundColor: "#ffffff" });
-    const imgData = canvas.toDataURL("image/png");
-    const a = document.createElement("a");
-    a.href = imgData;
-    const cleanName = (memberName || "Member").replace(/\s+/g, "_");
-    a.download = `IDCard_${cleanName}.png`;
-    a.click();
-  }catch(e){
-    alert("Card download error: " + e.message);
-  }
-};
-
-window.loadMembers = async function(){
+function listenMembers(){
   const box = document.getElementById("memberList");
-  try{
-    const snapshot = await getDocs(collection(db,"members"));
-    if(snapshot.empty) return box.innerHTML = "<p>Members list khali hai.</p>";
-    
+  onSnapshot(collection(db, "members"), (snapshot)=>{
+    if(snapshot.empty){
+      box.innerHTML = "<p>Members list khali hai.</p>";
+      return;
+    }
     let html = `<div class="member-cards-wrapper">`;
-    snapshot.forEach(item=>{
+    snapshot.forEach(item => {
       const d = item.data();
       const id = item.id;
       const cardUniqueId = `idcard_render_${id}`;
       const nameAttr = (d.name || "").replace(/"/g, '&quot;');
-      
+
       let memberCode = d.memberIdCode;
       if(!memberCode || !/\d/.test(memberCode)){
         let numHash = 0;
@@ -1106,19 +1079,21 @@ window.loadMembers = async function(){
     });
     html += `</div>`;
     box.innerHTML = html;
-  }catch(e){
+  }, ()=>{
     box.innerHTML = "<p>Members list uplabdh nahi hai.</p>";
-  }
-};
+  });
+}
 
-window.loadLangar = async function(){
+function listenLangar(){
   const box = document.getElementById("langarContent");
-  try{
-    const snapshot = await getDocs(collection(db,"langar"));
-    if(snapshot.empty) return box.innerHTML = "<p>Langar details abhi nahi hain.</p>";
-    let html="";
-    snapshot.forEach(item=>{
-      const d=item.data();
+  onSnapshot(collection(db, "langar"), (snapshot)=>{
+    if(snapshot.empty){
+      box.innerHTML = "<p>Langar details abhi nahi hain.</p>";
+      return;
+    }
+    let html = "";
+    snapshot.forEach(item => {
+      const d = item.data();
       html += `
         <div class="item">
           <div>${escapeHTML(d.text || "")}</div>
@@ -1126,19 +1101,21 @@ window.loadLangar = async function(){
       `;
     });
     box.innerHTML = html;
-  }catch(e){
+  }, ()=>{
     box.innerHTML = "<p>Langar details uplabdh nahi hain.</p>";
-  }
-};
+  });
+}
 
-window.loadNotices = async function(){
+function listenNotices(){
   const box = document.getElementById("noticeList");
-  try{
-    const snapshot = await getDocs(collection(db,"notices"));
-    if(snapshot.empty) return box.innerHTML = "<p>Abhi koi notice nahi hai.</p>";
-    let html="";
-    snapshot.forEach(item=>{
-      const d=item.data();
+  onSnapshot(collection(db, "notices"), (snapshot)=>{
+    if(snapshot.empty){
+      box.innerHTML = "<p>Abhi koi notice nahi hai.</p>";
+      return;
+    }
+    let html = "";
+    snapshot.forEach(item => {
+      const d = item.data();
       html += `
         <div class="item">
           <h3>${escapeHTML(d.title || "")}</h3>
@@ -1147,8 +1124,24 @@ window.loadNotices = async function(){
       `;
     });
     box.innerHTML = html;
-  }catch(e){
+  }, ()=>{
     box.innerHTML = "<p>Abhi koi notice nahi hai.</p>";
+  });
+}
+
+window.downloadMemberIdCard = async function(cardElementId, memberName){
+  const cardElement = document.getElementById(cardElementId);
+  if(!cardElement) return alert("Card nahi mila.");
+  try{
+    const canvas = await html2canvas(cardElement, { scale: 3, useCORS: true, backgroundColor: "#ffffff" });
+    const imgData = canvas.toDataURL("image/png");
+    const a = document.createElement("a");
+    a.href = imgData;
+    const cleanName = (memberName || "Member").replace(/\s+/g, "_");
+    a.download = `IDCard_${cleanName}.png`;
+    a.click();
+  }catch(e){
+    alert("Card download error: " + e.message);
   }
 };
 
