@@ -465,25 +465,21 @@ button{cursor:pointer;}
       <p>Khidmat • Deen • Sufi Riwayat</p>
     </div>
 
-    <!-- Latest Photo Section -->
     <div class="card">
       <span class="section-badge">📸 Taza Tasweer (Latest Photo)</span>
       <div id="homeLatestPhoto">Loading...</div>
     </div>
 
-    <!-- Latest Video Section -->
     <div class="card">
       <span class="section-badge">🎥 Taza Video Bayan (Latest Video)</span>
       <div id="homeLatestVideo">Loading...</div>
     </div>
 
-    <!-- Active Programs Section -->
     <div class="card">
       <span class="section-badge">📅 Upcoming Programs</span>
       <div id="homeActivePrograms">Loading...</div>
     </div>
 
-    <!-- Official Social Media Channels Box -->
     <div class="social-round-card">
       <div class="social-round-title">Stay Connected with KHADIMIN-E-AULIYA</div>
       <div class="social-circles-container">
@@ -547,11 +543,18 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- Members Page -->
+  <!-- Members Page with ID ONLY Search -->
   <section id="members" class="page">
     <div class="card">
       <h2>👥 Members List (Official Identity Cards)</h2>
       <p style="font-size:13px;color:#666;margin-bottom:14px;">Khadimin-E-Auliya Ke Official Tasdeeq-Shuda ID Cards:</p>
+      
+      <!-- ID Only Search Box -->
+      <div class="form-group" style="margin-bottom:16px;">
+        <label style="color:#075c39;">🔍 Search By Member ID Number Only</label>
+        <input id="memberIdSearchInput" type="text" placeholder="Jaise: KEA-289482 ya 289482..." oninput="filterMembersById()">
+      </div>
+
       <div id="memberList">Loading...</div>
     </div>
   </section>
@@ -645,6 +648,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 let currentGeneratedCaptcha = "";
+let ALL_MEMBERS_DATA = [];
 
 window.generateCaptcha = function(){
   const chars = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";
@@ -809,7 +813,6 @@ document.getElementById("logout").addEventListener("click",async()=>{
   location.reload();
 });
 
-// REAL-TIME AUTO SYNC (KABHI RE-LOGIN KI ZAROORAT NAHI)
 function startLiveListeners(){
   listenSocialLinks();
   listenPhotos();
@@ -851,7 +854,6 @@ function listenPhotos(){
     snapshot.forEach(d => photos.push({ id: d.id, ...d.data() }));
     photos.sort((a,b) => (b.createdAt?.seconds || b.createdAt || 0) - (a.createdAt?.seconds || a.createdAt || 0));
 
-    // Home latest photo
     const latestPhoto = photos[0];
     homeBox.innerHTML = `
       <div class="item" style="margin:0;">
@@ -860,7 +862,6 @@ function listenPhotos(){
       </div>
     `;
 
-    // Photos Page
     let galleryHtml = "";
     photos.forEach(d => {
       galleryHtml += `
@@ -891,7 +892,6 @@ function listenVideos(){
     snapshot.forEach(d => videos.push({ id: d.id, ...d.data() }));
     videos.sort((a,b) => (b.createdAt?.seconds || b.createdAt || 0) - (a.createdAt?.seconds || a.createdAt || 0));
 
-    // Home latest video
     const latestVideo = videos[0];
     const parsed = parseVideoSource(latestVideo.url);
     let mediaHtml = "";
@@ -907,7 +907,6 @@ function listenVideos(){
       </div>
     `;
 
-    // Videos Page
     let listHtml = "";
     videos.forEach(d => {
       const p = parseVideoSource(d.url);
@@ -950,7 +949,6 @@ function listenPrograms(){
       const d = item.data();
       const progDate = (d.date || "").trim();
 
-      // Home Page Filter
       if(progDate && progDate >= todayStr){
         upcomingCount++;
         homeHtml += `
@@ -962,7 +960,6 @@ function listenPrograms(){
         `;
       }
 
-      // Programs Page
       pageHtml += `
         <div class="item">
           <h3>${escapeHTML(d.title || "")}</h3>
@@ -1005,80 +1002,115 @@ function listenPayment(){
   });
 }
 
+function renderMembersCards(membersList){
+  const box = document.getElementById("memberList");
+  if(!membersList || membersList.length === 0){
+    box.innerHTML = "<p style='color:#666;padding:10px;'>Is ID Number ka koi Member ID Card nahi mila.</p>";
+    return;
+  }
+
+  let html = `<div class="member-cards-wrapper">`;
+  membersList.forEach(item => {
+    const d = item.data;
+    const id = item.id;
+    const cardUniqueId = `idcard_render_${id}`;
+    const nameAttr = (d.name || "").replace(/"/g, '&quot;');
+    const memberCode = item.code;
+    const defaultAvatar = "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=300&q=80";
+
+    html += `
+      <div class="official-idcard-outer">
+        <div id="${cardUniqueId}" class="official-idcard">
+          <div class="idcard-topbar">
+            <div class="idcard-bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+            <div class="idcard-org-title">KHADIMIN-E-AULIYA</div>
+            <div class="idcard-subhead">OFFICIAL IDENTITY CARD</div>
+          </div>
+
+          <div class="idcard-content">
+            <div class="idcard-photo-column">
+              <div class="idcard-photo-frame">
+                <img src="${d.photoUrl || defaultAvatar}" alt="${escapeHTML(d.name)}" class="idcard-photo-img" crossorigin="anonymous">
+              </div>
+              <div class="idcard-verified-badge">✓ VERIFIED</div>
+            </div>
+
+            <div class="idcard-details-column">
+              <div class="idcard-id-num">ID: ${escapeHTML(memberCode)}</div>
+              <div class="idcard-info-row">
+                <strong>Name:</strong> <span style="font-weight:900;font-size:15px;color:#063d28;">${escapeHTML(d.name || "-")}</span>
+              </div>
+              <div class="idcard-info-row">
+                <strong>Zimmedari:</strong> ${escapeHTML(d.responsibility || "Active Member")}
+              </div>
+              <div class="idcard-info-row">
+                <strong>Contact:</strong> ${escapeHTML(d.phone || "-")}
+              </div>
+              <div class="idcard-info-row">
+                <strong>Address:</strong> ${escapeHTML(d.address || "-")}
+              </div>
+            </div>
+          </div>
+
+          <div class="idcard-bottombar">
+            <span>MEMBER CARD</span>
+            <span class="idcard-signature">Khadimin Auth.</span>
+          </div>
+        </div>
+
+        <div class="idcard-btn-panel">
+          <button class="idcard-download-btn" onclick="downloadMemberIdCard('${cardUniqueId}', '${nameAttr}')">
+            📥 Download Card
+          </button>
+          ${d.phone ? `<a href="tel:${encodeURIComponent(d.phone)}" class="idcard-call-btn">📞 Call</a>` : ""}
+        </div>
+      </div>
+    `;
+  });
+  html += `</div>`;
+  box.innerHTML = html;
+}
+
+window.filterMembersById = function(){
+  const searchVal = (document.getElementById("memberIdSearchInput").value || "").trim().toUpperCase();
+  if(!searchVal){
+    renderMembersCards(ALL_MEMBERS_DATA);
+    return;
+  }
+
+  // Sirf aur sirf ID Code se matching
+  const filtered = ALL_MEMBERS_DATA.filter(item => {
+    const code = (item.code || "").toUpperCase();
+    return code.includes(searchVal);
+  });
+
+  renderMembersCards(filtered);
+};
+
 function listenMembers(){
   const box = document.getElementById("memberList");
   onSnapshot(collection(db, "members"), (snapshot)=>{
     if(snapshot.empty){
+      ALL_MEMBERS_DATA = [];
       box.innerHTML = "<p>Members list khali hai.</p>";
       return;
     }
-    let html = `<div class="member-cards-wrapper">`;
+
+    const list = [];
     snapshot.forEach(item => {
       const d = item.data();
       const id = item.id;
-      const cardUniqueId = `idcard_render_${id}`;
-      const nameAttr = (d.name || "").replace(/"/g, '&quot;');
-
       let memberCode = d.memberIdCode;
       if(!memberCode || !/\d/.test(memberCode)){
         let numHash = 0;
         for(let i=0; i<id.length; i++) numHash = (numHash * 31 + id.charCodeAt(i)) % 900000;
         memberCode = "KEA-" + (100000 + Math.abs(numHash));
       }
-
-      const defaultAvatar = "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=300&q=80";
-
-      html += `
-        <div class="official-idcard-outer">
-          <div id="${cardUniqueId}" class="official-idcard">
-            <div class="idcard-topbar">
-              <div class="idcard-bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
-              <div class="idcard-org-title">KHADIMIN-E-AULIYA</div>
-              <div class="idcard-subhead">OFFICIAL IDENTITY CARD</div>
-            </div>
-
-            <div class="idcard-content">
-              <div class="idcard-photo-column">
-                <div class="idcard-photo-frame">
-                  <img src="${d.photoUrl || defaultAvatar}" alt="${escapeHTML(d.name)}" class="idcard-photo-img" crossorigin="anonymous">
-                </div>
-                <div class="idcard-verified-badge">✓ VERIFIED</div>
-              </div>
-
-              <div class="idcard-details-column">
-                <div class="idcard-id-num">ID: ${escapeHTML(memberCode)}</div>
-                <div class="idcard-info-row">
-                  <strong>Name:</strong> <span style="font-weight:900;font-size:15px;color:#063d28;">${escapeHTML(d.name || "-")}</span>
-                </div>
-                <div class="idcard-info-row">
-                  <strong>Zimmedari:</strong> ${escapeHTML(d.responsibility || "Active Member")}
-                </div>
-                <div class="idcard-info-row">
-                  <strong>Contact:</strong> ${escapeHTML(d.phone || "-")}
-                </div>
-                <div class="idcard-info-row">
-                  <strong>Address:</strong> ${escapeHTML(d.address || "-")}
-                </div>
-              </div>
-            </div>
-
-            <div class="idcard-bottombar">
-              <span>MEMBER CARD</span>
-              <span class="idcard-signature">Khadimin Auth.</span>
-            </div>
-          </div>
-
-          <div class="idcard-btn-panel">
-            <button class="idcard-download-btn" onclick="downloadMemberIdCard('${cardUniqueId}', '${nameAttr}')">
-              📥 Download Card
-            </button>
-            ${d.phone ? `<a href="tel:${encodeURIComponent(d.phone)}" class="idcard-call-btn">📞 Call</a>` : ""}
-          </div>
-        </div>
-      `;
+      list.push({ id, data: d, code: memberCode });
     });
-    html += `</div>`;
-    box.innerHTML = html;
+
+    ALL_MEMBERS_DATA = list;
+    window.filterMembersById();
   }, ()=>{
     box.innerHTML = "<p>Members list uplabdh nahi hai.</p>";
   });
