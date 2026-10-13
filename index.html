@@ -391,7 +391,7 @@ button{cursor:pointer;}
 
 <div id="splash">
   <div class="splash-box">
-    <div class="splash-arabic">صلوا علی الحبیب</div>
+    <div class="splash-arabic">صلوا علی الحبیb</div>
     <div class="splash-arabic">صلی اللہ علی محمد</div>
     <div class="splash-welcome">Welcome To</div>
     <div class="splash-title">KHADIMIN E AULIYA</div>
@@ -458,7 +458,7 @@ button{cursor:pointer;}
 </div>
 
 <main class="container">
-  <!-- Dynamic Clean Home Page -->
+  <!-- Home Page -->
   <section id="home" class="page active">
     <div class="hero">
       <h1>KHADIMIN-E-AULIYA</h1>
@@ -543,7 +543,7 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- Members Page with ID ONLY Search -->
+  <!-- Members Page -->
   <section id="members" class="page">
     <div class="card">
       <h2>👥 Members List (Official Identity Cards)</h2>
@@ -1073,15 +1073,14 @@ function renderMembersCards(membersList){
 
 window.filterMembersById = function(){
   const searchVal = (document.getElementById("memberIdSearchInput").value || "").trim().toUpperCase();
-  const box = document.getElementById("memberList");
 
-  // Agar search box khali hai to cards display nahi honge
+  // Search box khali ho to saare member cards dikhenge
   if(!searchVal){
-    box.innerHTML = "<div style='color:#075c39;padding:18px;background:#eef7f1;border-radius:10px;font-weight:bold;text-align:center;'>🔍 Apna Member ID Number (Jaise: KEA-123456) daal kar card check karein.</div>";
+    renderMembersCards(ALL_MEMBERS_DATA);
     return;
   }
 
-  // Sirf exact ya matching ID Code se search
+  // ID search hone par wahi card filter hoga
   const filtered = ALL_MEMBERS_DATA.filter(item => {
     const code = (item.code || "").toUpperCase();
     return code.includes(searchVal);
@@ -1347,3 +1346,4 @@ function escapeHTML(value){
 </script>
 </body>
 </html>
+s
