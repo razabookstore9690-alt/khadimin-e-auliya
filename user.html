@@ -704,9 +704,7 @@ window.addEventListener("popstate", function(event){
     document.getElementById("menuOverlay").classList.remove("active");
     return;
   }
-
   window.closeViewRaseedModal();
-
   if(event.state && event.state.page){
     window.showPage(event.state.page, false);
   }else{
@@ -775,21 +773,23 @@ document.getElementById("userEnterBtn").addEventListener("click", async()=>{
   btn.textContent = "Connecting...";
 
   try{
-    const checkQuery = query(collection(db, "website_users"), where("phone", "==", phone));
-    const querySnapshot = await getDocs(checkQuery);
-
-    if(querySnapshot.empty){
-      const loginTime = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
-      await addDoc(collection(db, "website_users"), {
-        name: name,
-        phone: phone,
-        loginAt: loginTime,
-        timestamp: Date.now()
-      });
+    try {
+      const checkQuery = query(collection(db, "website_users"), where("phone", "==", phone));
+      const querySnapshot = await getDocs(checkQuery);
+      if(querySnapshot.empty){
+        const loginTime = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+        await addDoc(collection(db, "website_users"), {
+          name: name,
+          phone: phone,
+          loginAt: loginTime,
+          timestamp: Date.now()
+        });
+      }
+    }catch(err){
+      console.warn("Visitor log skipped:", err);
     }
 
     localStorage.setItem("khadimin_user_session", JSON.stringify({ name, phone }));
-
     document.getElementById("loginPage").classList.add("hidden");
     document.getElementById("app").classList.remove("hidden");
     document.getElementById("roleText").textContent = `👤 User: ${name}`;
@@ -829,28 +829,20 @@ const DEFAULT_INSTAGRAM = "https://www.instagram.com/khadimine_auliya_agra?stkn=
 async function loadSocialLinks(){
   try{
     const snap = await getDocs(collection(db, "settings"));
-    let links = {
-      whatsapp: DEFAULT_WHATSAPP,
-      youtube: DEFAULT_YOUTUBE,
-      instagram: DEFAULT_INSTAGRAM
-    };
+    let links = { whatsapp: DEFAULT_WHATSAPP, youtube: DEFAULT_YOUTUBE, instagram: DEFAULT_INSTAGRAM };
     snap.forEach(d => {
-      if(d.id === "social_links"){
-        links = { ...links, ...d.data() };
-      }
+      if(d.id === "social_links"){ links = { ...links, ...d.data() }; }
     });
-
     document.getElementById("homeWaBtn").href = links.whatsapp;
     document.getElementById("homeYtBtn").href = links.youtube;
     document.getElementById("homeIgBtn").href = links.instagram;
   }catch(e){}
 }
 
-// HOME PAGE
 async function loadHomePageDynamic(){
+  const photoBox = document.getElementById("homeLatestPhoto");
   try{
     const pSnap = await getDocs(collection(db, "photos"));
-    const photoBox = document.getElementById("homeLatestPhoto");
     if(pSnap.empty){
       photoBox.innerHTML = "<p style='color:#666;'>Abhi koi photo upload nahi hai.</p>";
     }else{
@@ -865,11 +857,13 @@ async function loadHomePageDynamic(){
         </div>
       `;
     }
-  }catch(e){}
+  }catch(e){
+    photoBox.innerHTML = "<p style='color:#666;'>Abhi koi photo uplabdh nahi hai.</p>";
+  }
 
+  const videoBox = document.getElementById("homeLatestVideo");
   try{
     const vSnap = await getDocs(collection(db, "videos"));
-    const videoBox = document.getElementById("homeLatestVideo");
     if(vSnap.empty){
       videoBox.innerHTML = "<p style='color:#666;'>Abhi koi video upload nahi hai.</p>";
     }else{
@@ -891,10 +885,12 @@ async function loadHomePageDynamic(){
         </div>
       `;
     }
-  }catch(e){}
+  }catch(e){
+    videoBox.innerHTML = "<p style='color:#666;'>Abhi koi video uplabdh nahi hai.</p>";
+  }
 
+  const progBox = document.getElementById("homeActivePrograms");
   try{
-    const progBox = document.getElementById("homeActivePrograms");
     const progSnap = await getDocs(collection(db, "programs"));
     if(progSnap.empty){
       progBox.innerHTML = "<p style='color:#666;'>Filhal koi upcoming program scheduled nahi hai.</p>";
@@ -902,11 +898,9 @@ async function loadHomePageDynamic(){
       const todayStr = getTodayDateStringIST();
       let html = "";
       let count = 0;
-
       progSnap.forEach(item => {
         const d = item.data();
         const progDate = (d.date || "").trim();
-
         if(progDate && progDate >= todayStr){
           count++;
           html += `
@@ -918,14 +912,15 @@ async function loadHomePageDynamic(){
           `;
         }
       });
-
       if(count === 0){
         progBox.innerHTML = "<p style='color:#666;'>Pichle saare programs guzar chuke hain. Naye program ka elan jald hoga.</p>";
       }else{
         progBox.innerHTML = html;
       }
     }
-  }catch(e){}
+  }catch(e){
+    progBox.innerHTML = "<p style='color:#666;'>Filhal koi program uplabdh nahi hai.</p>";
+  }
 }
 
 window.loadPhotos = async function(){
@@ -944,7 +939,9 @@ window.loadPhotos = async function(){
       `;
     });
     box.innerHTML = html;
-  }catch(e){}
+  }catch(e){
+    box.innerHTML = "<p>Photos abhi nahi hain.</p>";
+  }
 };
 
 window.loadVideos = async function(){
@@ -970,7 +967,9 @@ window.loadVideos = async function(){
       `;
     });
     box.innerHTML = html;
-  }catch(e){}
+  }catch(e){
+    box.innerHTML = "<p>Videos abhi nahi hain.</p>";
+  }
 };
 
 window.loadPayment = async function(){
@@ -991,7 +990,9 @@ window.loadPayment = async function(){
       `;
     });
     box.innerHTML=html;
-  }catch(e){ box.innerHTML = "<p>Error loading payment details.</p>"; }
+  }catch(e){ 
+    box.innerHTML = "<p>Payment details uplabdh nahi hain.</p>"; 
+  }
 };
 
 window.loadPrograms = async function(){
@@ -1011,20 +1012,16 @@ window.loadPrograms = async function(){
       `;
     });
     box.innerHTML=html;
-  }catch(e){}
+  }catch(e){
+    box.innerHTML = "<p>Abhi koi program nahi hai.</p>";
+  }
 };
 
 window.downloadMemberIdCard = async function(cardElementId, memberName){
   const cardElement = document.getElementById(cardElementId);
   if(!cardElement) return alert("Card nahi mila.");
-
   try{
-    const canvas = await html2canvas(cardElement, {
-      scale: 3,
-      useCORS: true,
-      backgroundColor: "#ffffff"
-    });
-
+    const canvas = await html2canvas(cardElement, { scale: 3, useCORS: true, backgroundColor: "#ffffff" });
     const imgData = canvas.toDataURL("image/png");
     const a = document.createElement("a");
     a.href = imgData;
@@ -1077,7 +1074,6 @@ window.loadMembers = async function(){
 
               <div class="idcard-details-column">
                 <div class="idcard-id-num">ID: ${escapeHTML(memberCode)}</div>
-                
                 <div class="idcard-info-row">
                   <strong>Name:</strong> <span style="font-weight:900;font-size:15px;color:#063d28;">${escapeHTML(d.name || "-")}</span>
                 </div>
@@ -1110,7 +1106,9 @@ window.loadMembers = async function(){
     });
     html += `</div>`;
     box.innerHTML = html;
-  }catch(e){}
+  }catch(e){
+    box.innerHTML = "<p>Members list uplabdh nahi hai.</p>";
+  }
 };
 
 window.loadLangar = async function(){
@@ -1128,7 +1126,9 @@ window.loadLangar = async function(){
       `;
     });
     box.innerHTML = html;
-  }catch(e){}
+  }catch(e){
+    box.innerHTML = "<p>Langar details uplabdh nahi hain.</p>";
+  }
 };
 
 window.loadNotices = async function(){
@@ -1147,7 +1147,9 @@ window.loadNotices = async function(){
       `;
     });
     box.innerHTML = html;
-  }catch(e){}
+  }catch(e){
+    box.innerHTML = "<p>Abhi koi notice nahi hai.</p>";
+  }
 };
 
 window.closeViewRaseedModal = function(){
@@ -1165,11 +1167,7 @@ async function generateReceiptBlob(rNum, rName, rMobile, rPurpose, rAmt, rDate){
   document.getElementById("r_amount").textContent = "₹" + rAmt;
 
   const cardElement = document.getElementById("printableReceipt");
-  const canvas = await html2canvas(cardElement, {
-    scale: 2.5,
-    useCORS: true,
-    backgroundColor: "#ffffff"
-  });
+  const canvas = await html2canvas(cardElement, { scale: 2.5, useCORS: true, backgroundColor: "#ffffff" });
   const dataUrl = canvas.toDataURL("image/png");
   const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/png"));
   return { dataUrl, blob };
@@ -1178,14 +1176,12 @@ async function generateReceiptBlob(rNum, rName, rMobile, rPurpose, rAmt, rDate){
 window.openViewRaseedModal = async function(rNum, rName, rMobile, rPurpose, rAmt, rDate){
   const modal = document.getElementById("viewRaseedModal");
   const container = document.getElementById("modalRaseedImageContainer");
-  
   modal.classList.remove("hidden");
   document.body.style.overflow = "hidden";
   container.innerHTML = "<p style='color:#075c39;padding:25px;font-weight:bold;'>⌛ Raseed Photo Taiyar Ho Rahi Hai...</p>";
 
   try{
     const { dataUrl, blob } = await generateReceiptBlob(rNum, rName, rMobile, rPurpose, rAmt, rDate);
-    
     container.innerHTML = `<img src="${dataUrl}" alt="Raseed" style="width:100%;max-width:360px;border-radius:12px;display:block;box-shadow:0 4px 14px rgba(7,92,57,0.15);">`;
 
     const dlBtn = document.getElementById("modalDownloadBtn");
@@ -1203,17 +1199,12 @@ window.openViewRaseedModal = async function(rNum, rName, rMobile, rPurpose, rAmt
       shareBtn.innerHTML = "Sharing...";
 
       const shareMsg = `*KHADIMIN-E-AULIYA OFFICIAL RASEED*\n\n📜 Raseed No: ${rNum}\n👤 Donor Name: ${rName}\n💰 Amount: ₹${rAmt}\n🎯 Purpose: ${rPurpose}\n📅 Date: ${rDate}\n\nJazakAllah Khair! Aapka taawun qubool farmaye.`;
-
       const file = new File([blob], `Raseed_${rNum}.png`, { type: "image/png" });
 
       let sharedSuccessfully = false;
       if(navigator.canShare && navigator.canShare({ files: [file] })){
         try{
-          await navigator.share({
-            files: [file],
-            title: `Raseed ${rNum}`,
-            text: shareMsg
-          });
+          await navigator.share({ files: [file], title: `Raseed ${rNum}`, text: shareMsg });
           sharedSuccessfully = true;
         }catch(e){
           sharedSuccessfully = false;
@@ -1235,7 +1226,6 @@ window.openViewRaseedModal = async function(rNum, rName, rMobile, rPurpose, rAmt
       shareBtn.disabled = false;
       shareBtn.innerHTML = origText;
     };
-
   }catch(e){
     container.innerHTML = `<p style="color:red;padding:15px;">Photo preview load nahi ho saki: ${e.message}</p>`;
   }
@@ -1255,7 +1245,6 @@ window.checkRaseed = async function(){
 
   try{
     let snapshot = await getDocs(query(collection(db, "rashid"), where("rashidNumber", "==", queryTerm)));
-    
     if(snapshot.empty){
       const cleanPhone = queryTerm.replace(/\D/g, "");
       if(cleanPhone.length >= 10){
