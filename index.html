@@ -552,7 +552,7 @@ button{cursor:pointer;}
       <!-- ID Only Search Box -->
       <div class="form-group" style="margin-bottom:16px;">
         <label style="color:#075c39;">🔍 Search By Member ID Number Only</label>
-        <input id="memberIdSearchInput" type="text" placeholder="Jaise: KEA-289482 ya 289482..." oninput="filterMembersById()">
+        <input id="memberIdSearchInput" type="text" placeholder="Jaise: KEA-123456" oninput="filterMembersById()">
       </div>
 
       <div id="memberList">Loading...</div>
@@ -629,7 +629,7 @@ import {
   collection, 
   addDoc, 
   getDocs, 
-  onSnapshot,
+  onSnapshot, 
   query, 
   where 
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
@@ -1005,7 +1005,7 @@ function listenPayment(){
 function renderMembersCards(membersList){
   const box = document.getElementById("memberList");
   if(!membersList || membersList.length === 0){
-    box.innerHTML = "<p style='color:#666;padding:10px;'>Is ID Number ka koi Member ID Card nahi mila.</p>";
+    box.innerHTML = "<div style='color:#d32f2f;padding:16px;background:#fde8e8;border-radius:10px;font-weight:bold;'>⚠️ Is ID Number ka koi Member ID Card nahi mila. Kripya sahi ID daalein (Jaise: KEA-123456).</div>";
     return;
   }
 
@@ -1073,12 +1073,15 @@ function renderMembersCards(membersList){
 
 window.filterMembersById = function(){
   const searchVal = (document.getElementById("memberIdSearchInput").value || "").trim().toUpperCase();
+  const box = document.getElementById("memberList");
+
+  // Agar search box khali hai to cards display nahi honge
   if(!searchVal){
-    renderMembersCards(ALL_MEMBERS_DATA);
+    box.innerHTML = "<div style='color:#075c39;padding:18px;background:#eef7f1;border-radius:10px;font-weight:bold;text-align:center;'>🔍 Apna Member ID Number (Jaise: KEA-123456) daal kar card check karein.</div>";
     return;
   }
 
-  // Sirf aur sirf ID Code se matching
+  // Sirf exact ya matching ID Code se search
   const filtered = ALL_MEMBERS_DATA.filter(item => {
     const code = (item.code || "").toUpperCase();
     return code.includes(searchVal);
