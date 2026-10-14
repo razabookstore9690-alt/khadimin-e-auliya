@@ -665,6 +665,7 @@ const db = getFirestore(app);
 
 let currentGeneratedCaptcha = "";
 let ALL_MEMBERS_DATA = [];
+let unsubscribeCallbacks = [];
 
 window.generateCaptcha = function(){
   const chars = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";
@@ -838,7 +839,11 @@ document.getElementById("logout").addEventListener("click",async()=>{
   location.reload();
 });
 
+// REAL-TIME AUTO RECONNECT (TAB WAPAS AANE PAR FORAN UPDATE)
 function startLiveListeners(){
+  unsubscribeCallbacks.forEach(unsub => unsub());
+  unsubscribeCallbacks = [];
+
   listenSocialLinks();
   listenPhotos();
   listenVideos();
@@ -849,12 +854,24 @@ function startLiveListeners(){
   listenNotices();
 }
 
+document.addEventListener("visibilitychange", ()=>{
+  if(!document.hidden && localStorage.getItem("khadimin_user_session")){
+    startLiveListeners();
+  }
+});
+
+window.addEventListener("focus", ()=>{
+  if(localStorage.getItem("khadimin_user_session")){
+    startLiveListeners();
+  }
+});
+
 const DEFAULT_WHATSAPP = "https://whatsapp.com/channel/0029Vb6FQo8CHDyjzvdDsg26";
 const DEFAULT_YOUTUBE = "https://youtube.com/@shaneagraofficial?si=lev8qA9HhLxH0req";
 const DEFAULT_INSTAGRAM = "https://www.instagram.com/khadimine_auliya_agra?stkn=ZnIyemU5cTY0NzFq";
 
 function listenSocialLinks(){
-  onSnapshot(collection(db, "settings"), (snap)=>{
+  const unsub = onSnapshot(collection(db, "settings"), (snap)=>{
     let links = { whatsapp: DEFAULT_WHATSAPP, youtube: DEFAULT_YOUTUBE, instagram: DEFAULT_INSTAGRAM };
     snap.forEach(d => {
       if(d.id === "social_links"){ links = { ...links, ...d.data() }; }
@@ -863,13 +880,14 @@ function listenSocialLinks(){
     document.getElementById("homeYtBtn").href = links.youtube;
     document.getElementById("homeIgBtn").href = links.instagram;
   }, ()=>{});
+  unsubscribeCallbacks.push(unsub);
 }
 
 function listenPhotos(){
   const homeBox = document.getElementById("homeLatestPhoto");
   const galleryBox = document.getElementById("photoList");
 
-  onSnapshot(collection(db, "photos"), (snapshot)=>{
+  const unsub = onSnapshot(collection(db, "photos"), (snapshot)=>{
     if(snapshot.empty){
       homeBox.innerHTML = "<p style='color:#666;'>Abhi koi photo upload nahi hai.</p>";
       galleryBox.innerHTML = "<p>Photos abhi nahi hain.</p>";
@@ -901,13 +919,14 @@ function listenPhotos(){
     homeBox.innerHTML = "<p style='color:#666;'>Abhi koi photo uplabdh nahi hai.</p>";
     galleryBox.innerHTML = "<p>Photos uplabdh nahi hain.</p>";
   });
+  unsubscribeCallbacks.push(unsub);
 }
 
 function listenVideos(){
   const homeBox = document.getElementById("homeLatestVideo");
   const galleryBox = document.getElementById("videoList");
 
-  onSnapshot(collection(db, "videos"), (snapshot)=>{
+  const unsub = onSnapshot(collection(db, "videos"), (snapshot)=>{
     if(snapshot.empty){
       homeBox.innerHTML = "<p style='color:#666;'>Abhi koi video upload nahi hai.</p>";
       galleryBox.innerHTML = "<p>Videos abhi nahi hain.</p>";
@@ -953,13 +972,14 @@ function listenVideos(){
     homeBox.innerHTML = "<p style='color:#666;'>Abhi koi video uplabdh nahi hai.</p>";
     galleryBox.innerHTML = "<p>Videos uplabdh nahi hain.</p>";
   });
+  unsubscribeCallbacks.push(unsub);
 }
 
 function listenPrograms(){
   const homeBox = document.getElementById("homeActivePrograms");
   const listPageBox = document.getElementById("programList");
 
-  onSnapshot(collection(db, "programs"), (snapshot)=>{
+  const unsub = onSnapshot(collection(db, "programs"), (snapshot)=>{
     if(snapshot.empty){
       homeBox.innerHTML = "<p style='color:#666;'>Filhal koi upcoming program scheduled nahi hai.</p>";
       listPageBox.innerHTML = "<p>Abhi koi program nahi hai.</p>";
@@ -1011,11 +1031,12 @@ function listenPrograms(){
     homeBox.innerHTML = "<p style='color:#666;'>Filhal koi program uplabdh nahi hai.</p>";
     listPageBox.innerHTML = "<p>Abhi koi program nahi hai.</p>";
   });
+  unsubscribeCallbacks.push(unsub);
 }
 
 function listenPayment(){
   const box = document.getElementById("paymentDetails");
-  onSnapshot(collection(db, "paymentMethods"), (snapshot)=>{
+  const unsub = onSnapshot(collection(db, "paymentMethods"), (snapshot)=>{
     if(snapshot.empty){
       box.innerHTML = "<p>Payment details add nahi hain.</p>";
       return;
@@ -1036,6 +1057,7 @@ function listenPayment(){
   }, ()=>{
     box.innerHTML = "<p>Payment details uplabdh nahi hain.</p>";
   });
+  unsubscribeCallbacks.push(unsub);
 }
 
 function renderMembersCards(membersList){
@@ -1125,7 +1147,7 @@ window.filterMembersById = function(){
 
 function listenMembers(){
   const box = document.getElementById("memberList");
-  onSnapshot(collection(db, "members"), (snapshot)=>{
+  const unsub = onSnapshot(collection(db, "members"), (snapshot)=>{
     if(snapshot.empty){
       ALL_MEMBERS_DATA = [];
       box.innerHTML = "<p>Members list khali hai.</p>";
@@ -1150,11 +1172,12 @@ function listenMembers(){
   }, ()=>{
     box.innerHTML = "<p>Members list uplabdh nahi hai.</p>";
   });
+  unsubscribeCallbacks.push(unsub);
 }
 
 function listenLangar(){
   const box = document.getElementById("langarContent");
-  onSnapshot(collection(db, "langar"), (snapshot)=>{
+  const unsub = onSnapshot(collection(db, "langar"), (snapshot)=>{
     if(snapshot.empty){
       box.innerHTML = "<p>Langar details abhi nahi hain.</p>";
       return;
@@ -1172,11 +1195,12 @@ function listenLangar(){
   }, ()=>{
     box.innerHTML = "<p>Langar details uplabdh nahi hain.</p>";
   });
+  unsubscribeCallbacks.push(unsub);
 }
 
 function listenNotices(){
   const box = document.getElementById("noticeList");
-  onSnapshot(collection(db, "notices"), (snapshot)=>{
+  const unsub = onSnapshot(collection(db, "notices"), (snapshot)=>{
     if(snapshot.empty){
       box.innerHTML = "<p>Abhi koi notice nahi hai.</p>";
       return;
@@ -1195,6 +1219,7 @@ function listenNotices(){
   }, ()=>{
     box.innerHTML = "<p>Abhi koi notice nahi hai.</p>";
   });
+  unsubscribeCallbacks.push(unsub);
 }
 
 window.downloadMemberIdCard = async function(cardElementId, memberName){
