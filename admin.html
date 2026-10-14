@@ -61,6 +61,22 @@ button{cursor:pointer;}
 .item iframe{height:240px;border:0;}
 .item > img:not(.idcard-photo-img){width:100%;max-height:360px;border-radius:10px;margin-top:8px;display:block;object-fit:cover;}
 
+/* Map Button */
+.btn-map{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  background:#1a73e8;
+  color:white;
+  padding:8px 14px;
+  border-radius:8px;
+  font-size:13px;
+  font-weight:bold;
+  text-decoration:none;
+  margin-top:8px;
+}
+.btn-map:hover{background:#1558b0;}
+
 /* ID Card Layout */
 .member-cards-wrapper{
   display:grid;
@@ -639,12 +655,13 @@ button{cursor:pointer;}
         <button class="action" id="saveMemberBtn" onclick="addMember()">Save Member & Generate Card</button>
       </div>
 
-      <!-- 6. Program Publish Box -->
+      <!-- 6. Program Publish Box with Location -->
       <div id="adminProgramFormBox" class="card admin-box hidden">
         <h3>📅 Naya Program Add Karein</h3>
         <div class="form-group"><label>Program Date (Is date ke baad Home page se auto hat jayega)</label><input id="programDate" type="date"></div>
         <div class="form-group"><label>Program Title</label><input id="programTitle" placeholder="Program Title"></div>
         <div class="form-group"><label>Program Details</label><textarea id="programDescription" placeholder="Program Details"></textarea></div>
+        <div class="form-group"><label>Google Maps Location Link ya Location Name (Pata)</label><input id="programLocation" placeholder="Google map link ya Address..."></div>
         <button class="action" onclick="addProgram()">Publish Program</button>
       </div>
 
@@ -748,13 +765,12 @@ button{cursor:pointer;}
     </div>
   </section>
 
-  <!-- Members Page with Search Option Added Under Heading -->
+  <!-- Members Page with Search Option -->
   <section id="members" class="page">
     <div class="card">
       <h2>👥 Members List (Official Identity Cards)</h2>
       <p style="font-size:13px;color:#666;margin-bottom:14px;">Khadimin-E-Auliya Ke Official Tasdeeq-Shuda ID Cards:</p>
       
-      <!-- Member Search Box -->
       <div class="form-group" style="margin-bottom:18px;">
         <label>🔍 Search Member</label>
         <input id="memberSearchInput" type="text" placeholder="Member Name, Mobile number ya ID se search karein..." oninput="filterMemberList()">
@@ -926,6 +942,15 @@ function getTodayDateStringIST(){
   const month = String(now.getMonth() + 1).padStart(2, '0');
   const day = String(now.getDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
+}
+
+function getGoogleMapsUrl(loc){
+  if(!loc) return "";
+  const trimmed = loc.trim();
+  if(trimmed.startsWith("http://") || trimmed.startsWith("https://")){
+    return trimmed;
+  }
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(trimmed)}`;
 }
 
 window.toggleMenu = function(open){
@@ -1283,6 +1308,7 @@ async function loadHomePageDynamic(){
       progSnap.forEach(item => {
         const d = item.data();
         const progDate = (d.date || "").trim();
+        const mapUrl = getGoogleMapsUrl(d.location);
 
         if(progDate && progDate >= todayStr){
           count++;
@@ -1291,6 +1317,7 @@ async function loadHomePageDynamic(){
               <h3 style="color:#075c39;">${escapeHTML(d.title || "")}</h3>
               <p style="font-size:13px;color:#d6ad45;font-weight:bold;margin-bottom:6px;">📅 Date: ${escapeHTML(progDate)}</p>
               <p>${escapeHTML(d.description || "")}</p>
+              ${mapUrl ? `<div><a href="${mapUrl}" target="_blank" class="btn-map">📍 View Location on Google Maps</a></div>` : ""}
             </div>
           `;
         }
@@ -1522,19 +1549,22 @@ window.loadPayment = async function(){
   }catch(e){ box.innerHTML = "<p>Error loading payment details.</p>"; }
 };
 
-window.editProgram = function(id, curTitle, curDesc, curDate){
+window.editProgram = function(id, curTitle, curDesc, curDate, curLoc){
   const newDate = prompt("Program Date (YYYY-MM-DD):", curDate || "");
   if(newDate === null) return;
   const newTitle = prompt("Naya Program Title:", curTitle);
   if(newTitle === null) return;
   const newDesc = prompt("Naya Program Description:", curDesc);
   if(newDesc === null) return;
+  const newLoc = prompt("Google Maps Link ya Location Name:", curLoc || "");
+  if(newLoc === null) return;
   if(!newTitle.trim()) return alert("Title zaroori hai.");
 
   updateFirestoreFields("programs", id, {
     date: newDate.trim(),
     title: newTitle.trim(),
-    description: newDesc.trim()
+    description: newDesc.trim(),
+    location: newLoc.trim()
   }, "loadPrograms");
 };
 
@@ -1543,12 +1573,23 @@ window.addProgram = async function(){
     const date = document.getElementById("programDate").value;
     const title = document.getElementById("programTitle").value.trim();
     const description = document.getElementById("programDescription").value.trim();
+    const location = document.getElementById("programLocation").value.trim();
+
     if(!title) return alert("Title enter karein.");
-    await addDoc(collection(db,"programs"),{ date, title, description, createdAt:serverTimestamp() });
+
+    await addDoc(collection(db,"programs"),{ 
+      date, 
+      title, 
+      description, 
+      location,
+      createdAt:serverTimestamp() 
+    });
+
     alert("Program add ho gaya!");
     document.getElementById("programDate").value = "";
     document.getElementById("programTitle").value = "";
     document.getElementById("programDescription").value = "";
+    document.getElementById("programLocation").value = "";
     document.getElementById("adminProgramFormBox").classList.add("hidden");
     await loadPrograms();
     await loadHomePageDynamic();
@@ -1567,13 +1608,17 @@ window.loadPrograms = async function(){
       const titleAttr = (d.title || "").replace(/"/g, '&quot;');
       const descAttr = (d.description || "").replace(/"/g, '&quot;');
       const dateAttr = (d.date || "").replace(/"/g, '&quot;');
+      const locAttr = (d.location || "").replace(/"/g, '&quot;');
+      const mapUrl = getGoogleMapsUrl(d.location);
+
       html += `
         <div class="item">
           <h3>${escapeHTML(d.title || "")}</h3>
           ${d.date ? `<p style="font-size:13px;color:#075c39;font-weight:bold;margin:4px 0;">📅 Program Date: ${escapeHTML(d.date)}</p>` : ""}
           <p>${escapeHTML(d.description || "")}</p>
+          ${mapUrl ? `<div><a href="${mapUrl}" target="_blank" class="btn-map">📍 View Location on Google Maps</a></div>` : ""}
           <div class="action-box">
-            <button class="btn-edit" onclick="editProgram('${id}', '${titleAttr}', '${descAttr}', '${dateAttr}')">✏️ Edit</button>
+            <button class="btn-edit" onclick="editProgram('${id}', '${titleAttr}', '${descAttr}', '${dateAttr}', '${locAttr}')">✏️ Edit</button>
             <button class="btn-delete" onclick="deleteItem('programs', '${id}', 'loadPrograms')">🗑️ Delete</button>
           </div>
         </div>
@@ -1834,7 +1879,6 @@ window.loadMembers = async function(){
 
     ALL_MEMBER_LIST = list;
     
-    // Check if search input has value
     const searchVal = document.getElementById("memberSearchInput")?.value || "";
     if(searchVal.trim()){
       window.filterMemberList();
