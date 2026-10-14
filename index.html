@@ -462,6 +462,7 @@ button{cursor:pointer;}
   </div>
   <ul class="drawer-links">
     <li><a href="javascript:void(0)" onclick="menuNav('home')">🏠 Home</a></li>
+    <li><a href="javascript:void(0)" onclick="menuNav('taqseem')">📚 Taqseem Kutub (Form)</a></li>
     <li><a href="javascript:void(0)" onclick="menuNav('programs')">📅 Programs (All)</a></li>
     <li><a href="javascript:void(0)" onclick="menuNav('langar')">🍲 Langar-e-Gausiya</a></li>
     <li><a href="javascript:void(0)" onclick="menuNav('notices')">📢 Notices & Elan</a></li>
@@ -509,6 +510,32 @@ button{cursor:pointer;}
           <svg viewBox="0 0 24 24" width="26" height="26" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
         </a>
       </div>
+    </div>
+  </section>
+
+  <!-- Taqseem Kutub Form Page -->
+  <section id="taqseem" class="page">
+    <div class="card" style="max-width:560px;margin:auto;">
+      <h2 style="display:flex;align-items:center;gap:8px;">📚 Taqseem Kutub Form</h2>
+      <p style="font-size:13px;color:#666;margin-bottom:16px;">Kutub (Kitab) talab karne ke liye apni sahi details bharein:</p>
+      
+      <div class="form-group">
+        <label>Name (Pura Naam)</label>
+        <input id="tk_name" type="text" placeholder="Apna pura naam likhein">
+      </div>
+      
+      <div class="form-group">
+        <label>Address (Mukammal Pata)</label>
+        <textarea id="tk_address" style="height:90px;" placeholder="Ghar ka pata, Shehar, Pin Code..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Mobile Number</label>
+        <input id="tk_number" type="tel" placeholder="10-digit mobile number">
+      </div>
+
+      <button class="primary" id="tk_submit_btn" onclick="submitTaqseemKutub()">Submit Form</button>
+      <div id="tk_status_msg"></div>
     </div>
   </section>
 
@@ -663,6 +690,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+// CONNECTED GOOGLE APPS SCRIPT WEB APP URL
+const GOOGLE_SHEET_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwpGdfSyGnx8BzHPSmfMHbtSvXqzuPswIoUH5xuxHXk9vf8hcQsY4oUuA1mnG4oDV0INg/exec";
+
 let currentGeneratedCaptcha = "";
 let ALL_MEMBERS_DATA = [];
 let unsubscribeCallbacks = [];
@@ -770,6 +800,10 @@ if(localUser){
     document.getElementById("loginPage").classList.add("hidden");
     document.getElementById("app").classList.remove("hidden");
     document.getElementById("roleText").textContent = `👤 User: ${u.name}`;
+    
+    if(document.getElementById("tk_name")) document.getElementById("tk_name").value = u.name || "";
+    if(document.getElementById("tk_number")) document.getElementById("tk_number").value = u.phone || "";
+
     startLiveListeners();
   }catch(e){
     initLoginState();
@@ -825,6 +859,9 @@ document.getElementById("userEnterBtn").addEventListener("click", async()=>{
     document.getElementById("app").classList.remove("hidden");
     document.getElementById("roleText").textContent = `👤 User: ${name}`;
 
+    if(document.getElementById("tk_name")) document.getElementById("tk_name").value = name;
+    if(document.getElementById("tk_number")) document.getElementById("tk_number").value = phone;
+
     startLiveListeners();
   }catch(e){
     alert("Error: " + e.message);
@@ -839,7 +876,65 @@ document.getElementById("logout").addEventListener("click",async()=>{
   location.reload();
 });
 
-// REAL-TIME AUTO RECONNECT (TAB WAPAS AANE PAR FORAN UPDATE)
+// TAQSEEM KUTUB FORM SUBMISSION
+window.submitTaqseemKutub = async function(){
+  const name = document.getElementById("tk_name").value.trim();
+  const address = document.getElementById("tk_address").value.trim();
+  const number = document.getElementById("tk_number").value.trim();
+  const statusMsg = document.getElementById("tk_status_msg");
+  const btn = document.getElementById("tk_submit_btn");
+
+  if(!name || !address || !number){
+    return alert("Kripya teeno details (Name, Address aur Number) bharein.");
+  }
+
+  btn.disabled = true;
+  btn.textContent = "Submitting...";
+  statusMsg.innerHTML = "<p style='color:#075c39;margin-top:10px;'>⌛ Details jama ho rahi hain...</p>";
+
+  try{
+    const timeStr = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+
+    // 1. Save in Firestore Database backup
+    await addDoc(collection(db, "taqseem_kutub"), {
+      name: name,
+      address: address,
+      number: number,
+      submittedAt: timeStr,
+      timestamp: Date.now()
+    });
+
+    // 2. Send data to Google Sheets via Web App URL
+    if(GOOGLE_SHEET_WEBAPP_URL){
+      try{
+        await fetch(GOOGLE_SHEET_WEBAPP_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, address, number })
+        });
+      }catch(sheetErr){
+        console.warn("Google Sheet sync notice:", sheetErr);
+      }
+    }
+
+    statusMsg.innerHTML = `
+      <div class="status-success" style="margin-top:12px;">
+        ✅ Shukriya! Aapki details kamyabi ke saath jama ho gayi hain.
+      </div>
+    `;
+
+    document.getElementById("tk_address").value = "";
+    alert("✅ Aapki details Taqseem Kutub me darj ho gayi hain!");
+
+  }catch(err){
+    statusMsg.innerHTML = `<div class="status-error">Error: ${err.message}</div>`;
+  }finally{
+    btn.disabled = false;
+    btn.textContent = "Submit Form";
+  }
+};
+
 function startLiveListeners(){
   unsubscribeCallbacks.forEach(unsub => unsub());
   unsubscribeCallbacks = [];
