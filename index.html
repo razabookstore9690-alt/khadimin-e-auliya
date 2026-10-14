@@ -392,7 +392,7 @@ button{cursor:pointer;}
 <div id="splash">
   <div class="splash-box">
     <div class="splash-arabic">صلوا علی الحبیب</div>
-    <div class="splash-arabic">صلی الله علی محمد</div>
+    <div class="splash-arabic">صلی اللہ علی محمد</div>
     <div class="splash-welcome">Welcome To</div>
     <div class="splash-title">KHADIMIN E AULIYA</div>
     <button id="skipSplash">Skip / Open</button>
@@ -535,7 +535,7 @@ button{cursor:pointer;}
       <div id="userRaseedSearchBox">
         <div class="form-group">
           <label>Raseed Number ya Mobile Number Daalein</label>
-          <input id="raseedNumberCheck" placeholder="Jaise: KEA-123456 ya 9534646778">
+          <input id="raseedNumberCheck" placeholder="KEA-123456 ya Mobile No.">
         </div>
         <button class="action" id="checkRaseedBtn" onclick="checkRaseed()">Check Raseed</button>
         <div id="raseedResult"></div>
@@ -1074,13 +1074,11 @@ function renderMembersCards(membersList){
 window.filterMembersById = function(){
   const searchVal = (document.getElementById("memberIdSearchInput").value || "").trim().toUpperCase();
 
-  // Search box khali ho to saare member cards dikhenge
   if(!searchVal){
     renderMembersCards(ALL_MEMBERS_DATA);
     return;
   }
 
-  // ID search hone par wahi card filter hoga
   const filtered = ALL_MEMBERS_DATA.filter(item => {
     const code = (item.code || "").toUpperCase();
     return code.includes(searchVal);
@@ -1346,4 +1344,3 @@ function escapeHTML(value){
 </script>
 </body>
 </html>
-s
