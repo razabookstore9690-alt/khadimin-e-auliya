@@ -919,6 +919,8 @@ import {
   collection, 
   addDoc, 
   getDocs, 
+  query, 
+  where, 
   deleteDoc, 
   updateDoc, 
   setDoc, 
@@ -1161,26 +1163,52 @@ async function updateFirestoreFields(collectionName, docId, updateData, reloadFu
   }
 }
 
-// TAQSEEM KUTUB FORM SUBMISSION IN ADMIN
+// TAQSEEM KUTUB FORM SUBMISSION IN ADMIN (ONE NUMBER ONLY ONCE)
 window.submitTaqseemKutubAdmin = async function(){
   const name = document.getElementById("tk_admin_name").value.trim();
   const address = document.getElementById("tk_admin_address").value.trim();
-  const number = document.getElementById("tk_admin_number").value.trim();
+  const rawNumber = document.getElementById("tk_admin_number").value.trim();
   const statusMsg = document.getElementById("tk_admin_status_msg");
   const btn = document.getElementById("tk_admin_submit_btn");
+
+  const number = rawNumber.replace(/\D/g, "");
 
   if(!name || !address || !number){
     return alert("Kripya teeno details (Name, Address aur Number) bharein.");
   }
 
+  if(number.length < 10){
+    return alert("Kripya sahi 10-digit mobile number daalein.");
+  }
+
   btn.disabled = true;
-  btn.textContent = "Submitting...";
-  statusMsg.innerHTML = "<p style='color:#075c39;margin-top:10px;'>⌛ Details jama ho rahi hain...</p>";
+  btn.textContent = "Checking...";
+  statusMsg.innerHTML = "<p style='color:#075c39;margin-top:10px;'>⌛ Number check kiya ja raha hai...</p>";
 
   try{
+    // 1. Check if number is already submitted in database
+    const checkQuery = query(collection(db, "taqseem_kutub"), where("number", "==", number));
+    const checkSnapshot = await getDocs(checkQuery);
+
+    if(!checkSnapshot.empty){
+      statusMsg.innerHTML = `
+        <div class="status-error" style="margin-top:12px;">
+          ⚠️ Yeh Mobile Number (${number}) pehle se darj ho chuka hai!<br>
+          <span style="font-size:13px;font-weight:normal;">Ek number se sirf ek hi baar form submit ho sakta hai.</span>
+        </div>
+      `;
+      alert("⚠️ Yeh Mobile Number pehle se darj ho chuka hai! Ek number se sirf ek hi baar form submit ho sakta hai.");
+      btn.disabled = false;
+      btn.textContent = "Submit Form";
+      return;
+    }
+
+    btn.textContent = "Submitting...";
+    statusMsg.innerHTML = "<p style='color:#075c39;margin-top:10px;'>⌛ Details jama ho rahi hain...</p>";
+
     const timeStr = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
 
-    // 1. Save in Firestore Database backup
+    // 2. Save in Firestore Database backup
     await addDoc(collection(db, "taqseem_kutub"), {
       name: name,
       address: address,
@@ -1189,7 +1217,7 @@ window.submitTaqseemKutubAdmin = async function(){
       timestamp: Date.now()
     });
 
-    // 2. Send data to Google Sheets via Web App URL
+    // 3. Send data to Google Sheets via Web App URL
     if(GOOGLE_SHEET_WEBAPP_URL){
       try{
         await fetch(GOOGLE_SHEET_WEBAPP_URL, {
