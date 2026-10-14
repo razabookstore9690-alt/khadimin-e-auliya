@@ -72,6 +72,22 @@ button{cursor:pointer;}
 .item iframe{height:240px;border:0;}
 .item > img:not(.idcard-photo-img){width:100%;max-height:360px;border-radius:10px;margin-top:8px;display:block;object-fit:cover;}
 
+/* Map Button */
+.btn-map{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  background:#1a73e8;
+  color:white;
+  padding:8px 14px;
+  border-radius:8px;
+  font-size:13px;
+  font-weight:bold;
+  text-decoration:none;
+  margin-top:8px;
+}
+.btn-map:hover{background:#1558b0;}
+
 /* ID Card Layout */
 .member-cards-wrapper{
   display:grid;
@@ -669,6 +685,15 @@ function getTodayDateStringIST(){
   return `${year}-${month}-${day}`;
 }
 
+function getGoogleMapsUrl(loc){
+  if(!loc) return "";
+  const trimmed = loc.trim();
+  if(trimmed.startsWith("http://") || trimmed.startsWith("https://")){
+    return trimmed;
+  }
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(trimmed)}`;
+}
+
 window.toggleMenu = function(open){
   const drawer = document.getElementById("sideDrawer");
   const overlay = document.getElementById("menuOverlay");
@@ -948,6 +973,15 @@ function listenPrograms(){
     snapshot.forEach(item => {
       const d = item.data();
       const progDate = (d.date || "").trim();
+      const mapUrl = getGoogleMapsUrl(d.location);
+
+      const mapButtonHtml = mapUrl ? `
+        <div>
+          <a href="${mapUrl}" target="_blank" class="btn-map">
+            📍 View Location on Google Maps
+          </a>
+        </div>
+      ` : "";
 
       if(progDate && progDate >= todayStr){
         upcomingCount++;
@@ -956,6 +990,7 @@ function listenPrograms(){
             <h3 style="color:#075c39;">${escapeHTML(d.title || "")}</h3>
             <p style="font-size:13px;color:#d6ad45;font-weight:bold;margin-bottom:6px;">📅 Date: ${escapeHTML(progDate)}</p>
             <p>${escapeHTML(d.description || "")}</p>
+            ${mapButtonHtml}
           </div>
         `;
       }
@@ -965,6 +1000,7 @@ function listenPrograms(){
           <h3>${escapeHTML(d.title || "")}</h3>
           ${d.date ? `<p style="font-size:13px;color:#075c39;font-weight:bold;margin:4px 0;">📅 Program Date: ${escapeHTML(d.date)}</p>` : ""}
           <p>${escapeHTML(d.description || "")}</p>
+          ${mapButtonHtml}
         </div>
       `;
     });
