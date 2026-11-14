@@ -1,10 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#0b5d3b">
-<title>KHADIMIN-E-AULIYA - Admin Dashboard</title>
+title>
 
 <!-- html2canvas for Receipt & ID Card Generation -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -399,78 +393,7 @@ button{cursor:pointer;}
 .divider-text{text-align:center;font-size:13px;color:#888;margin:12px 0;font-weight:bold;}
 .action-box{margin-top:10px;}
 
-.dashboard-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;}
-.dashboard-card{background:white;padding:16px;border-radius:14px;box-shadow:0 3px 12px rgba(0,0,0,.06);display:flex;flex-direction:column;justify-content:space-between;}
-.dashboard-card h3{color:#075c39;font-size:16px;margin-bottom:6px;}
-.dashboard-card p{font-size:13px;color:#666;margin-bottom:12px;}
-.dashboard-card .action{margin-top:auto;}
-
-/* EXACT OFFICIAL DONATION RASEED */
-#printableReceipt{
-  position:fixed;
-  left:-9999px;
-  top:0;
-  width:440px;
-  background:#ffffff;
-  border:4px double #075c39;
-  border-radius:18px;
-  padding:24px 22px;
-  color:#111;
-  box-shadow:none;
-  font-family:Arial, Helvetica, sans-serif;
-}
-.rc-header{
-  text-align:center;
-  border-bottom:2px solid #075c39;
-  padding-bottom:12px;
-  margin-bottom:14px;
-}
-.rc-arabic{
-  font-size:18px;
-  color:#075c39;
-  font-weight:bold;
-  direction:rtl;
-  margin-bottom:4px;
-}
-.rc-title{
-  font-size:24px;
-  color:#075c39;
-  font-weight:900;
-  letter-spacing:1px;
-}
-.rc-subtitle{
-  font-size:12px;
-  color:#075c39;
-  font-weight:bold;
-  letter-spacing:1.5px;
-  margin-top:2px;
-}
-.rc-row{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:8px 0;
-  border-bottom:1px dashed #dcdcdc;
-  font-size:15px;
-}
-.rc-row strong{
-  color:#222;
-  font-size:15px;
-}
-.rc-amount-box{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  font-size:18px;
-  font-weight:900;
-  color:#075c39;
-  border-top:2px solid #075c39;
-  border-bottom:2px solid #075c39;
-  padding:10px 0;
-  margin-top:10px;
-}
-.rc-footer{
-  text-align:center;
+.dashboard-grid{display:grid;  text-align:center;
   margin-top:16px;
   font-size:12px;
   color:#555;
@@ -2320,11 +2243,5 @@ window.loadRaseeds = async function(){
   }catch(e){
     box.innerHTML = "<p>Data load nahi ho saka.</p>";
   }
-};
 
-function escapeHTML(value){
-  return String(value || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
-}
-</script>
-</body>
-</html>
+  
